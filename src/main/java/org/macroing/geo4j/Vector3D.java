@@ -18,6 +18,7 @@
  */
 package org.macroing.geo4j;
 
+import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -514,22 +515,83 @@ public final class Vector3D {
 		return Optional.of(new Vector3D(x, y, z));
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Vector3D} instance with the absolute component values of {@code v}.
+	 * <p>
+	 * If {@code v} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param v a {@code Vector3D} instance
+	 * @return a {@code Vector3D} instance with the absolute component values of {@code v}
+	 * @throws NullPointerException thrown if, and only if, {@code v} is {@code null}
+	 */
 	public static Vector3D abs(final Vector3D v) {
 		return new Vector3D(Doubles.abs(v.x), Doubles.abs(v.y), Doubles.abs(v.z));
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Adds the component values of {@code vRHS} to the component values of {@code vLHS}.
+	 * <p>
+	 * Returns a {@code Vector3D} instance with the result of the addition.
+	 * <p>
+	 * If either {@code vLHS} or {@code vRHS} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Vector addition is performed componentwise.
+	 * 
+	 * @param vLHS the {@code Vector3D} instance on the left-hand side
+	 * @param vRHS the {@code Vector3D} instance on the right-hand side
+	 * @return a {@code Vector3D} instance with the result of the addition
+	 * @throws NullPointerException thrown if, and only if, either {@code vLHS} or {@code vRHS} are {@code null}
+	 */
 	public static Vector3D add(final Vector3D vLHS, final Vector3D vRHS) {
 		return new Vector3D(vLHS.x + vRHS.x, vLHS.y + vRHS.y, vLHS.z + vRHS.z);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Adds the component values of {@code a}, {@code b} and {@code c}.
+	 * <p>
+	 * Returns a {@code Vector3D} instance with the result of the addition.
+	 * <p>
+	 * If either {@code a}, {@code b} or {@code c} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Vector addition is performed componentwise.
+	 * 
+	 * @param a a {@code Vector3D} instance
+	 * @param b a {@code Vector3D} instance
+	 * @param c a {@code Vector3D} instance
+	 * @return a {@code Vector3D} instance with the result of the addition
+	 * @throws NullPointerException thrown if, and only if, either {@code a}, {@code b} or {@code c} are {@code null}
+	 */
+//	TODO: Add unit tests!
+	public static Vector3D add(final Vector3D a, final Vector3D b, final Vector3D c) {
+		return new Vector3D(a.x + b.x + c.x, a.y + b.y + c.y, a.z + b.z + c.z);
+	}
+	
+	/**
+	 * Computes the cross product of {@code vLHS} and {@code vRHS}.
+	 * <p>
+	 * Returns a {@code Vector3D} instance with the result of the operation.
+	 * <p>
+	 * If either {@code vLHS} or {@code vRHS} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param vLHS the {@code Vector3D} instance on the left-hand side
+	 * @param vRHS the {@code Vector3D} instance on the right-hand side
+	 * @return a {@code Vector3D} instance with the result of the operation
+	 * @throws NullPointerException thrown if, and only if, either {@code vLHS} or {@code vRHS} are {@code null}
+	 */
 	public static Vector3D crossProduct(final Vector3D vLHS, final Vector3D vRHS) {
 		return new Vector3D(vLHS.y * vRHS.z - vLHS.z * vRHS.y, vLHS.z * vRHS.x - vLHS.x * vRHS.z, vLHS.x * vRHS.y - vLHS.y * vRHS.x);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Vector3D} instance that is pointing in the direction of {@code eye} to {@code lookAt}.
+	 * <p>
+	 * If either {@code eye} or {@code lookAt} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param eye a {@link Point3D} instance denoting the eye to look from
+	 * @param lookAt a {@code Point3D} instance denoting the target to look at
+	 * @return a {@code Vector3D} instance that is pointing in the direction of {@code eye} to {@code lookAt}
+	 * @throws NullPointerException thrown if, and only if, either {@code eye} or {@code lookAt} are {@code null}
+	 */
 	public static Vector3D direction(final Point3D eye, final Point3D lookAt) {
 		return new Vector3D(lookAt.x - eye.x, lookAt.y - eye.y, lookAt.z - eye.z);
 	}
@@ -544,7 +606,16 @@ public final class Vector3D {
 		return new Vector3D(u.x * s.x + v.x * s.y + w.x * s.z, u.y * s.x + v.y * s.y + w.y * s.z, u.z * s.x + v.z * s.y + w.z * s.z);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Vector3D} instance that is pointing in the direction of {@code eye} to {@code lookAt} and is normalized.
+	 * <p>
+	 * If either {@code eye} or {@code lookAt} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param eye a {@link Point3D} instance denoting the eye to look from
+	 * @param lookAt a {@code Point3D} instance denoting the target to look at
+	 * @return a {@code Vector3D} instance that is pointing in the direction of {@code eye} to {@code lookAt} and is normalized
+	 * @throws NullPointerException thrown if, and only if, either {@code eye} or {@code lookAt} are {@code null}
+	 */
 	public static Vector3D directionNormalized(final Point3D eye, final Point3D lookAt) {
 		return normalize(direction(eye, lookAt));
 	}
@@ -561,54 +632,153 @@ public final class Vector3D {
 		return normalize(direction(u, v, w, s));
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Vector3D} instance that is pointing in the direction of the spherical coordinates {@code sinTheta}, {@code cosTheta} and {@code phi}.
+	 * 
+	 * @param sinTheta the sine of the angle theta
+	 * @param cosTheta the cosine of the angle theta
+	 * @param phi the angle phi
+	 * @return a {@code Vector3D} instance that is pointing in the direction of the spherical coordinates {@code sinTheta}, {@code cosTheta} and {@code phi}
+	 */
 //	TODO: Add unit tests!
 	public static Vector3D directionSpherical(final double sinTheta, final double cosTheta, final double phi) {
 		return new Vector3D(sinTheta * Doubles.cos(phi), sinTheta * Doubles.sin(phi), cosTheta);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Vector3D} instance that is pointing in the direction of the spherical coordinates {@code sinTheta}, {@code cosTheta} and {@code phi} and is normalized.
+	 * 
+	 * @param sinTheta the sine of the angle theta
+	 * @param cosTheta the cosine of the angle theta
+	 * @param phi the angle phi
+	 * @return a {@code Vector3D} instance that is pointing in the direction of the spherical coordinates {@code sinTheta}, {@code cosTheta} and {@code phi} and is normalized
+	 */
 //	TODO: Add unit tests!
 	public static Vector3D directionSphericalNormalized(final double sinTheta, final double cosTheta, final double phi) {
 		return normalize(directionSpherical(sinTheta, cosTheta, phi));
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Divides the component values of {@code v} with {@code s}.
+	 * <p>
+	 * Returns a {@code Vector3D} instance with the result of the division.
+	 * <p>
+	 * If {@code v} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Vector division is performed componentwise.
+	 * 
+	 * @param v the {@code Vector3D} instance on the left-hand side
+	 * @param s the scalar value on the right-hand side
+	 * @return a {@code Vector3D} instance with the result of the division
+	 * @throws NullPointerException thrown if, and only if, {@code v} is {@code null}
+	 */
 	public static Vector3D divide(final Vector3D v, final double s) {
 		return new Vector3D(v.x / s, v.y / s, v.z / s);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Vector3D} instance that contains the Hadamard product of {@code vLHS} and {@code vRHS}.
+	 * <p>
+	 * If either {@code vLHS} or {@code vRHS} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param vLHS the {@code Vector3D} instance on the left-hand side
+	 * @param vRHS the {@code Vector3D} instance on the right-hand side
+	 * @return a {@code Vector3D} instance that contains the Hadamard product of {@code vLHS} and {@code vRHS}
+	 * @throws NullPointerException thrown if, and only if, either {@code vLHS} or {@code vRHS} are {@code null}
+	 */
 	public static Vector3D hadamardProduct(final Vector3D vLHS, final Vector3D vRHS) {
 		return new Vector3D(vLHS.x * vRHS.x, vLHS.y * vRHS.y, vLHS.z * vRHS.z);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Multiplies the component values of {@code v} with {@code s}.
+	 * <p>
+	 * Returns a {@code Vector3D} instance with the result of the multiplication.
+	 * <p>
+	 * If {@code v} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Vector multiplication is performed componentwise.
+	 * 
+	 * @param v the {@code Vector3D} instance on the left-hand side
+	 * @param s the scalar value on the right-hand side
+	 * @return a {@code Vector3D} instance with the result of the multiplication
+	 * @throws NullPointerException thrown if, and only if, {@code v} is {@code null}
+	 */
 	public static Vector3D multiply(final Vector3D v, final double s) {
 		return new Vector3D(v.x * s, v.y * s, v.z * s);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Negates the component values of {@code v}.
+	 * <p>
+	 * Returns a {@code Vector3D} instance with the result of the negation.
+	 * <p>
+	 * If {@code v} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param v a {@code Vector3D} instance
+	 * @return a {@code Vector3D} instance with the result of the negation
+	 * @throws NullPointerException thrown if, and only if, {@code v} is {@code null}
+	 */
 	public static Vector3D negate(final Vector3D v) {
 		return new Vector3D(-v.x, -v.y, -v.z);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Negates the Z-component of {@code v}.
+	 * <p>
+	 * Returns a {@code Vector3D} instance with the result of the negation.
+	 * <p>
+	 * If {@code v} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param v a {@code Vector3D} instance
+	 * @return a {@code Vector3D} instance with the result of the negation
+	 * @throws NullPointerException thrown if, and only if, {@code v} is {@code null}
+	 */
 	public static Vector3D negateZ(final Vector3D v) {
 		return new Vector3D(v.x, v.y, -v.z);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Vector3D} instance denoting the normal of the plane defined by the {@link Point3D} instances {@code a}, {@code b} and {@code c}.
+	 * <p>
+	 * If either {@code a}, {@code b} or {@code c} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param a a {@code Point3D} instance, corresponding to one of the three points in the plane
+	 * @param b a {@code Point3D} instance, corresponding to one of the three points in the plane
+	 * @param c a {@code Point3D} instance, corresponding to one of the three points in the plane
+	 * @return a {@code Vector3D} instance denoting the normal of the plane defined by the {@code Point3D} instances {@code a}, {@code b} and {@code c}
+	 * @throws NullPointerException thrown if, and only if, either {@code a}, {@code b} or {@code c} are {@code null}
+	 */
 	public static Vector3D normal(final Point3D a, final Point3D b, final Point3D c) {
 		return crossProduct(directionNormalized(a, b), directionNormalized(a, c));
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Vector3D} instance denoting the normalized normal of the plane defined by the {@link Point3D} instances {@code a}, {@code b} and {@code c}.
+	 * <p>
+	 * If either {@code a}, {@code b} or {@code c} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param a a {@code Point3D} instance, corresponding to one of the three points in the plane
+	 * @param b a {@code Point3D} instance, corresponding to one of the three points in the plane
+	 * @param c a {@code Point3D} instance, corresponding to one of the three points in the plane
+	 * @return a {@code Vector3D} instance denoting the normalized normal of the plane defined by the {@code Point3D} instances {@code a}, {@code b} and {@code c}
+	 * @throws NullPointerException thrown if, and only if, either {@code a}, {@code b} or {@code c} are {@code null}
+	 */
 	public static Vector3D normalNormalized(final Point3D a, final Point3D b, final Point3D c) {
 		return normalize(normal(a, b, c));
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Normalizes the component values of {@code v}.
+	 * <p>
+	 * Returns a {@code Vector3D} instance with the result of the normalization.
+	 * <p>
+	 * If {@code v} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param v a {@code Vector3D} instance
+	 * @return a {@code Vector3D} instance with the result of the normalization
+	 * @throws NullPointerException thrown if, and only if, {@code v} is {@code null}
+	 */
 	public static Vector3D normalize(final Vector3D v) {
 		final double length = v.length();
 		
@@ -648,30 +818,112 @@ public final class Vector3D {
 		}
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Vector3D} instance by reading it from {@code dataInput}.
+	 * <p>
+	 * If {@code dataInput} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If an I/O error occurs, an {@code UncheckedIOException} will be thrown.
+	 * 
+	 * @param dataInput the {@code DataInput} instance to read from
+	 * @return a {@code Vector3D} instance by reading it from {@code dataInput}
+	 * @throws NullPointerException thrown if, and only if, {@code dataInput} is {@code null}
+	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
+	 */
+//	TODO: Add unit tests!
+	public static Vector3D read(final DataInput dataInput) {
+		try {
+			return new Vector3D(dataInput.readDouble(), dataInput.readDouble(), dataInput.readDouble());
+		} catch(final IOException e) {
+			throw new UncheckedIOException(e);
+		}
+	}
+	
+	/**
+	 * Returns a {@code Vector3D} instance that is the reciprocal (or multiplicative inverse) of {@code v}.
+	 * <p>
+	 * If {@code v} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * This operation is performed componentwise.
+	 * 
+	 * @param v a {@code Vector3D} instance
+	 * @return a {@code Vector3D} instance that is the reciprocal (or multiplicative inverse) of {@code v}
+	 * @throws NullPointerException thrown if, and only if, {@code v} is {@code null}
+	 */
 	public static Vector3D reciprocal(final Vector3D v) {
 		return new Vector3D(1.0D / v.x, 1.0D / v.y, 1.0D / v.z);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Vector3D} instance that represents the reflection of {@code direction} with regards to {@code normal}.
+	 * <p>
+	 * If either {@code direction} or {@code normal} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Vector3D.reflection(direction, normal, false);
+	 * }
+	 * </pre>
+	 * 
+	 * @param direction the {@code Vector3D} instance that will be reflected with regards to {@code normal}
+	 * @param normal the {@code Vector3D} instance that represents the normal of the surface
+	 * @return a {@code Vector3D} instance that represents the reflection of {@code direction} with regards to {@code normal}
+	 * @throws NullPointerException thrown if, and only if, either {@code direction} or {@code normal} are {@code null}
+	 */
 //	TODO: Add unit tests!
 	public static Vector3D reflection(final Vector3D direction, final Vector3D normal) {
 		return reflection(direction, normal, false);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Vector3D} instance that represents the reflection of {@code direction} with regards to {@code normal}.
+	 * <p>
+	 * If either {@code direction} or {@code normal} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If {@code isFacingSurface} is {@code true}, it is assumed that {@code direction} is facing the surface. This is usually the case for the direction of a ray that intersects the surface. If {@code isFacingSurface} is {@code false}, it is assumed that {@code direction} is pointing in the opposite direction. That is, the ray starts at the surface intersection point and is directed away from the surface.
+	 * 
+	 * @param direction the {@code Vector3D} instance that will be reflected with regards to {@code normal}
+	 * @param normal the {@code Vector3D} instance that represents the normal of the surface
+	 * @param isFacingSurface {@code true} if, and only if, {@code direction} is facing the surface, {@code false} otherwise
+	 * @return a {@code Vector3D} instance that represents the reflection of {@code direction} with regards to {@code normal}
+	 * @throws NullPointerException thrown if, and only if, either {@code direction} or {@code normal} are {@code null}
+	 */
 //	TODO: Add unit tests!
 	public static Vector3D reflection(final Vector3D direction, final Vector3D normal, final boolean isFacingSurface) {
 		return isFacingSurface ? subtract(direction, multiply(normal, dotProduct(direction, normal) * 2.0D)) : subtract(multiply(normal, dotProduct(direction, normal) * 2.0D), direction);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Samples a direction on a hemisphere with a cosine distribution.
+	 * <p>
+	 * Returns a {@code Vector3D} instance with the sampled direction.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Vector3D.sampleHemisphereCosineDistribution(Point2D.sampleRandom());
+	 * }
+	 * </pre>
+	 * 
+	 * @return a {@code Vector3D} instance with the sampled direction
+	 */
 //	TODO: Add unit tests!
 	public static Vector3D sampleHemisphereCosineDistribution() {
 		return sampleHemisphereCosineDistribution(Point2D.sampleRandom());
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Samples a direction on a hemisphere with a cosine distribution.
+	 * <p>
+	 * Returns a {@code Vector3D} instance with the sampled direction.
+	 * <p>
+	 * If {@code p} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param p a {@link Point2D} instance with components in the interval [0.0, 1.0]
+	 * @return a {@code Vector3D} instance with the sampled direction
+	 * @throws NullPointerException thrown if, and only if, {@code p} is {@code null}
+	 */
 //	TODO: Add unit tests!
 	public static Vector3D sampleHemisphereCosineDistribution(final Point2D p) {
 		final Point2D q = Point2D.sampleDiskUniformDistributionByConcentricMapping(p);
@@ -679,19 +931,60 @@ public final class Vector3D {
 		return new Vector3D(q.x, q.y, Doubles.sqrt(Doubles.max(0.0D, 1.0D - q.x * q.x - q.y * q.y)));
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Samples a direction on a hemisphere with a power-cosine distribution.
+	 * <p>
+	 * Returns a {@code Vector3D} instance with the sampled direction.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Vector3D.sampleHemispherePowerCosineDistribution(Point2D.sampleRandom());
+	 * }
+	 * </pre>
+	 * 
+	 * @return a {@code Vector3D} instance with the sampled direction
+	 */
 //	TODO: Add unit tests!
 	public static Vector3D sampleHemispherePowerCosineDistribution() {
 		return sampleHemispherePowerCosineDistribution(Point2D.sampleRandom());
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Samples a direction on a hemisphere with a power-cosine distribution.
+	 * <p>
+	 * Returns a {@code Vector3D} instance with the sampled direction.
+	 * <p>
+	 * If {@code p} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Vector3D.sampleHemispherePowerCosineDistribution(p, 20.0D);
+	 * }
+	 * </pre>
+	 * 
+	 * @param p a {@link Point2D} instance with components in the interval [0.0, 1.0]
+	 * @return a {@code Vector3D} instance with the sampled direction
+	 * @throws NullPointerException thrown if, and only if, {@code p} is {@code null}
+	 */
 //	TODO: Add unit tests!
 	public static Vector3D sampleHemispherePowerCosineDistribution(final Point2D p) {
 		return sampleHemispherePowerCosineDistribution(p, 20.0D);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Samples a direction on a hemisphere with a power-cosine distribution.
+	 * <p>
+	 * Returns a {@code Vector3D} instance with the sampled direction.
+	 * <p>
+	 * If {@code p} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param p a {@link Point2D} instance with components in the interval [0.0, 1.0]
+	 * @param exponent the exponent to use
+	 * @return a {@code Vector3D} instance with the sampled direction
+	 * @throws NullPointerException thrown if, and only if, {@code p} is {@code null}
+	 */
 //	TODO: Add unit tests!
 	public static Vector3D sampleHemispherePowerCosineDistribution(final Point2D p, final double exponent) {
 		final double cosTheta = Doubles.pow(1.0D - p.y, 1.0D / (exponent + 1.0D));
@@ -704,7 +997,7 @@ public final class Vector3D {
 	/**
 	 * Subtracts the component values of {@code vRHS} from the component values of {@code vLHS}.
 	 * <p>
-	 * Returns a new {@code Vector3D} instance with the result of the subtraction.
+	 * Returns a {@code Vector3D} instance with the result of the subtraction.
 	 * <p>
 	 * If either {@code vLHS} or {@code vRHS} are {@code null}, a {@code NullPointerException} will be thrown.
 	 * <p>
@@ -712,7 +1005,7 @@ public final class Vector3D {
 	 * 
 	 * @param vLHS the {@code Vector3D} instance on the left-hand side
 	 * @param vRHS the {@code Vector3D} instance on the right-hand side
-	 * @return a new {@code Vector3D} instance with the result of the subtraction
+	 * @return a {@code Vector3D} instance with the result of the subtraction
 	 * @throws NullPointerException thrown if, and only if, either {@code vLHS} or {@code vRHS} are {@code null}
 	 */
 	public static Vector3D subtract(final Vector3D vLHS, final Vector3D vRHS) {
@@ -722,13 +1015,13 @@ public final class Vector3D {
 	/**
 	 * Transforms the {@link Matrix44D} {@code m} with the {@code Vector3D} {@code v}.
 	 * <p>
-	 * Returns a new {@code Vector3D} instance with the result of the transformation.
+	 * Returns a {@code Vector3D} instance with the result of the transformation.
 	 * <p>
 	 * If either {@code m} or {@code v} are {@code null}, a {@code NullPointerException} will be thrown.
 	 * 
 	 * @param m a {@code Matrix44D} instance
 	 * @param v a {@code Vector3D} instance
-	 * @return a new {@code Vector3D} instance with the result of the transformation
+	 * @return a {@code Vector3D} instance with the result of the transformation
 	 * @throws NullPointerException thrown if, and only if, either {@code m} or {@code v} are {@code null}
 	 */
 //	TODO: Add unit tests!
@@ -739,13 +1032,13 @@ public final class Vector3D {
 	/**
 	 * Transforms the {@code Vector3D} {@code v} with the {@link OrthonormalBasis33D} {@code o}.
 	 * <p>
-	 * Returns a new {@code Vector3D} instance with the result of the transformation.
+	 * Returns a {@code Vector3D} instance with the result of the transformation.
 	 * <p>
 	 * If either {@code v} or {@code o} are {@code null}, a {@code NullPointerException} will be thrown.
 	 * 
 	 * @param v a {@code Vector3D} instance
 	 * @param o an {@code OrthonormalBasis33D} instance
-	 * @return a new {@code Vector3D} instance with the result of the transformation
+	 * @return a {@code Vector3D} instance with the result of the transformation
 	 * @throws NullPointerException thrown if, and only if, either {@code v} or {@code o} are {@code null}
 	 */
 //	TODO: Add unit tests!
@@ -756,13 +1049,13 @@ public final class Vector3D {
 	/**
 	 * Transforms the {@code Vector3D} {@code v} with the {@link OrthonormalBasis33D} {@code o} and normalizes the result.
 	 * <p>
-	 * Returns a new {@code Vector3D} instance with the result of the transformation and normalization.
+	 * Returns a {@code Vector3D} instance with the result of the transformation and normalization.
 	 * <p>
 	 * If either {@code v} or {@code o} are {@code null}, a {@code NullPointerException} will be thrown.
 	 * 
 	 * @param v a {@code Vector3D} instance
 	 * @param o an {@code OrthonormalBasis33D} instance
-	 * @return a new {@code Vector3D} instance with the result of the transformation and normalization
+	 * @return a {@code Vector3D} instance with the result of the transformation and normalization
 	 * @throws NullPointerException thrown if, and only if, either {@code v} or {@code o} are {@code null}
 	 */
 //	TODO: Add unit tests!
@@ -773,13 +1066,13 @@ public final class Vector3D {
 	/**
 	 * Transforms the {@code Vector3D} {@code v} with the {@link OrthonormalBasis33D} {@code o} in reverse order.
 	 * <p>
-	 * Returns a new {@code Vector3D} instance with the result of the transformation.
+	 * Returns a {@code Vector3D} instance with the result of the transformation.
 	 * <p>
 	 * If either {@code v} or {@code o} are {@code null}, a {@code NullPointerException} will be thrown.
 	 * 
 	 * @param v a {@code Vector3D} instance
 	 * @param o an {@code OrthonormalBasis33D} instance
-	 * @return a new {@code Vector3D} instance with the result of the transformation
+	 * @return a {@code Vector3D} instance with the result of the transformation
 	 * @throws NullPointerException thrown if, and only if, either {@code v} or {@code o} are {@code null}
 	 */
 //	TODO: Add unit tests!
@@ -790,13 +1083,13 @@ public final class Vector3D {
 	/**
 	 * Transforms the {@code Vector3D} {@code v} with the {@link OrthonormalBasis33D} {@code o} in reverse order and normalizes the result.
 	 * <p>
-	 * Returns a new {@code Vector3D} instance with the result of the transformation and normalization.
+	 * Returns a {@code Vector3D} instance with the result of the transformation and normalization.
 	 * <p>
 	 * If either {@code v} or {@code o} are {@code null}, a {@code NullPointerException} will be thrown.
 	 * 
 	 * @param v a {@code Vector3D} instance
 	 * @param o an {@code OrthonormalBasis33D} instance
-	 * @return a new {@code Vector3D} instance with the result of the transformation and normalization
+	 * @return a {@code Vector3D} instance with the result of the transformation and normalization
 	 * @throws NullPointerException thrown if, and only if, either {@code v} or {@code o} are {@code null}
 	 */
 //	TODO: Add unit tests!
@@ -807,13 +1100,13 @@ public final class Vector3D {
 	/**
 	 * Transforms the {@link Matrix44D} {@code m} with the {@code Vector3D} {@code v} in transpose order.
 	 * <p>
-	 * Returns a new {@code Vector3D} instance with the result of the transformation.
+	 * Returns a {@code Vector3D} instance with the result of the transformation.
 	 * <p>
 	 * If either {@code m} or {@code v} are {@code null}, a {@code NullPointerException} will be thrown.
 	 * 
 	 * @param m a {@code Matrix44D} instance
 	 * @param v a {@code Vector3D} instance
-	 * @return a new {@code Vector3D} instance with the result of the transformation
+	 * @return a {@code Vector3D} instance with the result of the transformation
 	 * @throws NullPointerException thrown if, and only if, either {@code m} or {@code v} are {@code null}
 	 */
 //	TODO: Add unit tests!
@@ -822,57 +1115,57 @@ public final class Vector3D {
 	}
 	
 	/**
-	 * Returns a new {@code Vector3D} instance equivalent to {@code new Vector3D(1.0D, 0.0D, 0.0D)}.
+	 * Returns a {@code Vector3D} instance equivalent to {@code new Vector3D(1.0D, 0.0D, 0.0D)}.
 	 * 
-	 * @return a new {@code Vector3D} instance equivalent to {@code new Vector3D(1.0D, 0.0D, 0.0D)}
+	 * @return a {@code Vector3D} instance equivalent to {@code new Vector3D(1.0D, 0.0D, 0.0D)}
 	 */
 	public static Vector3D x() {
 		return x(1.0D);
 	}
 	
 	/**
-	 * Returns a new {@code Vector3D} instance equivalent to {@code new Vector3D(x, 0.0D, 0.0D)}.
+	 * Returns a {@code Vector3D} instance equivalent to {@code new Vector3D(x, 0.0D, 0.0D)}.
 	 * 
 	 * @param x the value of the X-component
-	 * @return a new {@code Vector3D} instance equivalent to {@code new Vector3D(x, 0.0D, 0.0D)}
+	 * @return a {@code Vector3D} instance equivalent to {@code new Vector3D(x, 0.0D, 0.0D)}
 	 */
 	public static Vector3D x(final double x) {
 		return new Vector3D(x, 0.0D, 0.0D);
 	}
 	
 	/**
-	 * Returns a new {@code Vector3D} instance equivalent to {@code new Vector3D(0.0D, 1.0D, 0.0D)}.
+	 * Returns a {@code Vector3D} instance equivalent to {@code new Vector3D(0.0D, 1.0D, 0.0D)}.
 	 * 
-	 * @return a new {@code Vector3D} instance equivalent to {@code new Vector3D(0.0D, 1.0D, 0.0D)}
+	 * @return a {@code Vector3D} instance equivalent to {@code new Vector3D(0.0D, 1.0D, 0.0D)}
 	 */
 	public static Vector3D y() {
 		return y(1.0D);
 	}
 	
 	/**
-	 * Returns a new {@code Vector3D} instance equivalent to {@code new Vector3D(0.0D, y, 0.0D)}.
+	 * Returns a {@code Vector3D} instance equivalent to {@code new Vector3D(0.0D, y, 0.0D)}.
 	 * 
 	 * @param y the value of the Y-component
-	 * @return a new {@code Vector3D} instance equivalent to {@code new Vector3D(0.0D, y, 0.0D)}
+	 * @return a {@code Vector3D} instance equivalent to {@code new Vector3D(0.0D, y, 0.0D)}
 	 */
 	public static Vector3D y(final double y) {
 		return new Vector3D(0.0D, y, 0.0D);
 	}
 	
 	/**
-	 * Returns a new {@code Vector3D} instance equivalent to {@code new Vector3D(0.0D, 0.0D, 1.0D)}.
+	 * Returns a {@code Vector3D} instance equivalent to {@code new Vector3D(0.0D, 0.0D, 1.0D)}.
 	 * 
-	 * @return a new {@code Vector3D} instance equivalent to {@code new Vector3D(0.0D, 0.0D, 1.0D)}
+	 * @return a {@code Vector3D} instance equivalent to {@code new Vector3D(0.0D, 0.0D, 1.0D)}
 	 */
 	public static Vector3D z() {
 		return z(1.0D);
 	}
 	
 	/**
-	 * Returns a new {@code Vector3D} instance equivalent to {@code new Vector3D(0.0D, 0.0D, z)}.
+	 * Returns a {@code Vector3D} instance equivalent to {@code new Vector3D(0.0D, 0.0D, z)}.
 	 * 
 	 * @param z the value of the Z-component
-	 * @return a new {@code Vector3D} instance equivalent to {@code new Vector3D(0.0D, 0.0D, z)}
+	 * @return a {@code Vector3D} instance equivalent to {@code new Vector3D(0.0D, 0.0D, z)}
 	 */
 	public static Vector3D z(final double z) {
 		return new Vector3D(0.0D, 0.0D, z);
