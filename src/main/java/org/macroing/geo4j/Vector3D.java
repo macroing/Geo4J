@@ -1,0 +1,982 @@
+/**
+ * Copyright 2022 J&#246;rgen Lundgren
+ * 
+ * This file is part of org.macroing.geo4j.
+ * 
+ * org.macroing.geo4j is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * org.macroing.geo4j is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with org.macroing.geo4j. If not, see <http://www.gnu.org/licenses/>.
+ */
+package org.macroing.geo4j;
+
+import java.io.DataOutput;
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.lang.reflect.Field;//TODO: Add Javadocs!
+import java.lang.reflect.Field;//TODO: Add unit tests!
+import java.util.Objects;
+import java.util.Optional;
+
+import org.macroing.java.lang.Doubles;
+import org.macroing.java.lang.Strings;
+
+/**
+ * A {@code Vector3D} represents a vector with three {@code double}-based components.
+ * <p>
+ * This class is immutable and therefore thread-safe.
+ * 
+ * @since 1.0.0
+ * @author J&#246;rgen Lundgren
+ */
+public final class Vector3D {
+	/**
+	 * The X-component of this {@code Vector3D} instance.
+	 */
+	public final double x;
+	
+	/**
+	 * The Y-component of this {@code Vector3D} instance.
+	 */
+	public final double y;
+	
+	/**
+	 * The Z-component of this {@code Vector3D} instance.
+	 */
+	public final double z;
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Constructs a new {@code Vector3D} instance given the component values {@code 0.0D}, {@code 0.0D} and {@code 0.0D}.
+	 * <p>
+	 * Calling this constructor is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * new Vector3D(0.0D, 0.0D, 0.0D);
+	 * }
+	 * </pre>
+	 */
+//	TODO: Add unit tests!
+	public Vector3D() {
+		this(0.0D, 0.0D, 0.0D);
+	}
+	
+	/**
+	 * Constructs a new {@code Vector3D} instance given the component values {@code p.x}, {@code p.y} and {@code p.z}.
+	 * <p>
+	 * If {@code p} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this constructor is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * new Vector3D(p.x, p.y, p.z);
+	 * }
+	 * </pre>
+	 * 
+	 * @param p a {@link Point3D} instance
+	 * @throws NullPointerException thrown if, and only if, {@code p} is {@code null}
+	 */
+	public Vector3D(final Point3D p) {
+		this(p.x, p.y, p.z);
+	}
+	
+	/**
+	 * Constructs a new {@code Vector3D} instance given the component values {@code x}, {@code y} and {@code z}.
+	 * 
+	 * @param x the X-component of this {@code Vector3D} instance
+	 * @param y the Y-component of this {@code Vector3D} instance
+	 * @param z the Z-component of this {@code Vector3D} instance
+	 */
+	public Vector3D(final double x, final double y, final double z) {
+		this.x = x;
+		this.y = y;
+		this.z = z;
+	}
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Returns a {@code String} representation of this {@code Vector3D} instance.
+	 * 
+	 * @return a {@code String} representation of this {@code Vector3D} instance
+	 */
+	@Override
+	public String toString() {
+		return String.format("new Vector3D(%s, %s, %s)", Strings.toNonScientificNotationJava(this.x), Strings.toNonScientificNotationJava(this.y), Strings.toNonScientificNotationJava(this.z));
+	}
+	
+	/**
+	 * Compares {@code object} to this {@code Vector3D} instance for equality.
+	 * <p>
+	 * Returns {@code true} if, and only if, {@code object} is an instance of {@code Vector3D} and their respective values are equal, {@code false} otherwise.
+	 * 
+	 * @param object the {@code Object} instance to compare to this {@code Vector3D} instance for equality
+	 * @return {@code true} if, and only if, {@code object} is an instance of {@code Vector3D} and their respective values are equal, {@code false} otherwise
+	 */
+	@Override
+	public boolean equals(final Object object) {
+		if(object == this) {
+			return true;
+		} else if(!(object instanceof Vector3D)) {
+			return false;
+		} else {
+			return equals(Vector3D.class.cast(object));
+		}
+	}
+	
+	/**
+	 * Compares {@code v} to this {@code Vector3D} instance for equality.
+	 * <p>
+	 * Returns {@code true} if, and only if, {@code v} is not {@code null} and their respective values are equal, {@code false} otherwise.
+	 * 
+	 * @param v the {@code Vector3D} instance to compare to this {@code Vector3D} instance for equality
+	 * @return {@code true} if, and only if, {@code v} is not {@code null} and their respective values are equal, {@code false} otherwise
+	 */
+	public boolean equals(final Vector3D v) {
+		if(v == this) {
+			return true;
+		} else if(v == null) {
+			return false;
+		} else if(!Doubles.equals(this.x, v.x)) {
+			return false;
+		} else if(!Doubles.equals(this.y, v.y)) {
+			return false;
+		} else if(!Doubles.equals(this.z, v.z)) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
+	/**
+	 * Returns {@code true} if, and only if, this {@code Vector3D} instance is a unit vector, {@code false} otherwise.
+	 * 
+	 * @return {@code true} if, and only if, this {@code Vector3D} instance is a unit vector, {@code false} otherwise
+	 */
+//	TODO: Add unit tests!
+	public boolean isUnitVector() {
+		final double length = length();
+		
+		final boolean isLengthGTEThreshold = length >= Doubles.NEXT_DOWN_1_3;
+		final boolean isLengthLTEThreshold = length <= Doubles.NEXT_UP_1_1;
+		
+		return isLengthGTEThreshold && isLengthLTEThreshold;
+	}
+	
+//	TODO: Add Javadocs!
+	public boolean isZero() {
+		return Doubles.isZero(this.x) && Doubles.isZero(this.y) && Doubles.isZero(this.z);  
+	}
+	
+	/**
+	 * Returns the cosine of the angle phi.
+	 * <p>
+	 * Calling this method is equivalent to the following, given a {@code Vector3D} instance called {@code v}:
+	 * <pre>
+	 * {@code
+	 * double sinTheta = v.sinTheta();
+	 * double cosPhi = Doubles.isZero(sinTheta) ? 1.0D : Doubles.saturate(v.x / sinTheta, -1.0D, 1.0D);
+	 * 
+	 * double sinThetaSimplified = Doubles.sqrt(Doubles.max(0.0D, 1.0D - v.z * v.z));
+	 * double cosPhiSimplified = Doubles.isZero(sinThetaSimplified) ? 1.0D : Doubles.saturate(v.x / sinThetaSimplified, -1.0D, 1.0D);
+	 * }
+	 * </pre>
+	 * 
+	 * @return the cosine of the angle phi
+	 */
+	public double cosPhi() {
+		final double sinTheta = sinTheta();
+		final double cosPhi = Doubles.isZero(sinTheta) ? 1.0D : Doubles.saturate(this.x / sinTheta, -1.0D, 1.0D);
+		
+		return cosPhi;
+	}
+	
+	/**
+	 * Returns the cosine of the angle phi in squared form.
+	 * <p>
+	 * Calling this method is equivalent to the following, given a {@code Vector3D} instance called {@code v}:
+	 * <pre>
+	 * {@code
+	 * double cosPhiSquared = v.cosPhi() * v.cosPhi();
+	 * }
+	 * </pre>
+	 * 
+	 * @return the cosine of the angle phi in squared form
+	 */
+	public double cosPhiSquared() {
+		return cosPhi() * cosPhi();
+	}
+	
+	/**
+	 * Returns the cosine of the angle theta.
+	 * <p>
+	 * Calling this method is equivalent to the following, given a {@code Vector3D} instance called {@code v}:
+	 * <pre>
+	 * {@code
+	 * double cosTheta = v.z;
+	 * }
+	 * </pre>
+	 * 
+	 * @return the cosine of the angle theta
+	 */
+	public double cosTheta() {
+		return this.z;
+	}
+	
+	/**
+	 * Returns the cosine of the angle theta in absolute form.
+	 * <p>
+	 * Calling this method is equivalent to the following, given a {@code Vector3D} instance called {@code v}:
+	 * <pre>
+	 * {@code
+	 * double cosThetaAbs = Doubles.abs(v.cosTheta());
+	 * double cosThetaAbsSimplified = Doubles.abs(v.z);
+	 * }
+	 * </pre>
+	 * 
+	 * @return the cosine of the angle theta in absolute form
+	 */
+	public double cosThetaAbs() {
+		return Doubles.abs(cosTheta());
+	}
+	
+	/**
+	 * Returns the cosine of the angle theta in quartic form.
+	 * <p>
+	 * Calling this method is equivalent to the following, given a {@code Vector3D} instance called {@code v}:
+	 * <pre>
+	 * {@code
+	 * double cosThetaQuartic = v.cosThetaSquared() * v.cosThetaSquared();
+	 * double cosThetaQuarticSimplified = v.z * v.z * v.z * v.z;
+	 * }
+	 * </pre>
+	 * 
+	 * @return the cosine of the angle theta in quartic form
+	 */
+	public double cosThetaQuartic() {
+		return cosThetaSquared() * cosThetaSquared();
+	}
+	
+	/**
+	 * Returns the cosine of the angle theta in squared form.
+	 * <p>
+	 * Calling this method is equivalent to the following, given a {@code Vector3D} instance called {@code v}:
+	 * <pre>
+	 * {@code
+	 * double cosThetaSquared = v.cosTheta() * v.cosTheta();
+	 * double cosThetaSquaredSimplified = v.z * v.z;
+	 * }
+	 * </pre>
+	 * 
+	 * @return the cosine of the angle theta in squared form
+	 */
+	public double cosThetaSquared() {
+		return cosTheta() * cosTheta();
+	}
+	
+	/**
+	 * Returns the length of this {@code Vector3D} instance.
+	 * 
+	 * @return the length of this {@code Vector3D} instance
+	 */
+	public double length() {
+		return Doubles.sqrt(lengthSquared());
+	}
+	
+	/**
+	 * Returns the squared length of this {@code Vector3D} instance.
+	 * 
+	 * @return the squared length of this {@code Vector3D} instance
+	 */
+	public double lengthSquared() {
+		return this.x * this.x + this.y * this.y + this.z * this.z;
+	}
+	
+	/**
+	 * Returns the sine of the angle phi.
+	 * <p>
+	 * Calling this method is equivalent to the following, given a {@code Vector3D} instance called {@code v}:
+	 * <pre>
+	 * {@code
+	 * double sinTheta = v.sinTheta();
+	 * double sinPhi = Doubles.isZero(sinTheta) ? 0.0D : Doubles.saturate(v.y / sinTheta, -1.0D, 1.0D);
+	 * 
+	 * double sinThetaSimplified = Doubles.sqrt(Doubles.max(0.0D, 1.0D - v.z * v.z));
+	 * double sinPhiSimplified = Doubles.isZero(sinThetaSimplified) ? 0.0D : Doubles.saturate(v.y / sinThetaSimplified, -1.0D, 1.0D);
+	 * }
+	 * </pre>
+	 * 
+	 * @return the sine of the angle phi
+	 */
+	public double sinPhi() {
+		final double sinTheta = sinTheta();
+		final double sinPhi = Doubles.isZero(sinTheta) ? 0.0D : Doubles.saturate(this.y / sinTheta, -1.0D, 1.0D);
+		
+		return sinPhi;
+	}
+	
+	/**
+	 * Returns the sine of the angle phi in squared form.
+	 * <p>
+	 * Calling this method is equivalent to the following, given a {@code Vector3D} instance called {@code v}:
+	 * <pre>
+	 * {@code
+	 * double sinPhiSquared = v.sinPhi() * v.sinPhi();
+	 * }
+	 * </pre>
+	 * 
+	 * @return the sine of the angle phi in squared form
+	 */
+	public double sinPhiSquared() {
+		return sinPhi() * sinPhi();
+	}
+	
+	/**
+	 * Returns the sine of the angle theta.
+	 * <p>
+	 * Calling this method is equivalent to the following, given a {@code Vector3D} instance called {@code v}:
+	 * <pre>
+	 * {@code
+	 * double sinTheta = Doubles.sqrt(v.sinThetaSquared());
+	 * double sinThetaSimplified = Doubles.sqrt(Doubles.max(0.0D, 1.0D - v.z * v.z));
+	 * }
+	 * </pre>
+	 * 
+	 * @return the sine of the angle theta
+	 */
+	public double sinTheta() {
+		return Doubles.sqrt(sinThetaSquared());
+	}
+	
+	/**
+	 * Returns the sine of the angle theta in squared form.
+	 * <p>
+	 * Calling this method is equivalent to the following, given a {@code Vector3D} instance called {@code v}:
+	 * <pre>
+	 * {@code
+	 * double sinThetaSquared = Doubles.max(0.0D, 1.0D - v.cosThetaSquared());
+	 * double sinThetaSquaredSimplified = Doubles.max(0.0D, 1.0D - v.z * v.z);
+	 * }
+	 * </pre>
+	 * 
+	 * @return the sine of the angle theta in squared form
+	 */
+	public double sinThetaSquared() {
+		return Doubles.max(0.0D, 1.0D - cosThetaSquared());
+	}
+	
+	/**
+	 * Returns the spherical phi angle.
+	 * 
+	 * @return the spherical phi angle
+	 */
+//	TODO: Add Unit Tests!
+	public double sphericalPhi() {
+		return Doubles.addLessThan(Doubles.atan2(this.y, this.x), 0.0D, Doubles.PI_MULTIPLIED_BY_2);
+	}
+	
+	/**
+	 * Returns the spherical theta angle.
+	 * 
+	 * @return the spherical theta angle
+	 */
+//	TODO: Add Unit Tests!
+	public double sphericalTheta() {
+		return Doubles.acos(Doubles.saturate(this.z, -1.0D, 1.0D));
+	}
+	
+	/**
+	 * Returns the tangent of the angle theta.
+	 * <p>
+	 * Calling this method is equivalent to the following, given a {@code Vector3D} instance called {@code v}:
+	 * <pre>
+	 * {@code
+	 * double tanTheta = v.sinTheta() / v.cosTheta();
+	 * double tanThetaSimplified = Doubles.sqrt(Doubles.max(0.0D, 1.0D - v.z * v.z)) / v.z;
+	 * }
+	 * </pre>
+	 * 
+	 * @return the tangent of the angle theta
+	 */
+	public double tanTheta() {
+		return sinTheta() / cosTheta();
+	}
+	
+	/**
+	 * Returns the tangent of the angle theta in absolute form.
+	 * <p>
+	 * Calling this method is equivalent to the following, given a {@code Vector3D} instance called {@code v}:
+	 * <pre>
+	 * {@code
+	 * double tanThetaAbs = Doubles.abs(v.tanTheta());
+	 * double tanThetaAbsSimplified = Doubles.abs(Doubles.sqrt(Doubles.max(0.0D, 1.0D - v.z * v.z)) / v.z);
+	 * }
+	 * </pre>
+	 * 
+	 * @return the tangent of the angle theta in absolute form
+	 */
+	public double tanThetaAbs() {
+		return Doubles.abs(tanTheta());
+	}
+	
+	/**
+	 * Returns the tangent of the angle theta in squared form.
+	 * <p>
+	 * Calling this method is equivalent to the following, given a {@code Vector3D} instance called {@code v}:
+	 * <pre>
+	 * {@code
+	 * double tanThetaSquared = v.sinThetaSquared() / v.cosThetaSquared();
+	 * double tanThetaSquaredSimplified = Doubles.max(0.0D, 1.0D - v.z * v.z) / (v.z * v.z);
+	 * }
+	 * </pre>
+	 * 
+	 * @return the tangent of the angle theta in squared form
+	 */
+	public double tanThetaSquared() {
+		return sinThetaSquared() / cosThetaSquared();
+	}
+	
+	/**
+	 * Returns a {@code double[]} representation of this {@code Vector3D} instance.
+	 * 
+	 * @return a {@code double[]} representation of this {@code Vector3D} instance
+	 */
+//	TODO: Add Unit Tests!
+	public double[] toArray() {
+		return new double[] {this.x, this.y, this.z};
+	}
+	
+	/**
+	 * Returns a hash code for this {@code Vector3D} instance.
+	 * 
+	 * @return a hash code for this {@code Vector3D} instance
+	 */
+	@Override
+	public int hashCode() {
+		return Objects.hash(Double.valueOf(this.x), Double.valueOf(this.y), Double.valueOf(this.z));
+	}
+	
+	/**
+	 * Writes this {@code Vector3D} instance to {@code dataOutput}.
+	 * <p>
+	 * If {@code dataOutput} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If an I/O error occurs, an {@code UncheckedIOException} will be thrown.
+	 * 
+	 * @param dataOutput the {@code DataOutput} instance to write to
+	 * @throws NullPointerException thrown if, and only if, {@code dataOutput} is {@code null}
+	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
+	 */
+//	TODO: Add Unit Tests!
+	public void write(final DataOutput dataOutput) {
+		try {
+			dataOutput.writeDouble(this.x);
+			dataOutput.writeDouble(this.y);
+			dataOutput.writeDouble(this.z);
+		} catch(final IOException e) {
+			throw new UncheckedIOException(e);
+		}
+	}
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+//	TODO: Add Javadocs!
+	public static Optional<Vector3D> refraction(final Vector3D direction, final Vector3D normal, final double eta) {
+		final double cosThetaI = dotProduct(direction, normal);
+		final double sinThetaISquared = Doubles.max(0.0D, 1.0D - cosThetaI * cosThetaI);
+		final double sinThetaTSquared = eta * eta * sinThetaISquared;
+		
+		if(sinThetaTSquared >= 1.0D) {
+			return Optional.empty();
+		}
+		
+		final double cosThetaT = Doubles.sqrt(1.0D - sinThetaTSquared);
+		
+//		final double s = eta * cosThetaI - cosThetaT;
+		final double s = eta * cosThetaI + cosThetaT;
+		
+//		final double x = -direction.x * eta + normal.x * s;
+//		final double y = -direction.y * eta + normal.y * s;
+//		final double z = -direction.z * eta + normal.z * s;
+		final double x = +direction.x * eta - normal.x * s;
+		final double y = +direction.y * eta - normal.y * s;
+		final double z = +direction.z * eta - normal.z * s;
+		
+		return Optional.of(new Vector3D(x, y, z));
+	}
+	
+//	TODO: Add Javadocs!
+	public static Vector3D abs(final Vector3D v) {
+		return new Vector3D(Doubles.abs(v.x), Doubles.abs(v.y), Doubles.abs(v.z));
+	}
+	
+//	TODO: Add Javadocs!
+	public static Vector3D add(final Vector3D vLHS, final Vector3D vRHS) {
+		return new Vector3D(vLHS.x + vRHS.x, vLHS.y + vRHS.y, vLHS.z + vRHS.z);
+	}
+	
+//	TODO: Add Javadocs!
+	public static Vector3D crossProduct(final Vector3D vLHS, final Vector3D vRHS) {
+		return new Vector3D(vLHS.y * vRHS.z - vLHS.z * vRHS.y, vLHS.z * vRHS.x - vLHS.x * vRHS.z, vLHS.x * vRHS.y - vLHS.y * vRHS.x);
+	}
+	
+//	TODO: Add Javadocs!
+	public static Vector3D direction(final Point3D eye, final Point3D lookAt) {
+		return new Vector3D(lookAt.x - eye.x, lookAt.y - eye.y, lookAt.z - eye.z);
+	}
+	
+//	TODO: Add Javadocs!
+	public static Vector3D direction(final Vector3D u, final Vector3D v, final Vector3D w) {
+		return new Vector3D(u.x + v.x + w.x, u.y + v.y + w.y, u.z + v.z + w.z);
+	}
+	
+//	TODO: Add Javadocs!
+	public static Vector3D direction(final Vector3D u, final Vector3D v, final Vector3D w, final Vector3D s) {
+		return new Vector3D(u.x * s.x + v.x * s.y + w.x * s.z, u.y * s.x + v.y * s.y + w.y * s.z, u.z * s.x + v.z * s.y + w.z * s.z);
+	}
+	
+//	TODO: Add Javadocs!
+	public static Vector3D directionNormalized(final Point3D eye, final Point3D lookAt) {
+		return normalize(direction(eye, lookAt));
+	}
+	
+//	TODO: Add Javadocs!
+//	TODO: Add unit tests!
+	public static Vector3D directionNormalized(final Vector3D u, final Vector3D v, final Vector3D w) {
+		return normalize(direction(u, v, w));
+	}
+	
+//	TODO: Add Javadocs!
+//	TODO: Add unit tests!
+	public static Vector3D directionNormalized(final Vector3D u, final Vector3D v, final Vector3D w, final Vector3D s) {
+		return normalize(direction(u, v, w, s));
+	}
+	
+//	TODO: Add Javadocs!
+//	TODO: Add unit tests!
+	public static Vector3D directionSpherical(final double sinTheta, final double cosTheta, final double phi) {
+		return new Vector3D(sinTheta * Doubles.cos(phi), sinTheta * Doubles.sin(phi), cosTheta);
+	}
+	
+//	TODO: Add Javadocs!
+//	TODO: Add unit tests!
+	public static Vector3D directionSphericalNormalized(final double sinTheta, final double cosTheta, final double phi) {
+		return normalize(directionSpherical(sinTheta, cosTheta, phi));
+	}
+	
+//	TODO: Add Javadocs!
+	public static Vector3D divide(final Vector3D v, final double s) {
+		return new Vector3D(v.x / s, v.y / s, v.z / s);
+	}
+	
+//	TODO: Add Javadocs!
+	public static Vector3D hadamardProduct(final Vector3D vLHS, final Vector3D vRHS) {
+		return new Vector3D(vLHS.x * vRHS.x, vLHS.y * vRHS.y, vLHS.z * vRHS.z);
+	}
+	
+//	TODO: Add Javadocs!
+	public static Vector3D multiply(final Vector3D v, final double s) {
+		return new Vector3D(v.x * s, v.y * s, v.z * s);
+	}
+	
+//	TODO: Add Javadocs!
+	public static Vector3D negate(final Vector3D v) {
+		return new Vector3D(-v.x, -v.y, -v.z);
+	}
+	
+//	TODO: Add Javadocs!
+	public static Vector3D negateZ(final Vector3D v) {
+		return new Vector3D(v.x, v.y, -v.z);
+	}
+	
+//	TODO: Add Javadocs!
+	public static Vector3D normal(final Point3D a, final Point3D b, final Point3D c) {
+		return crossProduct(directionNormalized(a, b), directionNormalized(a, c));
+	}
+	
+//	TODO: Add Javadocs!
+	public static Vector3D normalNormalized(final Point3D a, final Point3D b, final Point3D c) {
+		return normalize(normal(a, b, c));
+	}
+	
+//	TODO: Add Javadocs!
+	public static Vector3D normalize(final Vector3D v) {
+		final double length = v.length();
+		
+		final boolean isLengthGTEThreshold = length >= Doubles.NEXT_DOWN_1_3;
+		final boolean isLengthLTEThreshold = length <= Doubles.NEXT_UP_1_1;
+		
+		if(isLengthGTEThreshold && isLengthLTEThreshold) {
+			return v;
+		}
+		
+		return divide(v, length);
+	}
+	
+//	TODO: Add Javadocs!
+//	TODO: Add unit tests!
+	public static Vector3D orientNormal(final Vector3D direction, final Vector3D normal) {
+		return dotProduct(direction, normal) < 0.0D ? normal : negate(normal);
+	}
+	
+//	TODO: Add Javadocs!
+//	TODO: Add unit tests!
+	public static Vector3D orientNormalSameHemisphereZ(final Vector3D direction, final Vector3D normal) {
+		return sameHemisphereZ(direction, normal) ? normal : negate(normal);
+	}
+	
+//	TODO: Add Javadocs!
+	public static Vector3D orthogonal(final Vector3D v) {
+		final Vector3D v0 = normalize(v);
+		final Vector3D v1 = abs(v0);
+		
+		if(v1.x < v1.y && v1.x < v1.z) {
+			return normalize(new Vector3D(+0.0D, +v0.z, -v0.y));
+		} else if(v1.y < v1.z) {
+			return normalize(new Vector3D(+v0.z, +0.0D, -v0.x));
+		} else {
+			return normalize(new Vector3D(+v0.y, -v0.x, +0.0D));
+		}
+	}
+	
+//	TODO: Add Javadocs!
+	public static Vector3D reciprocal(final Vector3D v) {
+		return new Vector3D(1.0D / v.x, 1.0D / v.y, 1.0D / v.z);
+	}
+	
+//	TODO: Add Javadocs!
+//	TODO: Add unit tests!
+	public static Vector3D reflection(final Vector3D direction, final Vector3D normal) {
+		return reflection(direction, normal, false);
+	}
+	
+//	TODO: Add Javadocs!
+//	TODO: Add unit tests!
+	public static Vector3D reflection(final Vector3D direction, final Vector3D normal, final boolean isFacingSurface) {
+		return isFacingSurface ? subtract(direction, multiply(normal, dotProduct(direction, normal) * 2.0D)) : subtract(multiply(normal, dotProduct(direction, normal) * 2.0D), direction);
+	}
+	
+//	TODO: Add Javadocs!
+//	TODO: Add unit tests!
+	public static Vector3D sampleHemisphereCosineDistribution() {
+		return sampleHemisphereCosineDistribution(Point2D.sampleRandom());
+	}
+	
+//	TODO: Add Javadocs!
+//	TODO: Add unit tests!
+	public static Vector3D sampleHemisphereCosineDistribution(final Point2D p) {
+		final Point2D q = Point2D.sampleDiskUniformDistributionByConcentricMapping(p);
+		
+		return new Vector3D(q.x, q.y, Doubles.sqrt(Doubles.max(0.0D, 1.0D - q.x * q.x - q.y * q.y)));
+	}
+	
+//	TODO: Add Javadocs!
+//	TODO: Add unit tests!
+	public static Vector3D sampleHemispherePowerCosineDistribution() {
+		return sampleHemispherePowerCosineDistribution(Point2D.sampleRandom());
+	}
+	
+//	TODO: Add Javadocs!
+//	TODO: Add unit tests!
+	public static Vector3D sampleHemispherePowerCosineDistribution(final Point2D p) {
+		return sampleHemispherePowerCosineDistribution(p, 20.0D);
+	}
+	
+//	TODO: Add Javadocs!
+//	TODO: Add unit tests!
+	public static Vector3D sampleHemispherePowerCosineDistribution(final Point2D p, final double exponent) {
+		final double cosTheta = Doubles.pow(1.0D - p.y, 1.0D / (exponent + 1.0D));
+		final double sinTheta = Doubles.sqrt(Doubles.max(0.0D, 1.0D - cosTheta * cosTheta));
+		final double phi = 2.0D * Doubles.PI * p.x;
+		
+		return directionSpherical(sinTheta, cosTheta, phi);
+	}
+	
+	/**
+	 * Subtracts the component values of {@code vRHS} from the component values of {@code vLHS}.
+	 * <p>
+	 * Returns a new {@code Vector3D} instance with the result of the subtraction.
+	 * <p>
+	 * If either {@code vLHS} or {@code vRHS} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Vector subtraction is performed componentwise.
+	 * 
+	 * @param vLHS the {@code Vector3D} instance on the left-hand side
+	 * @param vRHS the {@code Vector3D} instance on the right-hand side
+	 * @return a new {@code Vector3D} instance with the result of the subtraction
+	 * @throws NullPointerException thrown if, and only if, either {@code vLHS} or {@code vRHS} are {@code null}
+	 */
+	public static Vector3D subtract(final Vector3D vLHS, final Vector3D vRHS) {
+		return new Vector3D(vLHS.x - vRHS.x, vLHS.y - vRHS.y, vLHS.z - vRHS.z);
+	}
+	
+	/**
+	 * Transforms the {@link Matrix44D} {@code m} with the {@code Vector3D} {@code v}.
+	 * <p>
+	 * Returns a new {@code Vector3D} instance with the result of the transformation.
+	 * <p>
+	 * If either {@code m} or {@code v} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param m a {@code Matrix44D} instance
+	 * @param v a {@code Vector3D} instance
+	 * @return a new {@code Vector3D} instance with the result of the transformation
+	 * @throws NullPointerException thrown if, and only if, either {@code m} or {@code v} are {@code null}
+	 */
+//	TODO: Add unit tests!
+	public static Vector3D transform(final Matrix44D m, final Vector3D v) {
+		return new Vector3D(m.element11 * v.x + m.element12 * v.y + m.element13 * v.z, m.element21 * v.x + m.element22 * v.y + m.element23 * v.z, m.element31 * v.x + m.element32 * v.y + m.element33 * v.z);
+	}
+	
+	/**
+	 * Transforms the {@code Vector3D} {@code v} with the {@link OrthonormalBasis33D} {@code o}.
+	 * <p>
+	 * Returns a new {@code Vector3D} instance with the result of the transformation.
+	 * <p>
+	 * If either {@code v} or {@code o} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param v a {@code Vector3D} instance
+	 * @param o an {@code OrthonormalBasis33D} instance
+	 * @return a new {@code Vector3D} instance with the result of the transformation
+	 * @throws NullPointerException thrown if, and only if, either {@code v} or {@code o} are {@code null}
+	 */
+//	TODO: Add unit tests!
+	public static Vector3D transform(final Vector3D v, final OrthonormalBasis33D o) {
+		return new Vector3D(v.x * o.u.x + v.y * o.v.x + v.z * o.w.x, v.x * o.u.y + v.y * o.v.y + v.z * o.w.y, v.x * o.u.z + v.y * o.v.z + v.z * o.w.z);
+	}
+	
+	/**
+	 * Transforms the {@code Vector3D} {@code v} with the {@link OrthonormalBasis33D} {@code o} and normalizes the result.
+	 * <p>
+	 * Returns a new {@code Vector3D} instance with the result of the transformation and normalization.
+	 * <p>
+	 * If either {@code v} or {@code o} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param v a {@code Vector3D} instance
+	 * @param o an {@code OrthonormalBasis33D} instance
+	 * @return a new {@code Vector3D} instance with the result of the transformation and normalization
+	 * @throws NullPointerException thrown if, and only if, either {@code v} or {@code o} are {@code null}
+	 */
+//	TODO: Add unit tests!
+	public static Vector3D transformNormalize(final Vector3D v, final OrthonormalBasis33D o) {
+		return normalize(transform(v, o));
+	}
+	
+	/**
+	 * Transforms the {@code Vector3D} {@code v} with the {@link OrthonormalBasis33D} {@code o} in reverse order.
+	 * <p>
+	 * Returns a new {@code Vector3D} instance with the result of the transformation.
+	 * <p>
+	 * If either {@code v} or {@code o} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param v a {@code Vector3D} instance
+	 * @param o an {@code OrthonormalBasis33D} instance
+	 * @return a new {@code Vector3D} instance with the result of the transformation
+	 * @throws NullPointerException thrown if, and only if, either {@code v} or {@code o} are {@code null}
+	 */
+//	TODO: Add unit tests!
+	public static Vector3D transformReverse(final Vector3D v, final OrthonormalBasis33D o) {
+		return new Vector3D(dotProduct(v, o.u), dotProduct(v, o.v), dotProduct(v, o.w));
+	}
+	
+	/**
+	 * Transforms the {@code Vector3D} {@code v} with the {@link OrthonormalBasis33D} {@code o} in reverse order and normalizes the result.
+	 * <p>
+	 * Returns a new {@code Vector3D} instance with the result of the transformation and normalization.
+	 * <p>
+	 * If either {@code v} or {@code o} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param v a {@code Vector3D} instance
+	 * @param o an {@code OrthonormalBasis33D} instance
+	 * @return a new {@code Vector3D} instance with the result of the transformation and normalization
+	 * @throws NullPointerException thrown if, and only if, either {@code v} or {@code o} are {@code null}
+	 */
+//	TODO: Add unit tests!
+	public static Vector3D transformReverseNormalize(final Vector3D v, final OrthonormalBasis33D o) {
+		return normalize(transformReverse(v, o));
+	}
+	
+	/**
+	 * Transforms the {@link Matrix44D} {@code m} with the {@code Vector3D} {@code v} in transpose order.
+	 * <p>
+	 * Returns a new {@code Vector3D} instance with the result of the transformation.
+	 * <p>
+	 * If either {@code m} or {@code v} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param m a {@code Matrix44D} instance
+	 * @param v a {@code Vector3D} instance
+	 * @return a new {@code Vector3D} instance with the result of the transformation
+	 * @throws NullPointerException thrown if, and only if, either {@code m} or {@code v} are {@code null}
+	 */
+//	TODO: Add unit tests!
+	public static Vector3D transformTranspose(final Matrix44D m, final Vector3D v) {
+		return new Vector3D(m.element11 * v.x + m.element21 * v.y + m.element31 * v.z, m.element12 * v.x + m.element22 * v.y + m.element32 * v.z, m.element13 * v.x + m.element23 * v.y + m.element33 * v.z);
+	}
+	
+	/**
+	 * Returns a new {@code Vector3D} instance equivalent to {@code new Vector3D(1.0D, 0.0D, 0.0D)}.
+	 * 
+	 * @return a new {@code Vector3D} instance equivalent to {@code new Vector3D(1.0D, 0.0D, 0.0D)}
+	 */
+	public static Vector3D x() {
+		return x(1.0D);
+	}
+	
+	/**
+	 * Returns a new {@code Vector3D} instance equivalent to {@code new Vector3D(x, 0.0D, 0.0D)}.
+	 * 
+	 * @param x the value of the X-component
+	 * @return a new {@code Vector3D} instance equivalent to {@code new Vector3D(x, 0.0D, 0.0D)}
+	 */
+	public static Vector3D x(final double x) {
+		return new Vector3D(x, 0.0D, 0.0D);
+	}
+	
+	/**
+	 * Returns a new {@code Vector3D} instance equivalent to {@code new Vector3D(0.0D, 1.0D, 0.0D)}.
+	 * 
+	 * @return a new {@code Vector3D} instance equivalent to {@code new Vector3D(0.0D, 1.0D, 0.0D)}
+	 */
+	public static Vector3D y() {
+		return y(1.0D);
+	}
+	
+	/**
+	 * Returns a new {@code Vector3D} instance equivalent to {@code new Vector3D(0.0D, y, 0.0D)}.
+	 * 
+	 * @param y the value of the Y-component
+	 * @return a new {@code Vector3D} instance equivalent to {@code new Vector3D(0.0D, y, 0.0D)}
+	 */
+	public static Vector3D y(final double y) {
+		return new Vector3D(0.0D, y, 0.0D);
+	}
+	
+	/**
+	 * Returns a new {@code Vector3D} instance equivalent to {@code new Vector3D(0.0D, 0.0D, 1.0D)}.
+	 * 
+	 * @return a new {@code Vector3D} instance equivalent to {@code new Vector3D(0.0D, 0.0D, 1.0D)}
+	 */
+	public static Vector3D z() {
+		return z(1.0D);
+	}
+	
+	/**
+	 * Returns a new {@code Vector3D} instance equivalent to {@code new Vector3D(0.0D, 0.0D, z)}.
+	 * 
+	 * @param z the value of the Z-component
+	 * @return a new {@code Vector3D} instance equivalent to {@code new Vector3D(0.0D, 0.0D, z)}
+	 */
+	public static Vector3D z(final double z) {
+		return new Vector3D(0.0D, 0.0D, z);
+	}
+	
+	/**
+	 * Returns {@code true} if, and only if, {@code vLHS} and {@code vRHS} are orthogonal, {@code false} otherwise.
+	 * <p>
+	 * If either {@code vLHS} or {@code vRHS} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param vLHS the {@code Vector3D} instance on the left-hand side
+	 * @param vRHS the {@code Vector3D} instance on the right-hand side
+	 * @return {@code true} if, and only if, {@code vLHS} and {@code vRHS} are orthogonal, {@code false} otherwise
+	 * @throws NullPointerException thrown if, and only if, either {@code vLHS} or {@code vRHS} are {@code null}
+	 */
+//	TODO: Add unit tests!
+	public static boolean orthogonal(final Vector3D vLHS, final Vector3D vRHS) {
+		final double dotProduct = dotProduct(vLHS, vRHS);
+		
+		final boolean isDotProductGTEThreshold = dotProduct >= 0.0D - 0.000001D;
+		final boolean isDotProductLTEThreshold = dotProduct <= 0.0D + 0.000001D;
+		
+		return isDotProductGTEThreshold && isDotProductLTEThreshold;
+	}
+	
+	/**
+	 * Returns {@code true} if, and only if, {@code vLHS} and {@code vRHS} are in the same hemisphere, {@code false} otherwise.
+	 * <p>
+	 * If either {@code vLHS} or {@code vRHS} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param vLHS the {@code Vector3D} instance on the left-hand side
+	 * @param vRHS the {@code Vector3D} instance on the right-hand side
+	 * @return {@code true} if, and only if, {@code vLHS} and {@code vRHS} are in the same hemisphere, {@code false} otherwise
+	 * @throws NullPointerException thrown if, and only if, either {@code vLHS} or {@code vRHS} are {@code null}
+	 */
+//	TODO: Add unit tests!
+	public static boolean sameHemisphere(final Vector3D vLHS, final Vector3D vRHS) {
+		return dotProduct(vLHS, vRHS) > 0.0D;
+	}
+	
+	/**
+	 * Returns {@code true} if, and only if, {@code vLHS} and {@code vRHS} are in the same hemisphere, {@code false} otherwise.
+	 * <p>
+	 * If either {@code vLHS} or {@code vRHS} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * This method only operates on the Z-component.
+	 * 
+	 * @param vLHS the {@code Vector3D} instance on the left-hand side
+	 * @param vRHS the {@code Vector3D} instance on the right-hand side
+	 * @return {@code true} if, and only if, {@code vLHS} and {@code vRHS} are in the same hemisphere, {@code false} otherwise
+	 * @throws NullPointerException thrown if, and only if, either {@code vLHS} or {@code vRHS} are {@code null}
+	 */
+	public static boolean sameHemisphereZ(final Vector3D vLHS, final Vector3D vRHS) {
+		return vLHS.z * vRHS.z > 0.0D;
+	}
+	
+	/**
+	 * Returns the dot product of {@code vLHS} and {@code vRHS}.
+	 * <p>
+	 * If either {@code vLHS} or {@code vRHS} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param vLHS the {@code Vector3D} instance on the left-hand side
+	 * @param vRHS the {@code Vector3D} instance on the right-hand side
+	 * @return the dot product of {@code vLHS} and {@code vRHS}
+	 * @throws NullPointerException thrown if, and only if, either {@code vLHS} or {@code vRHS} are {@code null}
+	 */
+	public static double dotProduct(final Vector3D vLHS, final Vector3D vRHS) {
+		return vLHS.x * vRHS.x + vLHS.y * vRHS.y + vLHS.z * vRHS.z;
+	}
+	
+	/**
+	 * Returns the absolute dot product of {@code vLHS} and {@code vRHS}.
+	 * <p>
+	 * If either {@code vLHS} or {@code vRHS} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param vLHS the {@code Vector3D} instance on the left-hand side
+	 * @param vRHS the {@code Vector3D} instance on the right-hand side
+	 * @return the absolute dot product of {@code vLHS} and {@code vRHS}
+	 * @throws NullPointerException thrown if, and only if, either {@code vLHS} or {@code vRHS} are {@code null}
+	 */
+	public static double dotProductAbs(final Vector3D vLHS, final Vector3D vRHS) {
+		return Doubles.abs(dotProduct(vLHS, vRHS));
+	}
+	
+	/**
+	 * Returns the triple product of {@code vLHSDP}, {@code vLHSCP} and {@code vRHSCP}.
+	 * <p>
+	 * If either {@code vLHSDP}, {@code vLHSCP} or {@code vRHSCP} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Vector3D.dotProduct(vLHSDP, Vector3D.crossProduct(vLHSCP, vRHSCP));
+	 * }
+	 * </pre>
+	 * 
+	 * @param vLHSDP the {@code Vector3D} instance on the left-hand side of the dot product
+	 * @param vLHSCP the {@code Vector3D} instance on the left-hand side of the cross product
+	 * @param vRHSCP the {@code Vector3D} instance on the right-hand side of the cross product
+	 * @return the triple product of {@code vLHSDP}, {@code vLHSCP} and {@code vRHSCP}
+	 * @throws NullPointerException thrown if, and only if, either {@code vLHSDP}, {@code vLHSCP} or {@code vRHSCP} are {@code null}
+	 */
+//	TODO: Add unit tests!
+	public static double tripleProduct(final Vector3D vLHSDP, final Vector3D vLHSCP, final Vector3D vRHSCP) {
+		return dotProduct(vLHSDP, crossProduct(vLHSCP, vRHSCP));
+	}
+}
