@@ -895,6 +895,27 @@ public final class Vector3D {
 	}
 	
 	/**
+	 * Samples a direction on a cone with a uniform distribution.
+	 * <p>
+	 * Returns a {@code Vector3D} instance with the sampled direction.
+	 * <p>
+	 * If {@code p} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param p a {@link Point2D} instance with components in the interval [0.0, 1.0]
+	 * @param cosThetaMax the maximum cos theta value
+	 * @return a {@code Vector3D} instance with the sampled direction
+	 * @throws NullPointerException thrown if, and only if, {@code p} is {@code null}
+	 */
+//	TODO: Add unit tests!
+	public static Vector3D sampleConeUniformDistribution(final Point2D p, final double cosThetaMax) {
+		final double cosTheta = (1.0D - p.x) + p.x * cosThetaMax;
+		final double sinTheta = Doubles.sqrt(1.0D - cosTheta * cosTheta);
+		final double phi = Doubles.PI_MULTIPLIED_BY_2 * p.y;
+		
+		return directionSpherical(sinTheta, cosTheta, phi);
+	}
+	
+	/**
 	 * Samples a direction on a hemisphere with a cosine distribution.
 	 * <p>
 	 * Returns a {@code Vector3D} instance with the sampled direction.
@@ -989,7 +1010,85 @@ public final class Vector3D {
 	public static Vector3D sampleHemispherePowerCosineDistribution(final Point2D p, final double exponent) {
 		final double cosTheta = Doubles.pow(1.0D - p.y, 1.0D / (exponent + 1.0D));
 		final double sinTheta = Doubles.sqrt(Doubles.max(0.0D, 1.0D - cosTheta * cosTheta));
-		final double phi = 2.0D * Doubles.PI * p.x;
+		final double phi = Doubles.PI_MULTIPLIED_BY_2 * p.x;
+		
+		return directionSpherical(sinTheta, cosTheta, phi);
+	}
+	
+	/**
+	 * Samples a direction on a hemisphere with a uniform distribution.
+	 * <p>
+	 * Returns a {@code Vector3D} instance with the sampled direction.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Vector3D.sampleHemisphereUniformDistribution(Point2D.sampleRandom());
+	 * }
+	 * </pre>
+	 * 
+	 * @return a {@code Vector3D} instance with the sampled direction
+	 */
+//	TODO: Add unit tests!
+	public static Vector3D sampleHemisphereUniformDistribution() {
+		return sampleHemisphereUniformDistribution(Point2D.sampleRandom());
+	}
+	
+	/**
+	 * Samples a direction on a hemisphere with a uniform distribution.
+	 * <p>
+	 * Returns a {@code Vector3D} instance with the sampled direction.
+	 * <p>
+	 * If {@code p} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param p a {@link Point2D} instance with components in the interval [0.0, 1.0]
+	 * @return a {@code Vector3D} instance with the sampled direction
+	 * @throws NullPointerException thrown if, and only if, {@code p} is {@code null}
+	 */
+//	TODO: Add unit tests!
+	public static Vector3D sampleHemisphereUniformDistribution(final Point2D p) {
+		final double cosTheta = p.x;
+		final double sinTheta = Doubles.sqrt(Doubles.max(0.0D, 1.0D - cosTheta * cosTheta));
+		final double phi = Doubles.PI_MULTIPLIED_BY_2 * p.y;
+		
+		return directionSpherical(sinTheta, cosTheta, phi);
+	}
+	
+	/**
+	 * Samples a direction on a sphere with a uniform distribution.
+	 * <p>
+	 * Returns a {@code Vector3D} instance with the sampled direction.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Vector3D.sampleSphereUniformDistribution(Point2D.sampleRandom());
+	 * }
+	 * </pre>
+	 * 
+	 * @return a {@code Vector3D} instance with the sampled direction
+	 */
+//	TODO: Add unit tests!
+	public static Vector3D sampleSphereUniformDistribution() {
+		return sampleSphereUniformDistribution(Point2D.sampleRandom());
+	}
+	
+	/**
+	 * Samples a direction on a sphere with a uniform distribution.
+	 * <p>
+	 * Returns a {@code Vector3D} instance with the sampled direction.
+	 * <p>
+	 * If {@code p} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param p a {@link Point2D} instance with components in the interval [0.0, 1.0]
+	 * @return a {@code Vector3D} instance with the sampled direction
+	 * @throws NullPointerException thrown if, and only if, {@code p} is {@code null}
+	 */
+//	TODO: Add unit tests!
+	public static Vector3D sampleSphereUniformDistribution(final Point2D p) {
+		final double cosTheta = 1.0D - 2.0D * p.x;
+		final double sinTheta = Doubles.sqrt(Doubles.max(0.0D, 1.0D - cosTheta * cosTheta));
+		final double phi = Doubles.PI_MULTIPLIED_BY_2 * p.y;
 		
 		return directionSpherical(sinTheta, cosTheta, phi);
 	}
