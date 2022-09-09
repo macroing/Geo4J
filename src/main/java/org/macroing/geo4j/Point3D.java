@@ -199,6 +199,47 @@ public final class Point3D {
 		return new Point3D(Doubles.min(a.x, b.x), Doubles.min(a.y, b.y), Doubles.min(a.z, b.z));
 	}
 	
+	/**
+	 * Samples a point on a triangle with a uniform distribution.
+	 * <p>
+	 * Returns a {@link Point3D} instance with the sampled point.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Point3D.sampleTriangleUniformDistribution(Point2D.sampleRandom());
+	 * }
+	 * </pre>
+	 * 
+	 * @return a {@code Point3D} instance with the sampled point
+	 */
+//	TODO: Add unit tests!
+	public static Point3D sampleTriangleUniformDistribution() {
+		return sampleTriangleUniformDistribution(Point2D.sampleRandom());
+	}
+	
+	/**
+	 * Samples a point on a triangle with a uniform distribution.
+	 * <p>
+	 * Returns a {@link Point3D} instance with the sampled point.
+	 * <p>
+	 * If {@code p} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param p a {@code Point2D} instance with components in the interval [0.0, 1.0]
+	 * @return a {@code Point3D} instance with the sampled point
+	 * @throws NullPointerException thrown if, and only if, {@code p} is {@code null}
+	 */
+//	TODO: Add unit tests!
+	public static Point3D sampleTriangleUniformDistribution(final Point2D p) {
+		final double a = Doubles.sqrt(p.x);
+		
+		final double x = 1.0D - a;
+		final double y = p.y * a;
+		final double z = 1.0D - x - y;
+		
+		return new Point3D(x, y, z);
+	}
+	
 //	TODO: Add Javadocs!
 	public static Point3D transform(final Matrix44D mLHS, final Point3D pRHS) {
 		final double x = mLHS.element11 * pRHS.x + mLHS.element12 * pRHS.y + mLHS.element13 * pRHS.z + mLHS.element14;

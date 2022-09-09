@@ -180,6 +180,44 @@ public final class Point2D {
 	}
 	
 	/**
+	 * Samples a point on a disk with a uniform distribution.
+	 * <p>
+	 * Returns a {@code Point2D} instance with the sampled point.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Point2D.sampleDiskUniformDistribution(Point2D.sampleRandom());
+	 * }
+	 * </pre>
+	 * 
+	 * @return a {@code Point2D} instance with the sampled point
+	 */
+//	TODO: Add unit tests!
+	public static Point2D sampleDiskUniformDistribution() {
+		return sampleDiskUniformDistribution(sampleRandom());
+	}
+	
+	/**
+	 * Samples a point on a disk with a uniform distribution.
+	 * <p>
+	 * Returns a {@code Point2D} instance with the sampled point.
+	 * <p>
+	 * If {@code p} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param p a {@code Point2D} instance with components in the interval [0.0, 1.0]
+	 * @return a {@code Point2D} instance with the sampled point
+	 * @throws NullPointerException thrown if, and only if, {@code p} is {@code null}
+	 */
+//	TODO: Add unit tests!
+	public static Point2D sampleDiskUniformDistribution(final Point2D p) {
+		final double r = Doubles.sqrt(p.x);
+		final double theta = Doubles.PI_MULTIPLIED_BY_2 * p.y;
+		
+		return new Point2D(r * Doubles.cos(theta), r * Doubles.sin(theta));
+	}
+	
+	/**
 	 * Samples a point on a disk with a uniform distribution using concentric mapping.
 	 * <p>
 	 * Returns a {@code Point2D} instance with the sampled point.

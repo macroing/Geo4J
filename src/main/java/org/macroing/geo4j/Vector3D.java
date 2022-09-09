@@ -24,6 +24,8 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.lang.reflect.Field;//TODO: Add Javadocs!
 import java.lang.reflect.Field;//TODO: Add unit tests!
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -39,6 +41,22 @@ import org.macroing.java.lang.Strings;
  * @author J&#246;rgen Lundgren
  */
 public final class Vector3D {
+	/**
+	 * A {@code Vector3D} instance given the component values {@code Doubles.NaN}, {@code Doubles.NaN} and {@code Doubles.NaN}.
+	 */
+	public static final Vector3D NaN = new Vector3D(Doubles.NaN, Doubles.NaN, Doubles.NaN);
+	
+	/**
+	 * A {@code Vector3D} instance given the component values {@code 0.0D}, {@code 0.0D} and {@code 0.0D}.
+	 */
+	public static final Vector3D ZERO = new Vector3D(0.0D, 0.0D, 0.0D);
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	private static final Map<Vector3D, Vector3D> CACHE = new HashMap<>();
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	/**
 	 * The X-component of this {@code Vector3D} instance.
 	 */
@@ -88,6 +106,23 @@ public final class Vector3D {
 	 */
 	public Vector3D(final Point3D p) {
 		this(p.x, p.y, p.z);
+	}
+	
+	/**
+	 * Constructs a new {@code Vector3D} instance given the component values {@code component}, {@code component} and {@code component}.
+	 * <p>
+	 * Calling this constructor is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * new Vector3D(component, component, component);
+	 * }
+	 * </pre>
+	 * 
+	 * @param component the value of all components
+	 */
+//	TODO: Add unit tests!
+	public Vector3D(final double component) {
+		this(component, component, component);
 	}
 	
 	/**
@@ -156,6 +191,24 @@ public final class Vector3D {
 		} else {
 			return true;
 		}
+	}
+	
+//	TODO: Add Javadocs!
+//	TODO: Add unit tests!
+	public boolean hasInfinites() {
+		return Doubles.isInfinite(this.x) || Doubles.isInfinite(this.y) || Doubles.isInfinite(this.z);
+	}
+	
+//	TODO: Add Javadocs!
+//	TODO: Add unit tests!
+	public boolean hasNaNs() {
+		return Doubles.isNaN(this.x) || Doubles.isNaN(this.y) || Doubles.isNaN(this.z);
+	}
+	
+//	TODO: Add Javadocs!
+//	TODO: Add unit tests!
+	public boolean isFinite() {
+		return !hasInfinites() && !hasNaNs();
 	}
 	
 	/**
@@ -646,6 +699,25 @@ public final class Vector3D {
 	}
 	
 	/**
+	 * Returns a {@code Vector3D} instance that is pointing in the direction of the spherical coordinates {@code sinTheta}, {@code cosTheta} and {@code phi} and is transformed with the coordinate system defined by {@code x}, {@code y} and {@code z}.
+	 * <p>
+	 * If either {@code x}, {@code y} or {@code z} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param sinTheta the sine of the angle theta
+	 * @param cosTheta the cosine of the angle theta
+	 * @param phi the angle phi
+	 * @param x the X-direction of the coordinate system
+	 * @param y the Y-direction of the coordinate system
+	 * @param z the Z-direction of the coordinate system
+	 * @return a {@code Vector3D} instance that is pointing in the direction of the spherical coordinates {@code sinTheta}, {@code cosTheta} and {@code phi} and is transformed with the coordinate system defined by {@code x}, {@code y} and {@code z}
+	 * @throws NullPointerException thrown if, and only if, either {@code x}, {@code y} or {@code z} are {@code null}
+	 */
+//	TODO: Add unit tests!
+	public static Vector3D directionSpherical(final double sinTheta, final double cosTheta, final double phi, final Vector3D x, final Vector3D y, final Vector3D z) {
+		return add(multiply(x, sinTheta * Doubles.cos(phi)), multiply(y, sinTheta * Doubles.sin(phi)), multiply(z, cosTheta));
+	}
+	
+	/**
 	 * Returns a {@code Vector3D} instance that is pointing in the direction of the spherical coordinates {@code sinTheta}, {@code cosTheta} and {@code phi} and is normalized.
 	 * 
 	 * @param sinTheta the sine of the angle theta
@@ -656,6 +728,25 @@ public final class Vector3D {
 //	TODO: Add unit tests!
 	public static Vector3D directionSphericalNormalized(final double sinTheta, final double cosTheta, final double phi) {
 		return normalize(directionSpherical(sinTheta, cosTheta, phi));
+	}
+	
+	/**
+	 * Returns a {@code Vector3D} instance that is pointing in the direction of the spherical coordinates {@code sinTheta}, {@code cosTheta} and {@code phi}, is transformed with the coordinate system defined by {@code x}, {@code y} and {@code z} and is normalized.
+	 * <p>
+	 * If either {@code x}, {@code y} or {@code z} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param sinTheta the sine of the angle theta
+	 * @param cosTheta the cosine of the angle theta
+	 * @param phi the angle phi
+	 * @param x the X-direction of the coordinate system
+	 * @param y the Y-direction of the coordinate system
+	 * @param z the Z-direction of the coordinate system
+	 * @return a {@code Vector3D} instance that is pointing in the direction of the spherical coordinates {@code sinTheta}, {@code cosTheta} and {@code phi}, is transformed with the coordinate system defined by {@code x}, {@code y} and {@code z} and is normalized
+	 * @throws NullPointerException thrown if, and only if, either {@code x}, {@code y} or {@code z} are {@code null}
+	 */
+//	TODO: Add unit tests!
+	public static Vector3D directionSphericalNormalized(final double sinTheta, final double cosTheta, final double phi, final Vector3D x, final Vector3D y, final Vector3D z) {
+		return normalize(directionSpherical(sinTheta, cosTheta, phi, x, y, z));
 	}
 	
 	/**
@@ -677,6 +768,20 @@ public final class Vector3D {
 	}
 	
 	/**
+	 * Returns a cached version of {@code v}.
+	 * <p>
+	 * If {@code v} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param v a {@code Vector3D} instance
+	 * @return a cached version of {@code v}
+	 * @throws NullPointerException thrown if, and only if, {@code v} is {@code null}
+	 */
+//	TODO: Add unit tests!
+	public static Vector3D getCached(final Vector3D v) {
+		return CACHE.computeIfAbsent(Objects.requireNonNull(v, "v == null"), key -> v);
+	}
+	
+	/**
 	 * Returns a {@code Vector3D} instance that contains the Hadamard product of {@code vLHS} and {@code vRHS}.
 	 * <p>
 	 * If either {@code vLHS} or {@code vRHS} are {@code null}, a {@code NullPointerException} will be thrown.
@@ -688,6 +793,24 @@ public final class Vector3D {
 	 */
 	public static Vector3D hadamardProduct(final Vector3D vLHS, final Vector3D vRHS) {
 		return new Vector3D(vLHS.x * vRHS.x, vLHS.y * vRHS.y, vLHS.z * vRHS.z);
+	}
+	
+	/**
+	 * Performs a linear interpolation operation on the supplied values.
+	 * <p>
+	 * Returns a {@code Vector3D} instance with the result of the linear interpolation operation.
+	 * <p>
+	 * If either {@code a} or {@code b} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param a a {@code Vector3D} instance
+	 * @param b a {@code Vector3D} instance
+	 * @param t the factor
+	 * @return a {@code Vector3D} instance with the result of the linear interpolation operation
+	 * @throws NullPointerException thrown if, and only if, either {@code a} or {@code b} are {@code null}
+	 */
+//	TODO: Add unit tests!
+	public static Vector3D lerp(final Vector3D a, final Vector3D b, final double t) {
+		return new Vector3D(Doubles.lerp(a.x, b.x, t), Doubles.lerp(a.y, b.y, t), Doubles.lerp(a.z, b.z, t));
 	}
 	
 	/**
@@ -721,6 +844,38 @@ public final class Vector3D {
 	 */
 	public static Vector3D negate(final Vector3D v) {
 		return new Vector3D(-v.x, -v.y, -v.z);
+	}
+	
+	/**
+	 * Negates the X-component of {@code v}.
+	 * <p>
+	 * Returns a {@code Vector3D} instance with the result of the negation.
+	 * <p>
+	 * If {@code v} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param v a {@code Vector3D} instance
+	 * @return a {@code Vector3D} instance with the result of the negation
+	 * @throws NullPointerException thrown if, and only if, {@code v} is {@code null}
+	 */
+//	TODO: Add unit tests!
+	public static Vector3D negateX(final Vector3D v) {
+		return new Vector3D(-v.x, v.y, v.z);
+	}
+	
+	/**
+	 * Negates the Y-component of {@code v}.
+	 * <p>
+	 * Returns a {@code Vector3D} instance with the result of the negation.
+	 * <p>
+	 * If {@code v} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param v a {@code Vector3D} instance
+	 * @return a {@code Vector3D} instance with the result of the negation
+	 * @throws NullPointerException thrown if, and only if, {@code v} is {@code null}
+	 */
+//	TODO: Add unit tests!
+	public static Vector3D negateY(final Vector3D v) {
+		return new Vector3D(v.x, -v.y, v.z);
 	}
 	
 	/**
@@ -1322,6 +1477,19 @@ public final class Vector3D {
 	}
 	
 	/**
+	 * Returns the probability density function (PDF) value for {@code cosThetaMax}.
+	 * <p>
+	 * This method is used together with {@link #sampleConeUniformDistribution(Point2D, double)}.
+	 * 
+	 * @param cosThetaMax the maximum cos theta value
+	 * @return the probability density function (PDF) value for {@code cosThetaMax}
+	 */
+//	TODO: Add unit tests!
+	public static double coneUniformDistributionPDF(final double cosThetaMax) {
+		return 1.0D / (Doubles.PI_MULTIPLIED_BY_2 * (1.0D - cosThetaMax));
+	}
+	
+	/**
 	 * Returns the dot product of {@code vLHS} and {@code vRHS}.
 	 * <p>
 	 * If either {@code vLHS} or {@code vRHS} are {@code null}, a {@code NullPointerException} will be thrown.
@@ -1350,6 +1518,43 @@ public final class Vector3D {
 	}
 	
 	/**
+	 * Returns the probability density function (PDF) value for {@code cosTheta}.
+	 * <p>
+	 * This method is used together with {@link #sampleHemisphereCosineDistribution(Point2D)}.
+	 * 
+	 * @param cosTheta the cos theta value
+	 * @return the probability density function (PDF) value for {@code cosTheta}
+	 */
+//	TODO: Add unit tests!
+	public static double hemisphereCosineDistributionPDF(final double cosTheta) {
+		return cosTheta * Doubles.PI_RECIPROCAL;
+	}
+	
+	/**
+	 * Returns the probability density function (PDF) value.
+	 * <p>
+	 * This method is used together with {@link #sampleHemisphereUniformDistribution(double, double)}.
+	 * 
+	 * @return the probability density function (PDF) value
+	 */
+//	TODO: Add unit tests!
+	public static double hemisphereUniformDistributionPDF() {
+		return Doubles.PI_MULTIPLIED_BY_2_RECIPROCAL;
+	}
+	
+	/**
+	 * Returns the probability density function (PDF) value.
+	 * <p>
+	 * This method is used together with {@link #sampleSphereUniformDistribution(Point2D)}.
+	 * 
+	 * @return the probability density function (PDF) value
+	 */
+//	TODO: Add unit tests!
+	public static double sphereUniformDistributionPDF() {
+		return Doubles.PI_MULTIPLIED_BY_4_RECIPROCAL;
+	}
+	
+	/**
 	 * Returns the triple product of {@code vLHSDP}, {@code vLHSCP} and {@code vRHSCP}.
 	 * <p>
 	 * If either {@code vLHSDP}, {@code vLHSCP} or {@code vRHSCP} are {@code null}, a {@code NullPointerException} will be thrown.
@@ -1370,5 +1575,23 @@ public final class Vector3D {
 //	TODO: Add unit tests!
 	public static double tripleProduct(final Vector3D vLHSDP, final Vector3D vLHSCP, final Vector3D vRHSCP) {
 		return dotProduct(vLHSDP, crossProduct(vLHSCP, vRHSCP));
+	}
+	
+	/**
+	 * Returns the size of the cache.
+	 * 
+	 * @return the size of the cache
+	 */
+//	TODO: Add unit tests!
+	public static int getCacheSize() {
+		return CACHE.size();
+	}
+	
+	/**
+	 * Clears the cache.
+	 */
+//	TODO: Add unit tests!
+	public static void clearCache() {
+		CACHE.clear();
 	}
 }
