@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with org.macroing.geo4j. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.macroing.geo4j;
+package org.macroing.geo4j.vector;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -35,6 +35,8 @@ import java.io.UncheckedIOException;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
+import org.macroing.geo4j.mock.DataOutputMock;
+import org.macroing.geo4j.point.Point3D;
 
 @SuppressWarnings("static-method")
 public final class Vector3DUnitTests {

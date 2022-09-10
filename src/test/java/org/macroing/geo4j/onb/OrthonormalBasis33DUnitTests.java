@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with org.macroing.geo4j. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.macroing.geo4j;
+package org.macroing.geo4j.onb;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -25,6 +25,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
+import org.macroing.geo4j.matrix.Matrix44D;
+import org.macroing.geo4j.onb.OrthonormalBasis33D;
+import org.macroing.geo4j.quaternion.Quaternion4D;
+import org.macroing.geo4j.vector.Vector3D;
 
 @SuppressWarnings("static-method")
 public final class OrthonormalBasis33DUnitTests {

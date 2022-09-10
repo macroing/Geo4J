@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with org.macroing.geo4j. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.macroing.geo4j;
+package org.macroing.geo4j.vector;
 
 import java.io.DataInput;
 import java.io.DataOutput;
@@ -29,6 +29,10 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.macroing.geo4j.matrix.Matrix44D;
+import org.macroing.geo4j.onb.OrthonormalBasis33D;
+import org.macroing.geo4j.point.Point2D;
+import org.macroing.geo4j.point.Point3D;
 import org.macroing.java.lang.Doubles;
 import org.macroing.java.lang.Strings;
 

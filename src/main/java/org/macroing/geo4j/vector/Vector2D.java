@@ -16,11 +16,13 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with org.macroing.geo4j. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.macroing.geo4j;
+package org.macroing.geo4j.vector;
 
 import java.lang.reflect.Field;//TODO: Add Javadocs!
 import java.util.Objects;
 
+import org.macroing.geo4j.point.Point2D;
+import org.macroing.geo4j.point.Point3D;
 import org.macroing.java.lang.Doubles;
 import org.macroing.java.lang.Strings;
 

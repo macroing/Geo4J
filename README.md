@@ -30,9 +30,15 @@ Library
 -------
 The following table describes the different APIs and their current status in the library.
 
-| Name               | Javadoc | Unit Test | Package            |
-| ------------------ | ------- | --------- | ------------------ |
-| Geometry API       | N/A     | 88.8%     | org.macroing.geo4j |
+| Name                  | Javadoc | Unit Test | Package                       |
+| --------------------- | ------- | --------- | ----------------------------- |
+| Geo4J                 | N/A     |  88.8%    |                               |
+| Matrix API            | N/A     | 100.0%    | org.macroing.geo4j.matrix     |
+| Orthonormal Basis API | N/A     | 100.0%    | org.macroing.geo4j.onb        |
+| Point API             | N/A     |  93.9%    | org.macroing.geo4j.point      |
+| Quaternion API        | N/A     |  81.4%    | org.macroing.geo4j.quaternion |
+| Ray API               | N/A     |  90.9%    | org.macroing.geo4j.ray        |
+| Vector API            | N/A     |  74.8%    | org.macroing.geo4j.vector     |
 
 Dependencies
 ------------
