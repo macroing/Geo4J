@@ -84,7 +84,6 @@ public final class Vector3D {
 	 * }
 	 * </pre>
 	 */
-//	TODO: Add unit tests!
 	public Vector3D() {
 		this(0.0D, 0.0D, 0.0D);
 	}
@@ -120,7 +119,6 @@ public final class Vector3D {
 	 * 
 	 * @param component the value of all components
 	 */
-//	TODO: Add unit tests!
 	public Vector3D(final double component) {
 		this(component, component, component);
 	}
@@ -193,20 +191,29 @@ public final class Vector3D {
 		}
 	}
 	
-//	TODO: Add Javadocs!
-//	TODO: Add unit tests!
+	/**
+	 * Returns {@code true} if, and only if, this {@code Vector3D} instance has at least one component with a value that is infinite, {@code false} otherwise.
+	 * 
+	 * @return {@code true} if, and only if, this {@code Vector3D} instance has at least one component with a value that is infinite, {@code false} otherwise
+	 */
 	public boolean hasInfinites() {
 		return Doubles.isInfinite(this.x) || Doubles.isInfinite(this.y) || Doubles.isInfinite(this.z);
 	}
 	
-//	TODO: Add Javadocs!
-//	TODO: Add unit tests!
+	/**
+	 * Returns {@code true} if, and only if, this {@code Vector3D} instance has at least one component with a value that is NaN (Not a Number), {@code false} otherwise.
+	 * 
+	 * @return {@code true} if, and only if, this {@code Vector3D} instance has at least one component with a value that is NaN (Not a Number), {@code false} otherwise
+	 */
 	public boolean hasNaNs() {
 		return Doubles.isNaN(this.x) || Doubles.isNaN(this.y) || Doubles.isNaN(this.z);
 	}
 	
-//	TODO: Add Javadocs!
-//	TODO: Add unit tests!
+	/**
+	 * Returns {@code true} if, and only if, all components in this {@code Vector3D} instance have values that are finite, {@code false} otherwise.
+	 * 
+	 * @return {@code true} if, and only if, all components in this {@code Vector3D} instance have values that are finite, {@code false} otherwise
+	 */
 	public boolean isFinite() {
 		return !hasInfinites() && !hasNaNs();
 	}
@@ -216,7 +223,6 @@ public final class Vector3D {
 	 * 
 	 * @return {@code true} if, and only if, this {@code Vector3D} instance is a unit vector, {@code false} otherwise
 	 */
-//	TODO: Add unit tests!
 	public boolean isUnitVector() {
 		final double length = length();
 		
@@ -226,7 +232,11 @@ public final class Vector3D {
 		return isLengthGTEThreshold && isLengthLTEThreshold;
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns {@code true} if, and only if, all components in this {@code Vector3D} instance have values that are zero, {@code false} otherwise.
+	 * 
+	 * @return {@code true} if, and only if, all components in this {@code Vector3D} instance have values that are zero, {@code false} otherwise
+	 */
 	public boolean isZero() {
 		return Doubles.isZero(this.x) && Doubles.isZero(this.y) && Doubles.isZero(this.z);  
 	}
@@ -504,7 +514,6 @@ public final class Vector3D {
 	 * 
 	 * @return a {@code double[]} representation of this {@code Vector3D} instance
 	 */
-//	TODO: Add Unit Tests!
 	public double[] toArray() {
 		return new double[] {this.x, this.y, this.z};
 	}
@@ -530,7 +539,6 @@ public final class Vector3D {
 	 * @throws NullPointerException thrown if, and only if, {@code dataOutput} is {@code null}
 	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
 	 */
-//	TODO: Add Unit Tests!
 	public void write(final DataOutput dataOutput) {
 		try {
 			dataOutput.writeDouble(this.x);
@@ -543,7 +551,17 @@ public final class Vector3D {
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns an optional {@code Vector3D} instance that represents the refraction of {@code direction} with regards to {@code normal}.
+	 * <p>
+	 * If either {@code direction} or {@code normal} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param direction the {@code Vector3D} instance that will be refracted with regards to {@code normal}
+	 * @param normal the {@code Vector3D} instance that represents the normal of the surface
+	 * @param eta the index of refraction
+	 * @return an optional {@code Vector3D} instance that represents the refraction of {@code direction} with regards to {@code normal}
+	 * @throws NullPointerException thrown if, and only if, either {@code direction} or {@code normal} are {@code null}
+	 */
 	public static Optional<Vector3D> refraction(final Vector3D direction, final Vector3D normal, final double eta) {
 		final double cosThetaI = dotProduct(direction, normal);
 		final double sinThetaISquared = Doubles.max(0.0D, 1.0D - cosThetaI * cosThetaI);
@@ -776,7 +794,6 @@ public final class Vector3D {
 	 * @return a cached version of {@code v}
 	 * @throws NullPointerException thrown if, and only if, {@code v} is {@code null}
 	 */
-//	TODO: Add unit tests!
 	public static Vector3D getCached(final Vector3D v) {
 		return CACHE.computeIfAbsent(Objects.requireNonNull(v, "v == null"), key -> v);
 	}
@@ -808,7 +825,6 @@ public final class Vector3D {
 	 * @return a {@code Vector3D} instance with the result of the linear interpolation operation
 	 * @throws NullPointerException thrown if, and only if, either {@code a} or {@code b} are {@code null}
 	 */
-//	TODO: Add unit tests!
 	public static Vector3D lerp(final Vector3D a, final Vector3D b, final double t) {
 		return new Vector3D(Doubles.lerp(a.x, b.x, t), Doubles.lerp(a.y, b.y, t), Doubles.lerp(a.z, b.z, t));
 	}
@@ -857,7 +873,6 @@ public final class Vector3D {
 	 * @return a {@code Vector3D} instance with the result of the negation
 	 * @throws NullPointerException thrown if, and only if, {@code v} is {@code null}
 	 */
-//	TODO: Add unit tests!
 	public static Vector3D negateX(final Vector3D v) {
 		return new Vector3D(-v.x, v.y, v.z);
 	}
@@ -873,7 +888,6 @@ public final class Vector3D {
 	 * @return a {@code Vector3D} instance with the result of the negation
 	 * @throws NullPointerException thrown if, and only if, {@code v} is {@code null}
 	 */
-//	TODO: Add unit tests!
 	public static Vector3D negateY(final Vector3D v) {
 		return new Vector3D(v.x, -v.y, v.z);
 	}
@@ -985,7 +999,6 @@ public final class Vector3D {
 	 * @throws NullPointerException thrown if, and only if, {@code dataInput} is {@code null}
 	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
 	 */
-//	TODO: Add unit tests!
 	public static Vector3D read(final DataInput dataInput) {
 		try {
 			return new Vector3D(dataInput.readDouble(), dataInput.readDouble(), dataInput.readDouble());
@@ -1435,7 +1448,6 @@ public final class Vector3D {
 	 * @return {@code true} if, and only if, {@code vLHS} and {@code vRHS} are orthogonal, {@code false} otherwise
 	 * @throws NullPointerException thrown if, and only if, either {@code vLHS} or {@code vRHS} are {@code null}
 	 */
-//	TODO: Add unit tests!
 	public static boolean orthogonal(final Vector3D vLHS, final Vector3D vRHS) {
 		final double dotProduct = dotProduct(vLHS, vRHS);
 		
@@ -1455,7 +1467,6 @@ public final class Vector3D {
 	 * @return {@code true} if, and only if, {@code vLHS} and {@code vRHS} are in the same hemisphere, {@code false} otherwise
 	 * @throws NullPointerException thrown if, and only if, either {@code vLHS} or {@code vRHS} are {@code null}
 	 */
-//	TODO: Add unit tests!
 	public static boolean sameHemisphere(final Vector3D vLHS, final Vector3D vRHS) {
 		return dotProduct(vLHS, vRHS) > 0.0D;
 	}
@@ -1533,7 +1544,7 @@ public final class Vector3D {
 	/**
 	 * Returns the probability density function (PDF) value.
 	 * <p>
-	 * This method is used together with {@link #sampleHemisphereUniformDistribution(double, double)}.
+	 * This method is used together with {@link #sampleHemisphereUniformDistribution(Point2D)}.
 	 * 
 	 * @return the probability density function (PDF) value
 	 */
@@ -1582,7 +1593,6 @@ public final class Vector3D {
 	 * 
 	 * @return the size of the cache
 	 */
-//	TODO: Add unit tests!
 	public static int getCacheSize() {
 		return CACHE.size();
 	}
@@ -1590,7 +1600,6 @@ public final class Vector3D {
 	/**
 	 * Clears the cache.
 	 */
-//	TODO: Add unit tests!
 	public static void clearCache() {
 		CACHE.clear();
 	}

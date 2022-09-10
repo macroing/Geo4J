@@ -25,6 +25,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutput;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
@@ -55,6 +62,58 @@ public final class Vector3DUnitTests {
 		
 		assertThrows(NullPointerException.class, () -> Vector3D.add(new Vector3D(1.0D, 2.0D, 3.0D), null));
 		assertThrows(NullPointerException.class, () -> Vector3D.add(null, new Vector3D(2.0D, 3.0D, 4.0D)));
+	}
+	
+	@Test
+	public void testClearCacheAndGetCacheSizeAndGetCached() {
+		Vector3D.clearCache();
+		
+		assertEquals(0, Vector3D.getCacheSize());
+		
+		final Vector3D a = new Vector3D(1.0D, 2.0D, 3.0D);
+		final Vector3D b = new Vector3D(1.0D, 2.0D, 3.0D);
+		final Vector3D c = Vector3D.getCached(a);
+		final Vector3D d = Vector3D.getCached(b);
+		
+		assertThrows(NullPointerException.class, () -> Vector3D.getCached(null));
+		
+		assertEquals(1, Vector3D.getCacheSize());
+		
+		Vector3D.clearCache();
+		
+		assertEquals(0, Vector3D.getCacheSize());
+		
+		assertTrue(a != b);
+		assertTrue(a == c);
+		assertTrue(a == d);
+		
+		assertTrue(b != a);
+		assertTrue(b != c);
+		assertTrue(b != d);
+	}
+	
+	@Test
+	public void testConstants() {
+		assertEquals(new Vector3D(Double.NaN, Double.NaN, Double.NaN), Vector3D.NaN);
+		assertEquals(new Vector3D(0.0D, 0.0D, 0.0D), Vector3D.ZERO);
+	}
+	
+	@Test
+	public void testConstructor() {
+		final Vector3D vector = new Vector3D();
+		
+		assertEquals(0.0D, vector.x);
+		assertEquals(0.0D, vector.y);
+		assertEquals(0.0D, vector.z);
+	}
+	
+	@Test
+	public void testConstructorDouble() {
+		final Vector3D vector = new Vector3D(1.0D);
+		
+		assertEquals(1.0D, vector.x);
+		assertEquals(1.0D, vector.y);
+		assertEquals(1.0D, vector.z);
 	}
 	
 	@Test
@@ -320,11 +379,69 @@ public final class Vector3DUnitTests {
 	}
 	
 	@Test
+	public void testHasInfinites() {
+		final Vector3D a = new Vector3D(Double.POSITIVE_INFINITY, 2.0D, 3.0D);
+		final Vector3D b = new Vector3D(1.0D, Double.POSITIVE_INFINITY, 3.0D);
+		final Vector3D c = new Vector3D(1.0D, 2.0D, Double.POSITIVE_INFINITY);
+		final Vector3D d = new Vector3D(1.0D, 2.0D, 3.0D);
+		
+		assertTrue(a.hasInfinites());
+		assertTrue(b.hasInfinites());
+		assertTrue(c.hasInfinites());
+		
+		assertFalse(d.hasInfinites());
+	}
+	
+	@Test
+	public void testHasNaNs() {
+		final Vector3D a = new Vector3D(Double.NaN, 2.0D, 3.0D);
+		final Vector3D b = new Vector3D(1.0D, Double.NaN, 3.0D);
+		final Vector3D c = new Vector3D(1.0D, 2.0D, Double.NaN);
+		final Vector3D d = new Vector3D(1.0D, 2.0D, 3.0D);
+		
+		assertTrue(a.hasNaNs());
+		assertTrue(b.hasNaNs());
+		assertTrue(c.hasNaNs());
+		
+		assertFalse(d.hasNaNs());
+	}
+	
+	@Test
 	public void testHashCode() {
 		final Vector3D a = new Vector3D(1.0D, 2.0D, 3.0D);
 		final Vector3D b = new Vector3D(1.0D, 2.0D, 3.0D);
 		
 		assertEquals(a.hashCode(), b.hashCode());
+	}
+	
+	@Test
+	public void testIsFinite() {
+		final Vector3D a = new Vector3D(Double.NaN, Double.NaN, Double.NaN);
+		final Vector3D b = new Vector3D(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
+		final Vector3D c = new Vector3D(Double.NaN, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+		final Vector3D d = new Vector3D(1.0D, 2.0D, 3.0D);
+		
+		assertFalse(a.isFinite());
+		assertFalse(b.isFinite());
+		assertFalse(c.isFinite());
+		
+		assertTrue(d.isFinite());
+	}
+	
+	@Test
+	public void testIsUnitVector() {
+		assertTrue(new Vector3D(+1.0D, +0.0D, +0.0D).isUnitVector());
+		assertTrue(new Vector3D(+0.0D, +1.0D, +0.0D).isUnitVector());
+		assertTrue(new Vector3D(+0.0D, +0.0D, +1.0D).isUnitVector());
+		assertTrue(new Vector3D(-1.0D, -0.0D, -0.0D).isUnitVector());
+		assertTrue(new Vector3D(-0.0D, -1.0D, -0.0D).isUnitVector());
+		assertTrue(new Vector3D(-0.0D, -0.0D, -1.0D).isUnitVector());
+		assertTrue(Vector3D.normalize(new Vector3D(1.0D, 1.0D, 1.0D)).isUnitVector());
+		
+		assertFalse(new Vector3D(+1.0D, +1.0D, +1.0D).isUnitVector());
+		assertFalse(new Vector3D(+0.5D, +0.5D, +0.5D).isUnitVector());
+		assertFalse(new Vector3D(-1.0D, -1.0D, -1.0D).isUnitVector());
+		assertFalse(new Vector3D(-0.5D, -0.5D, -0.5D).isUnitVector());
 	}
 	
 	@Test
@@ -347,6 +464,20 @@ public final class Vector3DUnitTests {
 	@Test
 	public void testLengthSquared() {
 		assertEquals(14.0D, new Vector3D(1.0D, 2.0D, 3.0D).lengthSquared());
+	}
+	
+	@Test
+	public void testLerp() {
+		final Vector3D a = new Vector3D(1.0D, 1.0D, 1.0D);
+		final Vector3D b = new Vector3D(5.0D, 5.0D, 5.0D);
+		final Vector3D c = Vector3D.lerp(a, b, 0.25D);
+		
+		assertEquals(2.0D, c.x);
+		assertEquals(2.0D, c.y);
+		assertEquals(2.0D, c.z);
+		
+		assertThrows(NullPointerException.class, () -> Vector3D.lerp(a, null, 0.25D));
+		assertThrows(NullPointerException.class, () -> Vector3D.lerp(null, b, 0.25D));
 	}
 	
 	@Test
@@ -377,19 +508,35 @@ public final class Vector3DUnitTests {
 	}
 	
 	@Test
-	public void testNegateZ() {
-		final Vector3D a = Vector3D.negateZ(new Vector3D(+1.0D, +1.0D, +1.0D));
-		final Vector3D b = Vector3D.negateZ(new Vector3D(-1.0D, -1.0D, -1.0D));
+	public void testNegateX() {
+		final Vector3D a = Vector3D.negateX(new Vector3D(+1.0D, +1.0D, +1.0D));
+		final Vector3D b = Vector3D.negateX(new Vector3D(-1.0D, -1.0D, -1.0D));
+		
+		assertEquals(-1.0D, a.x);
+		assertEquals(+1.0D, a.y);
+		assertEquals(+1.0D, a.z);
+		
+		assertEquals(+1.0D, b.x);
+		assertEquals(-1.0D, b.y);
+		assertEquals(-1.0D, b.z);
+		
+		assertThrows(NullPointerException.class, () -> Vector3D.negateX(null));
+	}
+	
+	@Test
+	public void testNegateY() {
+		final Vector3D a = Vector3D.negateY(new Vector3D(+1.0D, +1.0D, +1.0D));
+		final Vector3D b = Vector3D.negateY(new Vector3D(-1.0D, -1.0D, -1.0D));
 		
 		assertEquals(+1.0D, a.x);
-		assertEquals(+1.0D, a.y);
-		assertEquals(-1.0D, a.z);
+		assertEquals(-1.0D, a.y);
+		assertEquals(+1.0D, a.z);
 		
 		assertEquals(-1.0D, b.x);
-		assertEquals(-1.0D, b.y);
-		assertEquals(+1.0D, b.z);
+		assertEquals(+1.0D, b.y);
+		assertEquals(-1.0D, b.z);
 		
-		assertThrows(NullPointerException.class, () -> Vector3D.negateZ(null));
+		assertThrows(NullPointerException.class, () -> Vector3D.negateY(null));
 	}
 	
 	@Test
@@ -457,7 +604,7 @@ public final class Vector3DUnitTests {
 	}
 	
 	@Test
-	public void testOrthogonal() {
+	public void testOrthogonalVector3D() {
 		final Vector3D a = new Vector3D(1.0D, 0.0D, 0.0D);
 		final Vector3D b = Vector3D.orthogonal(a);
 		final Vector3D c = new Vector3D(0.0D, 1.0D, 0.0D);
@@ -478,6 +625,42 @@ public final class Vector3DUnitTests {
 		assertEquals(-0.0D, f.z);
 		
 		assertThrows(NullPointerException.class, () -> Vector3D.orthogonal(null));
+	}
+	
+	@Test
+	public void testOrthogonalVector3DVector3D() {
+		final Vector3D a = new Vector3D(1.0D, 0.0D, 0.0D);
+		final Vector3D b = new Vector3D(0.0D, 1.0D, 0.0D);
+		final Vector3D c = new Vector3D(1.0D, 1.0D, 1.0D);
+		
+		assertTrue(Vector3D.orthogonal(a, b));
+		
+		assertFalse(Vector3D.orthogonal(a, c));
+		
+		assertThrows(NullPointerException.class, () -> Vector3D.orthogonal(a, null));
+		assertThrows(NullPointerException.class, () -> Vector3D.orthogonal(null, b));
+	}
+	
+	@Test
+	public void testRead() throws IOException {
+		final Vector3D a = new Vector3D(1.0D, 2.0D, 3.0D);
+		
+		final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+		
+		final
+		DataOutput dataOutput = new DataOutputStream(byteArrayOutputStream);
+		dataOutput.writeDouble(a.x);
+		dataOutput.writeDouble(a.y);
+		dataOutput.writeDouble(a.z);
+		
+		final byte[] bytes = byteArrayOutputStream.toByteArray();
+		
+		final Vector3D b = Vector3D.read(new DataInputStream(new ByteArrayInputStream(bytes)));
+		
+		assertEquals(a, b);
+		
+		assertThrows(NullPointerException.class, () -> Vector3D.read(null));
+		assertThrows(UncheckedIOException.class, () -> Vector3D.read(new DataInputStream(new ByteArrayInputStream(new byte[] {}))));
 	}
 	
 	@Test
@@ -514,6 +697,19 @@ public final class Vector3DUnitTests {
 		
 		assertThrows(NullPointerException.class, () -> Vector3D.refraction(new Vector3D(0.0D, 1.0D, 0.0D), null, 1.0D));
 		assertThrows(NullPointerException.class, () -> Vector3D.refraction(null, new Vector3D(0.0D, 1.0D, 0.0D), 1.0D));
+	}
+	
+	@Test
+	public void testSameHemisphere() {
+		final Vector3D a = new Vector3D(+1.0D, 0.0D, 0.0D);
+		final Vector3D b = new Vector3D(-1.0D, 0.0D, 0.0D);
+		
+		assertTrue(Vector3D.sameHemisphere(a, a));
+		
+		assertFalse(Vector3D.sameHemisphere(a, b));
+		
+		assertThrows(NullPointerException.class, () -> Vector3D.sameHemisphere(a, null));
+		assertThrows(NullPointerException.class, () -> Vector3D.sameHemisphere(null, b));
 	}
 	
 	@Test
@@ -593,10 +789,45 @@ public final class Vector3DUnitTests {
 	}
 	
 	@Test
+	public void testToArray() {
+		final Vector3D vector = new Vector3D(1.0D, 2.0D, 3.0D);
+		
+		final double[] array = vector.toArray();
+		
+		assertNotNull(array);
+		
+		assertEquals(3, array.length);
+		
+		assertEquals(1.0D, array[0]);
+		assertEquals(2.0D, array[1]);
+		assertEquals(3.0D, array[2]);
+	}
+	
+	@Test
 	public void testToString() {
 		final Vector3D v = new Vector3D(1.0D, 2.0D, 3.0D);
 		
 		assertEquals("new Vector3D(1.0D, 2.0D, 3.0D)", v.toString());
+	}
+	
+	@Test
+	public void testWrite() {
+		final Vector3D a = new Vector3D(1.0D, 2.0D, 3.0D);
+		
+		final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+		
+		final DataOutput dataOutput = new DataOutputStream(byteArrayOutputStream);
+		
+		a.write(dataOutput);
+		
+		final byte[] bytes = byteArrayOutputStream.toByteArray();
+		
+		final Vector3D b = Vector3D.read(new DataInputStream(new ByteArrayInputStream(bytes)));
+		
+		assertEquals(a, b);
+		
+		assertThrows(NullPointerException.class, () -> a.write(null));
+		assertThrows(UncheckedIOException.class, () -> a.write(new DataOutputMock()));
 	}
 	
 	@Test
