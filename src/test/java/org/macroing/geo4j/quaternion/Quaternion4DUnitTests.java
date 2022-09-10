@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
-
+import org.macroing.geo4j.matrix.Matrix44D;
 import org.macroing.geo4j.vector.Vector3D;
 
 @SuppressWarnings("static-method")
@@ -321,6 +321,28 @@ public final class Quaternion4DUnitTests {
 		
 		assertThrows(NullPointerException.class, () -> Quaternion4D.subtract(a, null));
 		assertThrows(NullPointerException.class, () -> Quaternion4D.subtract(null, b));
+	}
+	
+	@Test
+	public void testToMatrix() {
+		final Matrix44D m = new Quaternion4D(0.5D, 0.5D, 0.5D, 0.5D).toMatrix();
+		
+		assertEquals(0.0D, m.element11);
+		assertEquals(1.0D, m.element12);
+		assertEquals(0.0D, m.element13);
+		assertEquals(0.0D, m.element14);
+		assertEquals(0.0D, m.element21);
+		assertEquals(0.0D, m.element22);
+		assertEquals(1.0D, m.element23);
+		assertEquals(0.0D, m.element24);
+		assertEquals(1.0D, m.element31);
+		assertEquals(0.0D, m.element32);
+		assertEquals(0.0D, m.element33);
+		assertEquals(0.0D, m.element34);
+		assertEquals(0.0D, m.element41);
+		assertEquals(0.0D, m.element42);
+		assertEquals(0.0D, m.element43);
+		assertEquals(1.0D, m.element44);
 	}
 	
 	@Test

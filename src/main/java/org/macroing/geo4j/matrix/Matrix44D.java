@@ -21,9 +21,7 @@ package org.macroing.geo4j.matrix;
 import java.lang.reflect.Field;//TODO: Add Javadocs!
 import java.util.Objects;
 
-import org.macroing.geo4j.onb.OrthonormalBasis33D;
 import org.macroing.geo4j.point.Point3D;
-import org.macroing.geo4j.quaternion.Quaternion4D;
 import org.macroing.geo4j.ray.Ray3D;
 import org.macroing.geo4j.vector.Vector3D;
 import org.macroing.java.lang.Doubles;
@@ -119,34 +117,6 @@ public final class Matrix44D {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 //	TODO: Add Javadocs!
-//	TODO: Add unit tests!
-	public OrthonormalBasis33D toOrthonormalBasis() {
-		final Vector3D u = new Vector3D(this.element11, this.element21, this.element31);
-		final Vector3D v = new Vector3D(this.element12, this.element22, this.element32);
-		final Vector3D w = new Vector3D(this.element13, this.element23, this.element33);
-		
-		return new OrthonormalBasis33D(w, v, u);
-	}
-	
-//	TODO: Add Javadocs!
-	public OrthonormalBasis33D transform(final OrthonormalBasis33D o) {
-		final Vector3D u = Vector3D.normalize(transform(o.u));
-		final Vector3D v = Vector3D.normalize(transform(o.v));
-		final Vector3D w = Vector3D.normalize(transform(o.w));
-		
-		return new OrthonormalBasis33D(w, v, u);
-	}
-	
-//	TODO: Add Javadocs!
-	public OrthonormalBasis33D transformTranspose(final OrthonormalBasis33D o) {
-		final Vector3D u = Vector3D.normalize(transformTranspose(o.u));
-		final Vector3D v = Vector3D.normalize(transformTranspose(o.v));
-		final Vector3D w = Vector3D.normalize(transformTranspose(o.w));
-		
-		return new OrthonormalBasis33D(w, v, u);
-	}
-	
-//	TODO: Add Javadocs!
 	public Point3D transform(final Point3D p) {
 		final double x = this.element11 * p.x + this.element12 * p.y + this.element13 * p.z + this.element14;
 		final double y = this.element21 * p.x + this.element22 * p.y + this.element23 * p.z + this.element24;
@@ -163,28 +133,6 @@ public final class Matrix44D {
 		final double w = this.element41 * p.x + this.element42 * p.y + this.element43 * p.z + this.element44;
 		
 		return Doubles.equals(w, 1.0D) || Doubles.isZero(w) ? new Point3D(x, y, z) : new Point3D(x / w, y / w, z / w);
-	}
-	
-//	TODO: Add Javadocs!
-//	TODO: Add unit tests!
-	public Quaternion4D toQuaternion() {
-		if(this.element11 + this.element22 + this.element33 > 0.0D) {
-			final double scalar = 0.5D / Doubles.sqrt(this.element11 + this.element22 + this.element33 + 1.0D);
-			
-			return Quaternion4D.normalize(new Quaternion4D((this.element23 - this.element32) * scalar, (this.element31 - this.element13) * scalar, (this.element12 - this.element21) * scalar, 0.25D / scalar));
-		} else if(this.element11 > this.element22 && this.element11 > this.element33) {
-			final double scalar = 2.0D * Doubles.sqrt(1.0D + this.element11 - this.element22 - this.element23);
-			
-			return Quaternion4D.normalize(new Quaternion4D(0.25D * scalar, (this.element21 + this.element12) / scalar, (this.element31 + this.element13) / scalar, (this.element23 - this.element32) / scalar));
-		} else if(this.element22 > this.element33) {
-			final double scalar = 2.0D * Doubles.sqrt(1.0D + this.element22 - this.element11 - this.element33);
-			
-			return Quaternion4D.normalize(new Quaternion4D((this.element21 + this.element12) / scalar, 0.25D * scalar, (this.element32 + this.element23) / scalar, (this.element31 - this.element13) / scalar));
-		} else {
-			final double scalar = 2.0F * Doubles.sqrt(1.0D + this.element33 - this.element11 - this.element22);
-			
-			return Quaternion4D.normalize(new Quaternion4D((this.element31 + this.element13) / scalar, (this.element23 + this.element32) / scalar, 0.25D * scalar, (this.element12 - this.element21) / scalar));
-		}
 	}
 	
 //	TODO: Add Javadocs!
@@ -339,22 +287,6 @@ public final class Matrix44D {
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-//	TODO: Add Javadocs!
-	public static Matrix44D fromOrthonormalBasis(final OrthonormalBasis33D o) {
-		return rotate(o.w, o.v, o.u);
-	}
-	
-//	TODO: Add Javadocs!
-	public static Matrix44D fromQuaternion(final Quaternion4D q) {
-		final Quaternion4D r = Quaternion4D.normalize(q);
-		
-		final Vector3D u = new Vector3D(1.0D - 2.0D * (r.y * r.y + r.z * r.z),        2.0D * (r.x * r.y - r.w * r.z),        2.0D * (r.x * r.z + r.w * r.y));
-		final Vector3D v = new Vector3D(       2.0D * (r.x * r.y + r.w * r.z), 1.0D - 2.0D * (r.x * r.x + r.z * r.z),        2.0D * (r.y * r.z - r.w * r.x));
-		final Vector3D w = new Vector3D(       2.0D * (r.x * r.z - r.w * r.y),        2.0D * (r.y * r.z + r.w * r.x), 1.0D - 2.0D * (r.x * r.x + r.y * r.y));
-		
-		return rotate(w, v, u);
-	}
 	
 //	TODO: Add Javadocs!
 	public static Matrix44D identity() {

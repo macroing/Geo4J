@@ -21,6 +21,7 @@ package org.macroing.geo4j.onb;
 import java.lang.reflect.Field;//TODO: Add Javadocs!
 import java.util.Objects;
 
+import org.macroing.geo4j.matrix.Matrix44D;
 import org.macroing.geo4j.vector.Vector3D;
 
 //TODO: Add Javadocs!
@@ -65,6 +66,29 @@ public final class OrthonormalBasis33D {
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+//	TODO: Add Javadocs!
+	public Matrix44D toMatrix() {
+		return Matrix44D.rotate(this.w, this.v, this.u);
+	}
+	
+//	TODO: Add Javadocs!
+	public OrthonormalBasis33D transform(final Matrix44D m) {
+		final Vector3D u = Vector3D.normalize(m.transform(this.u));
+		final Vector3D v = Vector3D.normalize(m.transform(this.v));
+		final Vector3D w = Vector3D.normalize(m.transform(this.w));
+		
+		return new OrthonormalBasis33D(w, v, u);
+	}
+	
+//	TODO: Add Javadocs!
+	public OrthonormalBasis33D transformTranspose(final Matrix44D m) {
+		final Vector3D u = Vector3D.normalize(m.transformTranspose(this.u));
+		final Vector3D v = Vector3D.normalize(m.transformTranspose(this.v));
+		final Vector3D w = Vector3D.normalize(m.transformTranspose(this.w));
+		
+		return new OrthonormalBasis33D(w, v, u);
+	}
 	
 //	TODO: Add Javadocs!
 	@Override
@@ -181,5 +205,17 @@ public final class OrthonormalBasis33D {
 	@Override
 	public int hashCode() {
 		return Objects.hash(this.u, this.v, this.w);
+	}
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+//	TODO: Add Javadocs!
+//	TODO: Add unit tests!
+	public static OrthonormalBasis33D fromMatrix(final Matrix44D m) {
+		final Vector3D u = new Vector3D(m.element11, m.element21, m.element31);
+		final Vector3D v = new Vector3D(m.element12, m.element22, m.element32);
+		final Vector3D w = new Vector3D(m.element13, m.element23, m.element33);
+		
+		return new OrthonormalBasis33D(w, v, u);
 	}
 }
