@@ -22,10 +22,8 @@ import java.lang.reflect.Field;//TODO: Add Javadocs!
 import java.lang.reflect.Field;//TODO: Add unit tests!
 import java.util.Objects;
 
-import org.macroing.geo4j.matrix.Matrix44D;
 import org.macroing.geo4j.point.Point3D;
 import org.macroing.geo4j.vector.Vector3D;
-import org.macroing.java.lang.Doubles;
 
 //TODO: Add Javadocs!
 public final class Ray3D {
@@ -89,18 +87,5 @@ public final class Ray3D {
 	@Override
 	public int hashCode() {
 		return Objects.hash(this.origin, this.direction);
-	}
-	
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-//	TODO: Add Javadocs!
-//	TODO: Add unit tests!
-	public static Ray3D transform(final Matrix44D mLHS, final Ray3D rRHS) {
-		return new Ray3D(Point3D.transformAndDivide(mLHS, rRHS.origin), Vector3D.transform(mLHS, rRHS.direction));
-	}
-	
-//	TODO: Add Javadocs!
-	public static double transformT(final Matrix44D m, final Ray3D rOldSpace, final Ray3D rNewSpace, final double t) {
-		return !Doubles.isNaN(t) && !Doubles.isZero(t) && t < Doubles.MAX_VALUE ? Doubles.abs(Point3D.distance(rNewSpace.origin, Point3D.transformAndDivide(m, Point3D.add(rOldSpace.origin, rOldSpace.direction, t)))) : t;
 	}
 }

@@ -35,6 +35,7 @@ import java.io.UncheckedIOException;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
+
 import org.macroing.geo4j.mock.DataOutputMock;
 import org.macroing.geo4j.point.Point3D;
 

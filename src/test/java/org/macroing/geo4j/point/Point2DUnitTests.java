@@ -25,8 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
-import org.macroing.geo4j.point.Point2D;
-import org.macroing.geo4j.point.Point3D;
+
 import org.macroing.geo4j.vector.Vector3D;
 
 @SuppressWarnings("static-method")

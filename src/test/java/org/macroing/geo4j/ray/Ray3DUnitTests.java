@@ -25,11 +25,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
-import org.macroing.geo4j.matrix.Matrix44D;
+
 import org.macroing.geo4j.point.Point3D;
-import org.macroing.geo4j.ray.Ray3D;
 import org.macroing.geo4j.vector.Vector3D;
-import org.macroing.java.lang.Doubles;
 
 @SuppressWarnings("static-method")
 public final class Ray3DUnitTests {
@@ -116,25 +114,5 @@ public final class Ray3DUnitTests {
 		final Ray3D r = new Ray3D(new Point3D(1.0D, 2.0D, 3.0D), new Vector3D(1.0D, 0.0D, 0.0D));
 		
 		assertEquals("new Ray3D(new Point3D(1.0D, 2.0D, 3.0D), new Vector3D(1.0D, 0.0D, 0.0D))", r.toString());
-	}
-	
-	@Test
-	public void testTransformT() {
-		final Matrix44D mA = Matrix44D.translate(0.0D, 0.0D, 0.0D);
-		final Matrix44D mB = Matrix44D.scale(0.0D, 0.0D, 2.0D);
-		
-		final Ray3D rOldSpaceA = new Ray3D(new Point3D(), Vector3D.z());
-		final Ray3D rNewSpaceA = new Ray3D(new Point3D(), Vector3D.z());
-		
-		assertEquals(Doubles.NaN,       Ray3D.transformT(mA, rOldSpaceA, rNewSpaceA, Doubles.NaN));
-		assertEquals(0.0D,              Ray3D.transformT(mA, rOldSpaceA, rNewSpaceA, 0.0D));
-		assertEquals(Doubles.MAX_VALUE, Ray3D.transformT(mA, rOldSpaceA, rNewSpaceA, Doubles.MAX_VALUE));
-		
-		assertEquals(1.0D,           Ray3D.transformT(mA, rOldSpaceA, rNewSpaceA, 1.0D));
-		assertEquals(2.0D,           Ray3D.transformT(mB, rOldSpaceA, rNewSpaceA, 1.0D));
-		
-		assertThrows(NullPointerException.class, () -> Ray3D.transformT(mA,   rOldSpaceA, null,       1.0D));
-		assertThrows(NullPointerException.class, () -> Ray3D.transformT(mA,   null,       rNewSpaceA, 1.0D));
-		assertThrows(NullPointerException.class, () -> Ray3D.transformT(null, rOldSpaceA, rNewSpaceA, 1.0D));
 	}
 }

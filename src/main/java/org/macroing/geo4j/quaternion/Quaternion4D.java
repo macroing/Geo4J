@@ -22,8 +22,6 @@ import java.lang.reflect.Field;//TODO: Add Javadocs!
 import java.lang.reflect.Field;//TODO: Add unit tests!
 import java.util.Objects;
 
-import org.macroing.geo4j.matrix.Matrix44D;
-import org.macroing.geo4j.onb.OrthonormalBasis33D;
 import org.macroing.geo4j.vector.Vector3D;
 import org.macroing.java.lang.Doubles;
 import org.macroing.java.lang.Strings;
@@ -132,38 +130,6 @@ public final class Quaternion4D {
 //	TODO: Add Javadocs!
 	public static Quaternion4D divide(final Quaternion4D qLHS, final double sRHS) {
 		return new Quaternion4D(qLHS.x / sRHS, qLHS.y / sRHS, qLHS.z / sRHS, qLHS.w / sRHS);
-	}
-	
-//	TODO: Add Javadocs!
-//	TODO: Add unit tests!
-	public static Quaternion4D from(final Matrix44D m) {
-		if(m.element11 + m.element22 + m.element33 > 0.0D) {
-			final double scalar = 0.5D / Doubles.sqrt(m.element11 + m.element22 + m.element33 + 1.0D);
-			
-			return normalize(new Quaternion4D((m.element23 - m.element32) * scalar, (m.element31 - m.element13) * scalar, (m.element12 - m.element21) * scalar, 0.25D / scalar));
-		} else if(m.element11 > m.element22 && m.element11 > m.element33) {
-			final double scalar = 2.0D * Doubles.sqrt(1.0D + m.element11 - m.element22 - m.element23);
-			
-			return normalize(new Quaternion4D(0.25D * scalar, (m.element21 + m.element12) / scalar, (m.element31 + m.element13) / scalar, (m.element23 - m.element32) / scalar));
-		} else if(m.element22 > m.element33) {
-			final double scalar = 2.0D * Doubles.sqrt(1.0D + m.element22 - m.element11 - m.element33);
-			
-			return normalize(new Quaternion4D((m.element21 + m.element12) / scalar, 0.25D * scalar, (m.element32 + m.element23) / scalar, (m.element31 - m.element13) / scalar));
-		} else {
-			final double scalar = 2.0F * Doubles.sqrt(1.0D + m.element33 - m.element11 - m.element22);
-			
-			return normalize(new Quaternion4D((m.element31 + m.element13) / scalar, (m.element23 + m.element32) / scalar, 0.25D * scalar, (m.element12 - m.element21) / scalar));
-		}
-	}
-	
-//	TODO: Add Javadocs!
-	public static Quaternion4D from(final OrthonormalBasis33D o) {
-		return from(Matrix44D.rotate(o));
-	}
-	
-//	TODO: Add Javadocs!
-	public static Quaternion4D from(final Vector3D direction) {
-		return from(new OrthonormalBasis33D(direction));
 	}
 	
 //	TODO: Add Javadocs!

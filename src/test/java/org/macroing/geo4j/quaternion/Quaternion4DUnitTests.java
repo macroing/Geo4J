@@ -25,8 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
-import org.macroing.geo4j.onb.OrthonormalBasis33D;
-import org.macroing.geo4j.quaternion.Quaternion4D;
+
 import org.macroing.geo4j.vector.Vector3D;
 
 @SuppressWarnings("static-method")
@@ -184,30 +183,6 @@ public final class Quaternion4DUnitTests {
 		assertFalse(a.equals(f));
 		assertFalse(f.equals(a));
 		assertFalse(a.equals(g));
-	}
-	
-	@Test
-	public void testFromOrthonormalBasis33D() {
-		final Quaternion4D q = Quaternion4D.from(new OrthonormalBasis33D(new Vector3D(0.0D, 1.0D, 0.0D), new Vector3D(1.0D, 0.0D, 0.0D), new Vector3D(0.0D, 0.0D, 1.0D)));
-		
-		assertEquals(0.5D, q.x);
-		assertEquals(0.5D, q.y);
-		assertEquals(0.5D, q.z);
-		assertEquals(0.5D, q.w);
-		
-		assertThrows(NullPointerException.class, () -> Quaternion4D.from((OrthonormalBasis33D)(null)));
-	}
-	
-	@Test
-	public void testFromVector3D() {
-		final Quaternion4D q = Quaternion4D.from(new Vector3D(1.0D, 0.0D, 0.0D));
-		
-		assertEquals(+0.5D, q.x);
-		assertEquals(-0.5D, q.y);
-		assertEquals(+0.5D, q.z);
-		assertEquals(+0.5D, q.w);
-		
-		assertThrows(NullPointerException.class, () -> Quaternion4D.from((Vector3D)(null)));
 	}
 	
 	@Test

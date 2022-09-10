@@ -21,8 +21,6 @@ package org.macroing.geo4j.onb;
 import java.lang.reflect.Field;//TODO: Add Javadocs!
 import java.util.Objects;
 
-import org.macroing.geo4j.matrix.Matrix44D;
-import org.macroing.geo4j.quaternion.Quaternion4D;
 import org.macroing.geo4j.vector.Vector3D;
 
 //TODO: Add Javadocs!
@@ -74,6 +72,82 @@ public final class OrthonormalBasis33D {
 		return String.format("new OrthonormalBasis33D(%s, %s, %s)", this.w, this.v, this.u);
 	}
 	
+	/**
+	 * Transforms the {@code Vector3D} {@code v} with the {@link OrthonormalBasis33D} {@code o}.
+	 * <p>
+	 * Returns a {@code Vector3D} instance with the result of the transformation.
+	 * <p>
+	 * If either {@code v} or {@code o} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param v a {@code Vector3D} instance
+	 * @param o an {@code OrthonormalBasis33D} instance
+	 * @return a {@code Vector3D} instance with the result of the transformation
+	 * @throws NullPointerException thrown if, and only if, either {@code v} or {@code o} are {@code null}
+	 */
+//	TODO: Add unit tests!
+	public Vector3D transform(final Vector3D v) {
+		final double x = v.x * this.u.x + v.y * this.v.x + v.z * this.w.x;
+		final double y = v.x * this.u.y + v.y * this.v.y + v.z * this.w.y;
+		final double z = v.x * this.u.z + v.y * this.v.z + v.z * this.w.z;
+		
+		return new Vector3D(x, y, z);
+	}
+	
+	/**
+	 * Transforms the {@code Vector3D} {@code v} with the {@link OrthonormalBasis33D} {@code o} and normalizes the result.
+	 * <p>
+	 * Returns a {@code Vector3D} instance with the result of the transformation and normalization.
+	 * <p>
+	 * If either {@code v} or {@code o} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param v a {@code Vector3D} instance
+	 * @param o an {@code OrthonormalBasis33D} instance
+	 * @return a {@code Vector3D} instance with the result of the transformation and normalization
+	 * @throws NullPointerException thrown if, and only if, either {@code v} or {@code o} are {@code null}
+	 */
+//	TODO: Add unit tests!
+	public Vector3D transformNormalize(final Vector3D v) {
+		return Vector3D.normalize(transform(v));
+	}
+	
+	/**
+	 * Transforms the {@code Vector3D} {@code v} with the {@link OrthonormalBasis33D} {@code o} in reverse order.
+	 * <p>
+	 * Returns a {@code Vector3D} instance with the result of the transformation.
+	 * <p>
+	 * If either {@code v} or {@code o} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param v a {@code Vector3D} instance
+	 * @param o an {@code OrthonormalBasis33D} instance
+	 * @return a {@code Vector3D} instance with the result of the transformation
+	 * @throws NullPointerException thrown if, and only if, either {@code v} or {@code o} are {@code null}
+	 */
+//	TODO: Add unit tests!
+	public Vector3D transformReverse(final Vector3D v) {
+		final double x = Vector3D.dotProduct(v, this.u);
+		final double y = Vector3D.dotProduct(v, this.v);
+		final double z = Vector3D.dotProduct(v, this.w);
+		
+		return new Vector3D(x, y, z);
+	}
+	
+	/**
+	 * Transforms the {@code Vector3D} {@code v} with the {@link OrthonormalBasis33D} {@code o} in reverse order and normalizes the result.
+	 * <p>
+	 * Returns a {@code Vector3D} instance with the result of the transformation and normalization.
+	 * <p>
+	 * If either {@code v} or {@code o} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param v a {@code Vector3D} instance
+	 * @param o an {@code OrthonormalBasis33D} instance
+	 * @return a {@code Vector3D} instance with the result of the transformation and normalization
+	 * @throws NullPointerException thrown if, and only if, either {@code v} or {@code o} are {@code null}
+	 */
+//	TODO: Add unit tests!
+	public Vector3D transformReverseNormalize(final Vector3D v) {
+		return Vector3D.normalize(transformReverse(v));
+	}
+	
 //	TODO: Add Javadocs!
 	@Override
 	public boolean equals(final Object object) {
@@ -107,45 +181,5 @@ public final class OrthonormalBasis33D {
 	@Override
 	public int hashCode() {
 		return Objects.hash(this.u, this.v, this.w);
-	}
-	
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-//	TODO: Add Javadocs!
-	public static OrthonormalBasis33D from(final Matrix44D m) {
-		final Vector3D u = new Vector3D(m.element11, m.element21, m.element31);
-		final Vector3D v = new Vector3D(m.element12, m.element22, m.element32);
-		final Vector3D w = new Vector3D(m.element13, m.element23, m.element33);
-		
-		return new OrthonormalBasis33D(w, v, u);
-	}
-	
-//	TODO: Add Javadocs!
-	public static OrthonormalBasis33D from(final Quaternion4D q) {
-		final Quaternion4D r = Quaternion4D.normalize(q);
-		
-		final Vector3D u = new Vector3D(1.0D - 2.0D * (r.y * r.y + r.z * r.z),        2.0D * (r.x * r.y - r.w * r.z),        2.0D * (r.x * r.z + r.w * r.y));
-		final Vector3D v = new Vector3D(       2.0D * (r.x * r.y + r.w * r.z), 1.0D - 2.0D * (r.x * r.x + r.z * r.z),        2.0D * (r.y * r.z - r.w * r.x));
-		final Vector3D w = new Vector3D(       2.0D * (r.x * r.z - r.w * r.y),        2.0D * (r.y * r.z + r.w * r.x), 1.0D - 2.0D * (r.x * r.x + r.y * r.y));
-		
-		return new OrthonormalBasis33D(w, v, u);
-	}
-	
-//	TODO: Add Javadocs!
-	public static OrthonormalBasis33D transform(final Matrix44D mLHS, final OrthonormalBasis33D oRHS) {
-		final Vector3D u = Vector3D.normalize(Vector3D.transform(mLHS, oRHS.u));
-		final Vector3D v = Vector3D.normalize(Vector3D.transform(mLHS, oRHS.v));
-		final Vector3D w = Vector3D.normalize(Vector3D.transform(mLHS, oRHS.w));
-		
-		return new OrthonormalBasis33D(w, v, u);
-	}
-	
-//	TODO: Add Javadocs!
-	public static OrthonormalBasis33D transformTranspose(final Matrix44D mLHS, final OrthonormalBasis33D oRHS) {
-		final Vector3D u = Vector3D.normalize(Vector3D.transformTranspose(mLHS, oRHS.u));
-		final Vector3D v = Vector3D.normalize(Vector3D.transformTranspose(mLHS, oRHS.v));
-		final Vector3D w = Vector3D.normalize(Vector3D.transformTranspose(mLHS, oRHS.w));
-		
-		return new OrthonormalBasis33D(w, v, u);
 	}
 }

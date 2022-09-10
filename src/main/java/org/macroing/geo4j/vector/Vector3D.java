@@ -29,8 +29,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.macroing.geo4j.matrix.Matrix44D;
-import org.macroing.geo4j.onb.OrthonormalBasis33D;
 import org.macroing.geo4j.point.Point2D;
 import org.macroing.geo4j.point.Point3D;
 import org.macroing.java.lang.Doubles;
@@ -1281,108 +1279,6 @@ public final class Vector3D {
 	 */
 	public static Vector3D subtract(final Vector3D vLHS, final Vector3D vRHS) {
 		return new Vector3D(vLHS.x - vRHS.x, vLHS.y - vRHS.y, vLHS.z - vRHS.z);
-	}
-	
-	/**
-	 * Transforms the {@link Matrix44D} {@code m} with the {@code Vector3D} {@code v}.
-	 * <p>
-	 * Returns a {@code Vector3D} instance with the result of the transformation.
-	 * <p>
-	 * If either {@code m} or {@code v} are {@code null}, a {@code NullPointerException} will be thrown.
-	 * 
-	 * @param m a {@code Matrix44D} instance
-	 * @param v a {@code Vector3D} instance
-	 * @return a {@code Vector3D} instance with the result of the transformation
-	 * @throws NullPointerException thrown if, and only if, either {@code m} or {@code v} are {@code null}
-	 */
-//	TODO: Add unit tests!
-	public static Vector3D transform(final Matrix44D m, final Vector3D v) {
-		return new Vector3D(m.element11 * v.x + m.element12 * v.y + m.element13 * v.z, m.element21 * v.x + m.element22 * v.y + m.element23 * v.z, m.element31 * v.x + m.element32 * v.y + m.element33 * v.z);
-	}
-	
-	/**
-	 * Transforms the {@code Vector3D} {@code v} with the {@link OrthonormalBasis33D} {@code o}.
-	 * <p>
-	 * Returns a {@code Vector3D} instance with the result of the transformation.
-	 * <p>
-	 * If either {@code v} or {@code o} are {@code null}, a {@code NullPointerException} will be thrown.
-	 * 
-	 * @param v a {@code Vector3D} instance
-	 * @param o an {@code OrthonormalBasis33D} instance
-	 * @return a {@code Vector3D} instance with the result of the transformation
-	 * @throws NullPointerException thrown if, and only if, either {@code v} or {@code o} are {@code null}
-	 */
-//	TODO: Add unit tests!
-	public static Vector3D transform(final Vector3D v, final OrthonormalBasis33D o) {
-		return new Vector3D(v.x * o.u.x + v.y * o.v.x + v.z * o.w.x, v.x * o.u.y + v.y * o.v.y + v.z * o.w.y, v.x * o.u.z + v.y * o.v.z + v.z * o.w.z);
-	}
-	
-	/**
-	 * Transforms the {@code Vector3D} {@code v} with the {@link OrthonormalBasis33D} {@code o} and normalizes the result.
-	 * <p>
-	 * Returns a {@code Vector3D} instance with the result of the transformation and normalization.
-	 * <p>
-	 * If either {@code v} or {@code o} are {@code null}, a {@code NullPointerException} will be thrown.
-	 * 
-	 * @param v a {@code Vector3D} instance
-	 * @param o an {@code OrthonormalBasis33D} instance
-	 * @return a {@code Vector3D} instance with the result of the transformation and normalization
-	 * @throws NullPointerException thrown if, and only if, either {@code v} or {@code o} are {@code null}
-	 */
-//	TODO: Add unit tests!
-	public static Vector3D transformNormalize(final Vector3D v, final OrthonormalBasis33D o) {
-		return normalize(transform(v, o));
-	}
-	
-	/**
-	 * Transforms the {@code Vector3D} {@code v} with the {@link OrthonormalBasis33D} {@code o} in reverse order.
-	 * <p>
-	 * Returns a {@code Vector3D} instance with the result of the transformation.
-	 * <p>
-	 * If either {@code v} or {@code o} are {@code null}, a {@code NullPointerException} will be thrown.
-	 * 
-	 * @param v a {@code Vector3D} instance
-	 * @param o an {@code OrthonormalBasis33D} instance
-	 * @return a {@code Vector3D} instance with the result of the transformation
-	 * @throws NullPointerException thrown if, and only if, either {@code v} or {@code o} are {@code null}
-	 */
-//	TODO: Add unit tests!
-	public static Vector3D transformReverse(final Vector3D v, final OrthonormalBasis33D o) {
-		return new Vector3D(dotProduct(v, o.u), dotProduct(v, o.v), dotProduct(v, o.w));
-	}
-	
-	/**
-	 * Transforms the {@code Vector3D} {@code v} with the {@link OrthonormalBasis33D} {@code o} in reverse order and normalizes the result.
-	 * <p>
-	 * Returns a {@code Vector3D} instance with the result of the transformation and normalization.
-	 * <p>
-	 * If either {@code v} or {@code o} are {@code null}, a {@code NullPointerException} will be thrown.
-	 * 
-	 * @param v a {@code Vector3D} instance
-	 * @param o an {@code OrthonormalBasis33D} instance
-	 * @return a {@code Vector3D} instance with the result of the transformation and normalization
-	 * @throws NullPointerException thrown if, and only if, either {@code v} or {@code o} are {@code null}
-	 */
-//	TODO: Add unit tests!
-	public static Vector3D transformReverseNormalize(final Vector3D v, final OrthonormalBasis33D o) {
-		return normalize(transformReverse(v, o));
-	}
-	
-	/**
-	 * Transforms the {@link Matrix44D} {@code m} with the {@code Vector3D} {@code v} in transpose order.
-	 * <p>
-	 * Returns a {@code Vector3D} instance with the result of the transformation.
-	 * <p>
-	 * If either {@code m} or {@code v} are {@code null}, a {@code NullPointerException} will be thrown.
-	 * 
-	 * @param m a {@code Matrix44D} instance
-	 * @param v a {@code Vector3D} instance
-	 * @return a {@code Vector3D} instance with the result of the transformation
-	 * @throws NullPointerException thrown if, and only if, either {@code m} or {@code v} are {@code null}
-	 */
-//	TODO: Add unit tests!
-	public static Vector3D transformTranspose(final Matrix44D m, final Vector3D v) {
-		return new Vector3D(m.element11 * v.x + m.element21 * v.y + m.element31 * v.z, m.element12 * v.x + m.element22 * v.y + m.element32 * v.z, m.element13 * v.x + m.element23 * v.y + m.element33 * v.z);
 	}
 	
 	/**

@@ -25,8 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
-import org.macroing.geo4j.matrix.Matrix44D;
-import org.macroing.geo4j.point.Point3D;
+
 import org.macroing.geo4j.vector.Vector3D;
 import org.macroing.java.lang.Doubles;
 
@@ -267,51 +266,5 @@ public final class Point3DUnitTests {
 		final Point3D p = new Point3D(1.0D, 2.0D, 3.0D);
 		
 		assertEquals("new Point3D(1.0D, 2.0D, 3.0D)", p.toString());
-	}
-	
-	@Test
-	public void testTransform() {
-		final Point3D a = new Point3D(1.0D, 2.0D, 3.0D);
-		final Point3D b = Point3D.transform(Matrix44D.scale(1.0D, 2.0D, 3.0D), a);
-		final Point3D c = Point3D.transform(Matrix44D.translate(1.0D, 2.0D, 3.0D), a);
-		
-		assertEquals(1.0D, b.x);
-		assertEquals(4.0D, b.y);
-		assertEquals(9.0D, b.z);
-		
-		assertEquals(2.0D, c.x);
-		assertEquals(4.0D, c.y);
-		assertEquals(6.0D, c.z);
-		
-		assertThrows(NullPointerException.class, () -> Point3D.transform(Matrix44D.translate(1.0D, 2.0D, 3.0D), null));
-		assertThrows(NullPointerException.class, () -> Point3D.transform(null, a));
-	}
-	
-	@Test
-	public void testTransformAndDivide() {
-		final Point3D a = new Point3D(1.0D, 2.0D, 3.0D);
-		final Point3D b = Point3D.transformAndDivide(Matrix44D.scale(1.0D, 2.0D, 3.0D), a);
-		final Point3D c = Point3D.transformAndDivide(Matrix44D.translate(1.0D, 2.0D, 3.0D), a);
-		final Point3D d = Point3D.transformAndDivide(new Matrix44D(1.0D, 0.0D, 0.0D, 0.0D, 0.0D, 1.0D, 0.0D, 0.0D, 0.0D, 0.0D, 1.0D, 0.0D, 0.0D, 0.0D, 0.0D, 2.0D), a);
-		final Point3D e = Point3D.transformAndDivide(new Matrix44D(1.0D, 0.0D, 0.0D, 0.0D, 0.0D, 1.0D, 0.0D, 0.0D, 0.0D, 0.0D, 1.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D), a);
-		
-		assertEquals(1.0D, b.x);
-		assertEquals(4.0D, b.y);
-		assertEquals(9.0D, b.z);
-		
-		assertEquals(2.0D, c.x);
-		assertEquals(4.0D, c.y);
-		assertEquals(6.0D, c.z);
-		
-		assertEquals(0.5D, d.x);
-		assertEquals(1.0D, d.y);
-		assertEquals(1.5D, d.z);
-		
-		assertEquals(1.0D, e.x);
-		assertEquals(2.0D, e.y);
-		assertEquals(3.0D, e.z);
-		
-		assertThrows(NullPointerException.class, () -> Point3D.transformAndDivide(Matrix44D.translate(1.0D, 2.0D, 3.0D), null));
-		assertThrows(NullPointerException.class, () -> Point3D.transformAndDivide(null, a));
 	}
 }

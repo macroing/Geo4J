@@ -25,10 +25,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
-import org.macroing.geo4j.matrix.Matrix44D;
+
 import org.macroing.geo4j.onb.OrthonormalBasis33D;
 import org.macroing.geo4j.point.Point3D;
 import org.macroing.geo4j.quaternion.Quaternion4D;
+import org.macroing.geo4j.ray.Ray3D;
 import org.macroing.geo4j.vector.Vector3D;
 import org.macroing.java.lang.Doubles;
 
@@ -215,6 +216,54 @@ public final class Matrix44DUnitTests {
 	}
 	
 	@Test
+	public void testFromOrthonormalBasis() {
+		final Matrix44D m = Matrix44D.fromOrthonormalBasis(new OrthonormalBasis33D(Vector3D.z(), Vector3D.y(), Vector3D.x()));
+		
+		assertEquals(1.0D, m.element11);
+		assertEquals(0.0D, m.element12);
+		assertEquals(0.0D, m.element13);
+		assertEquals(0.0D, m.element14);
+		assertEquals(0.0D, m.element21);
+		assertEquals(1.0D, m.element22);
+		assertEquals(0.0D, m.element23);
+		assertEquals(0.0D, m.element24);
+		assertEquals(0.0D, m.element31);
+		assertEquals(0.0D, m.element32);
+		assertEquals(1.0D, m.element33);
+		assertEquals(0.0D, m.element34);
+		assertEquals(0.0D, m.element41);
+		assertEquals(0.0D, m.element42);
+		assertEquals(0.0D, m.element43);
+		assertEquals(1.0D, m.element44);
+		
+		assertThrows(NullPointerException.class, () -> Matrix44D.fromOrthonormalBasis(null));
+	}
+	
+	@Test
+	public void testFromQuaternion() {
+		final Matrix44D m = Matrix44D.fromQuaternion(new Quaternion4D(0.5D, 0.5D, 0.5D, 0.5D));
+		
+		assertEquals(0.0D, m.element11);
+		assertEquals(1.0D, m.element12);
+		assertEquals(0.0D, m.element13);
+		assertEquals(0.0D, m.element14);
+		assertEquals(0.0D, m.element21);
+		assertEquals(0.0D, m.element22);
+		assertEquals(1.0D, m.element23);
+		assertEquals(0.0D, m.element24);
+		assertEquals(1.0D, m.element31);
+		assertEquals(0.0D, m.element32);
+		assertEquals(0.0D, m.element33);
+		assertEquals(0.0D, m.element34);
+		assertEquals(0.0D, m.element41);
+		assertEquals(0.0D, m.element42);
+		assertEquals(0.0D, m.element43);
+		assertEquals(1.0D, m.element44);
+		
+		assertThrows(NullPointerException.class, () -> Matrix44D.fromQuaternion(null));
+	}
+	
+	@Test
 	public void testHashCode() {
 		final Matrix44D a = new Matrix44D(1.0D, 2.0D, 3.0D, 4.0D, 5.0D, 6.0D, 7.0D, 8.0D, 9.0D, 10.0D, 11.0D, 12.0D, 13.0D, 14.0D, 15.0D, 16.0D);
 		final Matrix44D b = new Matrix44D(1.0D, 2.0D, 3.0D, 4.0D, 5.0D, 6.0D, 7.0D, 8.0D, 9.0D, 10.0D, 11.0D, 12.0D, 13.0D, 14.0D, 15.0D, 16.0D);
@@ -280,54 +329,6 @@ public final class Matrix44DUnitTests {
 		
 		assertThrows(NullPointerException.class, () -> Matrix44D.multiply(a, null));
 		assertThrows(NullPointerException.class, () -> Matrix44D.multiply(null, b));
-	}
-	
-	@Test
-	public void testRotateOrthonormalBasis33D() {
-		final Matrix44D m = Matrix44D.rotate(new OrthonormalBasis33D(Vector3D.z(), Vector3D.y(), Vector3D.x()));
-		
-		assertEquals(1.0D, m.element11);
-		assertEquals(0.0D, m.element12);
-		assertEquals(0.0D, m.element13);
-		assertEquals(0.0D, m.element14);
-		assertEquals(0.0D, m.element21);
-		assertEquals(1.0D, m.element22);
-		assertEquals(0.0D, m.element23);
-		assertEquals(0.0D, m.element24);
-		assertEquals(0.0D, m.element31);
-		assertEquals(0.0D, m.element32);
-		assertEquals(1.0D, m.element33);
-		assertEquals(0.0D, m.element34);
-		assertEquals(0.0D, m.element41);
-		assertEquals(0.0D, m.element42);
-		assertEquals(0.0D, m.element43);
-		assertEquals(1.0D, m.element44);
-		
-		assertThrows(NullPointerException.class, () -> Matrix44D.rotate((OrthonormalBasis33D)(null)));
-	}
-	
-	@Test
-	public void testRotateQuaternion4D() {
-		final Matrix44D m = Matrix44D.rotate(new Quaternion4D(0.5D, 0.5D, 0.5D, 0.5D));
-		
-		assertEquals(0.0D, m.element11);
-		assertEquals(1.0D, m.element12);
-		assertEquals(0.0D, m.element13);
-		assertEquals(0.0D, m.element14);
-		assertEquals(0.0D, m.element21);
-		assertEquals(0.0D, m.element22);
-		assertEquals(1.0D, m.element23);
-		assertEquals(0.0D, m.element24);
-		assertEquals(1.0D, m.element31);
-		assertEquals(0.0D, m.element32);
-		assertEquals(0.0D, m.element33);
-		assertEquals(0.0D, m.element34);
-		assertEquals(0.0D, m.element41);
-		assertEquals(0.0D, m.element42);
-		assertEquals(0.0D, m.element43);
-		assertEquals(1.0D, m.element44);
-		
-		assertThrows(NullPointerException.class, () -> Matrix44D.rotate((Quaternion4D)(null)));
 	}
 	
 	@Test
@@ -670,6 +671,111 @@ public final class Matrix44DUnitTests {
 		final Matrix44D m = new Matrix44D(1.0D, 2.0D, 3.0D, 4.0D, 5.0D, 6.0D, 7.0D, 8.0D, 9.0D, 10.0D, 11.0D, 12.0D, 13.0D, 14.0D, 15.0D, 16.0D);
 		
 		assertEquals("new Matrix44D(1.0D, 2.0D, 3.0D, 4.0D, 5.0D, 6.0D, 7.0D, 8.0D, 9.0D, 10.0D, 11.0D, 12.0D, 13.0D, 14.0D, 15.0D, 16.0D)", m.toString());
+	}
+	
+	@Test
+	public void testTransformAndDivideMatrix44DPoint3D() {
+		final Point3D a = new Point3D(1.0D, 2.0D, 3.0D);
+		final Point3D b = Matrix44D.scale(1.0D, 2.0D, 3.0D).transformAndDivide(a);
+		final Point3D c = Matrix44D.translate(1.0D, 2.0D, 3.0D).transformAndDivide(a);
+		final Point3D d = new Matrix44D(1.0D, 0.0D, 0.0D, 0.0D, 0.0D, 1.0D, 0.0D, 0.0D, 0.0D, 0.0D, 1.0D, 0.0D, 0.0D, 0.0D, 0.0D, 2.0D).transformAndDivide(a);
+		final Point3D e = new Matrix44D(1.0D, 0.0D, 0.0D, 0.0D, 0.0D, 1.0D, 0.0D, 0.0D, 0.0D, 0.0D, 1.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D).transformAndDivide(a);
+		
+		assertEquals(1.0D, b.x);
+		assertEquals(4.0D, b.y);
+		assertEquals(9.0D, b.z);
+		
+		assertEquals(2.0D, c.x);
+		assertEquals(4.0D, c.y);
+		assertEquals(6.0D, c.z);
+		
+		assertEquals(0.5D, d.x);
+		assertEquals(1.0D, d.y);
+		assertEquals(1.5D, d.z);
+		
+		assertEquals(1.0D, e.x);
+		assertEquals(2.0D, e.y);
+		assertEquals(3.0D, e.z);
+		
+		assertThrows(NullPointerException.class, () -> Matrix44D.translate(1.0D, 2.0D, 3.0D).transformAndDivide(null));
+	}
+	
+	@Test
+	public void testTransformMatrix44DPoint3D() {
+		final Point3D a = new Point3D(1.0D, 2.0D, 3.0D);
+		final Point3D b = Matrix44D.scale(1.0D, 2.0D, 3.0D).transform(a);
+		final Point3D c = Matrix44D.translate(1.0D, 2.0D, 3.0D).transform(a);
+		
+		assertEquals(1.0D, b.x);
+		assertEquals(4.0D, b.y);
+		assertEquals(9.0D, b.z);
+		
+		assertEquals(2.0D, c.x);
+		assertEquals(4.0D, c.y);
+		assertEquals(6.0D, c.z);
+		
+		assertThrows(NullPointerException.class, () -> Matrix44D.translate(1.0D, 2.0D, 3.0D).transform((Point3D)(null)));
+	}
+	
+	@Test
+	public void testTransformOrthonormalBasis33D() {
+		final OrthonormalBasis33D a = new OrthonormalBasis33D(new Vector3D(0.0D, 0.0D, 1.0D), new Vector3D(0.0D, 1.0D, 0.0D), new Vector3D(1.0D, 0.0D, 0.0D));
+		final OrthonormalBasis33D b = Matrix44D.rotateX(+180.0D).transform(a);
+		final OrthonormalBasis33D c = Matrix44D.rotateX(-180.0D).transform(b);
+		final OrthonormalBasis33D d = Matrix44D.rotateY(+180.0D).transform(a);
+		final OrthonormalBasis33D e = Matrix44D.rotateY(-180.0D).transform(d);
+		final OrthonormalBasis33D f = Matrix44D.rotateZ(+180.0D).transform(a);
+		final OrthonormalBasis33D g = Matrix44D.rotateZ(-180.0D).transform(f);
+		
+		assertEquals(a, c);
+		assertEquals(a, e);
+		assertEquals(a, g);
+		
+		assertEquals(new OrthonormalBasis33D(new Vector3D(0.0D, -0.00000000000000012246467991473532D, -1.0D), new Vector3D(0.0D, -1.0D, 0.00000000000000012246467991473532D), new Vector3D(1.0D, 0.0D, 0.0D)), b);
+		assertEquals(new OrthonormalBasis33D(new Vector3D(0.00000000000000012246467991473532D, 0.0D, -1.0D), new Vector3D(0.0D, 1.0D, 0.0D), new Vector3D(-1.0D, 0.0D, -0.00000000000000012246467991473532D)), d);
+		assertEquals(new OrthonormalBasis33D(new Vector3D(0.0D, 0.0D, 1.0D), new Vector3D(-0.00000000000000012246467991473532D, -1.0D, 0.0D), new Vector3D(-1.0D, 0.00000000000000012246467991473532D, 0.0D)), f);
+		
+		assertThrows(NullPointerException.class, () -> Matrix44D.rotateX(+180.0D).transform((OrthonormalBasis33D)(null)));
+	}
+	
+	@Test
+	public void testTransformTranspose() {
+		final OrthonormalBasis33D a = new OrthonormalBasis33D(new Vector3D(0.0D, 0.0D, 1.0D), new Vector3D(0.0D, 1.0D, 0.0D), new Vector3D(1.0D, 0.0D, 0.0D));
+		final OrthonormalBasis33D b = Matrix44D.transpose(Matrix44D.rotateX(+180.0D)).transformTranspose(a);
+		final OrthonormalBasis33D c = Matrix44D.transpose(Matrix44D.rotateX(-180.0D)).transformTranspose(b);
+		final OrthonormalBasis33D d = Matrix44D.transpose(Matrix44D.rotateY(+180.0D)).transformTranspose(a);
+		final OrthonormalBasis33D e = Matrix44D.transpose(Matrix44D.rotateY(-180.0D)).transformTranspose(d);
+		final OrthonormalBasis33D f = Matrix44D.transpose(Matrix44D.rotateZ(+180.0D)).transformTranspose(a);
+		final OrthonormalBasis33D g = Matrix44D.transpose(Matrix44D.rotateZ(-180.0D)).transformTranspose(f);
+		
+		assertEquals(a, c);
+		assertEquals(a, e);
+		assertEquals(a, g);
+		
+		assertEquals(new OrthonormalBasis33D(new Vector3D(0.0D, -0.00000000000000012246467991473532D, -1.0D), new Vector3D(0.0D, -1.0D, 0.00000000000000012246467991473532D), new Vector3D(1.0D, 0.0D, 0.0D)), b);
+		assertEquals(new OrthonormalBasis33D(new Vector3D(0.00000000000000012246467991473532D, 0.0D, -1.0D), new Vector3D(0.0D, 1.0D, 0.0D), new Vector3D(-1.0D, 0.0D, -0.00000000000000012246467991473532D)), d);
+		assertEquals(new OrthonormalBasis33D(new Vector3D(0.0D, 0.0D, 1.0D), new Vector3D(-0.00000000000000012246467991473532D, -1.0D, 0.0D), new Vector3D(-1.0D, 0.00000000000000012246467991473532D, 0.0D)), f);
+		
+		assertThrows(NullPointerException.class, () -> Matrix44D.rotateX(+180.0D).transformTranspose((OrthonormalBasis33D)(null)));
+	}
+	
+	@Test
+	public void testTransformT() {
+		final Matrix44D mA = Matrix44D.translate(0.0D, 0.0D, 0.0D);
+		final Matrix44D mB = Matrix44D.scale(0.0D, 0.0D, 2.0D);
+		
+		final Ray3D rOldSpaceA = new Ray3D(new Point3D(), Vector3D.z());
+		final Ray3D rNewSpaceA = new Ray3D(new Point3D(), Vector3D.z());
+		
+		assertEquals(Doubles.NaN,       mA.transformT(rOldSpaceA, rNewSpaceA, Doubles.NaN));
+		assertEquals(0.0D,              mA.transformT(rOldSpaceA, rNewSpaceA, 0.0D));
+		assertEquals(Doubles.MAX_VALUE, mA.transformT(rOldSpaceA, rNewSpaceA, Doubles.MAX_VALUE));
+		
+		assertEquals(1.0D, mA.transformT(rOldSpaceA, rNewSpaceA, 1.0D));
+		assertEquals(2.0D, mB.transformT(rOldSpaceA, rNewSpaceA, 1.0D));
+		
+		assertThrows(NullPointerException.class, () -> mA.transformT(rOldSpaceA, null,       1.0D));
+		assertThrows(NullPointerException.class, () -> mA.transformT(null,       rNewSpaceA, 1.0D));
 	}
 	
 	@Test

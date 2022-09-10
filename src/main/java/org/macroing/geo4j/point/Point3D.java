@@ -21,7 +21,6 @@ package org.macroing.geo4j.point;
 import java.lang.reflect.Field;//TODO: Add Javadocs!
 import java.util.Objects;
 
-import org.macroing.geo4j.matrix.Matrix44D;
 import org.macroing.geo4j.vector.Vector3D;
 import org.macroing.java.lang.Doubles;
 import org.macroing.java.lang.Ints;
@@ -240,25 +239,6 @@ public final class Point3D {
 		final double z = 1.0D - x - y;
 		
 		return new Point3D(x, y, z);
-	}
-	
-//	TODO: Add Javadocs!
-	public static Point3D transform(final Matrix44D mLHS, final Point3D pRHS) {
-		final double x = mLHS.element11 * pRHS.x + mLHS.element12 * pRHS.y + mLHS.element13 * pRHS.z + mLHS.element14;
-		final double y = mLHS.element21 * pRHS.x + mLHS.element22 * pRHS.y + mLHS.element23 * pRHS.z + mLHS.element24;
-		final double z = mLHS.element31 * pRHS.x + mLHS.element32 * pRHS.y + mLHS.element33 * pRHS.z + mLHS.element34;
-		
-		return new Point3D(x, y, z);
-	}
-	
-//	TODO: Add Javadocs!
-	public static Point3D transformAndDivide(final Matrix44D mLHS, final Point3D pRHS) {
-		final double x = mLHS.element11 * pRHS.x + mLHS.element12 * pRHS.y + mLHS.element13 * pRHS.z + mLHS.element14;
-		final double y = mLHS.element21 * pRHS.x + mLHS.element22 * pRHS.y + mLHS.element23 * pRHS.z + mLHS.element24;
-		final double z = mLHS.element31 * pRHS.x + mLHS.element32 * pRHS.y + mLHS.element33 * pRHS.z + mLHS.element34;
-		final double w = mLHS.element41 * pRHS.x + mLHS.element42 * pRHS.y + mLHS.element43 * pRHS.z + mLHS.element44;
-		
-		return Doubles.equals(w, 1.0D) || Doubles.isZero(w) ? new Point3D(x, y, z) : new Point3D(x / w, y / w, z / w);
 	}
 	
 //	TODO: Add Javadocs!
