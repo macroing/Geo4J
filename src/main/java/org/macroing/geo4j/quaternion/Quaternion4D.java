@@ -188,6 +188,8 @@ public final class Quaternion4D {
 		return qLHS.x * qRHS.x + qLHS.y * qRHS.y + qLHS.z * qRHS.z + qLHS.w * qRHS.w;
 	}
 	
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 //	TODO: Add Javadocs!
 //	TODO: Add unit tests!
 	public static Quaternion4D fromMatrix(final Matrix44D m) {

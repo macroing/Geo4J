@@ -21,11 +21,20 @@ package org.macroing.geo4j.matrix;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.jupiter.api.Test;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutput;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.UncheckedIOException;
 
+import org.junit.jupiter.api.Test;
+import org.macroing.geo4j.mock.DataOutputMock;
 import org.macroing.geo4j.point.Point3D;
 import org.macroing.geo4j.ray.Ray3D;
 import org.macroing.geo4j.vector.Vector3D;
@@ -38,6 +47,27 @@ public final class Matrix44DUnitTests {
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	@Test
+	public void testConstants() {
+		assertEquals( 0, Matrix44D.ARRAY_OFFSET_ELEMENT_1_1);
+		assertEquals( 1, Matrix44D.ARRAY_OFFSET_ELEMENT_1_2);
+		assertEquals( 2, Matrix44D.ARRAY_OFFSET_ELEMENT_1_3);
+		assertEquals( 3, Matrix44D.ARRAY_OFFSET_ELEMENT_1_4);
+		assertEquals( 4, Matrix44D.ARRAY_OFFSET_ELEMENT_2_1);
+		assertEquals( 5, Matrix44D.ARRAY_OFFSET_ELEMENT_2_2);
+		assertEquals( 6, Matrix44D.ARRAY_OFFSET_ELEMENT_2_3);
+		assertEquals( 7, Matrix44D.ARRAY_OFFSET_ELEMENT_2_4);
+		assertEquals( 8, Matrix44D.ARRAY_OFFSET_ELEMENT_3_1);
+		assertEquals( 9, Matrix44D.ARRAY_OFFSET_ELEMENT_3_2);
+		assertEquals(10, Matrix44D.ARRAY_OFFSET_ELEMENT_3_3);
+		assertEquals(11, Matrix44D.ARRAY_OFFSET_ELEMENT_3_4);
+		assertEquals(12, Matrix44D.ARRAY_OFFSET_ELEMENT_4_1);
+		assertEquals(13, Matrix44D.ARRAY_OFFSET_ELEMENT_4_2);
+		assertEquals(14, Matrix44D.ARRAY_OFFSET_ELEMENT_4_3);
+		assertEquals(15, Matrix44D.ARRAY_OFFSET_ELEMENT_4_4);
+		assertEquals(16, Matrix44D.ARRAY_SIZE);
+	}
 	
 	@Test
 	public void testConstructor() {
@@ -214,6 +244,58 @@ public final class Matrix44DUnitTests {
 	}
 	
 	@Test
+	public void testGetElementInt() {
+		final Matrix44D matrix = new Matrix44D(1.0D, 2.0D, 3.0D, 4.0D, 5.0D, 6.0D, 7.0D, 8.0D, 9.0D, 10.0D, 11.0D, 12.0D, 13.0D, 14.0D, 15.0D, 16.0D);
+		
+		assertEquals( 1.0D, matrix.getElement( 0));
+		assertEquals( 2.0D, matrix.getElement( 1));
+		assertEquals( 3.0D, matrix.getElement( 2));
+		assertEquals( 4.0D, matrix.getElement( 3));
+		assertEquals( 5.0D, matrix.getElement( 4));
+		assertEquals( 6.0D, matrix.getElement( 5));
+		assertEquals( 7.0D, matrix.getElement( 6));
+		assertEquals( 8.0D, matrix.getElement( 7));
+		assertEquals( 9.0D, matrix.getElement( 8));
+		assertEquals(10.0D, matrix.getElement( 9));
+		assertEquals(11.0D, matrix.getElement(10));
+		assertEquals(12.0D, matrix.getElement(11));
+		assertEquals(13.0D, matrix.getElement(12));
+		assertEquals(14.0D, matrix.getElement(13));
+		assertEquals(15.0D, matrix.getElement(14));
+		assertEquals(16.0D, matrix.getElement(15));
+		
+		assertThrows(IllegalArgumentException.class, () -> matrix.getElement(- 1));
+		assertThrows(IllegalArgumentException.class, () -> matrix.getElement(+16));
+	}
+	
+	@Test
+	public void testGetElementIntInt() {
+		final Matrix44D matrix = new Matrix44D(1.0D, 2.0D, 3.0D, 4.0D, 5.0D, 6.0D, 7.0D, 8.0D, 9.0D, 10.0D, 11.0D, 12.0D, 13.0D, 14.0D, 15.0D, 16.0D);
+		
+		assertEquals( 1.0D, matrix.getElement(1, 1));
+		assertEquals( 2.0D, matrix.getElement(1, 2));
+		assertEquals( 3.0D, matrix.getElement(1, 3));
+		assertEquals( 4.0D, matrix.getElement(1, 4));
+		assertEquals( 5.0D, matrix.getElement(2, 1));
+		assertEquals( 6.0D, matrix.getElement(2, 2));
+		assertEquals( 7.0D, matrix.getElement(2, 3));
+		assertEquals( 8.0D, matrix.getElement(2, 4));
+		assertEquals( 9.0D, matrix.getElement(3, 1));
+		assertEquals(10.0D, matrix.getElement(3, 2));
+		assertEquals(11.0D, matrix.getElement(3, 3));
+		assertEquals(12.0D, matrix.getElement(3, 4));
+		assertEquals(13.0D, matrix.getElement(4, 1));
+		assertEquals(14.0D, matrix.getElement(4, 2));
+		assertEquals(15.0D, matrix.getElement(4, 3));
+		assertEquals(16.0D, matrix.getElement(4, 4));
+		
+		assertThrows(IllegalArgumentException.class, () -> matrix.getElement(0, 1));
+		assertThrows(IllegalArgumentException.class, () -> matrix.getElement(1, 0));
+		assertThrows(IllegalArgumentException.class, () -> matrix.getElement(5, 1));
+		assertThrows(IllegalArgumentException.class, () -> matrix.getElement(1, 5));
+	}
+	
+	@Test
 	public void testHashCode() {
 		final Matrix44D a = new Matrix44D(1.0D, 2.0D, 3.0D, 4.0D, 5.0D, 6.0D, 7.0D, 8.0D, 9.0D, 10.0D, 11.0D, 12.0D, 13.0D, 14.0D, 15.0D, 16.0D);
 		final Matrix44D b = new Matrix44D(1.0D, 2.0D, 3.0D, 4.0D, 5.0D, 6.0D, 7.0D, 8.0D, 9.0D, 10.0D, 11.0D, 12.0D, 13.0D, 14.0D, 15.0D, 16.0D);
@@ -270,6 +352,32 @@ public final class Matrix44DUnitTests {
 	}
 	
 	@Test
+	public void testLookAt() {
+		final Matrix44D matrix = Matrix44D.lookAt(new Point3D(1.0D, 1.0D, 1.0D), new Point3D(1.0D, 1.0D, 2.0D), Vector3D.y());
+		
+		assertEquals(1.0D, matrix.element11);
+		assertEquals(0.0D, matrix.element12);
+		assertEquals(0.0D, matrix.element13);
+		assertEquals(1.0D, matrix.element14);
+		assertEquals(0.0D, matrix.element21);
+		assertEquals(1.0D, matrix.element22);
+		assertEquals(0.0D, matrix.element23);
+		assertEquals(1.0D, matrix.element24);
+		assertEquals(0.0D, matrix.element31);
+		assertEquals(0.0D, matrix.element32);
+		assertEquals(1.0D, matrix.element33);
+		assertEquals(1.0D, matrix.element34);
+		assertEquals(0.0D, matrix.element41);
+		assertEquals(0.0D, matrix.element42);
+		assertEquals(0.0D, matrix.element43);
+		assertEquals(1.0D, matrix.element44);
+		
+		assertThrows(NullPointerException.class, () -> Matrix44D.lookAt(new Point3D(), new Point3D(), null));
+		assertThrows(NullPointerException.class, () -> Matrix44D.lookAt(new Point3D(), null, new Vector3D()));
+		assertThrows(NullPointerException.class, () -> Matrix44D.lookAt(null, new Point3D(), new Vector3D()));
+	}
+	
+	@Test
 	public void testMultiply() {
 		final Matrix44D a = new Matrix44D(1.0D, 2.0D, 3.0D, 4.0D, 5.0D, 6.0D, 7.0D, 8.0D, 9.0D, 10.0D, 11.0D, 12.0D, 13.0D, 14.0D, 15.0D, 16.0D);
 		final Matrix44D b = Matrix44D.identity();
@@ -279,6 +387,41 @@ public final class Matrix44DUnitTests {
 		
 		assertThrows(NullPointerException.class, () -> Matrix44D.multiply(a, null));
 		assertThrows(NullPointerException.class, () -> Matrix44D.multiply(null, b));
+	}
+	
+	@Test
+	public void testRead() throws IOException {
+		final Matrix44D a = new Matrix44D(1.0D, 2.0D, 3.0D, 4.0D, 5.0D, 6.0D, 7.0D, 8.0D, 9.0D, 10.0D, 11.0D, 12.0D, 13.0D, 14.0D, 15.0D, 16.0D);
+		
+		final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+		
+		final
+		DataOutput dataOutput = new DataOutputStream(byteArrayOutputStream);
+		dataOutput.writeDouble(a.element11);
+		dataOutput.writeDouble(a.element12);
+		dataOutput.writeDouble(a.element13);
+		dataOutput.writeDouble(a.element14);
+		dataOutput.writeDouble(a.element21);
+		dataOutput.writeDouble(a.element22);
+		dataOutput.writeDouble(a.element23);
+		dataOutput.writeDouble(a.element24);
+		dataOutput.writeDouble(a.element31);
+		dataOutput.writeDouble(a.element32);
+		dataOutput.writeDouble(a.element33);
+		dataOutput.writeDouble(a.element34);
+		dataOutput.writeDouble(a.element41);
+		dataOutput.writeDouble(a.element42);
+		dataOutput.writeDouble(a.element43);
+		dataOutput.writeDouble(a.element44);
+		
+		final byte[] bytes = byteArrayOutputStream.toByteArray();
+		
+		final Matrix44D b = Matrix44D.read(new DataInputStream(new ByteArrayInputStream(bytes)));
+		
+		assertEquals(a, b);
+		
+		assertThrows(NullPointerException.class, () -> Matrix44D.read(null));
+		assertThrows(UncheckedIOException.class, () -> Matrix44D.read(new DataInputStream(new ByteArrayInputStream(new byte[] {}))));
 	}
 	
 	@Test
@@ -617,6 +760,34 @@ public final class Matrix44DUnitTests {
 	}
 	
 	@Test
+	public void testToArray() {
+		final Matrix44D matrix = new Matrix44D(1.0D, 2.0D, 3.0D, 4.0D, 5.0D, 6.0D, 7.0D, 8.0D, 9.0D, 10.0D, 11.0D, 12.0D, 13.0D, 14.0D, 15.0D, 16.0D);
+		
+		final double[] array = matrix.toArray();
+		
+		assertNotNull(array);
+		
+		assertEquals(16, array.length);
+		
+		assertEquals( 1.0D, array[ 0]);
+		assertEquals( 2.0D, array[ 1]);
+		assertEquals( 3.0D, array[ 2]);
+		assertEquals( 4.0D, array[ 3]);
+		assertEquals( 5.0D, array[ 4]);
+		assertEquals( 6.0D, array[ 5]);
+		assertEquals( 7.0D, array[ 6]);
+		assertEquals( 8.0D, array[ 7]);
+		assertEquals( 9.0D, array[ 8]);
+		assertEquals(10.0D, array[ 9]);
+		assertEquals(11.0D, array[10]);
+		assertEquals(12.0D, array[11]);
+		assertEquals(13.0D, array[12]);
+		assertEquals(14.0D, array[13]);
+		assertEquals(15.0D, array[14]);
+		assertEquals(16.0D, array[15]);
+	}
+	
+	@Test
 	public void testToString() {
 		final Matrix44D m = new Matrix44D(1.0D, 2.0D, 3.0D, 4.0D, 5.0D, 6.0D, 7.0D, 8.0D, 9.0D, 10.0D, 11.0D, 12.0D, 13.0D, 14.0D, 15.0D, 16.0D);
 		
@@ -624,7 +795,7 @@ public final class Matrix44DUnitTests {
 	}
 	
 	@Test
-	public void testTransformAndDivideMatrix44DPoint3D() {
+	public void testTransformAndDividePoint3D() {
 		final Point3D a = new Point3D(1.0D, 2.0D, 3.0D);
 		final Point3D b = Matrix44D.scale(1.0D, 2.0D, 3.0D).transformAndDivide(a);
 		final Point3D c = Matrix44D.translate(1.0D, 2.0D, 3.0D).transformAndDivide(a);
@@ -651,7 +822,7 @@ public final class Matrix44DUnitTests {
 	}
 	
 	@Test
-	public void testTransformMatrix44DPoint3D() {
+	public void testTransformPoint3D() {
 		final Point3D a = new Point3D(1.0D, 2.0D, 3.0D);
 		final Point3D b = Matrix44D.scale(1.0D, 2.0D, 3.0D).transform(a);
 		final Point3D c = Matrix44D.translate(1.0D, 2.0D, 3.0D).transform(a);
@@ -665,6 +836,31 @@ public final class Matrix44DUnitTests {
 		assertEquals(6.0D, c.z);
 		
 		assertThrows(NullPointerException.class, () -> Matrix44D.translate(1.0D, 2.0D, 3.0D).transform((Point3D)(null)));
+	}
+	
+	@Test
+	public void testTransformRay3D() {
+		final Ray3D a = new Ray3D(new Point3D(1.0D, 2.0D, 3.0D), new Vector3D(1.0D, 0.0D, 0.0D));
+		final Ray3D b = Matrix44D.scale(1.0D, 2.0D, 3.0D).transform(a);
+		final Ray3D c = Matrix44D.translate(1.0D, 2.0D, 3.0D).transform(a);
+		
+		assertEquals(1.0D, b.getOrigin().x);
+		assertEquals(4.0D, b.getOrigin().y);
+		assertEquals(9.0D, b.getOrigin().z);
+		
+		assertEquals(1.0D, b.getDirection().x);
+		assertEquals(0.0D, b.getDirection().y);
+		assertEquals(0.0D, b.getDirection().z);
+		
+		assertEquals(2.0D, c.getOrigin().x);
+		assertEquals(4.0D, c.getOrigin().y);
+		assertEquals(6.0D, c.getOrigin().z);
+		
+		assertEquals(1.0D, b.getDirection().x);
+		assertEquals(0.0D, b.getDirection().y);
+		assertEquals(0.0D, b.getDirection().z);
+		
+		assertThrows(NullPointerException.class, () -> Matrix44D.translate(1.0D, 2.0D, 3.0D).transform((Ray3D)(null)));
 	}
 	
 	@Test
@@ -684,6 +880,40 @@ public final class Matrix44DUnitTests {
 		
 		assertThrows(NullPointerException.class, () -> mA.transformT(rOldSpaceA, null,       1.0D));
 		assertThrows(NullPointerException.class, () -> mA.transformT(null,       rNewSpaceA, 1.0D));
+	}
+	
+	@Test
+	public void testTransformTransposeVector3D() {
+		final Vector3D a = new Vector3D(1.0D, 2.0D, 3.0D);
+		final Vector3D b = Matrix44D.transpose(Matrix44D.scale(1.0D, 2.0D, 3.0D)).transformTranspose(a);
+		final Vector3D c = Matrix44D.transpose(Matrix44D.translate(1.0D, 2.0D, 3.0D)).transformTranspose(a);
+		
+		assertEquals(1.0D, b.x);
+		assertEquals(4.0D, b.y);
+		assertEquals(9.0D, b.z);
+		
+		assertEquals(1.0D, c.x);
+		assertEquals(2.0D, c.y);
+		assertEquals(3.0D, c.z);
+		
+		assertThrows(NullPointerException.class, () -> Matrix44D.transpose(Matrix44D.translate(1.0D, 2.0D, 3.0D)).transformTranspose(null));
+	}
+	
+	@Test
+	public void testTransformVector3D() {
+		final Vector3D a = new Vector3D(1.0D, 2.0D, 3.0D);
+		final Vector3D b = Matrix44D.scale(1.0D, 2.0D, 3.0D).transform(a);
+		final Vector3D c = Matrix44D.translate(1.0D, 2.0D, 3.0D).transform(a);
+		
+		assertEquals(1.0D, b.x);
+		assertEquals(4.0D, b.y);
+		assertEquals(9.0D, b.z);
+		
+		assertEquals(1.0D, c.x);
+		assertEquals(2.0D, c.y);
+		assertEquals(3.0D, c.z);
+		
+		assertThrows(NullPointerException.class, () -> Matrix44D.translate(1.0D, 2.0D, 3.0D).transform((Vector3D)(null)));
 	}
 	
 	@Test
@@ -755,5 +985,25 @@ public final class Matrix44DUnitTests {
 		assertEquals(16.0D, b.element44);
 		
 		assertThrows(NullPointerException.class, () -> Matrix44D.transpose(null));
+	}
+	
+	@Test
+	public void testWrite() {
+		final Matrix44D a = new Matrix44D(1.0D, 2.0D, 3.0D, 4.0D, 5.0D, 6.0D, 7.0D, 8.0D, 9.0D, 10.0D, 11.0D, 12.0D, 13.0D, 14.0D, 15.0D, 16.0D);
+		
+		final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+		
+		final DataOutput dataOutput = new DataOutputStream(byteArrayOutputStream);
+		
+		a.write(dataOutput);
+		
+		final byte[] bytes = byteArrayOutputStream.toByteArray();
+		
+		final Matrix44D b = Matrix44D.read(new DataInputStream(new ByteArrayInputStream(bytes)));
+		
+		assertEquals(a, b);
+		
+		assertThrows(NullPointerException.class, () -> a.write(null));
+		assertThrows(UncheckedIOException.class, () -> a.write(new DataOutputMock()));
 	}
 }
