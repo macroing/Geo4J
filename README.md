@@ -16,7 +16,11 @@ ant
 
 Supported Features
 ------------------
- - `org.macroing.geo4j` provides the Geometry API.
+ - `org.macroing.geo4j.common` provides the Common API.
+ - `org.macroing.geo4j.quaternion` provides the Quaternion API.
+ - `org.macroing.geo4j.matrix` provides the Matrix API.
+ - `org.macroing.geo4j.onb` provides the Orthonormal Basis API.
+ - `org.macroing.geo4j.ray` provides the Ray API.
 
 Examples
 --------
@@ -32,13 +36,12 @@ The following table describes the different APIs and their current status in the
 
 | Name                  | Javadoc | Unit Test | Package                       |
 | --------------------- | ------- | --------- | ----------------------------- |
-| Geo4J                 | N/A     |  86.0%    |                               |
+| Geo4J                 | N/A     |  88.2%    |                               |
+| Common API            | N/A     |  88.5%    | org.macroing.geo4j.common     |
 | Matrix API            | 100.0%  |  94.8%    | org.macroing.geo4j.matrix     |
 | Orthonormal Basis API | N/A     |  61.5%    | org.macroing.geo4j.onb        |
-| Point API             | N/A     |  92.7%    | org.macroing.geo4j.point      |
 | Quaternion API        | N/A     |  76.6%    | org.macroing.geo4j.quaternion |
 | Ray API               | 100.0%  | 100.0%    | org.macroing.geo4j.ray        |
-| Vector API            | N/A     |  77.5%    | org.macroing.geo4j.vector     |
 
 Dependencies
 ------------

@@ -25,9 +25,9 @@ import java.io.UncheckedIOException;
 import java.lang.reflect.Field;//TODO: Add Javadocs!
 import java.util.Objects;
 
-import org.macroing.geo4j.point.Point3D;
+import org.macroing.geo4j.common.Point3D;
+import org.macroing.geo4j.common.Vector3D;
 import org.macroing.geo4j.ray.Ray3D;
-import org.macroing.geo4j.vector.Vector3D;
 import org.macroing.java.lang.Doubles;
 import org.macroing.java.lang.Ints;
 import org.macroing.java.lang.Strings;

@@ -25,8 +25,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
+import org.macroing.geo4j.common.Vector3D;
 import org.macroing.geo4j.matrix.Matrix44D;
-import org.macroing.geo4j.vector.Vector3D;
 
 @SuppressWarnings("static-method")
 public final class Quaternion4DUnitTests {

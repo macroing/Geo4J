@@ -23,8 +23,8 @@ import java.io.DataOutput;
 import java.io.UncheckedIOException;
 import java.util.Objects;
 
-import org.macroing.geo4j.point.Point3D;
-import org.macroing.geo4j.vector.Vector3D;
+import org.macroing.geo4j.common.Point3D;
+import org.macroing.geo4j.common.Vector3D;
 
 /**
  * A {@code Ray3D} represents a 3-dimensional ray with a point of type {@link Point3D} and a vector of type {@link Vector3D}.

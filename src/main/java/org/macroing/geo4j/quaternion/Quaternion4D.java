@@ -22,8 +22,8 @@ import java.lang.reflect.Field;//TODO: Add Javadocs!
 import java.lang.reflect.Field;//TODO: Add unit tests!
 import java.util.Objects;
 
+import org.macroing.geo4j.common.Vector3D;
 import org.macroing.geo4j.matrix.Matrix44D;
-import org.macroing.geo4j.vector.Vector3D;
 import org.macroing.java.lang.Doubles;
 import org.macroing.java.lang.Strings;
 
