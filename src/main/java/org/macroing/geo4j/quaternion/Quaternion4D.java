@@ -145,6 +145,28 @@ public final class Quaternion4D {
 	}
 	
 //	TODO: Add Javadocs!
+//	TODO: Add unit tests!
+	public static Quaternion4D fromMatrix(final Matrix44D m) {
+		if(m.element11 + m.element22 + m.element33 > 0.0D) {
+			final double scalar = 0.5D / Doubles.sqrt(m.element11 + m.element22 + m.element33 + 1.0D);
+			
+			return normalize(new Quaternion4D((m.element23 - m.element32) * scalar, (m.element31 - m.element13) * scalar, (m.element12 - m.element21) * scalar, 0.25D / scalar));
+		} else if(m.element11 > m.element22 && m.element11 > m.element33) {
+			final double scalar = 2.0D * Doubles.sqrt(1.0D + m.element11 - m.element22 - m.element23);
+			
+			return normalize(new Quaternion4D(0.25D * scalar, (m.element21 + m.element12) / scalar, (m.element31 + m.element13) / scalar, (m.element23 - m.element32) / scalar));
+		} else if(m.element22 > m.element33) {
+			final double scalar = 2.0D * Doubles.sqrt(1.0D + m.element22 - m.element11 - m.element33);
+			
+			return normalize(new Quaternion4D((m.element21 + m.element12) / scalar, 0.25D * scalar, (m.element32 + m.element23) / scalar, (m.element31 - m.element13) / scalar));
+		} else {
+			final double scalar = 2.0F * Doubles.sqrt(1.0D + m.element33 - m.element11 - m.element22);
+			
+			return normalize(new Quaternion4D((m.element31 + m.element13) / scalar, (m.element23 + m.element32) / scalar, 0.25D * scalar, (m.element12 - m.element21) / scalar));
+		}
+	}
+	
+//	TODO: Add Javadocs!
 	public static Quaternion4D multiply(final Quaternion4D qLHS, final Quaternion4D qRHS) {
 		return new Quaternion4D(qLHS.x * qRHS.w + qLHS.w * qRHS.x + qLHS.y * qRHS.z - qLHS.z * qRHS.y, qLHS.y * qRHS.w + qLHS.w * qRHS.y + qLHS.z * qRHS.x - qLHS.x * qRHS.z, qLHS.z * qRHS.w + qLHS.w * qRHS.z + qLHS.x * qRHS.y - qLHS.y * qRHS.x, qLHS.w * qRHS.w - qLHS.x * qRHS.x - qLHS.y * qRHS.y - qLHS.z * qRHS.z);
 	}
@@ -186,29 +208,5 @@ public final class Quaternion4D {
 //	TODO: Add Javadocs!
 	public static double dotProduct(final Quaternion4D qLHS, final Quaternion4D qRHS) {
 		return qLHS.x * qRHS.x + qLHS.y * qRHS.y + qLHS.z * qRHS.z + qLHS.w * qRHS.w;
-	}
-	
-	////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-//	TODO: Add Javadocs!
-//	TODO: Add unit tests!
-	public static Quaternion4D fromMatrix(final Matrix44D m) {
-		if(m.element11 + m.element22 + m.element33 > 0.0D) {
-			final double scalar = 0.5D / Doubles.sqrt(m.element11 + m.element22 + m.element33 + 1.0D);
-			
-			return normalize(new Quaternion4D((m.element23 - m.element32) * scalar, (m.element31 - m.element13) * scalar, (m.element12 - m.element21) * scalar, 0.25D / scalar));
-		} else if(m.element11 > m.element22 && m.element11 > m.element33) {
-			final double scalar = 2.0D * Doubles.sqrt(1.0D + m.element11 - m.element22 - m.element23);
-			
-			return normalize(new Quaternion4D(0.25D * scalar, (m.element21 + m.element12) / scalar, (m.element31 + m.element13) / scalar, (m.element23 - m.element32) / scalar));
-		} else if(m.element22 > m.element33) {
-			final double scalar = 2.0D * Doubles.sqrt(1.0D + m.element22 - m.element11 - m.element33);
-			
-			return normalize(new Quaternion4D((m.element21 + m.element12) / scalar, 0.25D * scalar, (m.element32 + m.element23) / scalar, (m.element31 - m.element13) / scalar));
-		} else {
-			final double scalar = 2.0F * Doubles.sqrt(1.0D + m.element33 - m.element11 - m.element22);
-			
-			return normalize(new Quaternion4D((m.element31 + m.element13) / scalar, (m.element23 + m.element32) / scalar, 0.25D * scalar, (m.element12 - m.element21) / scalar));
-		}
 	}
 }
