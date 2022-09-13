@@ -24,9 +24,18 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutput;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.UncheckedIOException;
+
 import org.junit.jupiter.api.Test;
 import org.macroing.geo4j.common.Vector3D;
 import org.macroing.geo4j.matrix.Matrix44D;
+import org.macroing.geo4j.mock.DataOutputMock;
 
 @SuppressWarnings("static-method")
 public final class Quaternion4DUnitTests {
@@ -98,6 +107,18 @@ public final class Quaternion4DUnitTests {
 		assertEquals(2.0D, q.y);
 		assertEquals(3.0D, q.z);
 		assertEquals(4.0D, q.w);
+	}
+	
+	@Test
+	public void testConstructorVector3D() {
+		final Quaternion4D quaternion = new Quaternion4D(new Vector3D(2.0D, 3.0D, 4.0D));
+		
+		assertEquals(2.0D, quaternion.x);
+		assertEquals(3.0D, quaternion.y);
+		assertEquals(4.0D, quaternion.z);
+		assertEquals(1.0D, quaternion.w);
+		
+		assertThrows(NullPointerException.class, () -> new Quaternion4D(null));
 	}
 	
 	@Test
@@ -309,6 +330,29 @@ public final class Quaternion4DUnitTests {
 	}
 	
 	@Test
+	public void testRead() throws IOException {
+		final Quaternion4D a = new Quaternion4D(1.0D, 2.0D, 3.0D, 4.0D);
+		
+		final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+		
+		final
+		DataOutput dataOutput = new DataOutputStream(byteArrayOutputStream);
+		dataOutput.writeDouble(a.x);
+		dataOutput.writeDouble(a.y);
+		dataOutput.writeDouble(a.z);
+		dataOutput.writeDouble(a.w);
+		
+		final byte[] bytes = byteArrayOutputStream.toByteArray();
+		
+		final Quaternion4D b = Quaternion4D.read(new DataInputStream(new ByteArrayInputStream(bytes)));
+		
+		assertEquals(a, b);
+		
+		assertThrows(NullPointerException.class, () -> Quaternion4D.read(null));
+		assertThrows(UncheckedIOException.class, () -> Quaternion4D.read(new DataInputStream(new ByteArrayInputStream(new byte[] {}))));
+	}
+	
+	@Test
 	public void testSubtract() {
 		final Quaternion4D a = new Quaternion4D(3.0D, 5.0D, 7.0D, 9.0D);
 		final Quaternion4D b = new Quaternion4D(2.0D, 3.0D, 4.0D, 5.0D);
@@ -350,5 +394,25 @@ public final class Quaternion4DUnitTests {
 		final Quaternion4D q = new Quaternion4D(1.0D, 2.0D, 3.0D, 4.0D);
 		
 		assertEquals("new Quaternion4D(1.0D, 2.0D, 3.0D, 4.0D)", q.toString());
+	}
+	
+	@Test
+	public void testWrite() {
+		final Quaternion4D a = new Quaternion4D(1.0D, 2.0D, 3.0D, 4.0D);
+		
+		final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+		
+		final DataOutput dataOutput = new DataOutputStream(byteArrayOutputStream);
+		
+		a.write(dataOutput);
+		
+		final byte[] bytes = byteArrayOutputStream.toByteArray();
+		
+		final Quaternion4D b = Quaternion4D.read(new DataInputStream(new ByteArrayInputStream(bytes)));
+		
+		assertEquals(a, b);
+		
+		assertThrows(NullPointerException.class, () -> a.write(null));
+		assertThrows(UncheckedIOException.class, () -> a.write(new DataOutputMock()));
 	}
 }
