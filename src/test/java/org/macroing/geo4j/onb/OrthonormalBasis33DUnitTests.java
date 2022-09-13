@@ -24,9 +24,18 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutput;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.UncheckedIOException;
+
 import org.junit.jupiter.api.Test;
 import org.macroing.geo4j.common.Vector3D;
 import org.macroing.geo4j.matrix.Matrix44D;
+import org.macroing.geo4j.mock.DataOutputMock;
 
 @SuppressWarnings("static-method")
 public final class OrthonormalBasis33DUnitTests {
@@ -35,6 +44,40 @@ public final class OrthonormalBasis33DUnitTests {
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	@Test
+	public void testClearCacheAndGetCacheSizeAndGetCached() {
+		assertEquals(0, OrthonormalBasis33D.getCacheSize());
+		
+		final OrthonormalBasis33D a = new OrthonormalBasis33D(new Vector3D(0.0D, 0.0D, 1.0D), new Vector3D(0.0D, 1.0D, 0.0D), new Vector3D(1.0D, 0.0D, 0.0D));
+		final OrthonormalBasis33D b = new OrthonormalBasis33D(new Vector3D(0.0D, 0.0D, 1.0D), new Vector3D(0.0D, 1.0D, 0.0D), new Vector3D(1.0D, 0.0D, 0.0D));
+		final OrthonormalBasis33D c = OrthonormalBasis33D.getCached(a);
+		final OrthonormalBasis33D d = OrthonormalBasis33D.getCached(b);
+		final OrthonormalBasis33D e = OrthonormalBasis33D.getCached(c);
+		final OrthonormalBasis33D f = OrthonormalBasis33D.getCached(d);
+		
+		assertThrows(NullPointerException.class, () -> OrthonormalBasis33D.getCached(null));
+		
+		assertEquals(1, OrthonormalBasis33D.getCacheSize());
+		
+		OrthonormalBasis33D.clearCache();
+		
+		assertEquals(0, OrthonormalBasis33D.getCacheSize());
+		
+		assertTrue(a != b);
+		assertTrue(a != c);
+		assertTrue(a != d);
+		
+		assertTrue(b != a);
+		assertTrue(b != c);
+		assertTrue(b != d);
+		
+		assertTrue(c == e);
+		assertTrue(c == f);
+		
+		assertTrue(d == e);
+		assertTrue(d == f);
+	}
 	
 	@Test
 	public void testConstructor() {
@@ -127,11 +170,146 @@ public final class OrthonormalBasis33DUnitTests {
 	}
 	
 	@Test
+	public void testFlip() {
+		final OrthonormalBasis33D a = new OrthonormalBasis33D(new Vector3D(0.0D, 0.0D, 1.0D), new Vector3D(0.0D, 1.0D, 0.0D), new Vector3D(1.0D, 0.0D, 0.0D));
+		final OrthonormalBasis33D b = OrthonormalBasis33D.flip(a);
+		
+		assertEquals(new Vector3D(-1.0F, -0.0D, -0.0D), b.u);
+		assertEquals(new Vector3D(-0.0F, -1.0D, -0.0D), b.v);
+		assertEquals(new Vector3D(-0.0F, -0.0D, -1.0D), b.w);
+		
+		assertThrows(NullPointerException.class, () -> OrthonormalBasis33D.flip(null));
+	}
+	
+	@Test
+	public void testFlipU() {
+		final OrthonormalBasis33D a = new OrthonormalBasis33D(new Vector3D(0.0D, 0.0D, 1.0D), new Vector3D(0.0D, 1.0D, 0.0D), new Vector3D(1.0D, 0.0D, 0.0D));
+		final OrthonormalBasis33D b = OrthonormalBasis33D.flipU(a);
+		
+		assertEquals(new Vector3D(-1.0F, -0.0D, -0.0D), b.u);
+		assertEquals(new Vector3D(+0.0F, +1.0D, +0.0D), b.v);
+		assertEquals(new Vector3D(+0.0F, +0.0D, +1.0D), b.w);
+		
+		assertThrows(NullPointerException.class, () -> OrthonormalBasis33D.flipU(null));
+	}
+	
+	@Test
+	public void testFlipV() {
+		final OrthonormalBasis33D a = new OrthonormalBasis33D(new Vector3D(0.0D, 0.0D, 1.0D), new Vector3D(0.0D, 1.0D, 0.0D), new Vector3D(1.0D, 0.0D, 0.0D));
+		final OrthonormalBasis33D b = OrthonormalBasis33D.flipV(a);
+		
+		assertEquals(new Vector3D(+1.0F, +0.0D, +0.0D), b.u);
+		assertEquals(new Vector3D(-0.0F, -1.0D, -0.0D), b.v);
+		assertEquals(new Vector3D(+0.0F, +0.0D, +1.0D), b.w);
+		
+		assertThrows(NullPointerException.class, () -> OrthonormalBasis33D.flipV(null));
+	}
+	
+	@Test
+	public void testFlipW() {
+		final OrthonormalBasis33D a = new OrthonormalBasis33D(new Vector3D(0.0D, 0.0D, 1.0D), new Vector3D(0.0D, 1.0D, 0.0D), new Vector3D(1.0D, 0.0D, 0.0D));
+		final OrthonormalBasis33D b = OrthonormalBasis33D.flipW(a);
+		
+		assertEquals(new Vector3D(+1.0F, +0.0D, +0.0D), b.u);
+		assertEquals(new Vector3D(+0.0F, +1.0D, +0.0D), b.v);
+		assertEquals(new Vector3D(-0.0F, -0.0D, -1.0D), b.w);
+		
+		assertThrows(NullPointerException.class, () -> OrthonormalBasis33D.flipW(null));
+	}
+	
+	@Test
+	public void testFromMatrix() {
+		final OrthonormalBasis33D a = new OrthonormalBasis33D(Vector3D.z(), Vector3D.y(), Vector3D.x());
+		
+		final Matrix44D m = a.toMatrix();
+		
+		final OrthonormalBasis33D b = OrthonormalBasis33D.fromMatrix(m);
+		
+		assertEquals(a, b);
+		
+		assertThrows(NullPointerException.class, () -> OrthonormalBasis33D.fromMatrix(null));
+	}
+	
+	@Test
+	public void testHasOrthogonalVectors() {
+		final OrthonormalBasis33D a = new OrthonormalBasis33D(new Vector3D(0.0D, 0.0D, 1.0D), new Vector3D(0.0D, 1.0D, 0.0D), new Vector3D(1.0D, 0.0D, 0.0D));
+		final OrthonormalBasis33D b = new OrthonormalBasis33D(new Vector3D(0.0D, 0.0D, 1.0D), new Vector3D(0.0D, 1.0D, 0.0D), new Vector3D(1.0D, 1.0D, 1.0D));
+		final OrthonormalBasis33D c = new OrthonormalBasis33D(new Vector3D(0.0D, 0.0D, 1.0D), new Vector3D(1.0D, 1.0D, 1.0D), new Vector3D(1.0D, 0.0D, 0.0D));
+		final OrthonormalBasis33D d = new OrthonormalBasis33D(new Vector3D(1.0D, 1.0D, 1.0D), new Vector3D(0.0D, 1.0D, 0.0D), new Vector3D(1.0D, 0.0D, 0.0D));
+		final OrthonormalBasis33D e = new OrthonormalBasis33D(new Vector3D(0.0D, 0.0D, 1.0D), new Vector3D(0.0D, 0.0D, 1.0D), new Vector3D(1.0D, 0.0D, 0.0D));
+		final OrthonormalBasis33D f = new OrthonormalBasis33D(new Vector3D(0.0D, 0.0D, 1.0D), new Vector3D(0.0D, 1.0D, 0.0D), new Vector3D(0.0D, 1.0D, 0.0D));
+		final OrthonormalBasis33D g = new OrthonormalBasis33D(new Vector3D(0.0D, 0.0D, 1.0D), new Vector3D(0.0D, 1.0D, 0.0D), new Vector3D(0.0D, 0.0D, 1.0D));
+		
+		assertTrue(a.hasOrthogonalVectors());
+		
+		assertFalse(b.hasOrthogonalVectors());
+		assertFalse(c.hasOrthogonalVectors());
+		assertFalse(d.hasOrthogonalVectors());
+		assertFalse(e.hasOrthogonalVectors());
+		assertFalse(f.hasOrthogonalVectors());
+		assertFalse(g.hasOrthogonalVectors());
+	}
+	
+	@Test
+	public void testHasUnitVectors() {
+		final OrthonormalBasis33D a = new OrthonormalBasis33D(new Vector3D(0.0D, 0.0D, 1.0D), new Vector3D(0.0D, 1.0D, 0.0D), new Vector3D(1.0D, 0.0D, 0.0D));
+		final OrthonormalBasis33D b = new OrthonormalBasis33D(new Vector3D(0.0D, 0.0D, 1.0D), new Vector3D(0.0D, 1.0D, 0.0D), new Vector3D(1.0D, 1.0D, 1.0D));
+		final OrthonormalBasis33D c = new OrthonormalBasis33D(new Vector3D(0.0D, 0.0D, 1.0D), new Vector3D(1.0D, 1.0D, 1.0D), new Vector3D(1.0D, 0.0D, 0.0D));
+		final OrthonormalBasis33D d = new OrthonormalBasis33D(new Vector3D(1.0D, 1.0D, 1.0D), new Vector3D(0.0D, 1.0D, 0.0D), new Vector3D(1.0D, 0.0D, 0.0D));
+		
+		assertTrue(a.hasUnitVectors());
+		
+		assertFalse(b.hasUnitVectors());
+		assertFalse(c.hasUnitVectors());
+		assertFalse(d.hasUnitVectors());
+	}
+	
+	@Test
 	public void testHashCode() {
 		final OrthonormalBasis33D a = new OrthonormalBasis33D(new Vector3D(0.0D, 0.0D, 1.0D), new Vector3D(0.0D, 1.0D, 0.0D), new Vector3D(1.0D, 0.0D, 0.0D));
 		final OrthonormalBasis33D b = new OrthonormalBasis33D(new Vector3D(0.0D, 0.0D, 1.0D), new Vector3D(0.0D, 1.0D, 0.0D), new Vector3D(1.0D, 0.0D, 0.0D));
 		
 		assertEquals(a.hashCode(), b.hashCode());
+	}
+	
+	@Test
+	public void testIsOrthonormal() {
+		final OrthonormalBasis33D a = new OrthonormalBasis33D(new Vector3D(0.0D, 0.0D, 1.0D), new Vector3D(0.0D, 1.0D, 0.0D), new Vector3D(1.0D, 0.0D, 0.0D));
+		final OrthonormalBasis33D b = new OrthonormalBasis33D(new Vector3D(0.0D, 0.0D, 5.0D), new Vector3D(0.0D, 5.0D, 0.0D), new Vector3D(5.0D, 0.0D, 0.0D));
+		final OrthonormalBasis33D c = new OrthonormalBasis33D(new Vector3D(0.0D, 0.0D, 1.0D), new Vector3D(0.0D, 0.0D, 1.0D), new Vector3D(0.0D, 0.0D, 1.0D));
+		
+		assertTrue(a.isOrthonormal());
+		
+		assertFalse(b.isOrthonormal());
+		assertFalse(c.isOrthonormal());
+	}
+	
+	@Test
+	public void testRead() throws IOException {
+		final OrthonormalBasis33D a = new OrthonormalBasis33D(new Vector3D(0.0D, 0.0D, 1.0D), new Vector3D(0.0D, 1.0D, 0.0D), new Vector3D(1.0D, 0.0D, 0.0D));
+		
+		final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+		
+		final
+		DataOutput dataOutput = new DataOutputStream(byteArrayOutputStream);
+		dataOutput.writeDouble(a.w.x);
+		dataOutput.writeDouble(a.w.y);
+		dataOutput.writeDouble(a.w.z);
+		dataOutput.writeDouble(a.v.x);
+		dataOutput.writeDouble(a.v.y);
+		dataOutput.writeDouble(a.v.z);
+		dataOutput.writeDouble(a.u.x);
+		dataOutput.writeDouble(a.u.y);
+		dataOutput.writeDouble(a.u.z);
+		
+		final byte[] bytes = byteArrayOutputStream.toByteArray();
+		
+		final OrthonormalBasis33D b = OrthonormalBasis33D.read(new DataInputStream(new ByteArrayInputStream(bytes)));
+		
+		assertEquals(a, b);
+		
+		assertThrows(NullPointerException.class, () -> OrthonormalBasis33D.read(null));
+		assertThrows(UncheckedIOException.class, () -> OrthonormalBasis33D.read(new DataInputStream(new ByteArrayInputStream(new byte[] {}))));
 	}
 	
 	@Test
@@ -185,7 +363,52 @@ public final class OrthonormalBasis33DUnitTests {
 	}
 	
 	@Test
-	public void testTransformTranspose() {
+	public void testTransformNormalizeVector3D() {
+		final OrthonormalBasis33D o = new OrthonormalBasis33D(new Vector3D(0.0D, 0.0D, 1.0D), new Vector3D(0.0D, 1.0D, 0.0D), new Vector3D(1.0D, 0.0D, 0.0D));
+		
+		final Vector3D a = o.transformNormalize(new Vector3D(1.0D, 0.0D, 0.0D));
+		final Vector3D b = o.transformNormalize(new Vector3D(0.0D, 1.0D, 0.0D));
+		final Vector3D c = o.transformNormalize(new Vector3D(0.0D, 0.0D, 1.0D));
+		
+		assertEquals(new Vector3D(1.0D, 0.0D, 0.0D), a);
+		assertEquals(new Vector3D(0.0D, 1.0D, 0.0D), b);
+		assertEquals(new Vector3D(0.0D, 0.0D, 1.0D), c);
+		
+		assertThrows(NullPointerException.class, () -> o.transformNormalize((Vector3D)(null)));
+	}
+	
+	@Test
+	public void testTransformReverseNormalizeVector3D() {
+		final OrthonormalBasis33D o = new OrthonormalBasis33D(new Vector3D(0.0D, 0.0D, 1.0D), new Vector3D(0.0D, 1.0D, 0.0D), new Vector3D(1.0D, 0.0D, 0.0D));
+		
+		final Vector3D a = o.transformReverseNormalize(new Vector3D(1.0D, 0.0D, 0.0D));
+		final Vector3D b = o.transformReverseNormalize(new Vector3D(0.0D, 1.0D, 0.0D));
+		final Vector3D c = o.transformReverseNormalize(new Vector3D(0.0D, 0.0D, 1.0D));
+		
+		assertEquals(new Vector3D(1.0D, 0.0D, 0.0D), a);
+		assertEquals(new Vector3D(0.0D, 1.0D, 0.0D), b);
+		assertEquals(new Vector3D(0.0D, 0.0D, 1.0D), c);
+		
+		assertThrows(NullPointerException.class, () -> o.transformReverseNormalize((Vector3D)(null)));
+	}
+	
+	@Test
+	public void testTransformReverseVector3D() {
+		final OrthonormalBasis33D o = new OrthonormalBasis33D(new Vector3D(0.0D, 0.0D, 1.0D), new Vector3D(0.0D, 1.0D, 0.0D), new Vector3D(1.0D, 0.0D, 0.0D));
+		
+		final Vector3D a = o.transformReverse(new Vector3D(1.0D, 0.0D, 0.0D));
+		final Vector3D b = o.transformReverse(new Vector3D(0.0D, 1.0D, 0.0D));
+		final Vector3D c = o.transformReverse(new Vector3D(0.0D, 0.0D, 1.0D));
+		
+		assertEquals(new Vector3D(1.0D, 0.0D, 0.0D), a);
+		assertEquals(new Vector3D(0.0D, 1.0D, 0.0D), b);
+		assertEquals(new Vector3D(0.0D, 0.0D, 1.0D), c);
+		
+		assertThrows(NullPointerException.class, () -> o.transformReverse((Vector3D)(null)));
+	}
+	
+	@Test
+	public void testTransformTransposeMatrix44D() {
 		final OrthonormalBasis33D a = new OrthonormalBasis33D(new Vector3D(0.0D, 0.0D, 1.0D), new Vector3D(0.0D, 1.0D, 0.0D), new Vector3D(1.0D, 0.0D, 0.0D));
 		final OrthonormalBasis33D b = a.transformTranspose(Matrix44D.transpose(Matrix44D.rotateX(+180.0D)));
 		final OrthonormalBasis33D c = b.transformTranspose(Matrix44D.transpose(Matrix44D.rotateX(-180.0D)));
@@ -203,5 +426,40 @@ public final class OrthonormalBasis33DUnitTests {
 		assertEquals(new OrthonormalBasis33D(new Vector3D(0.0D, 0.0D, 1.0D), new Vector3D(-0.00000000000000012246467991473532D, -1.0D, 0.0D), new Vector3D(-1.0D, 0.00000000000000012246467991473532D, 0.0D)), f);
 		
 		assertThrows(NullPointerException.class, () -> a.transformTranspose((Matrix44D)(null)));
+	}
+	
+	@Test
+	public void testTransformVector3D() {
+		final OrthonormalBasis33D o = new OrthonormalBasis33D(new Vector3D(0.0D, 0.0D, 1.0D), new Vector3D(0.0D, 1.0D, 0.0D), new Vector3D(1.0D, 0.0D, 0.0D));
+		
+		final Vector3D a = o.transform(new Vector3D(1.0D, 0.0D, 0.0D));
+		final Vector3D b = o.transform(new Vector3D(0.0D, 1.0D, 0.0D));
+		final Vector3D c = o.transform(new Vector3D(0.0D, 0.0D, 1.0D));
+		
+		assertEquals(new Vector3D(1.0D, 0.0D, 0.0D), a);
+		assertEquals(new Vector3D(0.0D, 1.0D, 0.0D), b);
+		assertEquals(new Vector3D(0.0D, 0.0D, 1.0D), c);
+		
+		assertThrows(NullPointerException.class, () -> o.transform((Vector3D)(null)));
+	}
+	
+	@Test
+	public void testWrite() {
+		final OrthonormalBasis33D a = new OrthonormalBasis33D(new Vector3D(0.0D, 0.0D, 1.0D), new Vector3D(0.0D, 1.0D, 0.0D), new Vector3D(1.0D, 0.0D, 0.0D));
+		
+		final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+		
+		final DataOutput dataOutput = new DataOutputStream(byteArrayOutputStream);
+		
+		a.write(dataOutput);
+		
+		final byte[] bytes = byteArrayOutputStream.toByteArray();
+		
+		final OrthonormalBasis33D b = OrthonormalBasis33D.read(new DataInputStream(new ByteArrayInputStream(bytes)));
+		
+		assertEquals(a, b);
+		
+		assertThrows(NullPointerException.class, () -> a.write(null));
+		assertThrows(UncheckedIOException.class, () -> a.write(new DataOutputMock()));
 	}
 }
