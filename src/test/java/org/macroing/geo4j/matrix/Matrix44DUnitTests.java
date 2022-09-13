@@ -390,6 +390,38 @@ public final class Matrix44DUnitTests {
 	}
 	
 	@Test
+	public void testPerspective() {
+		final double fieldOfView = Math.toRadians(90.0D);
+		final double aspectRatio = 1.0D;
+		final double zNear = 0.0D;
+		final double zFar = 100.0D;
+		
+		final Matrix44D m = Matrix44D.perspective(fieldOfView, aspectRatio, zNear, zFar);
+		
+		final double a = 1.0D / (Math.tan(fieldOfView / 2.0D) * aspectRatio);
+		final double b = 1.0D / (Math.tan(fieldOfView / 2.0D));
+		final double c = zFar / (zFar - zNear);
+		final double d = -zFar * zNear / (zFar - zNear);
+		
+		assertEquals(   a, m.element11);
+		assertEquals(0.0D, m.element12);
+		assertEquals(0.0D, m.element13);
+		assertEquals(0.0D, m.element14);
+		assertEquals(0.0D, m.element21);
+		assertEquals(   b, m.element22);
+		assertEquals(0.0D, m.element23);
+		assertEquals(0.0D, m.element24);
+		assertEquals(0.0D, m.element31);
+		assertEquals(0.0D, m.element32);
+		assertEquals(   c, m.element33);
+		assertEquals(   d, m.element34);
+		assertEquals(0.0D, m.element41);
+		assertEquals(0.0D, m.element42);
+		assertEquals(1.0D, m.element43);
+		assertEquals(0.0D, m.element44);
+	}
+	
+	@Test
 	public void testRead() throws IOException {
 		final Matrix44D a = new Matrix44D(1.0D, 2.0D, 3.0D, 4.0D, 5.0D, 6.0D, 7.0D, 8.0D, 9.0D, 10.0D, 11.0D, 12.0D, 13.0D, 14.0D, 15.0D, 16.0D);
 		
@@ -757,6 +789,28 @@ public final class Matrix44DUnitTests {
 		assertEquals(1.0D, m.element44);
 		
 		assertThrows(NullPointerException.class, () -> Matrix44D.scale(null));
+	}
+	
+	@Test
+	public void testScreenSpaceTransform() {
+		final Matrix44D m = Matrix44D.screenSpaceTransform(1024.0D, 768.0D);
+		
+		assertEquals(+512.0D, m.element11);
+		assertEquals(   0.0D, m.element12);
+		assertEquals(   0.0D, m.element13);
+		assertEquals(+511.5D, m.element14);
+		assertEquals(   0.0D, m.element21);
+		assertEquals(-384.0D, m.element22);
+		assertEquals(   0.0D, m.element23);
+		assertEquals(+383.5D, m.element24);
+		assertEquals(   0.0D, m.element31);
+		assertEquals(   0.0D, m.element32);
+		assertEquals(   1.0D, m.element33);
+		assertEquals(   0.0D, m.element34);
+		assertEquals(   0.0D, m.element41);
+		assertEquals(   0.0D, m.element42);
+		assertEquals(   0.0D, m.element43);
+		assertEquals(   1.0D, m.element44);
 	}
 	
 	@Test

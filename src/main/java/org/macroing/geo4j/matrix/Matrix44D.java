@@ -22,7 +22,6 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.lang.reflect.Field;//TODO: Add Javadocs!
 import java.util.Objects;
 
 import org.macroing.geo4j.common.Point3D;
@@ -790,7 +789,6 @@ public final class Matrix44D {
 	 * @param zFar the distance to the far plane on the Z-axis
 	 * @return a {@code Matrix44D} instance for perspective projection
 	 */
-//	TODO: Add unit tests!
 	public static Matrix44D perspective(final double fieldOfView, final double aspectRatio, final double zNear, final double zFar) {
 		final double tanHalfFieldOfView = Doubles.tan(fieldOfView / 2.0D);
 		
@@ -1099,7 +1097,6 @@ public final class Matrix44D {
 	 * @param height the height of the screen
 	 * @return a {@code Matrix44D} instance for screen space transformation
 	 */
-//	TODO: Add unit tests!
 	public static Matrix44D screenSpaceTransform(final double width, final double height) {
 		final double halfWidth = width * 0.5D;
 		final double halfHeight = height * 0.5D;
