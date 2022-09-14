@@ -36,8 +36,8 @@ The following table describes the different APIs and their current status in the
 
 | Name                  | Javadoc | Unit Test | Package                       |
 | --------------------- | ------- | --------- | ----------------------------- |
-| Geo4J                 | N/A     |  90.8%    |                               |
-| Common API            | N/A     |  88.5%    | org.macroing.geo4j.common     |
+| Geo4J                 | N/A     |  91.1%    |                               |
+| Common API            | N/A     |  89.1%    | org.macroing.geo4j.common     |
 | Matrix API            | 100.0%  | 100.0%    | org.macroing.geo4j.matrix     |
 | Orthonormal Basis API | 100.0%  | 100.0%    | org.macroing.geo4j.onb        |
 | Quaternion API        | 100.0%  |  69.5%    | org.macroing.geo4j.quaternion |

@@ -650,7 +650,6 @@ public final class Point2D {
 	 * 
 	 * @return a {@code Point2D} instance with the sampled point
 	 */
-//	TODO: Add unit tests!
 	public static Point2D sampleDiskUniformDistribution() {
 		return sampleDiskUniformDistribution(sampleRandom());
 	}
@@ -666,7 +665,6 @@ public final class Point2D {
 	 * @return a {@code Point2D} instance with the sampled point
 	 * @throws NullPointerException thrown if, and only if, {@code p} is {@code null}
 	 */
-//	TODO: Add unit tests!
 	public static Point2D sampleDiskUniformDistribution(final Point2D p) {
 		final double r = Doubles.sqrt(p.x);
 		final double theta = Doubles.PI_MULTIPLIED_BY_2 * p.y;

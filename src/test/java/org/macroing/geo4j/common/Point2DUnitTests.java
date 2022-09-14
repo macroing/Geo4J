@@ -531,6 +531,16 @@ public final class Point2DUnitTests {
 	}
 	
 	@Test
+	public void testSampleDiskUniformDistribution() {
+		for(int i = 0; i < 1000; i++) {
+			final Point2D p = Point2D.sampleDiskUniformDistribution();
+			
+			assertTrue(p.x >= -1.0D && p.x <= 1.0D);
+			assertTrue(p.y >= -1.0D && p.y <= 1.0D);
+		}
+	}
+	
+	@Test
 	public void testSampleDiskUniformDistributionByConcentricMapping() {
 		final Point2D a = Point2D.sampleDiskUniformDistributionByConcentricMapping();
 		
@@ -572,6 +582,21 @@ public final class Point2DUnitTests {
 		assertEquals(1.00000000000000000000000000000000D, c.y);
 		
 		assertThrows(NullPointerException.class, () -> Point2D.sampleDiskUniformDistributionByConcentricMapping(null, 1.0D));
+	}
+	
+	@Test
+	public void testSampleDiskUniformDistributionPoint2D() {
+		final Point2D a = Point2D.sampleDiskUniformDistribution(new Point2D(0.0D, 0.0D));
+		final Point2D b = Point2D.sampleDiskUniformDistribution(new Point2D(0.0D, 1.0D));
+		final Point2D c = Point2D.sampleDiskUniformDistribution(new Point2D(1.0D, 0.0D));
+		final Point2D d = Point2D.sampleDiskUniformDistribution(new Point2D(1.0D, 1.0D));
+		
+		assertEquals(new Point2D(Math.sqrt(0.0D) * Math.cos(Math.PI * 2.0D * 0.0D), Math.sqrt(0.0D) * Math.sin(Math.PI * 2.0D * 0.0D)), a);
+		assertEquals(new Point2D(Math.sqrt(0.0D) * Math.cos(Math.PI * 2.0D * 1.0D), Math.sqrt(0.0D) * Math.sin(Math.PI * 2.0D * 1.0D)), b);
+		assertEquals(new Point2D(Math.sqrt(1.0D) * Math.cos(Math.PI * 2.0D * 0.0D), Math.sqrt(1.0D) * Math.sin(Math.PI * 2.0D * 0.0D)), c);
+		assertEquals(new Point2D(Math.sqrt(1.0D) * Math.cos(Math.PI * 2.0D * 1.0D), Math.sqrt(1.0D) * Math.sin(Math.PI * 2.0D * 1.0D)), d);
+		
+		assertThrows(NullPointerException.class, () -> Point2D.sampleDiskUniformDistribution(null));
 	}
 	
 	@Test
