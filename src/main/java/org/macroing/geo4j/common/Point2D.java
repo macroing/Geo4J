@@ -666,10 +666,15 @@ public final class Point2D {
 	 * @throws NullPointerException thrown if, and only if, {@code p} is {@code null}
 	 */
 	public static Point2D sampleDiskUniformDistribution(final Point2D p) {
+//		Convert the component values in 'p' to Polar coordinates:
 		final double r = Doubles.sqrt(p.x);
-		final double theta = Doubles.PI_MULTIPLIED_BY_2 * p.y;
+		final double t = Doubles.PI_MULTIPLIED_BY_2 * p.y;
 		
-		return new Point2D(r * Doubles.cos(theta), r * Doubles.sin(theta));
+//		Convert the Polar coordinates to Cartesian coordinates:
+		final double x = r * Doubles.cos(t);
+		final double y = r * Doubles.sin(t);
+		
+		return new Point2D(x, y);
 	}
 	
 	/**
@@ -729,20 +734,31 @@ public final class Point2D {
 			return p;
 		}
 		
+//		Convert the component values in 'p' from the interval [0.0, 1.0] to the interval [-1.0, 1.0]:
 		final double a = p.x * 2.0D - 1.0D;
 		final double b = p.y * 2.0D - 1.0D;
 		
 		if(a * a > b * b) {
-			final double phi = Doubles.PI / 4.0D * (b / a);
+//			Convert 'a' and 'b' to Polar coordinates:
 			final double r = radius * a;
+			final double t = Doubles.PI / 4.0D * (b / a);
 			
-			return new Point2D(r * Doubles.cos(phi), r * Doubles.sin(phi));
+//			Convert the Polar coordinates to Cartesian coordinates:
+			final double x = r * Doubles.cos(t);
+			final double y = r * Doubles.sin(t);
+			
+			return new Point2D(x, y);
 		}
 		
-		final double phi = Doubles.PI / 2.0D - Doubles.PI / 4.0D * (a / b);
+//		Convert 'a' and 'b' to Polar coordinates:
 		final double r = radius * b;
+		final double t = Doubles.PI / 2.0D - Doubles.PI / 4.0D * (a / b);
 		
-		return new Point2D(r * Doubles.cos(phi), r * Doubles.sin(phi));
+//		Convert the Polar coordinates to Cartesian coordinates:
+		final double x = r * Doubles.cos(t);
+		final double y = r * Doubles.sin(t);
+		
+		return new Point2D(x, y);
 	}
 	
 	/**

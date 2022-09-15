@@ -22,7 +22,6 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.lang.reflect.Field;//TODO: Add Javadocs!
 import java.lang.reflect.Field;//TODO: Add unit tests!
 import java.util.HashMap;
 import java.util.Map;
@@ -632,7 +631,6 @@ public final class Vector3D {
 	 * @return a {@code Vector3D} instance with the result of the addition
 	 * @throws NullPointerException thrown if, and only if, either {@code a}, {@code b} or {@code c} are {@code null}
 	 */
-//	TODO: Add unit tests!
 	public static Vector3D add(final Vector3D a, final Vector3D b, final Vector3D c) {
 		return new Vector3D(a.x + b.x + c.x, a.y + b.y + c.y, a.z + b.z + c.z);
 	}
@@ -667,12 +665,25 @@ public final class Vector3D {
 		return new Vector3D(lookAt.x - eye.x, lookAt.y - eye.y, lookAt.z - eye.z);
 	}
 	
-//	TODO: Add Javadocs!
-	public static Vector3D direction(final Vector3D u, final Vector3D v, final Vector3D w) {
-		return new Vector3D(u.x + v.x + w.x, u.y + v.y + w.y, u.z + v.z + w.z);
-	}
-	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a {@code Vector3D} instance that is pointing in the direction of {@code u}, {@code v} and {@code w} and is scaled by {@code s}.
+	 * <p>
+	 * If either {@code u}, {@code v}, {@code w} or {@code s} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to, but faster than, the following:
+	 * <pre>
+	 * {@code
+	 * Vector3D.add(Vector3D.multiply(u, s.x), Vector3D.multiply(v, s.y), Vector3D.multiply(w, s.z));
+	 * }
+	 * </pre>
+	 * 
+	 * @param u a {@code Vector3D} instance in the U-direction (X-axis)
+	 * @param v a {@code Vector3D} instance in the V-direction (Y-axis)
+	 * @param w a {@code Vector3D} instance in the W-direction (Z-axis)
+	 * @param s a {@code Vector3D} instance that contains the scale factors for each direction (or axis)
+	 * @return a {@code Vector3D} instance that is pointing in the direction of {@code u}, {@code v} and {@code w} and is scaled by {@code s}
+	 * @throws NullPointerException thrown if, and only if, either {@code u}, {@code v}, {@code w} or {@code s} are {@code null}
+	 */
 	public static Vector3D direction(final Vector3D u, final Vector3D v, final Vector3D w, final Vector3D s) {
 		return new Vector3D(u.x * s.x + v.x * s.y + w.x * s.z, u.y * s.x + v.y * s.y + w.y * s.z, u.z * s.x + v.z * s.y + w.z * s.z);
 	}
@@ -691,14 +702,25 @@ public final class Vector3D {
 		return normalize(direction(eye, lookAt));
 	}
 	
-//	TODO: Add Javadocs!
-//	TODO: Add unit tests!
-	public static Vector3D directionNormalized(final Vector3D u, final Vector3D v, final Vector3D w) {
-		return normalize(direction(u, v, w));
-	}
-	
-//	TODO: Add Javadocs!
-//	TODO: Add unit tests!
+	/**
+	 * Returns a {@code Vector3D} instance that is pointing in the direction of {@code u}, {@code v} and {@code w}, is scaled by {@code s} and is normalized.
+	 * <p>
+	 * If either {@code u}, {@code v}, {@code w} or {@code s} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to, but faster than, the following:
+	 * <pre>
+	 * {@code
+	 * Vector3D.normalize(Vector3D.direction(u, v, w, s));
+	 * }
+	 * </pre>
+	 * 
+	 * @param u a {@code Vector3D} instance in the U-direction (X-axis)
+	 * @param v a {@code Vector3D} instance in the V-direction (Y-axis)
+	 * @param w a {@code Vector3D} instance in the W-direction (Z-axis)
+	 * @param s a {@code Vector3D} instance that contains the scale factors for each direction (or axis)
+	 * @return a {@code Vector3D} instance that is pointing in the direction of {@code u}, {@code v} and {@code w}, is scaled by {@code s} and is normalized
+	 * @throws NullPointerException thrown if, and only if, either {@code u}, {@code v}, {@code w} or {@code s} are {@code null}
+	 */
 	public static Vector3D directionNormalized(final Vector3D u, final Vector3D v, final Vector3D w, final Vector3D s) {
 		return normalize(direction(u, v, w, s));
 	}
@@ -711,7 +733,6 @@ public final class Vector3D {
 	 * @param phi the angle phi
 	 * @return a {@code Vector3D} instance that is pointing in the direction of the spherical coordinates {@code sinTheta}, {@code cosTheta} and {@code phi}
 	 */
-//	TODO: Add unit tests!
 	public static Vector3D directionSpherical(final double sinTheta, final double cosTheta, final double phi) {
 		return new Vector3D(sinTheta * Doubles.cos(phi), sinTheta * Doubles.sin(phi), cosTheta);
 	}
@@ -730,7 +751,6 @@ public final class Vector3D {
 	 * @return a {@code Vector3D} instance that is pointing in the direction of the spherical coordinates {@code sinTheta}, {@code cosTheta} and {@code phi} and is transformed with the coordinate system defined by {@code x}, {@code y} and {@code z}
 	 * @throws NullPointerException thrown if, and only if, either {@code x}, {@code y} or {@code z} are {@code null}
 	 */
-//	TODO: Add unit tests!
 	public static Vector3D directionSpherical(final double sinTheta, final double cosTheta, final double phi, final Vector3D x, final Vector3D y, final Vector3D z) {
 		return add(multiply(x, sinTheta * Doubles.cos(phi)), multiply(y, sinTheta * Doubles.sin(phi)), multiply(z, cosTheta));
 	}
@@ -743,7 +763,6 @@ public final class Vector3D {
 	 * @param phi the angle phi
 	 * @return a {@code Vector3D} instance that is pointing in the direction of the spherical coordinates {@code sinTheta}, {@code cosTheta} and {@code phi} and is normalized
 	 */
-//	TODO: Add unit tests!
 	public static Vector3D directionSphericalNormalized(final double sinTheta, final double cosTheta, final double phi) {
 		return normalize(directionSpherical(sinTheta, cosTheta, phi));
 	}
@@ -762,7 +781,6 @@ public final class Vector3D {
 	 * @return a {@code Vector3D} instance that is pointing in the direction of the spherical coordinates {@code sinTheta}, {@code cosTheta} and {@code phi}, is transformed with the coordinate system defined by {@code x}, {@code y} and {@code z} and is normalized
 	 * @throws NullPointerException thrown if, and only if, either {@code x}, {@code y} or {@code z} are {@code null}
 	 */
-//	TODO: Add unit tests!
 	public static Vector3D directionSphericalNormalized(final double sinTheta, final double cosTheta, final double phi, final Vector3D x, final Vector3D y, final Vector3D z) {
 		return normalize(directionSpherical(sinTheta, cosTheta, phi, x, y, z));
 	}
@@ -961,19 +979,45 @@ public final class Vector3D {
 		return divide(v, length);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns {@code normal} or {@code Vector3D.negate(normal)} as {@code Vector3D.dotProduct(direction, normal)} is less than {@code 0.0D} or greater than or equal to {@code 0.0D}, respectively.
+	 * <p>
+	 * If either {@code direction} or {@code normal} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param direction a {@code Vector3D} instance that represents a direction
+	 * @param normal a {@code Vector3D} instance that represents a normal
+	 * @return {@code normal} or {@code Vector3D.negate(normal)} as {@code Vector3D.dotProduct(direction, normal)} is less than {@code 0.0D} or greater than or equal to {@code 0.0D}, respectively
+	 * @throws NullPointerException thrown if, and only if, either {@code direction} or {@code normal} are {@code null}
+	 */
 //	TODO: Add unit tests!
 	public static Vector3D orientNormal(final Vector3D direction, final Vector3D normal) {
 		return dotProduct(direction, normal) < 0.0D ? normal : negate(normal);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns {@code normal} or {@code Vector3D.negate(normal)} as {@code Vector3D.sameHemisphereZ(direction, normal)} is {@code true} or {@code false}, respectively.
+	 * <p>
+	 * If either {@code direction} or {@code normal} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param direction a {@code Vector3D} instance that represents a direction
+	 * @param normal a {@code Vector3D} instance that represents a normal
+	 * @return {@code normal} or {@code Vector3D.negate(normal)} as {@code Vector3D.sameHemisphereZ(direction, normal)} is {@code true} or {@code false}, respectively
+	 * @throws NullPointerException thrown if, and only if, either {@code direction} or {@code normal} are {@code null}
+	 */
 //	TODO: Add unit tests!
 	public static Vector3D orientNormalSameHemisphereZ(final Vector3D direction, final Vector3D normal) {
 		return sameHemisphereZ(direction, normal) ? normal : negate(normal);
 	}
 	
-//	TODO: Add Javadocs!
+	/**
+	 * Returns a normalized {@code Vector3D} instance that is orthogonal to a normalized representation of {@code v}.
+	 * <p>
+	 * If {@code v} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param v a {@code Vector3D} instance
+	 * @return a normalized {@code Vector3D} instance that is orthogonal to a normalized representation of {@code v}
+	 * @throws NullPointerException thrown if, and only if, {@code v} is {@code null}
+	 */
 	public static Vector3D orthogonal(final Vector3D v) {
 		final Vector3D v0 = normalize(v);
 		final Vector3D v1 = abs(v0);
@@ -1393,7 +1437,6 @@ public final class Vector3D {
 	 * @param cosThetaMax the maximum cos theta value
 	 * @return the probability density function (PDF) value for {@code cosThetaMax}
 	 */
-//	TODO: Add unit tests!
 	public static double coneUniformDistributionPDF(final double cosThetaMax) {
 		return 1.0D / (Doubles.PI_MULTIPLIED_BY_2 * (1.0D - cosThetaMax));
 	}
@@ -1434,7 +1477,6 @@ public final class Vector3D {
 	 * @param cosTheta the cos theta value
 	 * @return the probability density function (PDF) value for {@code cosTheta}
 	 */
-//	TODO: Add unit tests!
 	public static double hemisphereCosineDistributionPDF(final double cosTheta) {
 		return cosTheta * Doubles.PI_RECIPROCAL;
 	}
@@ -1446,7 +1488,6 @@ public final class Vector3D {
 	 * 
 	 * @return the probability density function (PDF) value
 	 */
-//	TODO: Add unit tests!
 	public static double hemisphereUniformDistributionPDF() {
 		return Doubles.PI_MULTIPLIED_BY_2_RECIPROCAL;
 	}
@@ -1458,7 +1499,6 @@ public final class Vector3D {
 	 * 
 	 * @return the probability density function (PDF) value
 	 */
-//	TODO: Add unit tests!
 	public static double sphereUniformDistributionPDF() {
 		return Doubles.PI_MULTIPLIED_BY_4_RECIPROCAL;
 	}

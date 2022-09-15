@@ -55,7 +55,7 @@ public final class Vector3DUnitTests {
 	}
 	
 	@Test
-	public void testAdd() {
+	public void testAddVector3DVector3D() {
 		final Vector3D v = Vector3D.add(new Vector3D(1.0D, 2.0D, 3.0D), new Vector3D(2.0D, 3.0D, 4.0D));
 		
 		assertEquals(3.0D, v.x);
@@ -64,6 +64,19 @@ public final class Vector3DUnitTests {
 		
 		assertThrows(NullPointerException.class, () -> Vector3D.add(new Vector3D(1.0D, 2.0D, 3.0D), null));
 		assertThrows(NullPointerException.class, () -> Vector3D.add(null, new Vector3D(2.0D, 3.0D, 4.0D)));
+	}
+	
+	@Test
+	public void testAddVector3DVector3DVector3D() {
+		final Vector3D v = Vector3D.add(new Vector3D(1.0D, 2.0D, 3.0D), new Vector3D(2.0D, 3.0D, 4.0D), new Vector3D(3.0D, 4.0D, 5.0D));
+		
+		assertEquals( 6.0D, v.x);
+		assertEquals( 9.0D, v.y);
+		assertEquals(12.0D, v.z);
+		
+		assertThrows(NullPointerException.class, () -> Vector3D.add(new Vector3D(1.0D, 2.0D, 3.0D), new Vector3D(2.0D, 3.0D, 4.0D), null));
+		assertThrows(NullPointerException.class, () -> Vector3D.add(new Vector3D(1.0D, 2.0D, 3.0D), null, new Vector3D(3.0D, 4.0D, 5.0D)));
+		assertThrows(NullPointerException.class, () -> Vector3D.add(null, new Vector3D(2.0D, 3.0D, 4.0D), new Vector3D(3.0D, 4.0D, 5.0D)));
 	}
 	
 	@Test
@@ -92,6 +105,11 @@ public final class Vector3DUnitTests {
 		assertTrue(b != a);
 		assertTrue(b != c);
 		assertTrue(b != d);
+	}
+	
+	@Test
+	public void testConeUniformDistributionPDF() {
+		assertEquals(1.0D / (Math.PI * 2.0D * (1.0D - 0.5D)), Vector3D.coneUniformDistributionPDF(0.5D));
 	}
 	
 	@Test
@@ -206,6 +224,18 @@ public final class Vector3DUnitTests {
 	}
 	
 	@Test
+	public void testDirectionNormalizedVector3DVector3DVector3DVector3D() {
+		final Vector3D v = Vector3D.directionNormalized(new Vector3D(1.0D, 0.0D, 0.0D), new Vector3D(0.0D, 1.0D, 0.0D), new Vector3D(0.0D, 0.0D, 1.0D), new Vector3D(2.0D, 2.0D, 2.0D));
+		
+		assertEquals(Vector3D.normalize(new Vector3D(2.0D, 2.0D, 2.0D)), v);
+		
+		assertThrows(NullPointerException.class, () -> Vector3D.directionNormalized(new Vector3D(1.0D, 0.0D, 0.0D), new Vector3D(0.0D, 1.0D, 0.0D), new Vector3D(0.0D, 0.0D, 1.0D), null));
+		assertThrows(NullPointerException.class, () -> Vector3D.directionNormalized(new Vector3D(1.0D, 0.0D, 0.0D), new Vector3D(0.0D, 1.0D, 0.0D), null, new Vector3D(2.0D, 2.0D, 2.0D)));
+		assertThrows(NullPointerException.class, () -> Vector3D.directionNormalized(new Vector3D(1.0D, 0.0D, 0.0D), null, new Vector3D(0.0D, 0.0D, 1.0D), new Vector3D(2.0D, 2.0D, 2.0D)));
+		assertThrows(NullPointerException.class, () -> Vector3D.directionNormalized(null, new Vector3D(0.0D, 1.0D, 0.0D), new Vector3D(0.0D, 0.0D, 1.0D), new Vector3D(2.0D, 2.0D, 2.0D)));
+	}
+	
+	@Test
 	public void testDirectionPoint3DPoint3D() {
 		final Vector3D v = Vector3D.direction(new Point3D(10.0D, 20.0D, 30.0D), new Point3D(20.0D, 40.0D, 60.0D));
 		
@@ -218,16 +248,43 @@ public final class Vector3DUnitTests {
 	}
 	
 	@Test
-	public void testDirectionVector3DVector3DVector3D() {
-		final Vector3D v = Vector3D.direction(new Vector3D(1.0D, 0.0D, 0.0D), new Vector3D(0.0D, 1.0D, 0.0D), new Vector3D(0.0D, 0.0D, 1.0D));
+	public void testDirectionSphericalDoubleDoubleDouble() {
+		final Vector3D v = Vector3D.directionSpherical(2.0D, 1.0D, Math.PI / 2.0D);
 		
-		assertEquals(1.0D, v.x);
-		assertEquals(1.0D, v.y);
-		assertEquals(1.0D, v.z);
+		assertEquals(0.00000000000000012246467991473532D, v.x);
+		assertEquals(2.00000000000000000000000000000000D, v.y);
+		assertEquals(1.00000000000000000000000000000000D, v.z);
+	}
+	
+	@Test
+	public void testDirectionSphericalDoubleDoubleDoubleVector3DVector3DVector3D() {
+		final Vector3D v = Vector3D.directionSpherical(2.0D, 1.0D, Math.PI / 2.0D, new Vector3D(1.0D, 0.0D, 0.0D), new Vector3D(0.0D, 1.0D, 0.0D), new Vector3D(0.0D, 0.0D, 1.0D));
 		
-		assertThrows(NullPointerException.class, () -> Vector3D.direction(new Vector3D(1.0D, 0.0D, 0.0D), new Vector3D(0.0D, 1.0D, 0.0D), null));
-		assertThrows(NullPointerException.class, () -> Vector3D.direction(new Vector3D(1.0D, 0.0D, 0.0D), null, new Vector3D(0.0D, 0.0D, 1.0D)));
-		assertThrows(NullPointerException.class, () -> Vector3D.direction(null, new Vector3D(0.0D, 1.0D, 0.0D), new Vector3D(0.0D, 0.0D, 1.0D)));
+		assertEquals(0.00000000000000012246467991473532D, v.x);
+		assertEquals(2.00000000000000000000000000000000D, v.y);
+		assertEquals(1.00000000000000000000000000000000D, v.z);
+		
+		assertThrows(NullPointerException.class, () -> Vector3D.directionSpherical(2.0D, 1.0D, Math.PI / 2.0D, new Vector3D(1.0D, 0.0D, 0.0D), new Vector3D(0.0D, 1.0D, 0.0D), null));
+		assertThrows(NullPointerException.class, () -> Vector3D.directionSpherical(2.0D, 1.0D, Math.PI / 2.0D, new Vector3D(1.0D, 0.0D, 0.0D), null, new Vector3D(0.0D, 0.0D, 1.0D)));
+		assertThrows(NullPointerException.class, () -> Vector3D.directionSpherical(2.0D, 1.0D, Math.PI / 2.0D, null, new Vector3D(0.0D, 1.0D, 0.0D), new Vector3D(0.0D, 0.0D, 1.0D)));
+	}
+	
+	@Test
+	public void testDirectionSphericalNormalizedDoubleDoubleDouble() {
+		final Vector3D v = Vector3D.directionSphericalNormalized(2.0D, 1.0D, Math.PI / 2.0D);
+		
+		assertEquals(Vector3D.normalize(new Vector3D(0.00000000000000012246467991473532D, 2.0D, 1.0D)), v);
+	}
+	
+	@Test
+	public void testDirectionSphericalNormalizedDoubleDoubleDoubleVector3DVector3DVector3D() {
+		final Vector3D v = Vector3D.directionSphericalNormalized(2.0D, 1.0D, Math.PI / 2.0D, new Vector3D(1.0D, 0.0D, 0.0D), new Vector3D(0.0D, 1.0D, 0.0D), new Vector3D(0.0D, 0.0D, 1.0D));
+		
+		assertEquals(Vector3D.normalize(new Vector3D(0.00000000000000012246467991473532D, 2.0D, 1.0D)), v);
+		
+		assertThrows(NullPointerException.class, () -> Vector3D.directionSphericalNormalized(2.0D, 1.0D, Math.PI / 2.0D, new Vector3D(1.0D, 0.0D, 0.0D), new Vector3D(0.0D, 1.0D, 0.0D), null));
+		assertThrows(NullPointerException.class, () -> Vector3D.directionSphericalNormalized(2.0D, 1.0D, Math.PI / 2.0D, new Vector3D(1.0D, 0.0D, 0.0D), null, new Vector3D(0.0D, 0.0D, 1.0D)));
+		assertThrows(NullPointerException.class, () -> Vector3D.directionSphericalNormalized(2.0D, 1.0D, Math.PI / 2.0D, null, new Vector3D(0.0D, 1.0D, 0.0D), new Vector3D(0.0D, 0.0D, 1.0D)));
 	}
 	
 	@Test
@@ -414,6 +471,16 @@ public final class Vector3DUnitTests {
 		final Vector3D b = new Vector3D(1.0D, 2.0D, 3.0D);
 		
 		assertEquals(a.hashCode(), b.hashCode());
+	}
+	
+	@Test
+	public void testHemisphereCosineDistributionPDF() {
+		assertEquals(1.0D * (1.0D / Math.PI), Vector3D.hemisphereCosineDistributionPDF(1.0D));
+	}
+	
+	@Test
+	public void testHemisphereUniformDistributionPDF() {
+		assertEquals(1.0D / (Math.PI * 2.0D), Vector3D.hemisphereUniformDistributionPDF());
 	}
 	
 	@Test
@@ -756,6 +823,11 @@ public final class Vector3DUnitTests {
 		assertEquals(0.0D, new Vector3D(+0.0D, +0.0D, +1.0D).sinThetaSquared());
 		assertEquals(1.0D, new Vector3D(+0.0D, +0.0D, +0.0D).sinThetaSquared());
 		assertEquals(0.0D, new Vector3D(+0.0D, +0.0D, -1.0D).sinThetaSquared());
+	}
+	
+	@Test
+	public void testSphereUniformDistributionPDF() {
+		assertEquals(1.0D / (Math.PI * 4.0D), Vector3D.sphereUniformDistributionPDF());
 	}
 	
 	@Test
