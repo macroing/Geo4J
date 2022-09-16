@@ -22,6 +22,7 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.lang.reflect.Field;//TODO: Add unit tests!
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -529,6 +530,34 @@ public final class Point3D {
 	 */
 	public static Point3D min(final Point3D a, final Point3D b, final Point3D c, final Point3D d) {
 		return new Point3D(Doubles.min(a.x, b.x, c.x, d.x), Doubles.min(a.y, b.y, c.y, d.y), Doubles.min(a.z, b.z, c.z, d.z));
+	}
+	
+	/**
+	 * Returns a {@code Point3D} offset from {@code point} based on {@code direction}, {@code normal} and {@code pointError}.
+	 * <p>
+	 * If either {@code point}, {@code direction}, {@code normal} or {@code pointError} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param point the {@code Point3D} instance to offset
+	 * @param direction a {@link Vector3D} instance denoting a ray direction
+	 * @param normal a {@code Vector3D} instance denoting a normal
+	 * @param pointError a {@code Vector3D} instance that contains the precision error
+	 * @return a {@code Point3D} offset from {@code point} based on {@code direction}, {@code normal} and {@code pointError}
+	 * @throws NullPointerException thrown if, and only if, either {@code point}, {@code direction}, {@code normal} or {@code pointError} are {@code null}
+	 */
+//	TODO: Add unit tests!
+	public static Point3D offset(final Point3D point, final Vector3D direction, final Vector3D normal, final Vector3D pointError) {
+		final double dotProduct = Vector3D.dotProduct(Vector3D.abs(normal), pointError);
+		
+		final Vector3D offset = Vector3D.multiply(normal, dotProduct);
+		final Vector3D offsetCorrectlyOriented = Vector3D.dotProduct(direction, normal) < 0.0D ? Vector3D.negate(offset) : offset;
+		
+		final Point3D pointOffset = add(point, offsetCorrectlyOriented);
+		
+		final double x = offset.x > 0.0D ? Doubles.nextUp(pointOffset.x) : Doubles.nextDown(pointOffset.x);
+		final double y = offset.y > 0.0D ? Doubles.nextUp(pointOffset.y) : Doubles.nextDown(pointOffset.y);
+		final double z = offset.z > 0.0D ? Doubles.nextUp(pointOffset.z) : Doubles.nextDown(pointOffset.z);
+		
+		return new Point3D(x, y, z);
 	}
 	
 	/**
