@@ -813,14 +813,14 @@ public final class Matrix44D {
 	}
 	
 	/**
-	 * Returns a new {@code Matrix44D} instance by reading it from {@code dataInput}.
+	 * Returns a {@code Matrix44D} instance by reading it from {@code dataInput}.
 	 * <p>
 	 * If {@code dataInput} is {@code null}, a {@code NullPointerException} will be thrown.
 	 * <p>
 	 * If an I/O error occurs, an {@code UncheckedIOException} will be thrown.
 	 * 
 	 * @param dataInput the {@code DataInput} instance to read from
-	 * @return a new {@code Matrix44D} instance by reading it from {@code dataInput}
+	 * @return a {@code Matrix44D} instance by reading it from {@code dataInput}
 	 * @throws NullPointerException thrown if, and only if, {@code dataInput} is {@code null}
 	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
 	 */

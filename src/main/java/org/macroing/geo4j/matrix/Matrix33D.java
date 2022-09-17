@@ -23,7 +23,6 @@ import java.io.DataOutput;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.lang.reflect.Field;//TODO: Add unit tests!
-import java.lang.reflect.Field;//TODO: Check the Javadocs!
 import java.util.Objects;
 
 import org.macroing.geo4j.common.Point2D;
@@ -35,7 +34,7 @@ import org.macroing.java.lang.Strings;
 /**
  * A {@code Matrix33D} represents a 3 x 3 matrix with 9 {@code double}-based elements.
  * <p>
- * The default order of this {@code Matrix33D} class is row-major.
+ * The default order of this {@code Matrix33D} class is row-major. The first number denotes the row and the second denotes the column.
  * <p>
  * This class is immutable and therefore thread-safe.
  * 
@@ -43,6 +42,53 @@ import org.macroing.java.lang.Strings;
  * @author J&#246;rgen Lundgren
  */
 public final class Matrix33D {
+	/**
+	 * The offset for the element at index 0 or row 1 and column 1 in the {@code double[]}.
+	 */
+	public static final int ARRAY_OFFSET_ELEMENT_1_1 = 0;
+	
+	/**
+	 * The offset for the element at index 1 or row 1 and column 2 in the {@code double[]}.
+	 */
+	public static final int ARRAY_OFFSET_ELEMENT_1_2 = 1;
+	
+	/**
+	 * The offset for the element at index 2 or row 1 and column 3 in the {@code double[]}.
+	 */
+	public static final int ARRAY_OFFSET_ELEMENT_1_3 = 2;
+	
+	/**
+	 * The offset for the element at index 3 or row 2 and column 1 in the {@code double[]}.
+	 */
+	public static final int ARRAY_OFFSET_ELEMENT_2_1 = 3;
+	
+	/**
+	 * The offset for the element at index 4 or row 2 and column 2 in the {@code double[]}.
+	 */
+	public static final int ARRAY_OFFSET_ELEMENT_2_2 = 4;
+	
+	/**
+	 * The offset for the element at index 5 or row 2 and column 3 in the {@code double[]}.
+	 */
+	public static final int ARRAY_OFFSET_ELEMENT_2_3 = 5;
+	
+	/**
+	 * The offset for the element at index 6 or row 3 and column 1 in the {@code double[]}.
+	 */
+	public static final int ARRAY_OFFSET_ELEMENT_3_1 = 6;
+	
+	/**
+	 * The offset for the element at index 7 or row 3 and column 2 in the {@code double[]}.
+	 */
+	public static final int ARRAY_OFFSET_ELEMENT_3_2 = 7;
+	
+	/**
+	 * The offset for the element at index 8 or row 3 and column 3 in the {@code double[]}.
+	 */
+	public static final int ARRAY_OFFSET_ELEMENT_3_3 = 8;
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	/**
 	 * The value of the element at index 0 or row 1 and column 1.
 	 */
@@ -87,6 +133,11 @@ public final class Matrix33D {
 	 * The value of the element at index 8 or row 3 and column 3.
 	 */
 	public final double element33;
+	
+	/**
+	 * The size of the {@code double[]}.
+	 */
+	public static final int ARRAY_SIZE = 9;
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
@@ -134,6 +185,45 @@ public final class Matrix33D {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	/**
+	 * Transforms {@code p} with this {@code Matrix33D} instance.
+	 * <p>
+	 * Returns a {@link Point2D} instance with the result of the transformation.
+	 * <p>
+	 * If {@code p} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param p a {@code Point2D} instance
+	 * @return a {@code Point2D} instance with the result of the transformation
+	 * @throws NullPointerException thrown if, and only if, {@code p} is {@code null}
+	 */
+//	TODO: Add unit tests!
+	public Point2D transform(final Point2D p) {
+		final double x = this.element11 * p.x + this.element12 * p.y + this.element13;
+		final double y = this.element21 * p.x + this.element22 * p.y + this.element23;
+		
+		return new Point2D(x, y);
+	}
+	
+	/**
+	 * Transforms {@code p} with this {@code Matrix33D} instance and divides the result.
+	 * <p>
+	 * Returns a {@link Point2D} instance with the result of the transformation.
+	 * <p>
+	 * If {@code p} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param p a {@code Point2D} instance
+	 * @return a {@code Point2D} instance with the result of the transformation
+	 * @throws NullPointerException thrown if, and only if, {@code p} is {@code null}
+	 */
+//	TODO: Add unit tests!
+	public Point2D transformAndDivide(final Point2D p) {
+		final double x = this.element11 * p.x + this.element12 * p.y + this.element13;
+		final double y = this.element21 * p.x + this.element22 * p.y + this.element23;
+		final double z = this.element31 * p.x + this.element32 * p.y + this.element33;
+		
+		return Doubles.equals(z, 1.0D) || Doubles.isZero(z) ? new Point2D(x, y) : new Point2D(x / z, y / z);
+	}
+	
+	/**
 	 * Returns a {@code String} representation of this {@code Matrix33D} instance.
 	 * 
 	 * @return a {@code String} representation of this {@code Matrix33D} instance
@@ -146,6 +236,81 @@ public final class Matrix33D {
 		final String row3 = String.format("%s, %s, %s", Strings.toNonScientificNotationJava(this.element31), Strings.toNonScientificNotationJava(this.element32), Strings.toNonScientificNotationJava(this.element33));
 		
 		return String.format("new Matrix33D(%s, %s, %s)", row1, row2, row3);
+	}
+	
+	/**
+	 * Transforms {@code v} with this {@code Matrix33D} instance.
+	 * <p>
+	 * Returns a {@link Vector2D} instance with the result of the transformation.
+	 * <p>
+	 * If {@code v} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param v a {@code Vector2D} instance
+	 * @return a {@code Vector2D} instance with the result of the transformation
+	 * @throws NullPointerException thrown if, and only if, {@code v} is {@code null}
+	 */
+//	TODO: Add unit tests!
+	public Vector2D transform(final Vector2D v) {
+		final double x = this.element11 * v.x + this.element12 * v.y;
+		final double y = this.element21 * v.x + this.element22 * v.y;
+		
+		return new Vector2D(x, y);
+	}
+	
+	/**
+	 * Transforms {@code v} with this {@code Matrix33D} instance in transpose order.
+	 * <p>
+	 * Returns a {@link Vector2D} instance with the result of the transformation.
+	 * <p>
+	 * If {@code v} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param v a {@code Vector2D} instance
+	 * @return a {@code Vector2D} instance with the result of the transformation
+	 * @throws NullPointerException thrown if, and only if, {@code v} is {@code null}
+	 */
+//	TODO: Add unit tests!
+	public Vector2D transformTranspose(final Vector2D v) {
+		final double x = this.element11 * v.x + this.element21 * v.y;
+		final double y = this.element12 * v.x + this.element22 * v.y;
+		
+		return new Vector2D(x, y);
+	}
+	
+	/**
+	 * Compares {@code m} to this {@code Matrix33D} instance for equality.
+	 * <p>
+	 * Returns {@code true} if, and only if, {@code m} is not {@code null} and their respective values are equal, {@code false} otherwise.
+	 * 
+	 * @param m the {@code Matrix33D} instance to compare to this {@code Matrix33D} instance for equality
+	 * @return {@code true} if, and only if, {@code m} is not {@code null} and their respective values are equal, {@code false} otherwise
+	 */
+//	TODO: Add unit tests!
+	public boolean equals(final Matrix33D m) {
+		if(m == this) {
+			return true;
+		} else if(m == null) {
+			return false;
+		} else if(!Doubles.equals(this.element11, m.element11)) {
+			return false;
+		} else if(!Doubles.equals(this.element12, m.element12)) {
+			return false;
+		} else if(!Doubles.equals(this.element13, m.element13)) {
+			return false;
+		} else if(!Doubles.equals(this.element21, m.element21)) {
+			return false;
+		} else if(!Doubles.equals(this.element22, m.element22)) {
+			return false;
+		} else if(!Doubles.equals(this.element23, m.element23)) {
+			return false;
+		} else if(!Doubles.equals(this.element31, m.element31)) {
+			return false;
+		} else if(!Doubles.equals(this.element32, m.element32)) {
+			return false;
+		} else if(!Doubles.equals(this.element33, m.element33)) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 	
 	/**
@@ -163,26 +328,8 @@ public final class Matrix33D {
 			return true;
 		} else if(!(object instanceof Matrix33D)) {
 			return false;
-		} else if(!Doubles.equals(this.element11, Matrix33D.class.cast(object).element11)) {
-			return false;
-		} else if(!Doubles.equals(this.element12, Matrix33D.class.cast(object).element12)) {
-			return false;
-		} else if(!Doubles.equals(this.element13, Matrix33D.class.cast(object).element13)) {
-			return false;
-		} else if(!Doubles.equals(this.element21, Matrix33D.class.cast(object).element21)) {
-			return false;
-		} else if(!Doubles.equals(this.element22, Matrix33D.class.cast(object).element22)) {
-			return false;
-		} else if(!Doubles.equals(this.element23, Matrix33D.class.cast(object).element23)) {
-			return false;
-		} else if(!Doubles.equals(this.element31, Matrix33D.class.cast(object).element31)) {
-			return false;
-		} else if(!Doubles.equals(this.element32, Matrix33D.class.cast(object).element32)) {
-			return false;
-		} else if(!Doubles.equals(this.element33, Matrix33D.class.cast(object).element33)) {
-			return false;
 		} else {
-			return true;
+			return equals(Matrix33D.class.cast(object));
 		}
 	}
 	
@@ -269,6 +416,28 @@ public final class Matrix33D {
 	}
 	
 	/**
+	 * Returns a {@code double[]} representation of this {@code Matrix33D} instance.
+	 * 
+	 * @return a {@code double[]} representation of this {@code Matrix33D} instance
+	 */
+//	TODO: Add unit tests!
+	public double[] toArray() {
+		final double[] array = new double[ARRAY_SIZE];
+		
+		array[ARRAY_OFFSET_ELEMENT_1_1] = this.element11;
+		array[ARRAY_OFFSET_ELEMENT_1_2] = this.element12;
+		array[ARRAY_OFFSET_ELEMENT_1_3] = this.element13;
+		array[ARRAY_OFFSET_ELEMENT_2_1] = this.element21;
+		array[ARRAY_OFFSET_ELEMENT_2_2] = this.element22;
+		array[ARRAY_OFFSET_ELEMENT_2_3] = this.element23;
+		array[ARRAY_OFFSET_ELEMENT_3_1] = this.element31;
+		array[ARRAY_OFFSET_ELEMENT_3_2] = this.element32;
+		array[ARRAY_OFFSET_ELEMENT_3_3] = this.element33;
+		
+		return array;
+	}
+	
+	/**
 	 * Returns a hash code for this {@code Matrix33D} instance.
 	 * 
 	 * @return a hash code for this {@code Matrix33D} instance
@@ -314,9 +483,9 @@ public final class Matrix33D {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	/**
-	 * Returns a new {@code Matrix33D} instance denoting the identity matrix.
+	 * Returns a {@code Matrix33D} instance denoting the identity matrix.
 	 * 
-	 * @return a new {@code Matrix33D} instance denoting the identity matrix
+	 * @return a {@code Matrix33D} instance denoting the identity matrix
 	 */
 //	TODO: Add unit tests!
 	public static Matrix33D identity() {
@@ -324,7 +493,7 @@ public final class Matrix33D {
 	}
 	
 	/**
-	 * Returns a new {@code Matrix33D} instance that is the inverse of {@code m}.
+	 * Returns a {@code Matrix33D} instance that is the inverse of {@code m}.
 	 * <p>
 	 * If {@code m} is {@code null}, a {@code NullPointerException} will be thrown.
 	 * <p>
@@ -333,18 +502,25 @@ public final class Matrix33D {
 	 * To make sure {@code m} is invertible, consider calling {@link #isInvertible()}.
 	 * 
 	 * @param m a {@code Matrix33D} instance
-	 * @return a new {@code Matrix33D} instance that is the inverse of {@code m}
+	 * @return a {@code Matrix33D} instance that is the inverse of {@code m}
 	 * @throws IllegalArgumentException thrown if, and only if, {@code m} cannot be inverted
 	 * @throws NullPointerException thrown if, and only if, {@code m} is {@code null}
 	 */
 //	TODO: Add unit tests!
 	public static Matrix33D inverse(final Matrix33D m) {
-		if(!m.isInvertible()) {
+		final double a = m.element11;
+		final double b = m.element12;
+		final double c = m.element13;
+		final double d = m.element21 * m.element32 - m.element22 * m.element31;
+		final double e = m.element21 * m.element33 - m.element23 * m.element31;
+		final double f = m.element22 * m.element33 - m.element32 * m.element23;
+		
+		final double determinant = a * f - b * e + c * d;
+		final double determinantReciprocal = 1.0D / determinant;
+		
+		if(Doubles.abs(determinant) < 1.0e-12D) {
 			throw new IllegalArgumentException("The Matrix33D 'm' cannot be inverted!");
 		}
-		
-		final double determinant = m.determinant();
-		final double determinantReciprocal = 1.0D / determinant;
 		
 		final double element11 = (m.element22 * m.element33 - m.element32 * m.element23) * determinantReciprocal;
 		final double element12 = (m.element13 * m.element32 - m.element12 * m.element33) * determinantReciprocal;
@@ -362,13 +538,13 @@ public final class Matrix33D {
 	/**
 	 * Multiplies the element values of {@code mLHS} with the element values of {@code mRHS}.
 	 * <p>
-	 * Returns a new {@code Matrix33D} instance with the result of the multiplication.
+	 * Returns a {@code Matrix33D} instance with the result of the multiplication.
 	 * <p>
 	 * If either {@code mLHS} or {@code mRHS} are {@code null}, a {@code NullPointerException} will be thrown.
 	 * 
 	 * @param mLHS the {@code Matrix33D} instance on the left-hand side
 	 * @param mRHS the {@code Matrix33D} instance on the right-hand side
-	 * @return a new {@code Matrix33D} instance with the result of the multiplication
+	 * @return a {@code Matrix33D} instance with the result of the multiplication
 	 * @throws NullPointerException thrown if, and only if, either {@code mLHS} or {@code mRHS} are {@code null}
 	 */
 //	TODO: Add unit tests!
@@ -387,14 +563,14 @@ public final class Matrix33D {
 	}
 	
 	/**
-	 * Returns a new {@code Matrix33D} instance by reading it from {@code dataInput}.
+	 * Returns a {@code Matrix33D} instance by reading it from {@code dataInput}.
 	 * <p>
 	 * If {@code dataInput} is {@code null}, a {@code NullPointerException} will be thrown.
 	 * <p>
 	 * If an I/O error occurs, an {@code UncheckedIOException} will be thrown.
 	 * 
 	 * @param dataInput the {@code DataInput} instance to read from
-	 * @return a new {@code Matrix33D} instance by reading it from {@code dataInput}
+	 * @return a {@code Matrix33D} instance by reading it from {@code dataInput}
 	 * @throws NullPointerException thrown if, and only if, {@code dataInput} is {@code null}
 	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
 	 */
@@ -562,12 +738,12 @@ public final class Matrix33D {
 	}
 	
 	/**
-	 * Returns a new {@code Matrix33D} instance that is the transpose of {@code m}.
+	 * Returns a {@code Matrix33D} instance that is the transpose of {@code m}.
 	 * <p>
 	 * If {@code m} is {@code null}, a {@code NullPointerException} will be thrown.
 	 * 
 	 * @param m a {@code Matrix33D} instance
-	 * @return a new {@code Matrix33D} instance that is the transpose of {@code m}
+	 * @return a {@code Matrix33D} instance that is the transpose of {@code m}
 	 * @throws NullPointerException thrown if, and only if, {@code m} is {@code null}
 	 */
 //	TODO: Add unit tests!
