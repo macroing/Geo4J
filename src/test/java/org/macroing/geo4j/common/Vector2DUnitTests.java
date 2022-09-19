@@ -34,6 +34,7 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 
 import org.junit.jupiter.api.Test;
+
 import org.macroing.geo4j.mock.DataOutputMock;
 
 @SuppressWarnings("static-method")
