@@ -23,105 +23,105 @@ import java.io.DataOutput;
 import java.io.UncheckedIOException;
 import java.util.Objects;
 
-import org.macroing.geo4j.common.Point3D;
-import org.macroing.geo4j.common.Vector3D;
+import org.macroing.geo4j.common.Point2D;
+import org.macroing.geo4j.common.Vector2D;
 
 /**
- * A {@code Ray3D} represents a 3-dimensional ray with a point of type {@link Point3D} and a vector of type {@link Vector3D}.
+ * A {@code Ray2D} represents a 2-dimensional ray with a point of type {@link Point2D} and a vector of type {@link Vector2D}.
  * <p>
  * This class is immutable and therefore thread-safe.
  * 
  * @since 1.0.0
  * @author J&#246;rgen Lundgren
  */
-public final class Ray3D {
-	private final Point3D origin;
-	private final Vector3D direction;
+public final class Ray2D {
+	private final Point2D origin;
+	private final Vector2D direction;
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	/**
-	 * Constructs a new {@code Ray3D} instance given {@code origin} and {@code direction}.
+	 * Constructs a new {@code Ray2D} instance given {@code origin} and {@code direction}.
 	 * <p>
 	 * If either {@code origin} or {@code direction} are {@code null}, a {@code NullPointerException} will be thrown.
 	 * 
-	 * @param origin a {@link Point3D} instance to represent the origin
-	 * @param direction a {@link Vector3D} instance to represent the direction
+	 * @param origin a {@link Point2D} instance to represent the origin
+	 * @param direction a {@link Vector2D} instance to represent the direction
 	 * @throws NullPointerException thrown if, and only if, either {@code origin} or {@code direction} are {@code null}
 	 */
-	public Ray3D(final Point3D origin, final Vector3D direction) {
+	public Ray2D(final Point2D origin, final Vector2D direction) {
 		this.origin = Objects.requireNonNull(origin, "origin == null");
-		this.direction = Vector3D.normalize(Objects.requireNonNull(direction, "direction == null"));
+		this.direction = Vector2D.normalize(Objects.requireNonNull(direction, "direction == null"));
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	/**
-	 * Returns the {@link Point3D} instance used by this {@code Ray3D} instance to represent its origin.
+	 * Returns the {@link Point2D} instance used by this {@code Ray2D} instance to represent its origin.
 	 * 
-	 * @return the {@code Point3D} instance used by this {@code Ray3D} instance to represent its origin
+	 * @return the {@code Point2D} instance used by this {@code Ray2D} instance to represent its origin
 	 */
-	public Point3D getOrigin() {
+	public Point2D getOrigin() {
 		return this.origin;
 	}
 	
 	/**
-	 * Returns a {@link Point3D} instance given the parametric distance {@code t}.
+	 * Returns a {@link Point2D} instance given the parametric distance {@code t}.
 	 * 
 	 * @param t the parametric distance
-	 * @return a {@code Point3D} instance given the parametric distance {@code t}
+	 * @return a {@code Point2D} instance given the parametric distance {@code t}
 	 */
-	public Point3D getPointAt(final double t) {
-		return Point3D.add(this.origin, this.direction, t);
+	public Point2D getPointAt(final double t) {
+		return Point2D.add(this.origin, this.direction, t);
 	}
 	
 	/**
-	 * Returns a {@code String} representation of this {@code Ray3D} instance.
+	 * Returns a {@code String} representation of this {@code Ray2D} instance.
 	 * 
-	 * @return a {@code String} representation of this {@code Ray3D} instance
+	 * @return a {@code String} representation of this {@code Ray2D} instance
 	 */
 	@Override
 	public String toString() {
-		return String.format("new Ray3D(%s, %s)", this.origin, this.direction);
+		return String.format("new Ray2D(%s, %s)", this.origin, this.direction);
 	}
 	
 	/**
-	 * Returns the {@link Vector3D} instance used by this {@code Ray3D} instance to represent its direction.
+	 * Returns the {@link Vector2D} instance used by this {@code Ray2D} instance to represent its direction.
 	 * 
-	 * @return the {@code Vector3D} instance used by this {@code Ray3D} instance to represent its direction
+	 * @return the {@code Vector2D} instance used by this {@code Ray2D} instance to represent its direction
 	 */
-	public Vector3D getDirection() {
+	public Vector2D getDirection() {
 		return this.direction;
 	}
 	
 	/**
-	 * Compares {@code object} to this {@code Ray3D} instance for equality.
+	 * Compares {@code object} to this {@code Ray2D} instance for equality.
 	 * <p>
-	 * Returns {@code true} if, and only if, {@code object} is an instance of {@code Ray3D}, and their respective values are equal, {@code false} otherwise.
+	 * Returns {@code true} if, and only if, {@code object} is an instance of {@code Ray2D}, and their respective values are equal, {@code false} otherwise.
 	 * 
-	 * @param object the {@code Object} to compare to this {@code Ray3D} instance for equality
-	 * @return {@code true} if, and only if, {@code object} is an instance of {@code Ray3D}, and their respective values are equal, {@code false} otherwise
+	 * @param object the {@code Object} to compare to this {@code Ray2D} instance for equality
+	 * @return {@code true} if, and only if, {@code object} is an instance of {@code Ray2D}, and their respective values are equal, {@code false} otherwise
 	 */
 	@Override
 	public boolean equals(final Object object) {
 		if(object == this) {
 			return true;
-		} else if(!(object instanceof Ray3D)) {
+		} else if(!(object instanceof Ray2D)) {
 			return false;
 		} else {
-			return equals(Ray3D.class.cast(object));
+			return equals(Ray2D.class.cast(object));
 		}
 	}
 	
 	/**
-	 * Compares {@code r} to this {@code Ray3D} instance for equality.
+	 * Compares {@code r} to this {@code Ray2D} instance for equality.
 	 * <p>
 	 * Returns {@code true} if, and only if, {@code r} is not {@code null} and their respective values are equal, {@code false} otherwise.
 	 * 
-	 * @param r the {@code Ray3D} instance to compare to this {@code Ray3D} instance for equality
+	 * @param r the {@code Ray2D} instance to compare to this {@code Ray2D} instance for equality
 	 * @return {@code true} if, and only if, {@code r} is not {@code null} and their respective values are equal, {@code false} otherwise
 	 */
-	public boolean equals(final Ray3D r) {
+	public boolean equals(final Ray2D r) {
 		if(r == this) {
 			return true;
 		} else if(r == null) {
@@ -136,9 +136,9 @@ public final class Ray3D {
 	}
 	
 	/**
-	 * Returns a hash code for this {@code Ray3D} instance.
+	 * Returns a hash code for this {@code Ray2D} instance.
 	 * 
-	 * @return a hash code for this {@code Ray3D} instance
+	 * @return a hash code for this {@code Ray2D} instance
 	 */
 	@Override
 	public int hashCode() {
@@ -146,7 +146,7 @@ public final class Ray3D {
 	}
 	
 	/**
-	 * Writes this {@code Ray3D} instance to {@code dataOutput}.
+	 * Writes this {@code Ray2D} instance to {@code dataOutput}.
 	 * <p>
 	 * If {@code dataOutput} is {@code null}, a {@code NullPointerException} will be thrown.
 	 * <p>
@@ -164,18 +164,18 @@ public final class Ray3D {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	/**
-	 * Returns a {@code Ray3D} instance by reading it from {@code dataInput}.
+	 * Returns a {@code Ray2D} instance by reading it from {@code dataInput}.
 	 * <p>
 	 * If {@code dataInput} is {@code null}, a {@code NullPointerException} will be thrown.
 	 * <p>
 	 * If an I/O error occurs, an {@code UncheckedIOException} will be thrown.
 	 * 
 	 * @param dataInput the {@code DataInput} instance to read from
-	 * @return a {@code Ray3D} instance by reading it from {@code dataInput}
+	 * @return a {@code Ray2D} instance by reading it from {@code dataInput}
 	 * @throws NullPointerException thrown if, and only if, {@code dataInput} is {@code null}
 	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
 	 */
-	public static Ray3D read(final DataInput dataInput) {
-		return new Ray3D(Point3D.read(dataInput), Vector3D.read(dataInput));
+	public static Ray2D read(final DataInput dataInput) {
+		return new Ray2D(Point2D.read(dataInput), Vector2D.read(dataInput));
 	}
 }

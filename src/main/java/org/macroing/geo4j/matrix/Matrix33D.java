@@ -26,6 +26,7 @@ import java.util.Objects;
 
 import org.macroing.geo4j.common.Point2D;
 import org.macroing.geo4j.common.Vector2D;
+import org.macroing.geo4j.ray.Ray2D;
 import org.macroing.java.lang.Doubles;
 import org.macroing.java.lang.Ints;
 import org.macroing.java.lang.Strings;
@@ -216,6 +217,21 @@ public final class Matrix33D {
 		final double z = this.element31 * p.x + this.element32 * p.y + this.element33;
 		
 		return Doubles.equals(z, 1.0D) || Doubles.isZero(z) ? new Point2D(x, y) : new Point2D(x / z, y / z);
+	}
+	
+	/**
+	 * Transforms {@code r} with this {@code Matrix33D} instance.
+	 * <p>
+	 * Returns a {@link Ray2D} instance with the result of the transformation.
+	 * <p>
+	 * If {@code r} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param r a {@code Ray2D} instance
+	 * @return a {@code Ray2D} instance with the result of the transformation
+	 * @throws NullPointerException thrown if, and only if, {@code r} is {@code null}
+	 */
+	public Ray2D transform(final Ray2D r) {
+		return new Ray2D(transformAndDivide(r.getOrigin()), transform(r.getDirection()));
 	}
 	
 	/**

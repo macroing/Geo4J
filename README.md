@@ -37,7 +37,7 @@ The following table describes the different APIs and their current status in the
 
 | Name                  | Javadoc | Unit Test | Package                       |
 | --------------------- | ------- | --------- | ----------------------------- |
-| Geo4J                 | N/A     |  89.6%    |                               |
+| Geo4J                 | N/A     |  89.8%    |                               |
 | Common API            | N/A     |  90.1%    | org.macroing.geo4j.common     |
 | Matrix API            | 100.0%  | 100.0%    | org.macroing.geo4j.matrix     |
 | Morton Code API       | 100.0%  |   0.0%    | org.macroing.geo4j.mc         |

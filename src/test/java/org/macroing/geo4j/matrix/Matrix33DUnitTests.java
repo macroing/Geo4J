@@ -38,6 +38,7 @@ import org.junit.jupiter.api.Test;
 import org.macroing.geo4j.common.Point2D;
 import org.macroing.geo4j.common.Vector2D;
 import org.macroing.geo4j.mock.DataOutputMock;
+import org.macroing.geo4j.ray.Ray2D;
 import org.macroing.java.lang.Doubles;
 
 @SuppressWarnings("static-method")
@@ -522,6 +523,27 @@ public final class Matrix33DUnitTests {
 		assertEquals(4.0D, c.y);
 		
 		assertThrows(NullPointerException.class, () -> Matrix33D.translate(1.0D, 2.0D).transform((Point2D)(null)));
+	}
+	
+	@Test
+	public void testTransformRay2D() {
+		final Ray2D a = new Ray2D(new Point2D(1.0D, 2.0D), new Vector2D(1.0D, 0.0D));
+		final Ray2D b = Matrix33D.scale(1.0D, 2.0D).transform(a);
+		final Ray2D c = Matrix33D.translate(1.0D, 2.0D).transform(a);
+		
+		assertEquals(1.0D, b.getOrigin().x);
+		assertEquals(4.0D, b.getOrigin().y);
+		
+		assertEquals(1.0D, b.getDirection().x);
+		assertEquals(0.0D, b.getDirection().y);
+		
+		assertEquals(2.0D, c.getOrigin().x);
+		assertEquals(4.0D, c.getOrigin().y);
+		
+		assertEquals(1.0D, b.getDirection().x);
+		assertEquals(0.0D, b.getDirection().y);
+		
+		assertThrows(NullPointerException.class, () -> Matrix33D.translate(1.0D, 2.0D).transform((Ray2D)(null)));
 	}
 	
 	@Test
