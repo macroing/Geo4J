@@ -831,7 +831,6 @@ public final class Point2D {
 	 * @return a {@code Point2D} instance with the scale applied
 	 * @throws NullPointerException thrown if, and only if, either {@code p} or {@code v} are {@code null}
 	 */
-//	TODO: Add unit tests!
 	public static Point2D scale(final Point2D p, final Vector2D v) {
 		return new Point2D(p.x * v.x, p.y * v.y);
 	}

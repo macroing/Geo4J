@@ -634,6 +634,17 @@ public final class Point2DUnitTests {
 	}
 	
 	@Test
+	public void testScale() {
+		final Point2D p = Point2D.scale(new Point2D(2.0D, 3.0D), new Vector2D(2.0D, 3.0D));
+		
+		assertEquals(4.0D, p.x);
+		assertEquals(9.0D, p.y);
+		
+		assertThrows(NullPointerException.class, () -> Point2D.scale(new Point2D(2.0D, 3.0D), null));
+		assertThrows(NullPointerException.class, () -> Point2D.scale(null, new Vector2D(2.0D, 3.0D)));
+	}
+	
+	@Test
 	public void testSubtractPoint2DDouble() {
 		final Point2D a = new Point2D(2.0D, 4.0D);
 		final Point2D b = Point2D.subtract(a, 2.0D);
