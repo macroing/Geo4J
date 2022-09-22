@@ -343,7 +343,6 @@ public final class Point2D {
 	 * @return a {@code Point2D} instance with the interpolated point
 	 * @throws NullPointerException thrown if, and only if, either {@code a}, {@code b}, {@code c} or {@code barycentricCoordinates} are {@code null}
 	 */
-//	TODO: Add unit tests!
 	public static Point2D barycentricInterpolation(final Point2D a, final Point2D b, final Point2D c, final Point3D barycentricCoordinates) {
 		final double x = a.x * barycentricCoordinates.x + b.x * barycentricCoordinates.y + c.x * barycentricCoordinates.z;
 		final double y = a.y * barycentricCoordinates.x + b.y * barycentricCoordinates.y + c.y * barycentricCoordinates.z;
@@ -570,12 +569,25 @@ public final class Point2D {
 		return new Point2D(Doubles.min(a.x, b.x, c.x, d.x), Doubles.min(a.y, b.y, c.y, d.y));
 	}
 	
-//	TODO: Add Javadocs!
-	public static Point2D project(final Point3D a, final Point3D b, final Vector3D u, final Vector3D v) {
-		final Vector3D directionAB = Vector3D.direction(a, b);
+	/**
+	 * Projects {@code p} to the plane represented by {@code o}, {@code u} and {@code v}.
+	 * <p>
+	 * Returns a {@code Point2D} instance with the projected coordinates.
+	 * <p>
+	 * If either {@code p}, {@code o}, {@code u} or {@code v} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param p the {@link Point3D} instance to project to the plane
+	 * @param o the {@code Point3D} instance that represents the origin of the plane
+	 * @param u the {@link Vector3D} instance that represents the U-direction of the plane
+	 * @param v the {@code Vector3D} instance that represents the V-direction of the plane
+	 * @return a {@code Point2D} instance with the projected coordinates
+	 * @throws NullPointerException thrown if, and only if, either {@code p}, {@code o}, {@code u} or {@code v} are {@code null}
+	 */
+	public static Point2D project(final Point3D p, final Point3D o, final Vector3D u, final Vector3D v) {
+		final Vector3D directionOP = Vector3D.direction(o, p);
 		
-		final double x = Vector3D.dotProduct(directionAB, u);
-		final double y = Vector3D.dotProduct(directionAB, v);
+		final double x = Vector3D.dotProduct(directionOP, u);
+		final double y = Vector3D.dotProduct(directionOP, v);
 		
 		return new Point2D(x, y);
 	}

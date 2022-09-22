@@ -794,6 +794,44 @@ public final class Vector3DUnitTests {
 	}
 	
 	@Test
+	public void testSampleSphereUniformDistribution() {
+		for(int i = 0; i < 10000; i++) {
+			final Vector3D v = Vector3D.sampleSphereUniformDistribution();
+			
+			assertTrue(v.x >= -1.0D && v.x <= +1.0D);
+			assertTrue(v.y >= -1.0D && v.y <= +1.0D);
+			assertTrue(v.z >= -1.0D && v.z <= +1.0D);
+		}
+	}
+	
+	@Test
+	public void testSampleSphereUniformDistributionPoint2D() {
+		final Vector3D a = Vector3D.sampleSphereUniformDistribution(new Point2D(0.0D, 0.0D));
+		final Vector3D b = Vector3D.sampleSphereUniformDistribution(new Point2D(0.0D, 0.5D));
+		final Vector3D c = Vector3D.sampleSphereUniformDistribution(new Point2D(0.0D, 1.0D));
+		final Vector3D d = Vector3D.sampleSphereUniformDistribution(new Point2D(0.5D, 0.0D));
+		final Vector3D e = Vector3D.sampleSphereUniformDistribution(new Point2D(0.5D, 0.5D));
+		final Vector3D f = Vector3D.sampleSphereUniformDistribution(new Point2D(0.5D, 1.0D));
+		final Vector3D g = Vector3D.sampleSphereUniformDistribution(new Point2D(1.0D, 0.0D));
+		final Vector3D h = Vector3D.sampleSphereUniformDistribution(new Point2D(1.0D, 0.5D));
+		final Vector3D i = Vector3D.sampleSphereUniformDistribution(new Point2D(1.0D, 1.0D));
+		
+		assertEquals(new Vector3D(0.0D * Math.cos(Math.PI * 0.0D), 0.0D * Math.sin(Math.PI * 0.0D), +1.0D), a);
+		assertEquals(new Vector3D(0.0D * Math.cos(Math.PI * 1.0D), 0.0D * Math.sin(Math.PI * 1.0D), +1.0D), b);
+		assertEquals(new Vector3D(0.0D * Math.cos(Math.PI * 2.0D), 0.0D * Math.sin(Math.PI * 2.0D), +1.0D), c);
+		
+		assertEquals(new Vector3D(1.0D * Math.cos(Math.PI * 0.0D), 1.0D * Math.sin(Math.PI * 0.0D), +0.0D), d);
+		assertEquals(new Vector3D(1.0D * Math.cos(Math.PI * 1.0D), 1.0D * Math.sin(Math.PI * 1.0D), +0.0D), e);
+		assertEquals(new Vector3D(1.0D * Math.cos(Math.PI * 2.0D), 1.0D * Math.sin(Math.PI * 2.0D), +0.0D), f);
+		
+		assertEquals(new Vector3D(0.0D * Math.cos(Math.PI * 0.0D), 0.0D * Math.sin(Math.PI * 0.0D), -1.0D), g);
+		assertEquals(new Vector3D(0.0D * Math.cos(Math.PI * 1.0D), 0.0D * Math.sin(Math.PI * 1.0D), -1.0D), h);
+		assertEquals(new Vector3D(0.0D * Math.cos(Math.PI * 2.0D), 0.0D * Math.sin(Math.PI * 2.0D), -1.0D), i);
+		
+		assertThrows(NullPointerException.class, () -> Vector3D.sampleSphereUniformDistribution(null));
+	}
+	
+	@Test
 	public void testSinPhi() {
 		assertEquals(+0.0D, new Vector3D(+0.0D, +0.5D, +1.0D).sinPhi());
 		assertEquals(-1.0D, new Vector3D(+0.0D, -2.0D, +0.0D).sinPhi());

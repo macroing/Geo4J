@@ -81,6 +81,19 @@ public final class Point2DUnitTests {
 	}
 	
 	@Test
+	public void testBarycentricInterpolation() {
+		final Point2D p = Point2D.barycentricInterpolation(new Point2D(1.0D, 2.0D), new Point2D(2.0D, 3.0D), new Point2D(3.0D, 4.0D), new Point3D(1.0D, 2.0D, 3.0D));
+		
+		assertEquals(14.0D, p.x);
+		assertEquals(20.0D, p.y);
+		
+		assertThrows(NullPointerException.class, () -> Point2D.barycentricInterpolation(new Point2D(1.0D, 2.0D), new Point2D(2.0D, 3.0D), new Point2D(3.0D, 4.0D), null));
+		assertThrows(NullPointerException.class, () -> Point2D.barycentricInterpolation(new Point2D(1.0D, 2.0D), new Point2D(2.0D, 3.0D), null, new Point3D(1.0D, 2.0D, 3.0D)));
+		assertThrows(NullPointerException.class, () -> Point2D.barycentricInterpolation(new Point2D(1.0D, 2.0D), null, new Point2D(3.0D, 4.0D), new Point3D(1.0D, 2.0D, 3.0D)));
+		assertThrows(NullPointerException.class, () -> Point2D.barycentricInterpolation(null, new Point2D(2.0D, 3.0D), new Point2D(3.0D, 4.0D), new Point3D(1.0D, 2.0D, 3.0D)));
+	}
+	
+	@Test
 	public void testCentroidPoint2DPoint2D() {
 		final Point2D a = new Point2D(2.0D, 4.0D);
 		final Point2D b = new Point2D(4.0D, 8.0D);
@@ -475,9 +488,9 @@ public final class Point2DUnitTests {
 	
 	@Test
 	public void testProject() {
-		final Point2D a = Point2D.project(new Point3D(0.0D, 0.0D, 0.0D), new Point3D(1.0D, 0.0D, 0.0D), new Vector3D(1.0D, 0.0D, 0.0D), new Vector3D(0.0D, 1.0D, 0.0D));
-		final Point2D b = Point2D.project(new Point3D(0.0D, 0.0D, 0.0D), new Point3D(0.0D, 1.0D, 0.0D), new Vector3D(1.0D, 0.0D, 0.0D), new Vector3D(0.0D, 1.0D, 0.0D));
-		final Point2D c = Point2D.project(new Point3D(0.0D, 0.0D, 0.0D), new Point3D(0.0D, 0.0D, 1.0D), new Vector3D(1.0D, 0.0D, 0.0D), new Vector3D(0.0D, 1.0D, 0.0D));
+		final Point2D a = Point2D.project(new Point3D(1.0D, 0.0D, 0.0D), new Point3D(0.0D, 0.0D, 0.0D), new Vector3D(1.0D, 0.0D, 0.0D), new Vector3D(0.0D, 1.0D, 0.0D));
+		final Point2D b = Point2D.project(new Point3D(0.0D, 1.0D, 0.0D), new Point3D(0.0D, 0.0D, 0.0D), new Vector3D(1.0D, 0.0D, 0.0D), new Vector3D(0.0D, 1.0D, 0.0D));
+		final Point2D c = Point2D.project(new Point3D(0.0D, 0.0D, 1.0D), new Point3D(0.0D, 0.0D, 0.0D), new Vector3D(1.0D, 0.0D, 0.0D), new Vector3D(0.0D, 1.0D, 0.0D));
 		
 		assertEquals(1.0D, a.x);
 		assertEquals(0.0D, a.y);
@@ -488,10 +501,10 @@ public final class Point2DUnitTests {
 		assertEquals(0.0D, c.x);
 		assertEquals(0.0D, c.y);
 		
-		assertThrows(NullPointerException.class, () -> Point2D.project(new Point3D(0.0D, 0.0D, 0.0D), new Point3D(1.0D, 0.0D, 0.0D), new Vector3D(1.0D, 0.0D, 0.0D), null));
-		assertThrows(NullPointerException.class, () -> Point2D.project(new Point3D(0.0D, 0.0D, 0.0D), new Point3D(1.0D, 0.0D, 0.0D), null, new Vector3D(0.0D, 1.0D, 0.0D)));
-		assertThrows(NullPointerException.class, () -> Point2D.project(new Point3D(0.0D, 0.0D, 0.0D), null, new Vector3D(1.0D, 0.0D, 0.0D), new Vector3D(0.0D, 1.0D, 0.0D)));
-		assertThrows(NullPointerException.class, () -> Point2D.project(null, new Point3D(1.0D, 0.0D, 0.0D), new Vector3D(1.0D, 0.0D, 0.0D), new Vector3D(0.0D, 1.0D, 0.0D)));
+		assertThrows(NullPointerException.class, () -> Point2D.project(new Point3D(1.0D, 0.0D, 0.0D), new Point3D(0.0D, 0.0D, 0.0D), new Vector3D(1.0D, 0.0D, 0.0D), null));
+		assertThrows(NullPointerException.class, () -> Point2D.project(new Point3D(1.0D, 0.0D, 0.0D), new Point3D(0.0D, 0.0D, 0.0D), null, new Vector3D(0.0D, 1.0D, 0.0D)));
+		assertThrows(NullPointerException.class, () -> Point2D.project(new Point3D(1.0D, 0.0D, 0.0D), null, new Vector3D(1.0D, 0.0D, 0.0D), new Vector3D(0.0D, 1.0D, 0.0D)));
+		assertThrows(NullPointerException.class, () -> Point2D.project(null, new Point3D(0.0D, 0.0D, 0.0D), new Vector3D(1.0D, 0.0D, 0.0D), new Vector3D(0.0D, 1.0D, 0.0D)));
 	}
 	
 	@Test
