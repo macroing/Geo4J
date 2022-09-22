@@ -1241,7 +1241,6 @@ public final class Vector3D {
 	 * 
 	 * @return a {@code Vector3D} instance with the sampled direction
 	 */
-//	TODO: Add unit tests!
 	public static Vector3D sampleHemisphereUniformDistribution() {
 		return sampleHemisphereUniformDistribution(Point2D.sampleRandom());
 	}
@@ -1257,7 +1256,6 @@ public final class Vector3D {
 	 * @return a {@code Vector3D} instance with the sampled direction
 	 * @throws NullPointerException thrown if, and only if, {@code p} is {@code null}
 	 */
-//	TODO: Add unit tests!
 	public static Vector3D sampleHemisphereUniformDistribution(final Point2D p) {
 		final double cosTheta = p.x;
 		final double sinTheta = Doubles.sqrt(Doubles.max(0.0D, 1.0D - cosTheta * cosTheta));
@@ -1296,50 +1294,6 @@ public final class Vector3D {
 	 * @throws NullPointerException thrown if, and only if, {@code p} is {@code null}
 	 */
 	public static Vector3D sampleSphereUniformDistribution(final Point2D p) {
-		/*
-		 * cosTheta:
-		 * 
-		 * 1.0D - 2.0D * 0.0D = +1.0D
-		 * 1.0D - 2.0D * 0.5D = +0.0D
-		 * 1.0D - 2.0D * 1.0D = -1.0D
-		 * 
-		 * sinTheta:
-		 * 
-		 * sqrt(max(0.0D, 1.0D - +1.0D * +1.0D)) = sqrt(max(0.0D, 0.0D)) = sqrt(0.0D) = 0.0D
-		 * sqrt(max(0.0D, 1.0D - +0.0D * +0.0D)) = sqrt(max(0.0D, 1.0D)) = sqrt(1.0D) = 1.0D
-		 * sqrt(max(0.0D, 1.0D - -1.0D * -1.0D)) = sqrt(max(0.0D, 1.0D)) = sqrt(1.0D) = 1.0D
-		 * 
-		 * phi:
-		 * 
-		 * PI * 2.0D * 0.0D = PI * 0.0D
-		 * PI * 2.0D * 0.5D = PI * 1.0D
-		 * PI * 2.0D * 1.0D = PI * 2.0D
-		 * 
-		 * x:
-		 * 
-		 * 0.0D * cos(PI * 0.0D)
-		 * 0.0D * cos(PI * 1.0D)
-		 * 0.0D * cos(PI * 2.0D)
-		 * 1.0D * cos(PI * 0.0D)
-		 * 1.0D * cos(PI * 1.0D)
-		 * 1.0D * cos(PI * 2.0D)
-		 * 
-		 * y:
-		 * 
-		 * 0.0D * sin(PI * 0.0D)
-		 * 0.0D * sin(PI * 1.0D)
-		 * 0.0D * sin(PI * 2.0D)
-		 * 1.0D * sin(PI * 0.0D)
-		 * 1.0D * sin(PI * 1.0D)
-		 * 1.0D * sin(PI * 2.0D)
-		 * 
-		 * z:
-		 * 
-		 * +1.0D
-		 * +0.0D
-		 * -1.0D
-		 */
-		
 		final double cosTheta = 1.0D - 2.0D * p.x;
 		final double sinTheta = Doubles.sqrt(Doubles.max(0.0D, 1.0D - cosTheta * cosTheta));
 		final double phi = Doubles.PI_MULTIPLIED_BY_2 * p.y;

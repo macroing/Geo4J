@@ -609,6 +609,22 @@ public final class Vector3DUnitTests {
 	}
 	
 	@Test
+	public void testNegateZ() {
+		final Vector3D a = Vector3D.negateZ(new Vector3D(+1.0D, +1.0D, +1.0D));
+		final Vector3D b = Vector3D.negateZ(new Vector3D(-1.0D, -1.0D, -1.0D));
+		
+		assertEquals(+1.0D, a.x);
+		assertEquals(+1.0D, a.y);
+		assertEquals(-1.0D, a.z);
+		
+		assertEquals(-1.0D, b.x);
+		assertEquals(-1.0D, b.y);
+		assertEquals(+1.0D, b.z);
+		
+		assertThrows(NullPointerException.class, () -> Vector3D.negateZ(null));
+	}
+	
+	@Test
 	public void testNormalNormalizedPoint3DPoint3DPoint3D() {
 		final Point3D a = new Point3D(0.0D, 0.0D, 0.0D);
 		final Point3D b = new Point3D(1.0D, 0.0D, 0.0D);
@@ -680,6 +696,9 @@ public final class Vector3DUnitTests {
 		final Vector3D d = Vector3D.orthogonal(c);
 		final Vector3D e = new Vector3D(0.0D, 0.0D, 1.0D);
 		final Vector3D f = Vector3D.orthogonal(e);
+		final Vector3D g = Vector3D.normalize(new Vector3D(1.0D, 2.0D, 3.0D));
+		final Vector3D h = Vector3D.orthogonal(g);
+		final Vector3D i = Vector3D.normalize(new Vector3D(0.0D, g.z, -g.y));
 		
 		assertEquals(+0.0D, b.x);
 		assertEquals(-1.0D, b.y);
@@ -692,6 +711,10 @@ public final class Vector3DUnitTests {
 		assertEquals(+1.0D, f.x);
 		assertEquals(+0.0D, f.y);
 		assertEquals(-0.0D, f.z);
+		
+		assertEquals(i.x, h.x);
+		assertEquals(i.y, h.y);
+		assertEquals(i.z, h.z);
 		
 		assertThrows(NullPointerException.class, () -> Vector3D.orthogonal(null));
 	}
@@ -791,6 +814,33 @@ public final class Vector3DUnitTests {
 		
 		assertThrows(NullPointerException.class, () -> Vector3D.sameHemisphereZ(new Vector3D(0.0D, 0.0D, 0.0D), null));
 		assertThrows(NullPointerException.class, () -> Vector3D.sameHemisphereZ(null, new Vector3D(0.0D, 0.0D, 0.0D)));
+	}
+	
+	@Test
+	public void testSampleHemisphereUniformDistribution() {
+		for(int i = 0; i < 10000; i++) {
+			final Vector3D v = Vector3D.sampleHemisphereUniformDistribution();
+			
+			assertTrue(v.x >= -1.0D && v.x <= +1.0D);
+			assertTrue(v.y >= -1.0D && v.y <= +1.0D);
+			assertTrue(v.z >= -1.0D && v.z <= +1.0D);
+		}
+	}
+	
+	@Test
+	public void testSampleHemisphereUniformDistributionPoint2D() {
+		final Vector3D a = Vector3D.sampleHemisphereUniformDistribution(new Point2D(0.0D, 0.0D));
+		final Vector3D b = Vector3D.sampleHemisphereUniformDistribution(new Point2D(0.0D, 1.0D));
+		final Vector3D c = Vector3D.sampleHemisphereUniformDistribution(new Point2D(1.0D, 0.0D));
+		final Vector3D d = Vector3D.sampleHemisphereUniformDistribution(new Point2D(1.0D, 1.0D));
+		
+		assertEquals(new Vector3D(1.0D * Math.cos(Math.PI * 0.0D), 1.0D * Math.sin(Math.PI * 0.0D), 0.0D), a);
+		assertEquals(new Vector3D(1.0D * Math.cos(Math.PI * 2.0D), 1.0D * Math.sin(Math.PI * 2.0D), 0.0D), b);
+		
+		assertEquals(new Vector3D(0.0D * Math.cos(Math.PI * 0.0D), 0.0D * Math.sin(Math.PI * 0.0D), 1.0D), c);
+		assertEquals(new Vector3D(0.0D * Math.cos(Math.PI * 2.0D), 0.0D * Math.sin(Math.PI * 2.0D), 1.0D), d);
+		
+		assertThrows(NullPointerException.class, () -> Vector3D.sampleHemisphereUniformDistribution(null));
 	}
 	
 	@Test
