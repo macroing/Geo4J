@@ -18,7 +18,7 @@
  */
 package org.macroing.geo4j.mc;
 
-import java.lang.reflect.Field;//TODO: Add Unit Tests!
+import java.lang.reflect.Field;//TODO: Add unit tests!
 
 import org.macroing.geo4j.common.Point2D;
 import org.macroing.java.lang.Ints;
