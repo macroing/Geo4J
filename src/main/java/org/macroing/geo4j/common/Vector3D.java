@@ -980,6 +980,20 @@ public final class Vector3D {
 	}
 	
 	/**
+	 * Returns {@code Vector3D.negate(normal)} or {@code normal} as {@code Vector3D.dotProduct(direction, normal)} is less than {@code 0.0D} or greater than or equal to {@code 0.0D}, respectively.
+	 * <p>
+	 * If either {@code direction} or {@code normal} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param direction a {@code Vector3D} instance that represents a direction
+	 * @param normal a {@code Vector3D} instance that represents a normal
+	 * @return {@code Vector3D.negate(normal)} or {@code normal} as {@code Vector3D.dotProduct(direction, normal)} is less than {@code 0.0D} or greater than or equal to {@code 0.0D}, respectively
+	 * @throws NullPointerException thrown if, and only if, either {@code direction} or {@code normal} are {@code null}
+	 */
+	public static Vector3D orientNormal(final Vector3D direction, final Vector3D normal) {
+		return dotProduct(direction, normal) < 0.0D ? negate(normal) : normal;
+	}
+	
+	/**
 	 * Returns {@code normal} or {@code Vector3D.negate(normal)} as {@code Vector3D.dotProduct(direction, normal)} is less than {@code 0.0D} or greater than or equal to {@code 0.0D}, respectively.
 	 * <p>
 	 * If either {@code direction} or {@code normal} are {@code null}, a {@code NullPointerException} will be thrown.
@@ -989,8 +1003,7 @@ public final class Vector3D {
 	 * @return {@code normal} or {@code Vector3D.negate(normal)} as {@code Vector3D.dotProduct(direction, normal)} is less than {@code 0.0D} or greater than or equal to {@code 0.0D}, respectively
 	 * @throws NullPointerException thrown if, and only if, either {@code direction} or {@code normal} are {@code null}
 	 */
-//	TODO: Add unit tests!
-	public static Vector3D orientNormal(final Vector3D direction, final Vector3D normal) {
+	public static Vector3D orientNormalNegated(final Vector3D direction, final Vector3D normal) {
 		return dotProduct(direction, normal) < 0.0D ? normal : negate(normal);
 	}
 	
@@ -1004,7 +1017,6 @@ public final class Vector3D {
 	 * @return {@code normal} or {@code Vector3D.negate(normal)} as {@code Vector3D.sameHemisphereZ(direction, normal)} is {@code true} or {@code false}, respectively
 	 * @throws NullPointerException thrown if, and only if, either {@code direction} or {@code normal} are {@code null}
 	 */
-//	TODO: Add unit tests!
 	public static Vector3D orientNormalSameHemisphereZ(final Vector3D direction, final Vector3D normal) {
 		return sameHemisphereZ(direction, normal) ? normal : negate(normal);
 	}
@@ -1517,7 +1529,6 @@ public final class Vector3D {
 	 * @return the triple product of {@code vLHSDP}, {@code vLHSCP} and {@code vRHSCP}
 	 * @throws NullPointerException thrown if, and only if, either {@code vLHSDP}, {@code vLHSCP} or {@code vRHSCP} are {@code null}
 	 */
-//	TODO: Add unit tests!
 	public static double tripleProduct(final Vector3D vLHSDP, final Vector3D vLHSCP, final Vector3D vRHSCP) {
 		return dotProduct(vLHSDP, crossProduct(vLHSCP, vRHSCP));
 	}

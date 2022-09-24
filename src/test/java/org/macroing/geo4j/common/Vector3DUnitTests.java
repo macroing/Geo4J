@@ -689,6 +689,54 @@ public final class Vector3DUnitTests {
 	}
 	
 	@Test
+	public void testOrientNormal() {
+		final Vector3D a = Vector3D.orientNormal(new Vector3D(0.0D, 0.0D, +1.0D), new Vector3D(0.0D, 0.0D, +1.0D));
+		final Vector3D b = Vector3D.orientNormal(new Vector3D(0.0D, 0.0D, -1.0D), new Vector3D(0.0D, 0.0D, -1.0D));
+		final Vector3D c = Vector3D.orientNormal(new Vector3D(0.0D, 0.0D, +1.0D), new Vector3D(0.0D, 0.0D, -1.0D));
+		final Vector3D d = Vector3D.orientNormal(new Vector3D(0.0D, 0.0D, -1.0D), new Vector3D(0.0D, 0.0D, +1.0D));
+		
+		assertEquals(new Vector3D(+0.0D, +0.0D, +1.0D), a);
+		assertEquals(new Vector3D(+0.0D, +0.0D, -1.0D), b);
+		assertEquals(new Vector3D(-0.0D, -0.0D, +1.0D), c);
+		assertEquals(new Vector3D(-0.0D, -0.0D, -1.0D), d);
+		
+		assertThrows(NullPointerException.class, () -> Vector3D.orientNormal(new Vector3D(0.0D, 0.0D, 0.0D), null));
+		assertThrows(NullPointerException.class, () -> Vector3D.orientNormal(null, new Vector3D(0.0D, 0.0D, 0.0D)));
+	}
+	
+	@Test
+	public void testOrientNormalNegated() {
+		final Vector3D a = Vector3D.orientNormalNegated(new Vector3D(0.0D, 0.0D, +1.0D), new Vector3D(0.0D, 0.0D, +1.0D));
+		final Vector3D b = Vector3D.orientNormalNegated(new Vector3D(0.0D, 0.0D, -1.0D), new Vector3D(0.0D, 0.0D, -1.0D));
+		final Vector3D c = Vector3D.orientNormalNegated(new Vector3D(0.0D, 0.0D, +1.0D), new Vector3D(0.0D, 0.0D, -1.0D));
+		final Vector3D d = Vector3D.orientNormalNegated(new Vector3D(0.0D, 0.0D, -1.0D), new Vector3D(0.0D, 0.0D, +1.0D));
+		
+		assertEquals(new Vector3D(-0.0D, -0.0D, -1.0D), a);
+		assertEquals(new Vector3D(-0.0D, -0.0D, +1.0D), b);
+		assertEquals(new Vector3D(+0.0D, +0.0D, -1.0D), c);
+		assertEquals(new Vector3D(+0.0D, +0.0D, +1.0D), d);
+		
+		assertThrows(NullPointerException.class, () -> Vector3D.orientNormalNegated(new Vector3D(0.0D, 0.0D, 0.0D), null));
+		assertThrows(NullPointerException.class, () -> Vector3D.orientNormalNegated(null, new Vector3D(0.0D, 0.0D, 0.0D)));
+	}
+	
+	@Test
+	public void testOrientNormalSameHemisphereZ() {
+		final Vector3D a = Vector3D.orientNormalSameHemisphereZ(new Vector3D(0.0D, 0.0D, +1.0D), new Vector3D(0.0D, 0.0D, +1.0D));
+		final Vector3D b = Vector3D.orientNormalSameHemisphereZ(new Vector3D(0.0D, 0.0D, -1.0D), new Vector3D(0.0D, 0.0D, -1.0D));
+		final Vector3D c = Vector3D.orientNormalSameHemisphereZ(new Vector3D(0.0D, 0.0D, +1.0D), new Vector3D(0.0D, 0.0D, -1.0D));
+		final Vector3D d = Vector3D.orientNormalSameHemisphereZ(new Vector3D(0.0D, 0.0D, -1.0D), new Vector3D(0.0D, 0.0D, +1.0D));
+		
+		assertEquals(new Vector3D(+0.0D, +0.0D, +1.0D), a);
+		assertEquals(new Vector3D(+0.0D, +0.0D, -1.0D), b);
+		assertEquals(new Vector3D(-0.0D, -0.0D, +1.0D), c);
+		assertEquals(new Vector3D(-0.0D, -0.0D, -1.0D), d);
+		
+		assertThrows(NullPointerException.class, () -> Vector3D.orientNormalSameHemisphereZ(new Vector3D(0.0D, 0.0D, 0.0D), null));
+		assertThrows(NullPointerException.class, () -> Vector3D.orientNormalSameHemisphereZ(null, new Vector3D(0.0D, 0.0D, 0.0D)));
+	}
+	
+	@Test
 	public void testOrthogonalVector3D() {
 		final Vector3D a = new Vector3D(1.0D, 0.0D, 0.0D);
 		final Vector3D b = Vector3D.orthogonal(a);
@@ -970,6 +1018,21 @@ public final class Vector3DUnitTests {
 		final Vector3D v = new Vector3D(1.0D, 2.0D, 3.0D);
 		
 		assertEquals("new Vector3D(1.0D, 2.0D, 3.0D)", v.toString());
+	}
+	
+	@Test
+	public void testTripleProduct() {
+		assertEquals(+1.0D, Vector3D.tripleProduct(Vector3D.x(), Vector3D.y(), Vector3D.z()));
+		assertEquals(+1.0D, Vector3D.tripleProduct(Vector3D.y(), Vector3D.z(), Vector3D.x()));
+		assertEquals(+1.0D, Vector3D.tripleProduct(Vector3D.z(), Vector3D.x(), Vector3D.y()));
+		
+		assertEquals(-1.0D, Vector3D.tripleProduct(Vector3D.z(), Vector3D.y(), Vector3D.x()));
+		assertEquals(-1.0D, Vector3D.tripleProduct(Vector3D.y(), Vector3D.x(), Vector3D.z()));
+		assertEquals(-1.0D, Vector3D.tripleProduct(Vector3D.x(), Vector3D.z(), Vector3D.y()));
+		
+		assertThrows(NullPointerException.class, () -> Vector3D.tripleProduct(Vector3D.x(), Vector3D.y(), null));
+		assertThrows(NullPointerException.class, () -> Vector3D.tripleProduct(Vector3D.x(), null, Vector3D.z()));
+		assertThrows(NullPointerException.class, () -> Vector3D.tripleProduct(null, Vector3D.y(), Vector3D.z()));
 	}
 	
 	@Test

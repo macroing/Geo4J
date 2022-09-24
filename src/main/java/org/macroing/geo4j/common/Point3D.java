@@ -22,7 +22,6 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.lang.reflect.Field;//TODO: Add unit tests!
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -544,7 +543,6 @@ public final class Point3D {
 	 * @return a {@code Point3D} offset from {@code point} based on {@code direction}, {@code normal} and {@code pointError}
 	 * @throws NullPointerException thrown if, and only if, either {@code point}, {@code direction}, {@code normal} or {@code pointError} are {@code null}
 	 */
-//	TODO: Add unit tests!
 	public static Point3D offset(final Point3D point, final Vector3D direction, final Vector3D normal, final Vector3D pointError) {
 		final double dotProduct = Vector3D.dotProduct(Vector3D.abs(normal), pointError);
 		
