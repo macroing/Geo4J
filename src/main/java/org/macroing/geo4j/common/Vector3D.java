@@ -276,7 +276,7 @@ public final class Vector3D {
 	 * @return the cosine of the angle phi in squared form
 	 */
 	public double cosPhiSquared() {
-		return cosPhi() * cosPhi();
+		return Doubles.pow2(cosPhi());
 	}
 	
 	/**
@@ -326,7 +326,7 @@ public final class Vector3D {
 	 * @return the cosine of the angle theta in quartic form
 	 */
 	public double cosThetaQuartic() {
-		return cosThetaSquared() * cosThetaSquared();
+		return Doubles.pow2(cosThetaSquared());
 	}
 	
 	/**
@@ -343,7 +343,7 @@ public final class Vector3D {
 	 * @return the cosine of the angle theta in squared form
 	 */
 	public double cosThetaSquared() {
-		return cosTheta() * cosTheta();
+		return Doubles.pow2(cosTheta());
 	}
 	
 	/**
@@ -400,7 +400,7 @@ public final class Vector3D {
 	 * @return the sine of the angle phi in squared form
 	 */
 	public double sinPhiSquared() {
-		return sinPhi() * sinPhi();
+		return Doubles.pow2(sinPhi());
 	}
 	
 	/**
