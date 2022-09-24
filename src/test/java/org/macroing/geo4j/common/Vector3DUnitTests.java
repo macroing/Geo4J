@@ -865,6 +865,79 @@ public final class Vector3DUnitTests {
 	}
 	
 	@Test
+	public void testSampleHemispherePowerCosineDistribution() {
+		for(int i = 0; i < 10000; i++) {
+			final Vector3D v = Vector3D.sampleHemispherePowerCosineDistribution();
+			
+			assertTrue(v.x >= -1.0D && v.x <= +1.0D);
+			assertTrue(v.y >= -1.0D && v.y <= +1.0D);
+			assertTrue(v.z >= +0.0D && v.z <= +1.0D);
+		}
+	}
+	
+	@Test
+	public void testSampleHemispherePowerCosineDistributionPoint2D() {
+		for(int i = 0; i < 10000; i++) {
+			final Vector3D v = Vector3D.sampleHemispherePowerCosineDistribution(Point2D.sampleRandom());
+			
+			assertTrue(v.x >= -1.0D && v.x <= +1.0D);
+			assertTrue(v.y >= -1.0D && v.y <= +1.0D);
+			assertTrue(v.z >= +0.0D && v.z <= +1.0D);
+		}
+		
+		assertThrows(NullPointerException.class, () -> Vector3D.sampleHemispherePowerCosineDistribution(null));
+	}
+	
+	@Test
+	public void testSampleHemispherePowerCosineDistributionPoint2DDouble() {
+		final Vector3D a = Vector3D.sampleHemispherePowerCosineDistribution(new Point2D(0.0D, 0.0D), 0.0D);
+		final Vector3D b = Vector3D.sampleHemispherePowerCosineDistribution(new Point2D(0.0D, 0.5D), 0.0D);
+		final Vector3D c = Vector3D.sampleHemispherePowerCosineDistribution(new Point2D(0.0D, 1.0D), 0.0D);
+		final Vector3D d = Vector3D.sampleHemispherePowerCosineDistribution(new Point2D(0.5D, 0.0D), 0.0D);
+		final Vector3D e = Vector3D.sampleHemispherePowerCosineDistribution(new Point2D(0.5D, 0.5D), 0.0D);
+		final Vector3D f = Vector3D.sampleHemispherePowerCosineDistribution(new Point2D(0.5D, 1.0D), 0.0D);
+		final Vector3D g = Vector3D.sampleHemispherePowerCosineDistribution(new Point2D(1.0D, 0.0D), 0.0D);
+		final Vector3D h = Vector3D.sampleHemispherePowerCosineDistribution(new Point2D(1.0D, 0.5D), 0.0D);
+		final Vector3D i = Vector3D.sampleHemispherePowerCosineDistribution(new Point2D(1.0D, 1.0D), 0.0D);
+		
+		final Vector3D j = Vector3D.sampleHemispherePowerCosineDistribution(new Point2D(0.0D, 0.0D), 1.0D);
+		final Vector3D k = Vector3D.sampleHemispherePowerCosineDistribution(new Point2D(0.0D, 0.5D), 1.0D);
+		final Vector3D l = Vector3D.sampleHemispherePowerCosineDistribution(new Point2D(0.0D, 1.0D), 1.0D);
+		final Vector3D m = Vector3D.sampleHemispherePowerCosineDistribution(new Point2D(0.5D, 0.0D), 1.0D);
+		final Vector3D n = Vector3D.sampleHemispherePowerCosineDistribution(new Point2D(0.5D, 0.5D), 1.0D);
+		final Vector3D o = Vector3D.sampleHemispherePowerCosineDistribution(new Point2D(0.5D, 1.0D), 1.0D);
+		final Vector3D p = Vector3D.sampleHemispherePowerCosineDistribution(new Point2D(1.0D, 0.0D), 1.0D);
+		final Vector3D q = Vector3D.sampleHemispherePowerCosineDistribution(new Point2D(1.0D, 0.5D), 1.0D);
+		final Vector3D r = Vector3D.sampleHemispherePowerCosineDistribution(new Point2D(1.0D, 1.0D), 1.0D);
+		
+		assertEquals(new Vector3D(Math.sqrt(1.0D - Math.pow(1.0D, 1.0D) * Math.pow(1.0D, 1.0D)) * Math.cos(Math.PI * 0.0D), Math.sqrt(1.0D - Math.pow(1.0D, 1.0D) * Math.pow(1.0D, 1.0D)) * Math.sin(Math.PI * 0.0D), Math.pow(1.0D, 1.0D)), a);
+		assertEquals(new Vector3D(Math.sqrt(1.0D - Math.pow(1.0D, 1.0D) * Math.pow(1.0D, 1.0D)) * Math.cos(Math.PI * 1.0D), Math.sqrt(1.0D - Math.pow(1.0D, 1.0D) * Math.pow(1.0D, 1.0D)) * Math.sin(Math.PI * 1.0D), Math.pow(1.0D, 1.0D)), b);
+		assertEquals(new Vector3D(Math.sqrt(1.0D - Math.pow(1.0D, 1.0D) * Math.pow(1.0D, 1.0D)) * Math.cos(Math.PI * 2.0D), Math.sqrt(1.0D - Math.pow(1.0D, 1.0D) * Math.pow(1.0D, 1.0D)) * Math.sin(Math.PI * 2.0D), Math.pow(1.0D, 1.0D)), c);
+		
+		assertEquals(new Vector3D(Math.sqrt(1.0D - Math.pow(0.5D, 1.0D) * Math.pow(0.5D, 1.0D)) * Math.cos(Math.PI * 0.0D), Math.sqrt(1.0D - Math.pow(0.5D, 1.0D) * Math.pow(0.5D, 1.0D)) * Math.sin(Math.PI * 0.0D), Math.pow(0.5D, 1.0D)), d);
+		assertEquals(new Vector3D(Math.sqrt(1.0D - Math.pow(0.5D, 1.0D) * Math.pow(0.5D, 1.0D)) * Math.cos(Math.PI * 1.0D), Math.sqrt(1.0D - Math.pow(0.5D, 1.0D) * Math.pow(0.5D, 1.0D)) * Math.sin(Math.PI * 1.0D), Math.pow(0.5D, 1.0D)), e);
+		assertEquals(new Vector3D(Math.sqrt(1.0D - Math.pow(0.5D, 1.0D) * Math.pow(0.5D, 1.0D)) * Math.cos(Math.PI * 2.0D), Math.sqrt(1.0D - Math.pow(0.5D, 1.0D) * Math.pow(0.5D, 1.0D)) * Math.sin(Math.PI * 2.0D), Math.pow(0.5D, 1.0D)), f);
+		
+		assertEquals(new Vector3D(Math.sqrt(1.0D - Math.pow(0.0D, 1.0D) * Math.pow(0.0D, 1.0D)) * Math.cos(Math.PI * 0.0D), Math.sqrt(1.0D - Math.pow(0.0D, 1.0D) * Math.pow(0.0D, 1.0D)) * Math.sin(Math.PI * 0.0D), Math.pow(0.0D, 1.0D)), g);
+		assertEquals(new Vector3D(Math.sqrt(1.0D - Math.pow(0.0D, 1.0D) * Math.pow(0.0D, 1.0D)) * Math.cos(Math.PI * 1.0D), Math.sqrt(1.0D - Math.pow(0.0D, 1.0D) * Math.pow(0.0D, 1.0D)) * Math.sin(Math.PI * 1.0D), Math.pow(0.0D, 1.0D)), h);
+		assertEquals(new Vector3D(Math.sqrt(1.0D - Math.pow(0.0D, 1.0D) * Math.pow(0.0D, 1.0D)) * Math.cos(Math.PI * 2.0D), Math.sqrt(1.0D - Math.pow(0.0D, 1.0D) * Math.pow(0.0D, 1.0D)) * Math.sin(Math.PI * 2.0D), Math.pow(0.0D, 1.0D)), i);
+		
+		assertEquals(new Vector3D(Math.sqrt(1.0D - Math.pow(1.0D, 0.5D) * Math.pow(1.0D, 0.5D)) * Math.cos(Math.PI * 0.0D), Math.sqrt(1.0D - Math.pow(1.0D, 0.5D) * Math.pow(1.0D, 0.5D)) * Math.sin(Math.PI * 0.0D), Math.pow(1.0D, 0.5D)), j);
+		assertEquals(new Vector3D(Math.sqrt(1.0D - Math.pow(1.0D, 0.5D) * Math.pow(1.0D, 0.5D)) * Math.cos(Math.PI * 1.0D), Math.sqrt(1.0D - Math.pow(1.0D, 0.5D) * Math.pow(1.0D, 0.5D)) * Math.sin(Math.PI * 1.0D), Math.pow(1.0D, 0.5D)), k);
+		assertEquals(new Vector3D(Math.sqrt(1.0D - Math.pow(1.0D, 0.5D) * Math.pow(1.0D, 0.5D)) * Math.cos(Math.PI * 2.0D), Math.sqrt(1.0D - Math.pow(1.0D, 0.5D) * Math.pow(1.0D, 0.5D)) * Math.sin(Math.PI * 2.0D), Math.pow(1.0D, 0.5D)), l);
+		
+		assertEquals(new Vector3D(Math.sqrt(1.0D - Math.pow(0.5D, 0.5D) * Math.pow(0.5D, 0.5D)) * Math.cos(Math.PI * 0.0D), Math.sqrt(1.0D - Math.pow(0.5D, 0.5D) * Math.pow(0.5D, 0.5D)) * Math.sin(Math.PI * 0.0D), Math.pow(0.5D, 0.5D)), m);
+		assertEquals(new Vector3D(Math.sqrt(1.0D - Math.pow(0.5D, 0.5D) * Math.pow(0.5D, 0.5D)) * Math.cos(Math.PI * 1.0D), Math.sqrt(1.0D - Math.pow(0.5D, 0.5D) * Math.pow(0.5D, 0.5D)) * Math.sin(Math.PI * 1.0D), Math.pow(0.5D, 0.5D)), n);
+		assertEquals(new Vector3D(Math.sqrt(1.0D - Math.pow(0.5D, 0.5D) * Math.pow(0.5D, 0.5D)) * Math.cos(Math.PI * 2.0D), Math.sqrt(1.0D - Math.pow(0.5D, 0.5D) * Math.pow(0.5D, 0.5D)) * Math.sin(Math.PI * 2.0D), Math.pow(0.5D, 0.5D)), o);
+		
+		assertEquals(new Vector3D(Math.sqrt(1.0D - Math.pow(0.0D, 0.5D) * Math.pow(0.0D, 0.5D)) * Math.cos(Math.PI * 0.0D), Math.sqrt(1.0D - Math.pow(0.0D, 0.5D) * Math.pow(0.0D, 0.5D)) * Math.sin(Math.PI * 0.0D), Math.pow(0.0D, 0.5D)), p);
+		assertEquals(new Vector3D(Math.sqrt(1.0D - Math.pow(0.0D, 0.5D) * Math.pow(0.0D, 0.5D)) * Math.cos(Math.PI * 1.0D), Math.sqrt(1.0D - Math.pow(0.0D, 0.5D) * Math.pow(0.0D, 0.5D)) * Math.sin(Math.PI * 1.0D), Math.pow(0.0D, 0.5D)), q);
+		assertEquals(new Vector3D(Math.sqrt(1.0D - Math.pow(0.0D, 0.5D) * Math.pow(0.0D, 0.5D)) * Math.cos(Math.PI * 2.0D), Math.sqrt(1.0D - Math.pow(0.0D, 0.5D) * Math.pow(0.0D, 0.5D)) * Math.sin(Math.PI * 2.0D), Math.pow(0.0D, 0.5D)), r);
+		
+		assertThrows(NullPointerException.class, () -> Vector3D.sampleHemispherePowerCosineDistribution(null, 0.0D));
+	}
+	
+	@Test
 	public void testSampleHemisphereUniformDistribution() {
 		for(int i = 0; i < 10000; i++) {
 			final Vector3D v = Vector3D.sampleHemisphereUniformDistribution();

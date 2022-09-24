@@ -1190,7 +1190,6 @@ public final class Vector3D {
 	 * 
 	 * @return a {@code Vector3D} instance with the sampled direction
 	 */
-//	TODO: Add unit tests!
 	public static Vector3D sampleHemispherePowerCosineDistribution() {
 		return sampleHemispherePowerCosineDistribution(Point2D.sampleRandom());
 	}
@@ -1213,7 +1212,6 @@ public final class Vector3D {
 	 * @return a {@code Vector3D} instance with the sampled direction
 	 * @throws NullPointerException thrown if, and only if, {@code p} is {@code null}
 	 */
-//	TODO: Add unit tests!
 	public static Vector3D sampleHemispherePowerCosineDistribution(final Point2D p) {
 		return sampleHemispherePowerCosineDistribution(p, 20.0D);
 	}
@@ -1230,11 +1228,10 @@ public final class Vector3D {
 	 * @return a {@code Vector3D} instance with the sampled direction
 	 * @throws NullPointerException thrown if, and only if, {@code p} is {@code null}
 	 */
-//	TODO: Add unit tests!
 	public static Vector3D sampleHemispherePowerCosineDistribution(final Point2D p, final double exponent) {
-		final double cosTheta = Doubles.pow(1.0D - p.y, 1.0D / (exponent + 1.0D));
+		final double cosTheta = Doubles.pow(1.0D - p.x, 1.0D / (exponent + 1.0D));
 		final double sinTheta = Doubles.sqrt(Doubles.max(0.0D, 1.0D - cosTheta * cosTheta));
-		final double phi = Doubles.PI_MULTIPLIED_BY_2 * p.x;
+		final double phi = Doubles.PI_MULTIPLIED_BY_2 * p.y;
 		
 		return directionSpherical(sinTheta, cosTheta, phi);
 	}
