@@ -2,3 +2,18 @@ Add unit tests to MortonCodes.
 Add unit tests to Point2D.
 Add unit tests to Quaternion4D.
 Add unit tests to Vector3D.
+Add the AngleD class.
+Add the AngleF class.
+Add the Point2F class.
+Add the Point2I class.
+Add the Point3F class.
+Add the Point4D class.
+Add the Point4F class.
+Add the Vector2F class
+Add the Vector2I class.
+Add the Vector3F class.
+Add the Vector4D class.
+Add the Vector4F class.
+Add the Matrix33F class.
+Add the Matrix33I class.
+Add the Matrix44F class.
