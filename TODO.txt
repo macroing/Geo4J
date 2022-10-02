@@ -21,3 +21,8 @@ Add the OrthonormalBasis33F class.
 Add the Ray2F class.
 Add the Ray2I class.
 Add the Ray3F class.
+Add the Shape2D class or interface.
+Add the Shape2F class or interface.
+Add the Shape2I class or interface.
+Add the Shape3D class or interface.
+Add the Shape3F class or interface.
