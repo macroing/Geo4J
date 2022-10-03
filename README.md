@@ -47,7 +47,7 @@ The following table describes the different APIs and their current status in the
 
 Dependencies
 ------------
- - [Java 8](http://www.java.com)
+ - [Java 8 - 17](http://www.java.com)
  - [Macroing / Java](https://github.com/macroing/Java)
 
 Note

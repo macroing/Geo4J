@@ -619,7 +619,7 @@ public final class Point2D {
 	 * If {@code p} is {@code null}, a {@code NullPointerException} will be thrown.
 	 * 
 	 * @param p a {@code Point2D} instance
-	 * @param a an angle in degrees or radians
+	 * @param angle an angle in degrees or radians
 	 * @param isRadians {@code true} if, and only if, {@code angle} is in radians, {@code false} otherwise
 	 * @return a {@code Point2D} instance with the rotation applied
 	 * @throws NullPointerException thrown if, and only if, {@code p} is {@code null}
