@@ -22,6 +22,12 @@ Supported Features
  - `org.macroing.geo4j.mc` provides the Morton Code API.
  - `org.macroing.geo4j.onb` provides the Orthonormal Basis API.
  - `org.macroing.geo4j.ray` provides the Ray API.
+ - `org.macroing.geo4j.shape` provides the Shape API.
+ - `org.macroing.geo4j.shape.circle` provides the Shape Circle API.
+ - `org.macroing.geo4j.shape.ls` provides the Shape Line Segment API.
+ - `org.macroing.geo4j.shape.polygon` provides the Shape Polygon API.
+ - `org.macroing.geo4j.shape.rectangle` provides the Shape Rectangle API.
+ - `org.macroing.geo4j.shape.triangle` provides the Shape Triangle API.
 
 Examples
 --------
@@ -35,15 +41,21 @@ Library
 -------
 The following table describes the different APIs and their current status in the library.
 
-| Name                  | Javadoc | Unit Test | Package                       |
-| --------------------- | ------- | --------- | ----------------------------- |
-| Geo4J                 | N/A     |  92.4%    |                               |
-| Common API            | N/A     |  97.0%    | org.macroing.geo4j.common     |
-| Matrix API            | 100.0%  | 100.0%    | org.macroing.geo4j.matrix     |
-| Morton Code API       | 100.0%  |   0.0%    | org.macroing.geo4j.mc         |
-| Orthonormal Basis API | 100.0%  | 100.0%    | org.macroing.geo4j.onb        |
-| Quaternion API        | 100.0%  |  69.5%    | org.macroing.geo4j.quaternion |
-| Ray API               | 100.0%  | 100.0%    | org.macroing.geo4j.ray        |
+| Name                   | Javadoc | Unit Test | Package                            |
+| ---------------------- | ------- | --------- | ---------------------------------- |
+| Geo4J                  | N/A     |  94.7%    |                                    |
+| Common API             | N/A     |  97.5%    | org.macroing.geo4j.common          |
+| Matrix API             | 100.0%  | 100.0%    | org.macroing.geo4j.matrix          |
+| Morton Code API        | 100.0%  |   0.0%    | org.macroing.geo4j.mc              |
+| Orthonormal Basis API  | 100.0%  | 100.0%    | org.macroing.geo4j.onb             |
+| Quaternion API         | 100.0%  |  69.5%    | org.macroing.geo4j.quaternion      |
+| Ray API                | 100.0%  | 100.0%    | org.macroing.geo4j.ray             |
+| Shape API              | 100.0%  | 100.0%    | org.macroing.geo4j.shape           |
+| Shape Circle API       | 100.0%  | 100.0%    | org.macroing.geo4j.shape.circle    |
+| Shape Line Segment API | 100.0%  | 100.0%    | org.macroing.geo4j.shape.ls        |
+| Shape Polygon API      | 100.0%  | 100.0%    | org.macroing.geo4j.shape.polygon   |
+| Shape Rectangle API    | 100.0%  | 100.0%    | org.macroing.geo4j.shape.rectangle |
+| Shape Triangle API     | 100.0%  | 100.0%    | org.macroing.geo4j.shape.triangle  |
 
 Dependencies
 ------------

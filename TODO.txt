@@ -5,12 +5,10 @@ Add unit tests to Vector3D.
 Add the AngleD class.
 Add the AngleF class.
 Add the Point2F class.
-Add the Point2I class.
 Add the Point3F class.
 Add the Point4D class.
 Add the Point4F class.
 Add the Vector2F class
-Add the Vector2I class.
 Add the Vector3F class.
 Add the Vector4D class.
 Add the Vector4F class.
@@ -23,6 +21,5 @@ Add the Ray2I class.
 Add the Ray3F class.
 Add the Shape2D class or interface.
 Add the Shape2F class or interface.
-Add the Shape2I class or interface.
 Add the Shape3D class or interface.
 Add the Shape3F class or interface.
