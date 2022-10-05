@@ -18,6 +18,11 @@
  */
 package org.macroing.geo4j.common;
 
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.lang.reflect.Field;//TODO: Add unit tests!
 import java.util.Objects;
 
 import org.macroing.java.lang.Doubles;
@@ -71,6 +76,46 @@ public final class Point2I {
 	}
 	
 	/**
+	 * Constructs a new {@code Point2I} instance given the component values {@code (int)(p.x)} and {@code (int)(p.y)}.
+	 * <p>
+	 * If {@code p} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this constructor is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * new Point2I((int)(p.x), (int)(p.y));
+	 * }
+	 * </pre>
+	 * 
+	 * @param p a {@link Point2D} instance
+	 * @throws NullPointerException thrown if, and only if, {@code p} is {@code null}
+	 */
+//	TODO: Add unit tests!
+	public Point2I(final Point2D p) {
+		this((int)(p.x), (int)(p.y));
+	}
+	
+	/**
+	 * Constructs a new {@code Point2I} instance given the component values {@code v.x} and {@code v.y}.
+	 * <p>
+	 * If {@code v} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this constructor is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * new Point2I(v.x, v.y);
+	 * }
+	 * </pre>
+	 * 
+	 * @param v a {@link Vector2I} instance
+	 * @throws NullPointerException thrown if, and only if, {@code v} is {@code null}
+	 */
+//	TODO: Add unit tests!
+	public Point2I(final Vector2I v) {
+		this(v.x, v.y);
+	}
+	
+	/**
 	 * Constructs a new {@code Point2I} instance given the component values {@code x} and {@code y}.
 	 * 
 	 * @param x the value of the X-component
@@ -101,18 +146,69 @@ public final class Point2I {
 	 * @param object the {@code Object} to compare to this {@code Point2I} instance for equality
 	 * @return {@code true} if, and only if, {@code object} is an instance of {@code Point2I}, and they are equal, {@code false} otherwise
 	 */
+//	TODO: Add unit tests!
 	@Override
 	public boolean equals(final Object object) {
 		if(object == this) {
 			return true;
 		} else if(!(object instanceof Point2I)) {
 			return false;
-		} else if(this.x != Point2I.class.cast(object).x) {
+		} else {
+			return equals(Point2I.class.cast(object));
+		}
+	}
+	
+	/**
+	 * Compares {@code p} to this {@code Point2I} instance for equality.
+	 * <p>
+	 * Returns {@code true} if, and only if, {@code p} is not {@code null} and their respective values are equal, {@code false} otherwise.
+	 * 
+	 * @param p the {@code Point2I} instance to compare to this {@code Point2I} instance for equality
+	 * @return {@code true} if, and only if, {@code p} is not {@code null} and their respective values are equal, {@code false} otherwise
+	 */
+//	TODO: Add unit tests!
+	public boolean equals(final Point2I p) {
+		if(p == this) {
+			return true;
+		} else if(p == null) {
 			return false;
-		} else if(this.y != Point2I.class.cast(object).y) {
+		} else if(this.x != p.x) {
+			return false;
+		} else if(this.y != p.y) {
 			return false;
 		} else {
 			return true;
+		}
+	}
+	
+	/**
+	 * Returns {@code true} if, and only if, both components in this {@code Point2I} instance have values that are zero, {@code false} otherwise.
+	 * 
+	 * @return {@code true} if, and only if, both components in this {@code Point2I} instance have values that are zero, {@code false} otherwise
+	 */
+//	TODO: Add unit tests!
+	public boolean isZero() {
+		return (this.x == -0 || this.x == +0) && (this.y == -0 || this.y == +0);
+	}
+	
+	/**
+	 * Returns the value of the component at index {@code index}.
+	 * <p>
+	 * If {@code index} is less than {@code 0} or greater than {@code 1}, an {@code IllegalArgumentException} will be thrown.
+	 * 
+	 * @param index the index of the component whose value to return
+	 * @return the value of the component at index {@code index}
+	 * @throws IllegalArgumentException thrown if, and only if, {@code index} is less than {@code 0} or greater than {@code 2}
+	 */
+//	TODO: Add unit tests!
+	public int getComponent(final int index) {
+		switch(index) {
+			case 0:
+				return this.x;
+			case 1:
+				return this.y;
+			default:
+				throw new IllegalArgumentException(String.format("Illegal index: index=%s", Integer.toString(index)));
 		}
 	}
 	
@@ -126,25 +222,108 @@ public final class Point2I {
 		return Objects.hash(Integer.valueOf(this.x), Integer.valueOf(this.y));
 	}
 	
+	/**
+	 * Returns a {@code int[]} representation of this {@code Point2I} instance.
+	 * 
+	 * @return a {@code int[]} representation of this {@code Point2I} instance
+	 */
+//	TODO: Add unit tests!
+	public int[] toArray() {
+		return new int[] {this.x, this.y};
+	}
+	
+	/**
+	 * Writes this {@code Point2I} instance to {@code dataOutput}.
+	 * <p>
+	 * If {@code dataOutput} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If an I/O error occurs, an {@code UncheckedIOException} will be thrown.
+	 * 
+	 * @param dataOutput the {@code DataOutput} instance to write to
+	 * @throws NullPointerException thrown if, and only if, {@code dataOutput} is {@code null}
+	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
+	 */
+//	TODO: Add unit tests!
+	public void write(final DataOutput dataOutput) {
+		try {
+			dataOutput.writeInt(this.x);
+			dataOutput.writeInt(this.y);
+		} catch(final IOException e) {
+			throw new UncheckedIOException(e);
+		}
+	}
+	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	/**
-	 * Returns a new {@code Point2I} instance with the largest component values.
+	 * Adds the component values of {@code v} to the component values of {@code p}.
+	 * <p>
+	 * Returns a {@code Point2I} instance with the result of the addition.
+	 * <p>
+	 * If either {@code p} or {@code v} are {@code null}, a {@code NullPointerException} will be thrown.
 	 * 
-	 * @return a new {@code Point2I} instance with the largest component values
+	 * @param p the {@code Point2I} instance on the left-hand side
+	 * @param v the {@link Vector2I} instance on the right-hand side
+	 * @return a {@code Point2I} instance with the result of the addition
+	 * @throws NullPointerException thrown if, and only if, either {@code p} or {@code v} are {@code null}
+	 */
+//	TODO: Add unit tests!
+	public static Point2I add(final Point2I p, final Vector2I v) {
+		return new Point2I(p.x + v.x, p.y + v.y);
+	}
+	
+	/**
+	 * Adds the component values of {@code v} multiplied by {@code s} to the component values of {@code p}.
+	 * <p>
+	 * Returns a {@code Point2I} instance with the result of the addition.
+	 * <p>
+	 * If either {@code p} or {@code v} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param p the {@code Point2I} instance on the left-hand side
+	 * @param v the {@link Vector2I} instance on the right-hand side
+	 * @param s the scalar to multiply the component values of {@code v} with
+	 * @return a {@code Point2I} instance with the result of the addition
+	 * @throws NullPointerException thrown if, and only if, either {@code p} or {@code v} are {@code null}
+	 */
+//	TODO: Add unit tests!
+	public static Point2I add(final Point2I p, final Vector2I v, final int s) {
+		return new Point2I(p.x + v.x * s, p.y + v.y * s);
+	}
+	
+	/**
+	 * Adds {@code s} to the component values of {@code p}.
+	 * <p>
+	 * Returns a {@code Point2I} instance with the result of the addition.
+	 * <p>
+	 * If {@code p} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param p the {@code Point2I} instance on the left-hand side
+	 * @param s the scalar value on the right-hand side
+	 * @return a {@code Point2I} instance with the result of the addition
+	 * @throws NullPointerException thrown if, and only if, {@code p} is {@code null}
+	 */
+//	TODO: Add unit tests!
+	public static Point2I add(final Point2I p, final int s) {
+		return new Point2I(p.x + s, p.y + s);
+	}
+	
+	/**
+	 * Returns a {@code Point2I} instance with the largest component values.
+	 * 
+	 * @return a {@code Point2I} instance with the largest component values
 	 */
 	public static Point2I max() {
 		return new Point2I(Integer.MAX_VALUE, Integer.MAX_VALUE);
 	}
 	
 	/**
-	 * Returns a new {@code Point2I} instance with the largest component values of {@code a} and {@code b}.
+	 * Returns a {@code Point2I} instance with the largest component values of {@code a} and {@code b}.
 	 * <p>
 	 * If either {@code a} or {@code b} are {@code null}, a {@code NullPointerException} will be thrown.
 	 * 
 	 * @param a a {@code Point2I} instance
 	 * @param b a {@code Point2I} instance
-	 * @return a new {@code Point2I} instance with the largest component values of {@code a} and {@code b}
+	 * @return a {@code Point2I} instance with the largest component values of {@code a} and {@code b}
 	 * @throws NullPointerException thrown if, and only if, either {@code a} or {@code b} are {@code null}
 	 */
 	public static Point2I max(final Point2I a, final Point2I b) {
@@ -152,14 +331,14 @@ public final class Point2I {
 	}
 	
 	/**
-	 * Returns a new {@code Point2I} instance with the largest component values of {@code a}, {@code b} and {@code c}.
+	 * Returns a {@code Point2I} instance with the largest component values of {@code a}, {@code b} and {@code c}.
 	 * <p>
 	 * If either {@code a}, {@code b} or {@code c} are {@code null}, a {@code NullPointerException} will be thrown.
 	 * 
 	 * @param a a {@code Point2I} instance
 	 * @param b a {@code Point2I} instance
 	 * @param c a {@code Point2I} instance
-	 * @return a new {@code Point2I} instance with the largest component values of {@code a}, {@code b} and {@code c}
+	 * @return a {@code Point2I} instance with the largest component values of {@code a}, {@code b} and {@code c}
 	 * @throws NullPointerException thrown if, and only if, either {@code a}, {@code b} or {@code c} are {@code null}
 	 */
 	public static Point2I max(final Point2I a, final Point2I b, final Point2I c) {
@@ -167,7 +346,7 @@ public final class Point2I {
 	}
 	
 	/**
-	 * Returns a new {@code Point2I} instance with the largest component values of {@code a}, {@code b}, {@code c} and {@code d}.
+	 * Returns a {@code Point2I} instance with the largest component values of {@code a}, {@code b}, {@code c} and {@code d}.
 	 * <p>
 	 * If either {@code a}, {@code b}, {@code c} or {@code d} are {@code null}, a {@code NullPointerException} will be thrown.
 	 * 
@@ -175,7 +354,7 @@ public final class Point2I {
 	 * @param b a {@code Point2I} instance
 	 * @param c a {@code Point2I} instance
 	 * @param d a {@code Point2I} instance
-	 * @return a new {@code Point2I} instance with the largest component values of {@code a}, {@code b}, {@code c} and {@code d}
+	 * @return a {@code Point2I} instance with the largest component values of {@code a}, {@code b}, {@code c} and {@code d}
 	 * @throws NullPointerException thrown if, and only if, either {@code a}, {@code b}, {@code c} or {@code d} are {@code null}
 	 */
 	public static Point2I max(final Point2I a, final Point2I b, final Point2I c, final Point2I d) {
@@ -183,13 +362,13 @@ public final class Point2I {
 	}
 	
 	/**
-	 * Returns a new {@code Point2I} instance that represents the midpoint of {@code a} and {@code b}.
+	 * Returns a {@code Point2I} instance that represents the midpoint of {@code a} and {@code b}.
 	 * <p>
 	 * If either {@code a} or {@code b} are {@code null}, a {@code NullPointerException} will be thrown.
 	 * 
 	 * @param a a {@code Point2I} instance
 	 * @param b a {@code Point2I} instance
-	 * @return a new {@code Point2I} instance that represents the midpoint of {@code a} and {@code b}
+	 * @return a {@code Point2I} instance that represents the midpoint of {@code a} and {@code b}
 	 * @throws NullPointerException thrown if, and only if, either {@code a} or {@code b} are {@code null}
 	 */
 	public static Point2I midpoint(final Point2I a, final Point2I b) {
@@ -197,22 +376,22 @@ public final class Point2I {
 	}
 	
 	/**
-	 * Returns a new {@code Point2I} instance with the smallest component values.
+	 * Returns a {@code Point2I} instance with the smallest component values.
 	 * 
-	 * @return a new {@code Point2I} instance with the smallest component values
+	 * @return a {@code Point2I} instance with the smallest component values
 	 */
 	public static Point2I min() {
 		return new Point2I(Integer.MIN_VALUE, Integer.MIN_VALUE);
 	}
 	
 	/**
-	 * Returns a new {@code Point2I} instance with the smallest component values of {@code a} and {@code b}.
+	 * Returns a {@code Point2I} instance with the smallest component values of {@code a} and {@code b}.
 	 * <p>
 	 * If either {@code a} or {@code b} are {@code null}, a {@code NullPointerException} will be thrown.
 	 * 
 	 * @param a a {@code Point2I} instance
 	 * @param b a {@code Point2I} instance
-	 * @return a new {@code Point2I} instance with the smallest component values of {@code a} and {@code b}
+	 * @return a {@code Point2I} instance with the smallest component values of {@code a} and {@code b}
 	 * @throws NullPointerException thrown if, and only if, either {@code a} or {@code b} are {@code null}
 	 */
 	public static Point2I min(final Point2I a, final Point2I b) {
@@ -220,14 +399,14 @@ public final class Point2I {
 	}
 	
 	/**
-	 * Returns a new {@code Point2I} instance with the smallest component values of {@code a}, {@code b} and {@code c}.
+	 * Returns a {@code Point2I} instance with the smallest component values of {@code a}, {@code b} and {@code c}.
 	 * <p>
 	 * If either {@code a}, {@code b} or {@code c} are {@code null}, a {@code NullPointerException} will be thrown.
 	 * 
 	 * @param a a {@code Point2I} instance
 	 * @param b a {@code Point2I} instance
 	 * @param c a {@code Point2I} instance
-	 * @return a new {@code Point2I} instance with the smallest component values of {@code a}, {@code b} and {@code c}
+	 * @return a {@code Point2I} instance with the smallest component values of {@code a}, {@code b} and {@code c}
 	 * @throws NullPointerException thrown if, and only if, either {@code a}, {@code b} or {@code c} are {@code null}
 	 */
 	public static Point2I min(final Point2I a, final Point2I b, final Point2I c) {
@@ -235,7 +414,7 @@ public final class Point2I {
 	}
 	
 	/**
-	 * Returns a new {@code Point2I} instance with the smallest component values of {@code a}, {@code b}, {@code c} and {@code d}.
+	 * Returns a {@code Point2I} instance with the smallest component values of {@code a}, {@code b}, {@code c} and {@code d}.
 	 * <p>
 	 * If either {@code a}, {@code b}, {@code c} or {@code d} are {@code null}, a {@code NullPointerException} will be thrown.
 	 * 
@@ -243,7 +422,7 @@ public final class Point2I {
 	 * @param b a {@code Point2I} instance
 	 * @param c a {@code Point2I} instance
 	 * @param d a {@code Point2I} instance
-	 * @return a new {@code Point2I} instance with the smallest component values of {@code a}, {@code b}, {@code c} and {@code d}
+	 * @return a {@code Point2I} instance with the smallest component values of {@code a}, {@code b}, {@code c} and {@code d}
 	 * @throws NullPointerException thrown if, and only if, either {@code a}, {@code b}, {@code c} or {@code d} are {@code null}
 	 */
 	public static Point2I min(final Point2I a, final Point2I b, final Point2I c, final Point2I d) {
@@ -251,9 +430,29 @@ public final class Point2I {
 	}
 	
 	/**
+	 * Returns a {@code Point2I} instance by reading it from {@code dataInput}.
+	 * <p>
+	 * If {@code dataInput} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If an I/O error occurs, an {@code UncheckedIOException} will be thrown.
+	 * 
+	 * @param dataInput the {@code DataInput} instance to read from
+	 * @return a {@code Point2I} instance by reading it from {@code dataInput}
+	 * @throws NullPointerException thrown if, and only if, {@code dataInput} is {@code null}
+	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
+	 */
+	public static Point2I read(final DataInput dataInput) {
+		try {
+			return new Point2I(dataInput.readInt(), dataInput.readInt());
+		} catch(final IOException e) {
+			throw new UncheckedIOException(e);
+		}
+	}
+	
+	/**
 	 * Rotates {@code point} by {@code angle} degrees around {@code new Point2I(0, 0)}.
 	 * <p>
-	 * Returns a new {@code Point2I} instance with the result of the rotation.
+	 * Returns a {@code Point2I} instance with the result of the rotation.
 	 * <p>
 	 * If {@code point} is {@code null}, a {@code NullPointerException} will be thrown.
 	 * <p>
@@ -270,7 +469,7 @@ public final class Point2I {
 	 * 
 	 * @param point the {@code Point2I} instance to rotate
 	 * @param angle the rotation angle in degrees
-	 * @return a new {@code Point2I} instance with the result of the rotation
+	 * @return a {@code Point2I} instance with the result of the rotation
 	 * @throws NullPointerException thrown if, and only if, {@code point} is {@code null}
 	 */
 	public static Point2I rotate(final Point2I point, final double angle) {
@@ -280,7 +479,7 @@ public final class Point2I {
 	/**
 	 * Rotates {@code point} by {@code angle} degrees or radians around {@code new Point2I(0, 0)}.
 	 * <p>
-	 * Returns a new {@code Point2I} instance with the result of the rotation.
+	 * Returns a {@code Point2I} instance with the result of the rotation.
 	 * <p>
 	 * If {@code point} is {@code null}, a {@code NullPointerException} will be thrown.
 	 * <p>
@@ -298,7 +497,7 @@ public final class Point2I {
 	 * @param point the {@code Point2I} instance to rotate
 	 * @param angle the rotation angle in degrees or radians
 	 * @param isAngleInRadians {@code true} if, and only if, {@code angle} is specified in radians, {@code false} otherwise
-	 * @return a new {@code Point2I} instance with the result of the rotation
+	 * @return a {@code Point2I} instance with the result of the rotation
 	 * @throws NullPointerException thrown if, and only if, {@code point} is {@code null}
 	 */
 	public static Point2I rotate(final Point2I point, final double angle, final boolean isAngleInRadians) {
@@ -308,7 +507,7 @@ public final class Point2I {
 	/**
 	 * Rotates {@code point} by {@code angle} degrees or radians around {@code center}.
 	 * <p>
-	 * Returns a new {@code Point2I} instance with the result of the rotation.
+	 * Returns a {@code Point2I} instance with the result of the rotation.
 	 * <p>
 	 * If either {@code point} or {@code center} are {@code null}, a {@code NullPointerException} will be thrown.
 	 * <p>
@@ -320,7 +519,7 @@ public final class Point2I {
 	 * @param angle the rotation angle in degrees or radians
 	 * @param isAngleInRadians {@code true} if, and only if, {@code angle} is specified in radians, {@code false} otherwise
 	 * @param center a {@code Point2I} instance that represents the center of the rotation
-	 * @return a new {@code Point2I} instance with the result of the rotation
+	 * @return a {@code Point2I} instance with the result of the rotation
 	 * @throws NullPointerException thrown if, and only if, either {@code point} or {@code center} are {@code null}
 	 */
 	public static Point2I rotate(final Point2I point, final double angle, final boolean isAngleInRadians, final Point2I center) {
@@ -337,7 +536,7 @@ public final class Point2I {
 	/**
 	 * Rotates {@code point} by {@code angleCos} and {@code angleSin} around {@code center}.
 	 * <p>
-	 * Returns a new {@code Point2I} instance with the result of the rotation.
+	 * Returns a {@code Point2I} instance with the result of the rotation.
 	 * <p>
 	 * If either {@code point} or {@code center} are {@code null}, a {@code NullPointerException} will be thrown.
 	 * <p>
@@ -349,7 +548,8 @@ public final class Point2I {
 	 * @param angleCos the cosine of the rotation angle
 	 * @param angleSin the sine of the rotation angle
 	 * @param center a {@code Point2I} instance that represents the center of the rotation
-	 * @return a new {@code Point2I} instance with the result of the rotation
+	 * @return a {@code Point2I} instance with the result of the rotation
+	 * @throws NullPointerException thrown if, and only if, either {@code point} or {@code center} are {@code null}
 	 */
 	public static Point2I rotate(final Point2I point, final double angleCos, final double angleSin, final Point2I center) {
 		final int x = (int)(Doubles.rint((point.x - center.x) * angleCos - (point.y - center.y) * angleSin + center.x));
@@ -361,7 +561,7 @@ public final class Point2I {
 	/**
 	 * Rotates {@code point} by {@code angle} degrees around {@code new Point2I(0, 0)}.
 	 * <p>
-	 * Returns a new {@code Point2I} instance with the result of the rotation.
+	 * Returns a {@code Point2I} instance with the result of the rotation.
 	 * <p>
 	 * If {@code point} is {@code null}, a {@code NullPointerException} will be thrown.
 	 * <p>
@@ -378,7 +578,7 @@ public final class Point2I {
 	 * 
 	 * @param point the {@code Point2I} instance to rotate
 	 * @param angle the rotation angle in degrees
-	 * @return a new {@code Point2I} instance with the result of the rotation
+	 * @return a {@code Point2I} instance with the result of the rotation
 	 * @throws NullPointerException thrown if, and only if, {@code point} is {@code null}
 	 */
 	public static Point2I rotate(final Point2I point, final float angle) {
@@ -388,7 +588,7 @@ public final class Point2I {
 	/**
 	 * Rotates {@code point} by {@code angle} degrees or radians around {@code new Point2I(0, 0)}.
 	 * <p>
-	 * Returns a new {@code Point2I} instance with the result of the rotation.
+	 * Returns a {@code Point2I} instance with the result of the rotation.
 	 * <p>
 	 * If {@code point} is {@code null}, a {@code NullPointerException} will be thrown.
 	 * <p>
@@ -406,7 +606,7 @@ public final class Point2I {
 	 * @param point the {@code Point2I} instance to rotate
 	 * @param angle the rotation angle in degrees or radians
 	 * @param isAngleInRadians {@code true} if, and only if, {@code angle} is specified in radians, {@code false} otherwise
-	 * @return a new {@code Point2I} instance with the result of the rotation
+	 * @return a {@code Point2I} instance with the result of the rotation
 	 * @throws NullPointerException thrown if, and only if, {@code point} is {@code null}
 	 */
 	public static Point2I rotate(final Point2I point, final float angle, final boolean isAngleInRadians) {
@@ -416,7 +616,7 @@ public final class Point2I {
 	/**
 	 * Rotates {@code point} by {@code angle} degrees or radians around {@code center}.
 	 * <p>
-	 * Returns a new {@code Point2I} instance with the result of the rotation.
+	 * Returns a {@code Point2I} instance with the result of the rotation.
 	 * <p>
 	 * If either {@code point} or {@code center} are {@code null}, a {@code NullPointerException} will be thrown.
 	 * <p>
@@ -428,7 +628,7 @@ public final class Point2I {
 	 * @param angle the rotation angle in degrees or radians
 	 * @param isAngleInRadians {@code true} if, and only if, {@code angle} is specified in radians, {@code false} otherwise
 	 * @param center a {@code Point2I} instance that represents the center of the rotation
-	 * @return a new {@code Point2I} instance with the result of the rotation
+	 * @return a {@code Point2I} instance with the result of the rotation
 	 * @throws NullPointerException thrown if, and only if, either {@code point} or {@code center} are {@code null}
 	 */
 	public static Point2I rotate(final Point2I point, final float angle, final boolean isAngleInRadians, final Point2I center) {
@@ -445,7 +645,7 @@ public final class Point2I {
 	/**
 	 * Rotates {@code point} by {@code angleCos} and {@code angleSin} around {@code center}.
 	 * <p>
-	 * Returns a new {@code Point2I} instance with the result of the rotation.
+	 * Returns a {@code Point2I} instance with the result of the rotation.
 	 * <p>
 	 * If either {@code point} or {@code center} are {@code null}, a {@code NullPointerException} will be thrown.
 	 * <p>
@@ -457,7 +657,8 @@ public final class Point2I {
 	 * @param angleCos the cosine of the rotation angle
 	 * @param angleSin the sine of the rotation angle
 	 * @param center a {@code Point2I} instance that represents the center of the rotation
-	 * @return a new {@code Point2I} instance with the result of the rotation
+	 * @return a {@code Point2I} instance with the result of the rotation
+	 * @throws NullPointerException thrown if, and only if, either {@code point} or {@code center} are {@code null}
 	 */
 	public static Point2I rotate(final Point2I point, final float angleCos, final float angleSin, final Point2I center) {
 		final int x = (int)(Floats.rint((point.x - center.x) * angleCos - (point.y - center.y) * angleSin + center.x));

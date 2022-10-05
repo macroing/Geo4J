@@ -245,7 +245,7 @@ public final class Vector2D {
 	 * @return {@code true} if, and only if, both components in this {@code Vector2D} instance have values that are zero, {@code false} otherwise
 	 */
 	public boolean isZero() {
-		return Doubles.isZero(this.x) && Doubles.isZero(this.y);  
+		return Doubles.isZero(this.x) && Doubles.isZero(this.y);
 	}
 	
 	/**
