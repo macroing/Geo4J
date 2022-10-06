@@ -22,7 +22,6 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.lang.reflect.Field;//TODO: Add unit tests!
 import java.util.Objects;
 
 import org.macroing.java.lang.Doubles;
@@ -90,7 +89,6 @@ public final class Point2I {
 	 * @param p a {@link Point2D} instance
 	 * @throws NullPointerException thrown if, and only if, {@code p} is {@code null}
 	 */
-//	TODO: Add unit tests!
 	public Point2I(final Point2D p) {
 		this((int)(p.x), (int)(p.y));
 	}
@@ -110,7 +108,6 @@ public final class Point2I {
 	 * @param v a {@link Vector2I} instance
 	 * @throws NullPointerException thrown if, and only if, {@code v} is {@code null}
 	 */
-//	TODO: Add unit tests!
 	public Point2I(final Vector2I v) {
 		this(v.x, v.y);
 	}
@@ -146,7 +143,6 @@ public final class Point2I {
 	 * @param object the {@code Object} to compare to this {@code Point2I} instance for equality
 	 * @return {@code true} if, and only if, {@code object} is an instance of {@code Point2I}, and they are equal, {@code false} otherwise
 	 */
-//	TODO: Add unit tests!
 	@Override
 	public boolean equals(final Object object) {
 		if(object == this) {
@@ -166,7 +162,6 @@ public final class Point2I {
 	 * @param p the {@code Point2I} instance to compare to this {@code Point2I} instance for equality
 	 * @return {@code true} if, and only if, {@code p} is not {@code null} and their respective values are equal, {@code false} otherwise
 	 */
-//	TODO: Add unit tests!
 	public boolean equals(final Point2I p) {
 		if(p == this) {
 			return true;
@@ -186,9 +181,8 @@ public final class Point2I {
 	 * 
 	 * @return {@code true} if, and only if, both components in this {@code Point2I} instance have values that are zero, {@code false} otherwise
 	 */
-//	TODO: Add unit tests!
 	public boolean isZero() {
-		return (this.x == -0 || this.x == +0) && (this.y == -0 || this.y == +0);
+		return this.x == 0 && this.y == 0;
 	}
 	
 	/**
@@ -200,7 +194,6 @@ public final class Point2I {
 	 * @return the value of the component at index {@code index}
 	 * @throws IllegalArgumentException thrown if, and only if, {@code index} is less than {@code 0} or greater than {@code 2}
 	 */
-//	TODO: Add unit tests!
 	public int getComponent(final int index) {
 		switch(index) {
 			case 0:
@@ -227,7 +220,6 @@ public final class Point2I {
 	 * 
 	 * @return a {@code int[]} representation of this {@code Point2I} instance
 	 */
-//	TODO: Add unit tests!
 	public int[] toArray() {
 		return new int[] {this.x, this.y};
 	}
@@ -243,7 +235,6 @@ public final class Point2I {
 	 * @throws NullPointerException thrown if, and only if, {@code dataOutput} is {@code null}
 	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
 	 */
-//	TODO: Add unit tests!
 	public void write(final DataOutput dataOutput) {
 		try {
 			dataOutput.writeInt(this.x);
@@ -267,7 +258,6 @@ public final class Point2I {
 	 * @return a {@code Point2I} instance with the result of the addition
 	 * @throws NullPointerException thrown if, and only if, either {@code p} or {@code v} are {@code null}
 	 */
-//	TODO: Add unit tests!
 	public static Point2I add(final Point2I p, final Vector2I v) {
 		return new Point2I(p.x + v.x, p.y + v.y);
 	}
@@ -285,7 +275,6 @@ public final class Point2I {
 	 * @return a {@code Point2I} instance with the result of the addition
 	 * @throws NullPointerException thrown if, and only if, either {@code p} or {@code v} are {@code null}
 	 */
-//	TODO: Add unit tests!
 	public static Point2I add(final Point2I p, final Vector2I v, final int s) {
 		return new Point2I(p.x + v.x * s, p.y + v.y * s);
 	}
@@ -302,7 +291,6 @@ public final class Point2I {
 	 * @return a {@code Point2I} instance with the result of the addition
 	 * @throws NullPointerException thrown if, and only if, {@code p} is {@code null}
 	 */
-//	TODO: Add unit tests!
 	public static Point2I add(final Point2I p, final int s) {
 		return new Point2I(p.x + s, p.y + s);
 	}

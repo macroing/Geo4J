@@ -19,10 +19,23 @@
 package org.macroing.geo4j.common;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutput;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.UncheckedIOException;
 
 import org.junit.jupiter.api.Test;
+
+import org.macroing.geo4j.mock.DataOutputMock;
 
 @SuppressWarnings("static-method")
 public final class Point2IUnitTests {
@@ -31,6 +44,41 @@ public final class Point2IUnitTests {
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	@Test
+	public void testAddPoint2IInt() {
+		final Point2I a = new Point2I(1, 2);
+		final Point2I b = Point2I.add(a, 2);
+		
+		assertEquals(3, b.x);
+		assertEquals(4, b.y);
+		
+		assertThrows(NullPointerException.class, () -> Point2I.add(null, 2));
+	}
+	
+	@Test
+	public void testAddPoint2IVector2I() {
+		final Point2I a = new Point2I(1, 2);
+		final Point2I b = Point2I.add(a, new Vector2I(1, 2));
+		
+		assertEquals(2, b.x);
+		assertEquals(4, b.y);
+		
+		assertThrows(NullPointerException.class, () -> Point2I.add(a, null));
+		assertThrows(NullPointerException.class, () -> Point2I.add(null, new Vector2I(1, 2)));
+	}
+	
+	@Test
+	public void testAddPoint2IVector2IInt() {
+		final Point2I a = new Point2I(1, 2);
+		final Point2I b = Point2I.add(a, new Vector2I(1, 2), 2);
+		
+		assertEquals(3, b.x);
+		assertEquals(6, b.y);
+		
+		assertThrows(NullPointerException.class, () -> Point2I.add(a, null, 2));
+		assertThrows(NullPointerException.class, () -> Point2I.add(null, new Vector2I(1, 2), 2));
+	}
 	
 	@Test
 	public void testConstants() {
@@ -52,6 +100,26 @@ public final class Point2IUnitTests {
 		
 		assertEquals(1, point.x);
 		assertEquals(2, point.y);
+	}
+	
+	@Test
+	public void testConstructorPoint2D() {
+		final Point2I point = new Point2I(new Point2D(1.0D, 2.0D));
+		
+		assertEquals(1, point.x);
+		assertEquals(2, point.y);
+		
+		assertThrows(NullPointerException.class, () -> new Point2I((Point2D)(null)));
+	}
+	
+	@Test
+	public void testConstructorVector2I() {
+		final Point2I point = new Point2I(new Vector2I(1, 2));
+		
+		assertEquals(1, point.x);
+		assertEquals(2, point.y);
+		
+		assertThrows(NullPointerException.class, () -> new Point2I((Vector2I)(null)));
 	}
 	
 	@Test
@@ -81,7 +149,7 @@ public final class Point2IUnitTests {
 	}
 	
 	@Test
-	public void testEquals() {
+	public void testEqualsObject() {
 		final Point2I a = new Point2I(0, 1);
 		final Point2I b = new Point2I(0, 1);
 		final Point2I c = new Point2I(0, 2);
@@ -100,12 +168,56 @@ public final class Point2IUnitTests {
 	}
 	
 	@Test
+	public void testEqualsPoint2I() {
+		final Point2I a = new Point2I(0, 1);
+		final Point2I b = new Point2I(0, 1);
+		final Point2I c = new Point2I(0, 2);
+		final Point2I d = new Point2I(2, 1);
+		final Point2I e = null;
+		
+		assertTrue(a.equals(a));
+		assertTrue(a.equals(b));
+		assertTrue(b.equals(a));
+		
+		assertFalse(a.equals(c));
+		assertFalse(c.equals(a));
+		assertFalse(a.equals(d));
+		assertFalse(d.equals(a));
+		assertFalse(a.equals(e));
+	}
+	
+	@Test
+	public void testGetComponent() {
+		final Point2I p = new Point2I(1, 2);
+		
+		assertEquals(1, p.getComponent(0));
+		assertEquals(2, p.getComponent(1));
+		
+		assertThrows(IllegalArgumentException.class, () -> p.getComponent(-1));
+		assertThrows(IllegalArgumentException.class, () -> p.getComponent(+2));
+	}
+	
+	@Test
 	public void testHashCode() {
 		final Point2I a = new Point2I(1, 2);
 		final Point2I b = new Point2I(1, 2);
 		
 		assertEquals(a.hashCode(), a.hashCode());
 		assertEquals(a.hashCode(), b.hashCode());
+	}
+	
+	@Test
+	public void testIsZero() {
+		assertTrue(new Point2I(+0, +0).isZero());
+		assertTrue(new Point2I(+0, -0).isZero());
+		assertTrue(new Point2I(-0, +0).isZero());
+		assertTrue(new Point2I(-0, -0).isZero());
+		
+		assertFalse(new Point2I(+0, +1).isZero());
+		assertFalse(new Point2I(-0, -1).isZero());
+		assertFalse(new Point2I(+1, +0).isZero());
+		assertFalse(new Point2I(-1, -0).isZero());
+		assertFalse(new Point2I(+1, -1).isZero());
 	}
 	
 	@Test
@@ -219,6 +331,27 @@ public final class Point2IUnitTests {
 		assertThrows(NullPointerException.class, () -> Point2I.min(a, b, null, d));
 		assertThrows(NullPointerException.class, () -> Point2I.min(a, null, c, d));
 		assertThrows(NullPointerException.class, () -> Point2I.min(null, b, c, d));
+	}
+	
+	@Test
+	public void testRead() throws IOException {
+		final Point2I a = new Point2I(1, 2);
+		
+		final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+		
+		final
+		DataOutput dataOutput = new DataOutputStream(byteArrayOutputStream);
+		dataOutput.writeInt(a.x);
+		dataOutput.writeInt(a.y);
+		
+		final byte[] bytes = byteArrayOutputStream.toByteArray();
+		
+		final Point2I b = Point2I.read(new DataInputStream(new ByteArrayInputStream(bytes)));
+		
+		assertEquals(a, b);
+		
+		assertThrows(NullPointerException.class, () -> Point2I.read(null));
+		assertThrows(UncheckedIOException.class, () -> Point2I.read(new DataInputStream(new ByteArrayInputStream(new byte[] {}))));
 	}
 	
 	@Test
@@ -598,6 +731,20 @@ public final class Point2IUnitTests {
 	}
 	
 	@Test
+	public void testToArray() {
+		final Point2I point = new Point2I(1, 2);
+		
+		final int[] array = point.toArray();
+		
+		assertNotNull(array);
+		
+		assertEquals(2, array.length);
+		
+		assertEquals(1, array[0]);
+		assertEquals(2, array[1]);
+	}
+	
+	@Test
 	public void testToString() {
 		final Point2I point = new Point2I(1, 2);
 		
@@ -615,5 +762,25 @@ public final class Point2IUnitTests {
 		assertThrows(NullPointerException.class, () -> Point2I.toString((Point2I[])(null)));
 		assertThrows(NullPointerException.class, () -> Point2I.toString(a, b, c, null));
 		assertThrows(NullPointerException.class, () -> Point2I.toString(new Point2I[] {a, b, c, null}));
+	}
+	
+	@Test
+	public void testWrite() {
+		final Point2I a = new Point2I(1, 2);
+		
+		final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+		
+		final DataOutput dataOutput = new DataOutputStream(byteArrayOutputStream);
+		
+		a.write(dataOutput);
+		
+		final byte[] bytes = byteArrayOutputStream.toByteArray();
+		
+		final Point2I b = Point2I.read(new DataInputStream(new ByteArrayInputStream(bytes)));
+		
+		assertEquals(a, b);
+		
+		assertThrows(NullPointerException.class, () -> a.write(null));
+		assertThrows(UncheckedIOException.class, () -> a.write(new DataOutputMock()));
 	}
 }

@@ -22,7 +22,6 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.lang.reflect.Field;//TODO: Add unit tests!
 import java.util.Objects;
 
 import org.macroing.java.lang.Ints;
@@ -77,7 +76,6 @@ public final class Vector2I {
 	 * @param p a {@link Point2I} instance
 	 * @throws NullPointerException thrown if, and only if, {@code p} is {@code null}
 	 */
-//	TODO: Add unit tests!
 	public Vector2I(final Point2I p) {
 		this(p.x, p.y);
 	}
@@ -113,7 +111,6 @@ public final class Vector2I {
 	 * @param object the {@code Object} to compare to this {@code Vector2I} instance for equality
 	 * @return {@code true} if, and only if, {@code object} is an instance of {@code Vector2I}, and their respective values are equal, {@code false} otherwise
 	 */
-//	TODO: Add unit tests!
 	@Override
 	public boolean equals(final Object object) {
 		if(object == this) {
@@ -133,7 +130,6 @@ public final class Vector2I {
 	 * @param v the {@code Vector2I} instance to compare to this {@code Vector2I} instance for equality
 	 * @return {@code true} if, and only if, {@code v} is not {@code null} and their respective values are equal, {@code false} otherwise
 	 */
-//	TODO: Add unit tests!
 	public boolean equals(final Vector2I v) {
 		if(v == this) {
 			return true;
@@ -153,9 +149,8 @@ public final class Vector2I {
 	 * 
 	 * @return {@code true} if, and only if, both components in this {@code Vector2I} instance have values that are zero, {@code false} otherwise
 	 */
-//	TODO: Add unit tests!
 	public boolean isZero() {
-		return (this.x == -0 || this.x == +0) && (this.y == -0 || this.y == +0);
+		return this.x == 0 && this.y == 0;
 	}
 	
 	/**
@@ -167,7 +162,6 @@ public final class Vector2I {
 	 * @return the value of the component at index {@code index}
 	 * @throws IllegalArgumentException thrown if, and only if, {@code index} is less than {@code 0} or greater than {@code 2}
 	 */
-//	TODO: Add unit tests!
 	public int getComponent(final int index) {
 		switch(index) {
 			case 0:
@@ -212,7 +206,6 @@ public final class Vector2I {
 	 * 
 	 * @return a {@code int[]} representation of this {@code Vector2I} instance
 	 */
-//	TODO: Add unit tests!
 	public int[] toArray() {
 		return new int[] {this.x, this.y};
 	}
@@ -228,7 +221,6 @@ public final class Vector2I {
 	 * @throws NullPointerException thrown if, and only if, {@code dataOutput} is {@code null}
 	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
 	 */
-//	TODO: Add unit tests!
 	public void write(final DataOutput dataOutput) {
 		try {
 			dataOutput.writeInt(this.x);
@@ -249,7 +241,6 @@ public final class Vector2I {
 	 * @return a {@code Vector2I} instance with the absolute component values of {@code v}
 	 * @throws NullPointerException thrown if, and only if, {@code v} is {@code null}
 	 */
-//	TODO: Add unit tests!
 	public static Vector2I abs(final Vector2I v) {
 		return new Vector2I(Ints.abs(v.x), Ints.abs(v.y));
 	}
@@ -268,7 +259,6 @@ public final class Vector2I {
 	 * @return a {@code Vector2I} instance with the result of the addition
 	 * @throws NullPointerException thrown if, and only if, either {@code vLHS} or {@code vRHS} are {@code null}
 	 */
-//	TODO: Add unit tests!
 	public static Vector2I add(final Vector2I vLHS, final Vector2I vRHS) {
 		return new Vector2I(vLHS.x + vRHS.x, vLHS.y + vRHS.y);
 	}
@@ -288,7 +278,6 @@ public final class Vector2I {
 	 * @return a {@code Vector2I} instance with the result of the addition
 	 * @throws NullPointerException thrown if, and only if, either {@code a}, {@code b} or {@code c} are {@code null}
 	 */
-//	TODO: Add unit tests!
 	public static Vector2I add(final Vector2I a, final Vector2I b, final Vector2I c) {
 		return new Vector2I(a.x + b.x + c.x, a.y + b.y + c.y);
 	}
@@ -321,7 +310,6 @@ public final class Vector2I {
 	 * @return a {@code Vector2I} instance with the result of the division
 	 * @throws NullPointerException thrown if, and only if, {@code v} is {@code null}
 	 */
-//	TODO: Add unit tests!
 	public static Vector2I divide(final Vector2I v, final int s) {
 		return new Vector2I(v.x / s, v.y / s);
 	}
@@ -340,7 +328,6 @@ public final class Vector2I {
 	 * @return a {@code Vector2I} instance with the result of the multiplication
 	 * @throws NullPointerException thrown if, and only if, {@code v} is {@code null}
 	 */
-//	TODO: Add unit tests!
 	public static Vector2I multiply(final Vector2I v, final int s) {
 		return new Vector2I(v.x * s, v.y * s);
 	}
@@ -356,7 +343,6 @@ public final class Vector2I {
 	 * @return a {@code Vector2I} instance with the result of the negation
 	 * @throws NullPointerException thrown if, and only if, {@code v} is {@code null}
 	 */
-//	TODO: Add unit tests!
 	public static Vector2I negate(final Vector2I v) {
 		return new Vector2I(-v.x, -v.y);
 	}
@@ -370,7 +356,6 @@ public final class Vector2I {
 	 * @return a {@code Vector2I} instance that is perpendicular to {@code v}
 	 * @throws NullPointerException thrown if, and only if, {@code v} is {@code null}
 	 */
-//	TODO: Add unit tests!
 	public static Vector2I perpendicular(final Vector2I v) {
 		return new Vector2I(v.y, -v.x);
 	}
@@ -387,7 +372,6 @@ public final class Vector2I {
 	 * @throws NullPointerException thrown if, and only if, {@code dataInput} is {@code null}
 	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
 	 */
-//	TODO: Add unit tests!
 	public static Vector2I read(final DataInput dataInput) {
 		try {
 			return new Vector2I(dataInput.readInt(), dataInput.readInt());
@@ -410,7 +394,6 @@ public final class Vector2I {
 	 * @return a {@code Vector2I} instance with the result of the subtraction
 	 * @throws NullPointerException thrown if, and only if, either {@code vLHS} or {@code vRHS} are {@code null}
 	 */
-//	TODO: Add unit tests!
 	public static Vector2I subtract(final Vector2I vLHS, final Vector2I vRHS) {
 		return new Vector2I(vLHS.x - vRHS.x, vLHS.y - vRHS.y);
 	}
@@ -420,7 +403,6 @@ public final class Vector2I {
 	 * 
 	 * @return a {@code Vector2I} instance equivalent to {@code new Vector2I(1, 0)}
 	 */
-//	TODO: Add unit tests!
 	public static Vector2I x() {
 		return x(1);
 	}
@@ -431,7 +413,6 @@ public final class Vector2I {
 	 * @param x the value of the X-component
 	 * @return a {@code Vector2I} instance equivalent to {@code new Vector2I(x, 0)}
 	 */
-//	TODO: Add unit tests!
 	public static Vector2I x(final int x) {
 		return new Vector2I(x, 0);
 	}
@@ -441,7 +422,6 @@ public final class Vector2I {
 	 * 
 	 * @return a {@code Vector2I} instance equivalent to {@code new Vector2I(0, 1)}
 	 */
-//	TODO: Add unit tests!
 	public static Vector2I y() {
 		return y(1);
 	}
@@ -452,7 +432,6 @@ public final class Vector2I {
 	 * @param y the value of the Y-component
 	 * @return a {@code Vector2I} instance equivalent to {@code new Vector2I(0, y)}
 	 */
-//	TODO: Add unit tests!
 	public static Vector2I y(final int y) {
 		return new Vector2I(0, y);
 	}
