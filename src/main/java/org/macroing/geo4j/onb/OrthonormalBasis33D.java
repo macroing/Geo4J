@@ -433,22 +433,6 @@ public final class OrthonormalBasis33D {
 	}
 	
 	/**
-	 * Returns an {@code OrthonormalBasis33D} instance by reading it from {@code dataInput}.
-	 * <p>
-	 * If {@code dataInput} is {@code null}, a {@code NullPointerException} will be thrown.
-	 * <p>
-	 * If an I/O error occurs, an {@code UncheckedIOException} will be thrown.
-	 * 
-	 * @param dataInput the {@code DataInput} instance to read from
-	 * @return an {@code OrthonormalBasis33D} instance by reading it from {@code dataInput}
-	 * @throws NullPointerException thrown if, and only if, {@code dataInput} is {@code null}
-	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
-	 */
-	public static OrthonormalBasis33D read(final DataInput dataInput) {
-		return new OrthonormalBasis33D(Vector3D.read(dataInput), Vector3D.read(dataInput), Vector3D.read(dataInput));
-	}
-	
-	/**
 	 * Returns an {@code OrthonormalBasis33D} representation of {@code m}.
 	 * <p>
 	 * If {@code m} is {@code null}, a {@code NullPointerException} will be thrown.
@@ -463,6 +447,22 @@ public final class OrthonormalBasis33D {
 		final Vector3D w = new Vector3D(m.element13, m.element23, m.element33);
 		
 		return new OrthonormalBasis33D(w, v, u);
+	}
+	
+	/**
+	 * Returns an {@code OrthonormalBasis33D} instance by reading it from {@code dataInput}.
+	 * <p>
+	 * If {@code dataInput} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If an I/O error occurs, an {@code UncheckedIOException} will be thrown.
+	 * 
+	 * @param dataInput the {@code DataInput} instance to read from
+	 * @return an {@code OrthonormalBasis33D} instance by reading it from {@code dataInput}
+	 * @throws NullPointerException thrown if, and only if, {@code dataInput} is {@code null}
+	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
+	 */
+	public static OrthonormalBasis33D read(final DataInput dataInput) {
+		return new OrthonormalBasis33D(Vector3D.read(dataInput), Vector3D.read(dataInput), Vector3D.read(dataInput));
 	}
 	
 	/**

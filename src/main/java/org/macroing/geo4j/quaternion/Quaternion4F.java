@@ -1,0 +1,628 @@
+/**
+ * Copyright 2022 J&#246;rgen Lundgren
+ * 
+ * This file is part of org.macroing.geo4j.
+ * 
+ * org.macroing.geo4j is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * org.macroing.geo4j is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with org.macroing.geo4j. If not, see <http://www.gnu.org/licenses/>.
+ */
+package org.macroing.geo4j.quaternion;
+
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.lang.reflect.Field;//TODO: Add unit tests!
+import java.util.Objects;
+
+import org.macroing.geo4j.common.Vector3F;
+import org.macroing.geo4j.matrix.Matrix44F;
+import org.macroing.java.lang.Floats;
+import org.macroing.java.lang.Strings;
+
+/**
+ * A {@code Quaternion4F} represents a quaternion with four {@code float}-based components.
+ * <p>
+ * This class is immutable and therefore thread-safe.
+ * 
+ * @since 1.0.0
+ * @author J&#246;rgen Lundgren
+ */
+public final class Quaternion4F {
+	/**
+	 * The W-component of this {@code Quaternion4F} instance.
+	 */
+	public final float w;
+	
+	/**
+	 * The X-component of this {@code Quaternion4F} instance.
+	 */
+	public final float x;
+	
+	/**
+	 * The Y-component of this {@code Quaternion4F} instance.
+	 */
+	public final float y;
+	
+	/**
+	 * The Z-component of this {@code Quaternion4F} instance.
+	 */
+	public final float z;
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Constructs a new {@code Quaternion4F} instance given the component values {@code 0.0F}, {@code 0.0F}, {@code 0.0F} and {@code 1.0F}.
+	 * <p>
+	 * Calling this constructor is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * new Quaternion4F(0.0F, 0.0F, 0.0F);
+	 * }
+	 * </pre>
+	 */
+	public Quaternion4F() {
+		this(0.0F, 0.0F, 0.0F);
+	}
+	
+	/**
+	 * Constructs a new {@code Quaternion4F} instance given the component values {@code v.x}, {@code v.y}, {@code v.z} and {@code 1.0F}.
+	 * <p>
+	 * If {@code v} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this constructor is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * new Quaternion4F(v.x, v.y, v.z);
+	 * }
+	 * </pre>
+	 * 
+	 * @param v a {@link Vector3F} instance
+	 * @throws NullPointerException thrown if, and only if, {@code v} is {@code null}
+	 */
+	public Quaternion4F(final Vector3F v) {
+		this(v.x, v.y, v.z);
+	}
+	
+	/**
+	 * Constructs a new {@code Quaternion4F} instance given the component values {@code x}, {@code y}, {@code z} and {@code 1.0F}.
+	 * <p>
+	 * Calling this constructor is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * new Quaternion4F(x, y, z, 1.0F);
+	 * }
+	 * </pre>
+	 * 
+	 * @param x the value of the X-component
+	 * @param y the value of the Y-component
+	 * @param z the value of the Z-component
+	 */
+	public Quaternion4F(final float x, final float y, final float z) {
+		this(x, y, z, 1.0F);
+	}
+	
+	/**
+	 * Constructs a new {@code Quaternion4F} instance given the component values {@code x}, {@code y}, {@code z} and {@code w}.
+	 * 
+	 * @param x the value of the X-component
+	 * @param y the value of the Y-component
+	 * @param z the value of the Z-component
+	 * @param w the value of the W-component
+	 */
+	public Quaternion4F(final float x, final float y, final float z, final float w) {
+		this.x = x;
+		this.y = y;
+		this.z = z;
+		this.w = w;
+	}
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Returns a {@link Matrix44F} representation of this {@code Quaternion4F} instance.
+	 * 
+	 * @return a {@code Matrix44F} representation of this {@code Quaternion4F} instance
+	 */
+	public Matrix44F toMatrix() {
+		final Quaternion4F q = Quaternion4F.normalize(this);
+		
+		final Vector3F u = new Vector3F(1.0F - 2.0F * (q.y * q.y + q.z * q.z),        2.0F * (q.x * q.y - q.w * q.z),        2.0F * (q.x * q.z + q.w * q.y));
+		final Vector3F v = new Vector3F(       2.0F * (q.x * q.y + q.w * q.z), 1.0F - 2.0F * (q.x * q.x + q.z * q.z),        2.0F * (q.y * q.z - q.w * q.x));
+		final Vector3F w = new Vector3F(       2.0F * (q.x * q.z - q.w * q.y),        2.0F * (q.y * q.z + q.w * q.x), 1.0F - 2.0F * (q.x * q.x + q.y * q.y));
+		
+		return Matrix44F.rotate(w, v, u);
+	}
+	
+	/**
+	 * Returns a {@code String} representation of this {@code Quaternion4F} instance.
+	 * 
+	 * @return a {@code String} representation of this {@code Quaternion4F} instance
+	 */
+	@Override
+	public String toString() {
+		return String.format("new Quaternion4F(%s, %s, %s, %s)", Strings.toNonScientificNotationJava(this.x), Strings.toNonScientificNotationJava(this.y), Strings.toNonScientificNotationJava(this.z), Strings.toNonScientificNotationJava(this.w));
+	}
+	
+	/**
+	 * Compares {@code object} to this {@code Quaternion4F} instance for equality.
+	 * <p>
+	 * Returns {@code true} if, and only if, {@code object} is an instance of {@code Quaternion4F}, and their respective values are equal, {@code false} otherwise.
+	 * 
+	 * @param object the {@code Object} to compare to this {@code Quaternion4F} instance for equality
+	 * @return {@code true} if, and only if, {@code object} is an instance of {@code Quaternion4F}, and their respective values are equal, {@code false} otherwise
+	 */
+	@Override
+	public boolean equals(final Object object) {
+		if(object == this) {
+			return true;
+		} else if(!(object instanceof Quaternion4F)) {
+			return false;
+		} else {
+			return equals(Quaternion4F.class.cast(object));
+		}
+	}
+	
+	/**
+	 * Compares {@code q} to this {@code Quaternion4F} instance for equality.
+	 * <p>
+	 * Returns {@code true} if, and only if, {@code q} is not {@code null} and their respective values are equal, {@code false} otherwise.
+	 * 
+	 * @param q the {@code Quaternion4F} instance to compare to this {@code Quaternion4F} instance for equality
+	 * @return {@code true} if, and only if, {@code q} is not {@code null} and their respective values are equal, {@code false} otherwise
+	 */
+	public boolean equals(final Quaternion4F q) {
+		if(q == this) {
+			return true;
+		} else if(q == null) {
+			return false;
+		} else if(!Floats.equals(this.w, q.w)) {
+			return false;
+		} else if(!Floats.equals(this.x, q.x)) {
+			return false;
+		} else if(!Floats.equals(this.y, q.y)) {
+			return false;
+		} else if(!Floats.equals(this.z, q.z)) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
+	/**
+	 * Returns the length of this {@code Quaternion4F} instance.
+	 * 
+	 * @return the length of this {@code Quaternion4F} instance
+	 */
+	public float length() {
+		return Floats.sqrt(lengthSquared());
+	}
+	
+	/**
+	 * Returns the squared length of this {@code Quaternion4F} instance.
+	 * 
+	 * @return the squared length of this {@code Quaternion4F} instance
+	 */
+	public float lengthSquared() {
+		return this.x * this.x + this.y * this.y + this.z * this.z + this.w * this.w;
+	}
+	
+	/**
+	 * Returns a hash code for this {@code Quaternion4F} instance.
+	 * 
+	 * @return a hash code for this {@code Quaternion4F} instance
+	 */
+	@Override
+	public int hashCode() {
+		return Objects.hash(Float.valueOf(this.w), Float.valueOf(this.x), Float.valueOf(this.y), Float.valueOf(this.z));
+	}
+	
+	/**
+	 * Writes this {@code Quaternion4F} instance to {@code dataOutput}.
+	 * <p>
+	 * If {@code dataOutput} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If an I/O error occurs, an {@code UncheckedIOException} will be thrown.
+	 * 
+	 * @param dataOutput the {@code DataOutput} instance to write to
+	 * @throws NullPointerException thrown if, and only if, {@code dataOutput} is {@code null}
+	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
+	 */
+	public void write(final DataOutput dataOutput) {
+		try {
+			dataOutput.writeFloat(this.x);
+			dataOutput.writeFloat(this.y);
+			dataOutput.writeFloat(this.z);
+			dataOutput.writeFloat(this.w);
+		} catch(final IOException e) {
+			throw new UncheckedIOException(e);
+		}
+	}
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Adds the component values of {@code qRHS} to the component values of {@code qLHS}.
+	 * <p>
+	 * Returns a {@code Quaternion4F} instance with the result of the addition.
+	 * <p>
+	 * If either {@code qLHS} or {@code qRHS} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Quaternion addition is performed componentwise.
+	 * 
+	 * @param qLHS the {@code Quaternion4F} instance on the left-hand side
+	 * @param qRHS the {@code Quaternion4F} instance on the right-hand side
+	 * @return a {@code Quaternion4F} instance with the result of the addition
+	 * @throws NullPointerException thrown if, and only if, either {@code qLHS} or {@code qRHS} are {@code null}
+	 */
+	public static Quaternion4F add(final Quaternion4F qLHS, final Quaternion4F qRHS) {
+		return new Quaternion4F(qLHS.x + qRHS.x, qLHS.y + qRHS.y, qLHS.z + qRHS.z, qLHS.w + qRHS.w);
+	}
+	
+	/**
+	 * Conjugates the component values of {@code q}.
+	 * <p>
+	 * Returns a {@code Quaternion4F} instance with the result of the conjugation.
+	 * <p>
+	 * If {@code q} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param q a {@code Quaternion4F} instance
+	 * @return a {@code Quaternion4F} instance with the result of the conjugation
+	 * @throws NullPointerException thrown if, and only if, {@code q} is {@code null}
+	 */
+	public static Quaternion4F conjugate(final Quaternion4F q) {
+		return new Quaternion4F(-q.x, -q.y, -q.z, +q.w);
+	}
+	
+	/**
+	 * Divides the component values of {@code q} with {@code s}.
+	 * <p>
+	 * Returns a {@code Quaternion4F} instance with the result of the division.
+	 * <p>
+	 * If {@code q} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Quaternion division is performed componentwise.
+	 * 
+	 * @param q the {@code Quaternion4F} instance on the left-hand side
+	 * @param s the scalar value on the right-hand side
+	 * @return a {@code Quaternion4F} instance with the result of the division
+	 * @throws NullPointerException thrown if, and only if, {@code q} is {@code null}
+	 */
+	public static Quaternion4F divide(final Quaternion4F q, final float s) {
+		return new Quaternion4F(q.x / s, q.y / s, q.z / s, q.w / s);
+	}
+	
+	/**
+	 * Returns a {@code Quaternion4F} representation of {@code m}.
+	 * <p>
+	 * If {@code m} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param m a {@link Matrix44F} instance
+	 * @return a {@code Quaternion4F} representation of {@code m}
+	 * @throws NullPointerException thrown if, and only if, {@code m} is {@code null}
+	 */
+//	TODO: Add unit tests!
+	public static Quaternion4F fromMatrix(final Matrix44F m) {
+		if(m.element11 + m.element22 + m.element33 > 0.0F) {
+			final float scalar = 0.5F / Floats.sqrt(m.element11 + m.element22 + m.element33 + 1.0F);
+			
+			return normalize(new Quaternion4F((m.element23 - m.element32) * scalar, (m.element31 - m.element13) * scalar, (m.element12 - m.element21) * scalar, 0.25F / scalar));
+		} else if(m.element11 > m.element22 && m.element11 > m.element33) {
+			final float scalar = 2.0F * Floats.sqrt(1.0F + m.element11 - m.element22 - m.element23);
+			
+			return normalize(new Quaternion4F(0.25F * scalar, (m.element21 + m.element12) / scalar, (m.element31 + m.element13) / scalar, (m.element23 - m.element32) / scalar));
+		} else if(m.element22 > m.element33) {
+			final float scalar = 2.0F * Floats.sqrt(1.0F + m.element22 - m.element11 - m.element33);
+			
+			return normalize(new Quaternion4F((m.element21 + m.element12) / scalar, 0.25F * scalar, (m.element32 + m.element23) / scalar, (m.element31 - m.element13) / scalar));
+		} else {
+			final float scalar = 2.0F * Floats.sqrt(1.0F + m.element33 - m.element11 - m.element22);
+			
+			return normalize(new Quaternion4F((m.element31 + m.element13) / scalar, (m.element23 + m.element32) / scalar, 0.25F * scalar, (m.element12 - m.element21) / scalar));
+		}
+	}
+	
+	/**
+	 * Performs a normalized linear interpolation between {@code qLHS} and {@code qRHS}.
+	 * <p>
+	 * Returns a {@code Quaternion4F} instance with the result of the operation.
+	 * <p>
+	 * If either {@code qLHS} or {@code qRHS} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Quaternion4F.lerp(qLHS, qRHS, 0.5F);
+	 * }
+	 * </pre>
+	 * 
+	 * @param qLHS the {@code Quaternion4F} instance on the left-hand side
+	 * @param qRHS the {@code Quaternion4F} instance on the right-hand side
+	 * @return a {@code Quaternion4F} instance with the result of the operation
+	 * @throws NullPointerException thrown if, and only if, either {@code qLHS} or {@code qRHS} are {@code null}
+	 */
+//	TODO: Add unit tests!
+	public static Quaternion4F lerp(final Quaternion4F qLHS, final Quaternion4F qRHS) {
+		return lerp(qLHS, qRHS, 0.5F);
+	}
+	
+	/**
+	 * Performs a normalized linear interpolation between {@code qLHS} and {@code qRHS}.
+	 * <p>
+	 * Returns a {@code Quaternion4F} instance with the result of the operation.
+	 * <p>
+	 * If either {@code qLHS} or {@code qRHS} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Quaternion4F.lerp(qLHS, qRHS, t, false);
+	 * }
+	 * </pre>
+	 * 
+	 * @param qLHS the {@code Quaternion4F} instance on the left-hand side
+	 * @param qRHS the {@code Quaternion4F} instance on the right-hand side
+	 * @param t the factor
+	 * @return a {@code Quaternion4F} instance with the result of the operation
+	 * @throws NullPointerException thrown if, and only if, either {@code qLHS} or {@code qRHS} are {@code null}
+	 */
+//	TODO: Add unit tests!
+	public static Quaternion4F lerp(final Quaternion4F qLHS, final Quaternion4F qRHS, final float t) {
+		return lerp(qLHS, qRHS, t, false);
+	}
+	
+	/**
+	 * Performs a normalized linear interpolation between {@code qLHS} and {@code qRHS}.
+	 * <p>
+	 * Returns a {@code Quaternion4F} instance with the result of the operation.
+	 * <p>
+	 * If either {@code qLHS} or {@code qRHS} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param qLHS the {@code Quaternion4F} instance on the left-hand side
+	 * @param qRHS the {@code Quaternion4F} instance on the right-hand side
+	 * @param t the factor
+	 * @param isInterpolatingShortest {@code true} if, and only if, the shortest interpolation should be used, {@code false} otherwise
+	 * @return a {@code Quaternion4F} instance with the result of the operation
+	 * @throws NullPointerException thrown if, and only if, either {@code qLHS} or {@code qRHS} are {@code null}
+	 */
+//	TODO: Add unit tests!
+	public static Quaternion4F lerp(final Quaternion4F qLHS, final Quaternion4F qRHS, final float t, final boolean isInterpolatingShortest) {
+		return normalize(add(multiply(subtract(isInterpolatingShortest && dotProduct(qLHS, qRHS) < 0.0F ? negate(qRHS) : qRHS, qLHS), t), qLHS));
+	}
+	
+	/**
+	 * Multiplies the component values of {@code qLHS} with the component values of {@code qRHS}.
+	 * <p>
+	 * Returns a {@code Quaternion4F} instance with the result of the multiplication.
+	 * <p>
+	 * If either {@code qLHS} or {@code qRHS} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Quaternion multiplication is performed componentwise.
+	 * 
+	 * @param qLHS the {@code Quaternion4F} instance on the left-hand side
+	 * @param qRHS the {@code Quaternion4F} instance on the right-hand side
+	 * @return a {@code Quaternion4F} instance with the result of the multiplication
+	 * @throws NullPointerException thrown if, and only if, either {@code qLHS} or {@code qRHS} are {@code null}
+	 */
+	public static Quaternion4F multiply(final Quaternion4F qLHS, final Quaternion4F qRHS) {
+		return new Quaternion4F(qLHS.x * qRHS.w + qLHS.w * qRHS.x + qLHS.y * qRHS.z - qLHS.z * qRHS.y, qLHS.y * qRHS.w + qLHS.w * qRHS.y + qLHS.z * qRHS.x - qLHS.x * qRHS.z, qLHS.z * qRHS.w + qLHS.w * qRHS.z + qLHS.x * qRHS.y - qLHS.y * qRHS.x, qLHS.w * qRHS.w - qLHS.x * qRHS.x - qLHS.y * qRHS.y - qLHS.z * qRHS.z);
+	}
+	
+	/**
+	 * Multiplies the component values of {@code q} with the component values of {@code v}.
+	 * <p>
+	 * Returns a {@code Quaternion4F} instance with the result of the multiplication.
+	 * <p>
+	 * If either {@code q} or {@code v} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Quaternion multiplication is performed componentwise.
+	 * 
+	 * @param q the {@code Quaternion4F} instance on the left-hand side
+	 * @param v the {@link Vector3F} instance on the right-hand side
+	 * @return a {@code Quaternion4F} instance with the result of the multiplication
+	 * @throws NullPointerException thrown if, and only if, either {@code q} or {@code v} are {@code null}
+	 */
+	public static Quaternion4F multiply(final Quaternion4F q, final Vector3F v) {
+		return new Quaternion4F(+q.w * v.x + q.y * v.z - q.z * v.y, +q.w * v.y + q.z * v.x - q.x * v.z, +q.w * v.z + q.x * v.y - q.y * v.x, -q.x * v.x - q.y * v.y - q.z * v.z);
+	}
+	
+	/**
+	 * Multiplies the component values of {@code q} with {@code s}.
+	 * <p>
+	 * Returns a {@code Quaternion4F} instance with the result of the multiplication.
+	 * <p>
+	 * If {@code q} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Quaternion multiplication is performed componentwise.
+	 * 
+	 * @param q the {@code Quaternion4F} instance on the left-hand side
+	 * @param s the scalar value on the right-hand side
+	 * @return a {@code Quaternion4F} instance with the result of the multiplication
+	 * @throws NullPointerException thrown if, and only if, {@code q} is {@code null}
+	 */
+	public static Quaternion4F multiply(final Quaternion4F q, final float s) {
+		return new Quaternion4F(q.x * s, q.y * s, q.z * s, q.w * s);
+	}
+	
+	/**
+	 * Negates the component values of {@code q}.
+	 * <p>
+	 * Returns a {@code Quaternion4F} instance with the result of the negation.
+	 * <p>
+	 * If {@code q} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param q a {@code Quaternion4F} instance
+	 * @return a {@code Quaternion4F} instance with the result of the negation
+	 * @throws NullPointerException thrown if, and only if, {@code q} is {@code null}
+	 */
+	public static Quaternion4F negate(final Quaternion4F q) {
+		return new Quaternion4F(-q.x, -q.y, -q.z, -q.w);
+	}
+	
+	/**
+	 * Normalizes the component values of {@code q}.
+	 * <p>
+	 * Returns a {@code Quaternion4F} instance with the result of the normalization.
+	 * <p>
+	 * If {@code q} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param q a {@code Quaternion4F} instance
+	 * @return a {@code Quaternion4F} instance with the result of the normalization
+	 * @throws NullPointerException thrown if, and only if, {@code q} is {@code null}
+	 */
+	public static Quaternion4F normalize(final Quaternion4F q) {
+		final float length = q.length();
+		
+		final boolean isLengthGTEThreshold = length >= Floats.NEXT_DOWN_1_3;
+		final boolean isLengthLTEThreshold = length <= Floats.NEXT_UP_1_1;
+		
+		if(isLengthGTEThreshold && isLengthLTEThreshold) {
+			return q;
+		}
+		
+		return divide(q, length);
+	}
+	
+	/**
+	 * Returns a {@code Quaternion4F} instance by reading it from {@code dataInput}.
+	 * <p>
+	 * If {@code dataInput} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If an I/O error occurs, an {@code UncheckedIOException} will be thrown.
+	 * 
+	 * @param dataInput the {@code DataInput} instance to read from
+	 * @return a {@code Quaternion4F} instance by reading it from {@code dataInput}
+	 * @throws NullPointerException thrown if, and only if, {@code dataInput} is {@code null}
+	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
+	 */
+	public static Quaternion4F read(final DataInput dataInput) {
+		try {
+			return new Quaternion4F(dataInput.readFloat(), dataInput.readFloat(), dataInput.readFloat(), dataInput.readFloat());
+		} catch(final IOException e) {
+			throw new UncheckedIOException(e);
+		}
+	}
+	
+	/**
+	 * Performs a spherical linear interpolation between {@code qLHS} and {@code qRHS}.
+	 * <p>
+	 * Returns a {@code Quaternion4F} instance with the result of the operation.
+	 * <p>
+	 * If either {@code qLHS} or {@code qRHS} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Quaternion4F.slerp(qLHS, qRHS, 0.5F);
+	 * }
+	 * </pre>
+	 * 
+	 * @param qLHS the {@code Quaternion4F} instance on the left-hand side
+	 * @param qRHS the {@code Quaternion4F} instance on the right-hand side
+	 * @return a {@code Quaternion4F} instance with the result of the operation
+	 * @throws NullPointerException thrown if, and only if, either {@code qLHS} or {@code qRHS} are {@code null}
+	 */
+//	TODO: Add unit tests!
+	public static Quaternion4F slerp(final Quaternion4F qLHS, final Quaternion4F qRHS) {
+		return slerp(qLHS, qRHS, 0.5F);
+	}
+	
+	/**
+	 * Performs a spherical linear interpolation between {@code qLHS} and {@code qRHS}.
+	 * <p>
+	 * Returns a {@code Quaternion4F} instance with the result of the operation.
+	 * <p>
+	 * If either {@code qLHS} or {@code qRHS} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Quaternion4F.slerp(qLHS, qRHS, t, false);
+	 * }
+	 * </pre>
+	 * 
+	 * @param qLHS the {@code Quaternion4F} instance on the left-hand side
+	 * @param qRHS the {@code Quaternion4F} instance on the right-hand side
+	 * @param t the factor
+	 * @return a {@code Quaternion4F} instance with the result of the operation
+	 * @throws NullPointerException thrown if, and only if, either {@code qLHS} or {@code qRHS} are {@code null}
+	 */
+//	TODO: Add unit tests!
+	public static Quaternion4F slerp(final Quaternion4F qLHS, final Quaternion4F qRHS, final float t) {
+		return slerp(qLHS, qRHS, t, false);
+	}
+	
+	/**
+	 * Performs a spherical linear interpolation between {@code qLHS} and {@code qRHS}.
+	 * <p>
+	 * Returns a {@code Quaternion4F} instance with the result of the operation.
+	 * <p>
+	 * If either {@code qLHS} or {@code qRHS} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param qLHS the {@code Quaternion4F} instance on the left-hand side
+	 * @param qRHS the {@code Quaternion4F} instance on the right-hand side
+	 * @param t the factor
+	 * @param isInterpolatingShortest {@code true} if, and only if, the shortest interpolation should be used, {@code false} otherwise
+	 * @return a {@code Quaternion4F} instance with the result of the operation
+	 * @throws NullPointerException thrown if, and only if, either {@code qLHS} or {@code qRHS} are {@code null}
+	 */
+//	TODO: Add unit tests!
+	public static Quaternion4F slerp(final Quaternion4F qLHS, final Quaternion4F qRHS, final float t, final boolean isInterpolatingShortest) {
+		final float cos = dotProduct(qLHS, qRHS);
+		
+		final float x = isInterpolatingShortest && cos < 0.0F ? -cos : cos;
+		final float y = Floats.sqrt(1.0F - x * x);
+		
+		final Quaternion4F quaternion1 = isInterpolatingShortest && cos < 0.0F ? negate(qRHS) : qRHS;
+		
+		if(Floats.abs(x) >= 1.0F - 1000.0F) {
+			return lerp(qLHS, quaternion1, t);
+		}
+		
+		final float theta = Floats.atan2(y, x);
+		
+		return add(multiply(qLHS, Floats.sin((1.0F - t) * theta) / y), multiply(quaternion1, Floats.sin(t * theta) / y));
+	}
+	
+	/**
+	 * Subtracts the component values of {@code qRHS} from the component values of {@code qLHS}.
+	 * <p>
+	 * Returns a {@code Quaternion4F} instance with the result of the subtraction.
+	 * <p>
+	 * If either {@code qLHS} or {@code qRHS} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Quaternion subtraction is performed componentwise.
+	 * 
+	 * @param qLHS the {@code Quaternion4F} instance on the left-hand side
+	 * @param qRHS the {@code Quaternion4F} instance on the right-hand side
+	 * @return a {@code Quaternion4F} instance with the result of the subtraction
+	 * @throws NullPointerException thrown if, and only if, either {@code qLHS} or {@code qRHS} are {@code null}
+	 */
+	public static Quaternion4F subtract(final Quaternion4F qLHS, final Quaternion4F qRHS) {
+		return new Quaternion4F(qLHS.x - qRHS.x, qLHS.y - qRHS.y, qLHS.z - qRHS.z, qLHS.w - qRHS.w);
+	}
+	
+	/**
+	 * Returns the dot product of {@code qLHS} and {@code qRHS}.
+	 * <p>
+	 * If either {@code qLHS} or {@code qRHS} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param qLHS the {@code Quaternion4F} instance on the left-hand side
+	 * @param qRHS the {@code Quaternion4F} instance on the right-hand side
+	 * @return the dot product of {@code qLHS} and {@code qRHS}
+	 * @throws NullPointerException thrown if, and only if, either {@code qLHS} or {@code qRHS} are {@code null}
+	 */
+	public static float dotProduct(final Quaternion4F qLHS, final Quaternion4F qRHS) {
+		return qLHS.x * qRHS.x + qLHS.y * qRHS.y + qLHS.z * qRHS.z + qLHS.w * qRHS.w;
+	}
+}
