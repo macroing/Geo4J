@@ -21,6 +21,7 @@ package org.macroing.geo4j.mc;
 import java.lang.reflect.Field;//TODO: Add unit tests!
 
 import org.macroing.geo4j.common.Point2D;
+import org.macroing.geo4j.common.Point2F;
 import org.macroing.java.lang.Ints;
 
 /**
@@ -62,6 +63,34 @@ public final class MortonCodes {
 		final double y = mortonCodeY / (double)(1 << 16);
 		
 		return new Point2D(x, y);
+	}
+	
+	/**
+	 * Returns a {@code Point2F} instance based on the decoded coordinates of the Morton code {@code mortonCode}.
+	 * 
+	 * @param mortonCode the Morton code to decode
+	 * @return a {@code Point2F} instance based on the decoded coordinates of the Morton code {@code mortonCode}
+	 */
+//	TODO: Add Unit Tests!
+	public static Point2F toPoint2F(final float mortonCode) {
+		return toPoint2F((int)(mortonCode * (1L << 32L)));
+	}
+	
+	/**
+	 * Returns a {@code Point2F} instance based on the decoded coordinates of the Morton code {@code mortonCode}.
+	 * 
+	 * @param mortonCode the Morton code to decode
+	 * @return a {@code Point2F} instance based on the decoded coordinates of the Morton code {@code mortonCode}
+	 */
+//	TODO: Add Unit Tests!
+	public static Point2F toPoint2F(final int mortonCode) {
+		final int mortonCodeX = decode1By1X(mortonCode);
+		final int mortonCodeY = decode1By1Y(mortonCode);
+		
+		final float x = mortonCodeX / (float)(1 << 16);
+		final float y = mortonCodeY / (float)(1 << 16);
+		
+		return new Point2F(x, y);
 	}
 	
 	/**
