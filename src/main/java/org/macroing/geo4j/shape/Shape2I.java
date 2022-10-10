@@ -34,7 +34,7 @@ import org.macroing.java.lang.Doubles;
  * @since 1.0.0
  * @author J&#246;rgen Lundgren
  */
-public interface Shape2I {
+public interface Shape2I extends Shape {
 	/**
 	 * Returns a {@code List} with {@link Point2I} instances contained in this {@code Shape2I} instance.
 	 * 

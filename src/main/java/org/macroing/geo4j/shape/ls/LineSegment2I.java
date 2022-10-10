@@ -18,6 +18,9 @@
  */
 package org.macroing.geo4j.shape.ls;
 
+import java.io.DataOutput;
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -37,6 +40,19 @@ import org.macroing.java.util.Arrays;
  * @author J&#246;rgen Lundgren
  */
 public final class LineSegment2I implements Shape2I {
+	/**
+	 * The name used by this {@code LineSegment2I} class.
+	 */
+	public static final String NAME = "LineSegment";
+	
+	/**
+	 * The ID used by this {@code LineSegment2I} class.
+	 */
+	public static final int ID = 2;
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
 	private final Point2I a;
 	private final Point2I b;
 	
@@ -150,6 +166,17 @@ public final class LineSegment2I implements Shape2I {
 	}
 	
 	/**
+	 * Returns a {@code String} with the name of this {@code LineSegment2I} instance.
+	 * 
+	 * @return a {@code String} with the name of this {@code LineSegment2I} instance
+	 */
+//	TODO: Add Unit Tests!
+	@Override
+	public String getName() {
+		return NAME;
+	}
+	
+	/**
 	 * Returns a {@code String} representation of this {@code LineSegment2I} instance.
 	 * 
 	 * @return a {@code String} representation of this {@code LineSegment2I} instance
@@ -218,6 +245,17 @@ public final class LineSegment2I implements Shape2I {
 	}
 	
 	/**
+	 * Returns an {@code int} with the ID of this {@code LineSegment2I} instance.
+	 * 
+	 * @return an {@code int} with the ID of this {@code LineSegment2I} instance
+	 */
+//	TODO: Add Unit Tests!
+	@Override
+	public int getID() {
+		return ID;
+	}
+	
+	/**
 	 * Returns a hash code for this {@code LineSegment2I} instance.
 	 * 
 	 * @return a hash code for this {@code LineSegment2I} instance
@@ -243,6 +281,30 @@ public final class LineSegment2I implements Shape2I {
 	 */
 	public int lengthSquared() {
 		return Vector2I.direction(this.a, this.b).lengthSquared();
+	}
+	
+	/**
+	 * Writes this {@code LineSegment2I} instance to {@code dataOutput}.
+	 * <p>
+	 * If {@code dataOutput} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If an I/O error occurs, an {@code UncheckedIOException} will be thrown.
+	 * 
+	 * @param dataOutput the {@code DataOutput} instance to write to
+	 * @throws NullPointerException thrown if, and only if, {@code dataOutput} is {@code null}
+	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
+	 */
+//	TODO: Add Unit Tests!
+	@Override
+	public void write(final DataOutput dataOutput) {
+		try {
+			dataOutput.writeInt(ID);
+			
+			this.a.write(dataOutput);
+			this.b.write(dataOutput);
+		} catch(final IOException e) {
+			throw new UncheckedIOException(e);
+		}
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////

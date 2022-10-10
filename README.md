@@ -50,12 +50,12 @@ The following table describes the different APIs and their current status in the
 | Orthonormal Basis API  | 100.0%  | 100.0%    | org.macroing.geo4j.onb             |
 | Quaternion API         | 100.0%  |  69.5%    | org.macroing.geo4j.quaternion      |
 | Ray API                | 100.0%  | 100.0%    | org.macroing.geo4j.ray             |
-| Shape API              | 100.0%  | 100.0%    | org.macroing.geo4j.shape           |
-| Shape Circle API       | 100.0%  | 100.0%    | org.macroing.geo4j.shape.circle    |
-| Shape Line Segment API | 100.0%  | 100.0%    | org.macroing.geo4j.shape.ls        |
-| Shape Polygon API      | 100.0%  | 100.0%    | org.macroing.geo4j.shape.polygon   |
-| Shape Rectangle API    | 100.0%  | 100.0%    | org.macroing.geo4j.shape.rectangle |
-| Shape Triangle API     | 100.0%  | 100.0%    | org.macroing.geo4j.shape.triangle  |
+| Shape API              | 100.0%  |  88.1%    | org.macroing.geo4j.shape           |
+| Shape Circle API       | 100.0%  |  90.5%    | org.macroing.geo4j.shape.circle    |
+| Shape Line Segment API | 100.0%  |  96.2%    | org.macroing.geo4j.shape.ls        |
+| Shape Polygon API      | 100.0%  |  85.8%    | org.macroing.geo4j.shape.polygon   |
+| Shape Rectangle API    | 100.0%  |  98.4%    | org.macroing.geo4j.shape.rectangle |
+| Shape Triangle API     | 100.0%  |  93.0%    | org.macroing.geo4j.shape.triangle  |
 
 Dependencies
 ------------
