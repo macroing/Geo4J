@@ -92,15 +92,10 @@ Add the RectangularCuboid3D class.
 Add the RectangularCuboid3DReader class.
 Add the RectangularCuboid3F class.
 Add the RectangularCuboid3FReader class.
-Add the Shape2D interface.
-Add the Shape2DReader interface.
-Add the Shape2F interface.
-Add the Shape2FReader interface.
 Add the Shape3D interface.
 Add the Shape3DReader interface.
 Add the Shape3F interface.
 Add the Shape3FReader interface.
-Add the ShapeReader interface.
 Add the Sphere3D class.
 Add the Sphere3DReader class.
 Add the Sphere3F class.

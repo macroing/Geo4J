@@ -169,7 +169,6 @@ public final class Circle2I implements Shape2I {
 	 * 
 	 * @return a {@code String} with the name of this {@code Circle2I} instance
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public String getName() {
 		return NAME;
@@ -233,7 +232,6 @@ public final class Circle2I implements Shape2I {
 	 * 
 	 * @return an {@code int} with the ID of this {@code Circle2I} instance
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public int getID() {
 		return ID;
@@ -269,7 +267,6 @@ public final class Circle2I implements Shape2I {
 	 * @throws NullPointerException thrown if, and only if, {@code dataOutput} is {@code null}
 	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public void write(final DataOutput dataOutput) {
 		try {

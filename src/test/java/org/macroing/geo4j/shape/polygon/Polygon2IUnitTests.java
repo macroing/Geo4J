@@ -25,11 +25,20 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInput;
+import java.io.DataInputStream;
+import java.io.DataOutput;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
 import org.macroing.geo4j.common.Point2I;
+import org.macroing.geo4j.mock.DataOutputMock;
 import org.macroing.geo4j.shape.ls.LineSegment2I;
 import org.macroing.geo4j.shape.rectangle.Rectangle2I;
 
@@ -239,6 +248,13 @@ public final class Polygon2IUnitTests {
 	}
 	
 	@Test
+	public void testGetID() {
+		final Polygon2I polygon = new Polygon2I(new Point2I(10, 10), new Point2I(20, 10), new Point2I(20, 20), new Point2I(10, 20));
+		
+		assertEquals(3, polygon.getID());
+	}
+	
+	@Test
 	public void testGetLineSegments() {
 		final Polygon2I polygon = new Polygon2I(new Point2I(10, 10), new Point2I(10, 30), new Point2I(30, 30), new Point2I(30, 10));
 		
@@ -264,6 +280,13 @@ public final class Polygon2IUnitTests {
 		
 		assertEquals(new Point2I(30, 10), lineSegments.get(3).getA());
 		assertEquals(new Point2I(10, 10), lineSegments.get(3).getB());
+	}
+	
+	@Test
+	public void testGetName() {
+		final Polygon2I polygon = new Polygon2I(new Point2I(10, 10), new Point2I(20, 10), new Point2I(20, 20), new Point2I(10, 20));
+		
+		assertEquals("Polygon", polygon.getName());
 	}
 	
 	@Test
@@ -344,5 +367,33 @@ public final class Polygon2IUnitTests {
 		final Polygon2I polygon = new Polygon2I(new Point2I(10, 10), new Point2I(20, 10), new Point2I(20, 20), new Point2I(10, 20));
 		
 		assertEquals("new Polygon2I(new Point2I[] {new Point2I(10, 10), new Point2I(20, 10), new Point2I(20, 20), new Point2I(10, 20)})", polygon.toString());
+	}
+	
+	@Test
+	public void testWrite() throws IOException {
+		final Polygon2I a = new Polygon2I(new Point2I(10, 10), new Point2I(20, 10), new Point2I(20, 20), new Point2I(10, 20));
+		
+		final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+		
+		final DataOutput dataOutput = new DataOutputStream(byteArrayOutputStream);
+		
+		a.write(dataOutput);
+		
+		final byte[] bytes = byteArrayOutputStream.toByteArray();
+		
+		final DataInput dataInput = new DataInputStream(new ByteArrayInputStream(bytes));
+		
+		final int id = dataInput.readInt();
+		final int length = dataInput.readInt();
+		
+		assertEquals(3, id);
+		assertEquals(4, length);
+		
+		final Polygon2I b = new Polygon2I(Point2I.read(dataInput), Point2I.read(dataInput), Point2I.read(dataInput), Point2I.read(dataInput));
+		
+		assertEquals(a, b);
+		
+		assertThrows(NullPointerException.class, () -> a.write((DataOutput)(null)));
+		assertThrows(UncheckedIOException.class, () -> a.write(new DataOutputMock()));
 	}
 }

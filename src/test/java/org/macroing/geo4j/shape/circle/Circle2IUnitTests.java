@@ -25,11 +25,20 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInput;
+import java.io.DataInputStream;
+import java.io.DataOutput;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
 import org.macroing.geo4j.common.Point2I;
+import org.macroing.geo4j.mock.DataOutputMock;
 import org.macroing.geo4j.shape.Shape2I;
 
 @SuppressWarnings("static-method")
@@ -302,6 +311,20 @@ public final class Circle2IUnitTests {
 	}
 	
 	@Test
+	public void testGetID() {
+		final Circle2I circle = new Circle2I(new Point2I(10, 10));
+		
+		assertEquals(1, circle.getID());
+	}
+	
+	@Test
+	public void testGetName() {
+		final Circle2I circle = new Circle2I(new Point2I(10, 10));
+		
+		assertEquals("Circle", circle.getName());
+	}
+	
+	@Test
 	public void testGetRadius() {
 		final Circle2I circle = new Circle2I(new Point2I(), 20);
 		
@@ -356,5 +379,31 @@ public final class Circle2IUnitTests {
 		final Circle2I circle = new Circle2I(new Point2I(10, 10), 20);
 		
 		assertEquals("new Circle2I(new Point2I(10, 10), 20)", circle.toString());
+	}
+	
+	@Test
+	public void testWrite() throws IOException {
+		final Circle2I a = new Circle2I(new Point2I(10, 10), 20);
+		
+		final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+		
+		final DataOutput dataOutput = new DataOutputStream(byteArrayOutputStream);
+		
+		a.write(dataOutput);
+		
+		final byte[] bytes = byteArrayOutputStream.toByteArray();
+		
+		final DataInput dataInput = new DataInputStream(new ByteArrayInputStream(bytes));
+		
+		final int id = dataInput.readInt();
+		
+		assertEquals(1, id);
+		
+		final Circle2I b = new Circle2I(Point2I.read(dataInput), dataInput.readInt());
+		
+		assertEquals(a, b);
+		
+		assertThrows(NullPointerException.class, () -> a.write((DataOutput)(null)));
+		assertThrows(UncheckedIOException.class, () -> a.write(new DataOutputMock()));
 	}
 }

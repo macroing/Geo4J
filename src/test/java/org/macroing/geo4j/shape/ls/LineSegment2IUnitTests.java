@@ -25,11 +25,20 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInput;
+import java.io.DataInputStream;
+import java.io.DataOutput;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
 import org.macroing.geo4j.common.Point2I;
+import org.macroing.geo4j.mock.DataOutputMock;
 
 @SuppressWarnings("static-method")
 public final class LineSegment2IUnitTests {
@@ -232,6 +241,20 @@ public final class LineSegment2IUnitTests {
 	}
 	
 	@Test
+	public void testGetID() {
+		final LineSegment2I lineSegment = new LineSegment2I(new Point2I(10, 10), new Point2I(20, 10));
+		
+		assertEquals(2, lineSegment.getID());
+	}
+	
+	@Test
+	public void testGetName() {
+		final LineSegment2I lineSegment = new LineSegment2I(new Point2I(10, 10), new Point2I(20, 10));
+		
+		assertEquals("LineSegment", lineSegment.getName());
+	}
+	
+	@Test
 	public void testHashCode() {
 		final LineSegment2I a = new LineSegment2I(new Point2I(10, 10), new Point2I(20, 10));
 		final LineSegment2I b = new LineSegment2I(new Point2I(10, 10), new Point2I(20, 10));
@@ -397,5 +420,31 @@ public final class LineSegment2IUnitTests {
 		final LineSegment2I lineSegment = new LineSegment2I(new Point2I(10, 10), new Point2I(20, 10));
 		
 		assertEquals("new LineSegment2I(new Point2I(10, 10), new Point2I(20, 10))", lineSegment.toString());
+	}
+	
+	@Test
+	public void testWrite() throws IOException {
+		final LineSegment2I a = new LineSegment2I(new Point2I(10, 10), new Point2I(20, 10));
+		
+		final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+		
+		final DataOutput dataOutput = new DataOutputStream(byteArrayOutputStream);
+		
+		a.write(dataOutput);
+		
+		final byte[] bytes = byteArrayOutputStream.toByteArray();
+		
+		final DataInput dataInput = new DataInputStream(new ByteArrayInputStream(bytes));
+		
+		final int id = dataInput.readInt();
+		
+		assertEquals(2, id);
+		
+		final LineSegment2I b = new LineSegment2I(Point2I.read(dataInput), Point2I.read(dataInput));
+		
+		assertEquals(a, b);
+		
+		assertThrows(NullPointerException.class, () -> a.write((DataOutput)(null)));
+		assertThrows(UncheckedIOException.class, () -> a.write(new DataOutputMock()));
 	}
 }
