@@ -16,6 +16,7 @@ ant
 
 Supported Features
 ------------------
+ - `org.macroing.geo4j.bv` provides the Bounding Volume API.
  - `org.macroing.geo4j.common` provides the Common API.
  - `org.macroing.geo4j.quaternion` provides the Quaternion API.
  - `org.macroing.geo4j.matrix` provides the Matrix API.
@@ -43,8 +44,9 @@ The following table describes the different APIs and their current status in the
 
 | Name                   | Javadoc | Unit Test | Package                            |
 | ---------------------- | ------- | --------- | ---------------------------------- |
-| Geo4J                  | N/A     |  94.3%    |                                    |
-| Common API             | N/A     |  97.4%    | org.macroing.geo4j.common          |
+| Geo4J                  | N/A     |  94.0%    |                                    |
+| Bounding Volume API    | 100.0%  |   0.0%    | org.macroing.geo4j.bv              |
+| Common API             | 100.0%  |  97.4%    | org.macroing.geo4j.common          |
 | Matrix API             | 100.0%  | 100.0%    | org.macroing.geo4j.matrix          |
 | Morton Code API        | 100.0%  |   0.0%    | org.macroing.geo4j.mc              |
 | Orthonormal Basis API  | 100.0%  | 100.0%    | org.macroing.geo4j.onb             |

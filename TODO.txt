@@ -12,8 +12,6 @@ Add the AxisAlignedBoundingBox3D class.
 Add the AxisAlignedBoundingBox3F class.
 Add the BoundingSphere3D class.
 Add the BoundingSphere3F class.
-Add the BoundingVolume3D interface.
-Add the BoundingVolume3F interface.
 Add the Circle2D class.
 Add the Circle2DReader class.
 Add the Circle2F class.
@@ -39,6 +37,8 @@ Add the Cylinder3D class.
 Add the Cylinder3DReader class.
 Add the Cylinder3F class.
 Add the Cylinder3FReader class.
+Add the DefaultBoundingVolume3DReader class.
+Add the DefaultBoundingVolume3FReader class.
 Add the DefaultShape2DReader class.
 Add the DefaultShape2FReader class.
 Add the DefaultShape2IReader class.
