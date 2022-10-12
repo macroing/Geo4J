@@ -43,14 +43,14 @@ The following table describes the different APIs and their current status in the
 
 | Name                   | Javadoc | Unit Test | Package                            |
 | ---------------------- | ------- | --------- | ---------------------------------- |
-| Geo4J                  | N/A     |  94.2%    |                                    |
+| Geo4J                  | N/A     |  94.3%    |                                    |
 | Common API             | N/A     |  97.4%    | org.macroing.geo4j.common          |
 | Matrix API             | 100.0%  | 100.0%    | org.macroing.geo4j.matrix          |
 | Morton Code API        | 100.0%  |   0.0%    | org.macroing.geo4j.mc              |
 | Orthonormal Basis API  | 100.0%  | 100.0%    | org.macroing.geo4j.onb             |
 | Quaternion API         | 100.0%  |  69.5%    | org.macroing.geo4j.quaternion      |
 | Ray API                | 100.0%  | 100.0%    | org.macroing.geo4j.ray             |
-| Shape API              | 100.0%  |  52.9%    | org.macroing.geo4j.shape           |
+| Shape API              | 100.0%  |  60.0%    | org.macroing.geo4j.shape           |
 | Shape Circle API       | 100.0%  | 100.0%    | org.macroing.geo4j.shape.circle    |
 | Shape Line Segment API | 100.0%  | 100.0%    | org.macroing.geo4j.shape.ls        |
 | Shape Polygon API      | 100.0%  | 100.0%    | org.macroing.geo4j.shape.polygon   |

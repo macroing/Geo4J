@@ -31,7 +31,10 @@ import java.io.DataInput;
 import java.io.DataInputStream;
 import java.io.DataOutput;
 import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.util.List;
 
@@ -370,7 +373,7 @@ public final class Polygon2IUnitTests {
 	}
 	
 	@Test
-	public void testWrite() throws IOException {
+	public void testWriteDataOutput() throws IOException {
 		final Polygon2I a = new Polygon2I(new Point2I(10, 10), new Point2I(20, 10), new Point2I(20, 20), new Point2I(10, 20));
 		
 		final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -395,5 +398,79 @@ public final class Polygon2IUnitTests {
 		
 		assertThrows(NullPointerException.class, () -> a.write((DataOutput)(null)));
 		assertThrows(UncheckedIOException.class, () -> a.write(new DataOutputMock()));
+	}
+	
+	@Test
+	public void testWriteFile() throws IOException {
+		final Polygon2I a = new Polygon2I(new Point2I(10, 10), new Point2I(20, 10), new Point2I(20, 20), new Point2I(10, 20));
+		
+		final File directory = new File("./generated");
+		
+		if(!directory.isDirectory()) {
+			directory.mkdirs();
+		}
+		
+		final File fileA = new File(directory, String.format("./Polygon2I-%s.dat", Long.toString(System.currentTimeMillis())));
+		final File fileB = new File("");
+		
+		a.write(fileA);
+		
+		try(final InputStream inputStream = new FileInputStream(fileA)) {
+			final DataInput dataInput = new DataInputStream(inputStream);
+			
+			final int id = dataInput.readInt();
+			final int length = dataInput.readInt();
+			
+			assertEquals(3, id);
+			assertEquals(4, length);
+			
+			final Polygon2I b = new Polygon2I(Point2I.read(dataInput), Point2I.read(dataInput), Point2I.read(dataInput), Point2I.read(dataInput));
+			
+			assertEquals(a, b);
+		}
+		
+		assertThrows(NullPointerException.class, () -> a.write((File)(null)));
+		assertThrows(UncheckedIOException.class, () -> a.write(fileB));
+		
+		fileA.delete();
+		
+		directory.delete();
+	}
+	
+	@Test
+	public void testWriteString() throws IOException {
+		final Polygon2I a = new Polygon2I(new Point2I(10, 10), new Point2I(20, 10), new Point2I(20, 20), new Point2I(10, 20));
+		
+		final File directory = new File("./generated");
+		
+		if(!directory.isDirectory()) {
+			directory.mkdirs();
+		}
+		
+		final File fileA = new File(directory, String.format("./Polygon2I-%s.dat", Long.toString(System.currentTimeMillis())));
+		final File fileB = new File("");
+		
+		a.write(fileA.getAbsolutePath());
+		
+		try(final InputStream inputStream = new FileInputStream(fileA)) {
+			final DataInput dataInput = new DataInputStream(inputStream);
+			
+			final int id = dataInput.readInt();
+			final int length = dataInput.readInt();
+			
+			assertEquals(3, id);
+			assertEquals(4, length);
+			
+			final Polygon2I b = new Polygon2I(Point2I.read(dataInput), Point2I.read(dataInput), Point2I.read(dataInput), Point2I.read(dataInput));
+			
+			assertEquals(a, b);
+		}
+		
+		assertThrows(NullPointerException.class, () -> a.write((String)(null)));
+		assertThrows(UncheckedIOException.class, () -> a.write(fileB.getAbsolutePath()));
+		
+		fileA.delete();
+		
+		directory.delete();
 	}
 }
