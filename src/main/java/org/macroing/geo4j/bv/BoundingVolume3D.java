@@ -119,7 +119,6 @@ public interface BoundingVolume3D extends BoundingVolume {
 	 * 
 	 * @return a {@code Point3D} with the component values in the middle of this {@code BoundingVolume3D} instance
 	 */
-//	TODO: Add Unit Tests!
 	default Point3D midpoint() {
 		return Point3D.midpoint(max(), min());
 	}

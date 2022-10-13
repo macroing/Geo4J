@@ -119,7 +119,6 @@ public interface BoundingVolume3F extends BoundingVolume {
 	 * 
 	 * @return a {@code Point3F} with the component values in the middle of this {@code BoundingVolume3F} instance
 	 */
-//	TODO: Add Unit Tests!
 	default Point3F midpoint() {
 		return Point3F.midpoint(max(), min());
 	}

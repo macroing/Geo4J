@@ -8,8 +8,6 @@ Add unit tests to Vector3F.
 
 Add the AngleD class.
 Add the AngleF class.
-Add the AxisAlignedBoundingBox3D class.
-Add the AxisAlignedBoundingBox3F class.
 Add the BoundingSphere3D class.
 Add the BoundingSphere3F class.
 Add the Circle2D class.
