@@ -9,7 +9,9 @@ Add unit tests to Vector3F.
 Add the AngleD class.
 Add the AngleF class.
 Add the BoundingSphere3D class.
+Add the BoundingSphere3DReader class.
 Add the BoundingSphere3F class.
+Add the BoundingSphere3FReader class.
 Add the Circle2D class.
 Add the Circle2DReader class.
 Add the Circle2F class.
@@ -51,7 +53,9 @@ Add the Hyperboloid3DReader class.
 Add the Hyperboloid3F class.
 Add the Hyperboloid3FReader class.
 Add the InfiniteBoundingVolume3D class.
+Add the InfiniteBoundingVolume3DReader class.
 Add the InfiniteBoundingVolume3F class.
+Add the InfiniteBoundingVolume3FReader class.
 Add the LineSegment2D class.
 Add the LineSegment2DReader class.
 Add the LineSegment2F class.
