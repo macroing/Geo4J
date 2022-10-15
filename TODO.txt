@@ -6,6 +6,8 @@ Add unit tests to Quaternion4F.
 Add unit tests to Vector3D.
 Add unit tests to Vector3F.
 
+Add support for some Node API.
+
 Add the AngleD class.
 Add the AngleF class.
 Add the BoundingSphere3D class.
