@@ -6,7 +6,13 @@ Add unit tests to Quaternion4F.
 Add unit tests to Vector3D.
 Add unit tests to Vector3F.
 
+
+
 Add support for some Node API.
+
+
+
+Common API:
 
 Add the AngleD class.
 Add the AngleF class.
@@ -15,21 +21,46 @@ Add the Point4F class.
 Add the Vector4D class.
 Add the Vector4F class.
 
+
+
+Matrix API:
+
 Add the Matrix33I class.
+
+
+
+Ray API:
+
 Add the Ray2I class.
+
+
+
+Bounding Volume - Bounding Sphere API:
 
 Add the BoundingSphere3D class.
 Add the BoundingSphere3DReader class.
 Add the BoundingSphere3F class.
 Add the BoundingSphere3FReader class.
 
+
+
+Bounding Volume - Default API:
+
 Add the DefaultBoundingVolume3DReader class.
 Add the DefaultBoundingVolume3FReader class.
+
+
+
+Bounding Volume - Infinite Bounding Volume API:
 
 Add the InfiniteBoundingVolume3D class.
 Add the InfiniteBoundingVolume3DReader class.
 Add the InfiniteBoundingVolume3F class.
 Add the InfiniteBoundingVolume3FReader class.
+
+
+
+Bounding Volume Hierarchy API:
 
 Add the BVHItem3D class.
 Add the BVHItem3F class.
@@ -42,36 +73,64 @@ Add the LeafBVHNode3F class.
 Add the TreeBVHNode3D class.
 Add the TreeBVHNode3F class.
 
+
+
+Shape - Circle API:
+
 Add the Circle2D class.
 Add the Circle2DReader class.
 Add the Circle2F class.
 Add the Circle2FReader class.
 Add the Circle2IReader class.
 
+
+
+Shape - Compound Shape API:
+
 Add the CompoundShape3D class.
 Add the CompoundShape3DReader class.
 Add the CompoundShape3F class.
 Add the CompoundShape3FReader class.
+
+
+
+Shape - Cone API:
 
 Add the Cone3D class.
 Add the Cone3DReader class.
 Add the Cone3F class.
 Add the Cone3FReader class.
 
+
+
+Shape - Constructive Solid Geometry API:
+
 Add the ConstructiveSolidGeometry3D class.
 Add the ConstructiveSolidGeometry3DReader class.
 Add the ConstructiveSolidGeometry3F class.
 Add the ConstructiveSolidGeometry3FReader class.
+
+
+
+Shape - Curve API:
 
 Add the Curve3D class.
 Add the Curve3DReader class.
 Add the Curve3F class.
 Add the Curve3FReader class.
 
+
+
+Shape - Cylinder API:
+
 Add the Cylinder3D class.
 Add the Cylinder3DReader class.
 Add the Cylinder3F class.
 Add the Cylinder3FReader class.
+
+
+
+Shape - Default API:
 
 Add the DefaultShape2DReader class.
 Add the DefaultShape2FReader class.
@@ -79,15 +138,27 @@ Add the DefaultShape2IReader class.
 Add the DefaultShape3DReader class.
 Add the DefaultShape3FReader class.
 
+
+
+Shape - Disk API:
+
 Add the Disk3D class.
 Add the Disk3DReader class.
 Add the Disk3F class.
 Add the Disk3FReader class.
 
+
+
+Shape - Hyperboloid API:
+
 Add the Hyperboloid3D class.
 Add the Hyperboloid3DReader class.
 Add the Hyperboloid3F class.
 Add the Hyperboloid3FReader class.
+
+
+
+Shape - Line Segment API:
 
 Add the LineSegment2D class.
 Add the LineSegment2DReader class.
@@ -99,15 +170,27 @@ Add the LineSegment3DReader class.
 Add the LineSegment3F class.
 Add the LineSegment3FReader class.
 
+
+
+Shape - Paraboloid API:
+
 Add the Paraboloid3D class.
 Add the Paraboloid3DReader class.
 Add the Paraboloid3F class.
 Add the Paraboloid3FReader class.
 
+
+
+Shape - Plane API:
+
 Add the Plane3D class.
 Add the Plane3DReader class.
 Add the Plane3F class.
 Add the Plane3FReader class.
+
+
+
+Shape - Polygon API:
 
 Add the Polygon2D class.
 Add the Polygon2DReader class.
@@ -119,10 +202,18 @@ Add the Polygon3DReader class.
 Add the Polygon3F class.
 Add the Polygon3FReader class.
 
+
+
+Shape - Procedural Terrain API:
+
 Add the ProceduralTerrain3D class.
 Add the ProceduralTerrain3DReader class.
 Add the ProceduralTerrain3F class.
 Add the ProceduralTerrain3FReader class.
+
+
+
+Shape - Rectangle API:
 
 Add the Rectangle2D class.
 Add the Rectangle2DReader class.
@@ -134,10 +225,18 @@ Add the Rectangle3DReader class.
 Add the Rectangle3F class.
 Add the Rectangle3FReader class.
 
+
+
+Shape - Rectangular Cuboid API:
+
 Add the RectangularCuboid3D class.
 Add the RectangularCuboid3DReader class.
 Add the RectangularCuboid3F class.
 Add the RectangularCuboid3FReader class.
+
+
+
+Shape API:
 
 Add the Shape3D interface.
 Add the Shape3DReader interface.
@@ -150,15 +249,27 @@ Add the SurfaceIntersector3F class.
 Add the SurfaceSample3D class.
 Add the SurfaceSample3F class.
 
+
+
+Shape - Sphere API:
+
 Add the Sphere3D class.
 Add the Sphere3DReader class.
 Add the Sphere3F class.
 Add the Sphere3FReader class.
 
+
+
+Shape - Torus API:
+
 Add the Torus3D class.
 Add the Torus3DReader class.
 Add the Torus3F class.
 Add the Torus3FReader class.
+
+
+
+Shape - Triangle API:
 
 Add the Triangle2D class.
 Add the Triangle2DReader class.
@@ -169,6 +280,10 @@ Add the Triangle3D class.
 Add the Triangle3DReader class.
 Add the Triangle3F class.
 Add the Triangle3FReader class.
+
+
+
+Shape - Triangle Mesh API:
 
 Add the TriangleMesh3D class.
 Add the TriangleMesh3DReader class.
