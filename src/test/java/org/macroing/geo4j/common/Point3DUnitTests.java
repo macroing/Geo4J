@@ -158,6 +158,8 @@ public final class Point3DUnitTests {
 	
 	@Test
 	public void testClearCacheAndGetCacheSizeAndGetCached() {
+		Point3D.clearCache();
+		
 		assertEquals(0, Point3D.getCacheSize());
 		
 		final Point3D a = new Point3D(1.0D, 2.0D, 3.0D);

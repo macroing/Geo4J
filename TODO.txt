@@ -37,15 +37,6 @@ Add the Ray2I class.
 
 
 
-Bounding Volume - Bounding Sphere API:
-
-Add the BoundingSphere3D class.
-Add the BoundingSphere3DReader class.
-Add the BoundingSphere3F class.
-Add the BoundingSphere3FReader class.
-
-
-
 Bounding Volume - Default API:
 
 Add the DefaultBoundingVolume3DReader class.

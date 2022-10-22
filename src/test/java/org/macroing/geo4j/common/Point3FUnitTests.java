@@ -158,6 +158,8 @@ public final class Point3FUnitTests {
 	
 	@Test
 	public void testClearCacheAndGetCacheSizeAndGetCached() {
+		Point3F.clearCache();
+		
 		assertEquals(0, Point3F.getCacheSize());
 		
 		final Point3F a = new Point3F(1.0F, 2.0F, 3.0F);

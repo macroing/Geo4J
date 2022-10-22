@@ -18,6 +18,7 @@ Supported Features
 ------------------
  - `org.macroing.geo4j.bv` provides the Bounding Volume API.
  - `org.macroing.geo4j.bv.aabb` provides the Bounding Volume Axis Aligned Bounding Box API.
+ - `org.macroing.geo4j.bv.bs` provides the Bounding Volume Bounding Sphere API.
  - `org.macroing.geo4j.common` provides the Common API.
  - `org.macroing.geo4j.quaternion` provides the Quaternion API.
  - `org.macroing.geo4j.matrix` provides the Matrix API.
@@ -45,9 +46,10 @@ The following table describes the different APIs and their current status in the
 
 | Name                                          | Javadoc | Unit Test | Package                            |
 | --------------------------------------------- | ------- | --------- | ---------------------------------- |
-| Geo4J                                         | N/A     |  94.5%    |                                    |
-| Bounding Volume API                           | 100.0%  |  55.0%    | org.macroing.geo4j.bv              |
+| Geo4J                                         | N/A     |  94.8%    |                                    |
+| Bounding Volume API                           | 100.0%  | 100.0%    | org.macroing.geo4j.bv              |
 | Bounding Volume Axis Aligned Bounding Box API | 100.0%  | 100.0%    | org.macroing.geo4j.bv.aabb         |
+| Bounding Volume Bounding Sphere API           | 100.0%  | 100.0%    | org.macroing.geo4j.bv.bs           |
 | Common API                                    | 100.0%  |  97.4%    | org.macroing.geo4j.common          |
 | Matrix API                                    | 100.0%  | 100.0%    | org.macroing.geo4j.matrix          |
 | Morton Code API                               | 100.0%  |   0.0%    | org.macroing.geo4j.mc              |
