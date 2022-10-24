@@ -10,7 +10,7 @@ Add unit tests to Vector3F.
 
 
 
-Add support for some Node API.
+Add support for the Visitor API from Macroing Java.
 
 
 
