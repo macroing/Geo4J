@@ -1040,6 +1040,19 @@ public final class Vector3DUnitTests {
 	}
 	
 	@Test
+	public void testSphericalPhi() {
+		assertEquals(0.0D,    new Vector3D(+1.0D, 0.0D, 0.0D).sphericalPhi());
+		assertEquals(0.0D,    new Vector3D(+0.0D, 0.0D, 0.0D).sphericalPhi());
+		assertEquals(Math.PI, new Vector3D(-0.0D, 0.0D, 0.0D).sphericalPhi());
+		assertEquals(Math.PI, new Vector3D(-1.0D, 0.0D, 0.0D).sphericalPhi());
+		
+		assertEquals(Math.PI / 4.0000000000000000D, new Vector3D(+1.0D, 1.0D, 0.0D).sphericalPhi());
+		assertEquals(Math.PI / 2.0000000000000000D, new Vector3D(+0.0D, 1.0D, 0.0D).sphericalPhi());
+		assertEquals(Math.PI / 2.0000000000000000D, new Vector3D(-0.0D, 1.0D, 0.0D).sphericalPhi());
+		assertEquals(Math.PI / 1.3333333333333333D, new Vector3D(-1.0D, 1.0D, 0.0D).sphericalPhi());
+	}
+	
+	@Test
 	public void testSubtract() {
 		final Vector3D a = new Vector3D(3.0D, 5.0D, 7.0D);
 		final Vector3D b = new Vector3D(2.0D, 3.0D, 4.0D);

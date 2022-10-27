@@ -442,7 +442,6 @@ public final class Vector3D {
 	 * 
 	 * @return the spherical phi angle
 	 */
-//	TODO: Add Unit Tests!
 	public double sphericalPhi() {
 		return Doubles.addLessThan(Doubles.atan2(this.y, this.x), 0.0D, Doubles.PI_MULTIPLIED_BY_2);
 	}

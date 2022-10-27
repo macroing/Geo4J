@@ -442,7 +442,6 @@ public final class Vector3F {
 	 * 
 	 * @return the spherical phi angle
 	 */
-//	TODO: Add Unit Tests!
 	public float sphericalPhi() {
 		return Floats.addLessThan(Floats.atan2(this.y, this.x), 0.0F, Floats.PI_MULTIPLIED_BY_2);
 	}

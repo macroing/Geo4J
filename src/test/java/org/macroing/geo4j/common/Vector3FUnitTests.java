@@ -1040,6 +1040,19 @@ public final class Vector3FUnitTests {
 	}
 	
 	@Test
+	public void testSphericalPhi() {
+		assertEquals(0.0F,    new Vector3F(+1.0F, 0.0F, 0.0F).sphericalPhi());
+		assertEquals(0.0F,    new Vector3F(+0.0F, 0.0F, 0.0F).sphericalPhi());
+		assertEquals((float)(Math.PI), new Vector3F(-0.0F, 0.0F, 0.0F).sphericalPhi());
+		assertEquals((float)(Math.PI), new Vector3F(-1.0F, 0.0F, 0.0F).sphericalPhi());
+		
+		assertEquals((float)(Math.PI) / 4.0000000000000000F, new Vector3F(+1.0F, 1.0F, 0.0F).sphericalPhi());
+		assertEquals((float)(Math.PI) / 2.0000000000000000F, new Vector3F(+0.0F, 1.0F, 0.0F).sphericalPhi());
+		assertEquals((float)(Math.PI) / 2.0000000000000000F, new Vector3F(-0.0F, 1.0F, 0.0F).sphericalPhi());
+		assertEquals((float)(Math.PI) / 1.3333333333333333F, new Vector3F(-1.0F, 1.0F, 0.0F).sphericalPhi());
+	}
+	
+	@Test
 	public void testSubtract() {
 		final Vector3F a = new Vector3F(3.0F, 5.0F, 7.0F);
 		final Vector3F b = new Vector3F(2.0F, 3.0F, 4.0F);
