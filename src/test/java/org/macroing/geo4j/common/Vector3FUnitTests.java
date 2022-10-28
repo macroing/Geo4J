@@ -1053,6 +1053,16 @@ public final class Vector3FUnitTests {
 	}
 	
 	@Test
+	public void testSphericalTheta() {
+		assertEquals((float)(Math.PI),        new Vector3F(0.0F, 0.0F, -2.0F).sphericalTheta());
+		assertEquals((float)(Math.PI),        new Vector3F(0.0F, 0.0F, -1.0F).sphericalTheta());
+		assertEquals((float)(Math.PI) / 2.0F, new Vector3F(0.0F, 0.0F, -0.0F).sphericalTheta());
+		assertEquals((float)(Math.PI) / 2.0F, new Vector3F(0.0F, 0.0F, +0.0F).sphericalTheta());
+		assertEquals(0.0F,                    new Vector3F(0.0F, 0.0F, +1.0F).sphericalTheta());
+		assertEquals(0.0F,                    new Vector3F(0.0F, 0.0F, +2.0F).sphericalTheta());
+	}
+	
+	@Test
 	public void testSubtract() {
 		final Vector3F a = new Vector3F(3.0F, 5.0F, 7.0F);
 		final Vector3F b = new Vector3F(2.0F, 3.0F, 4.0F);

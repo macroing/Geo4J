@@ -451,7 +451,6 @@ public final class Vector3D {
 	 * 
 	 * @return the spherical theta angle
 	 */
-//	TODO: Add Unit Tests!
 	public double sphericalTheta() {
 		return Doubles.acos(Doubles.saturate(this.z, -1.0D, 1.0D));
 	}
