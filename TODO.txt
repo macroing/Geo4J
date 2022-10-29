@@ -1,5 +1,7 @@
 Unit Tests:
 
+Add unit tests to AngleD.
+Add unit tests to AngleF.
 Add unit tests to MortonCodes.
 Add unit tests to Point2D.
 Add unit tests to Point2F.
@@ -16,8 +18,6 @@ Add support for the Visitor API from Macroing Java.
 
 Common API:
 
-Add the AngleD class.
-Add the AngleF class.
 Add the Point4D class.
 Add the Point4F class.
 Add the Vector4D class.
