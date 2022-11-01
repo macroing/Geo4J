@@ -22,7 +22,6 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.lang.reflect.Field;//TODO: Add unit tests!
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -855,7 +854,6 @@ public final class Point2D {
 	 * @return a {@code Point2D} instance with the spherical coordinates of {@code direction} as its component values
 	 * @throws NullPointerException thrown if, and only if, {@code direction} is {@code null}
 	 */
-//	TODO: Add unit tests!
 	public static Point2D sphericalCoordinates(final Vector3D direction) {
 		return new Point2D(direction.sphericalPhi() * Doubles.PI_MULTIPLIED_BY_2_RECIPROCAL, direction.sphericalTheta() * Doubles.PI_RECIPROCAL);
 	}

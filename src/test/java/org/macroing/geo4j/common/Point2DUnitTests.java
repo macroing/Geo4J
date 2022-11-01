@@ -658,6 +658,16 @@ public final class Point2DUnitTests {
 	}
 	
 	@Test
+	public void testSphericalCoordinates() {
+		final Point2D p = Point2D.sphericalCoordinates(new Vector3D(1.0D, 0.0D, 0.0D));
+		
+		assertEquals(0.0D, p.x);
+		assertEquals(0.5D, p.y);
+		
+		assertThrows(NullPointerException.class, () -> Point2D.sphericalCoordinates(null));
+	}
+	
+	@Test
 	public void testSubtractPoint2DDouble() {
 		final Point2D a = new Point2D(2.0D, 4.0D);
 		final Point2D b = Point2D.subtract(a, 2.0D);
