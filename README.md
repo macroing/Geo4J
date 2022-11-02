@@ -32,10 +32,6 @@ Supported Features
  - `org.macroing.geo4j.shape.rectangle` provides the Shape Rectangle API.
  - `org.macroing.geo4j.shape.triangle` provides the Shape Triangle API.
 
-Examples
---------
-Coming soon...
-
 Documentation
 -------------
 The documentation for this library can be found in the Javadocs that are generated when building it.
