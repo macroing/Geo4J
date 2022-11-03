@@ -205,7 +205,6 @@ Add the Rectangle2D class.
 Add the Rectangle2DReader class.
 Add the Rectangle2F class.
 Add the Rectangle2FReader class.
-Add the Rectangle2IReader class.
 Add the Rectangle3D class.
 Add the Rectangle3DReader class.
 Add the Rectangle3F class.
@@ -261,7 +260,6 @@ Add the Triangle2D class.
 Add the Triangle2DReader class.
 Add the Triangle2F class.
 Add the Triangle2FReader class.
-Add the Triangle2IReader class.
 Add the Triangle3D class.
 Add the Triangle3DReader class.
 Add the Triangle3F class.
