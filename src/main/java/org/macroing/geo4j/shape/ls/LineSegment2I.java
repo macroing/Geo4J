@@ -43,7 +43,7 @@ public final class LineSegment2I implements Shape2I {
 	/**
 	 * The name used by this {@code LineSegment2I} class.
 	 */
-	public static final String NAME = "LineSegment";
+	public static final String NAME = "Line Segment";
 	
 	/**
 	 * The ID used by this {@code LineSegment2I} class.
@@ -51,7 +51,6 @@ public final class LineSegment2I implements Shape2I {
 	public static final int ID = 2;
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
-	
 	
 	private final Point2I a;
 	private final Point2I b;

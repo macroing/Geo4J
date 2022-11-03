@@ -254,7 +254,7 @@ public final class LineSegment2IUnitTests {
 	public void testGetName() {
 		final LineSegment2I lineSegment = new LineSegment2I(new Point2I(10, 10), new Point2I(20, 10));
 		
-		assertEquals("LineSegment", lineSegment.getName());
+		assertEquals("Line Segment", lineSegment.getName());
 	}
 	
 	@Test

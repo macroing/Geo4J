@@ -74,7 +74,6 @@ Add the Circle2D class.
 Add the Circle2DReader class.
 Add the Circle2F class.
 Add the Circle2FReader class.
-Add the Circle2IReader class.
 
 
 
@@ -153,11 +152,6 @@ Add the Hyperboloid3FReader class.
 
 Shape - Line Segment API:
 
-Add the LineSegment2D class.
-Add the LineSegment2DReader class.
-Add the LineSegment2F class.
-Add the LineSegment2FReader class.
-Add the LineSegment2IReader class.
 Add the LineSegment3D class.
 Add the LineSegment3DReader class.
 Add the LineSegment3F class.
@@ -189,7 +183,6 @@ Add the Polygon2D class.
 Add the Polygon2DReader class.
 Add the Polygon2F class.
 Add the Polygon2FReader class.
-Add the Polygon2IReader class.
 Add the Polygon3D class.
 Add the Polygon3DReader class.
 Add the Polygon3F class.

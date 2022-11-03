@@ -43,7 +43,7 @@ public final class BoundingSphere3D implements BoundingVolume3D {
 	/**
 	 * The name used by this {@code BoundingSphere3D} class.
 	 */
-	public static final String NAME = "BoundingSphere";
+	public static final String NAME = "Bounding Sphere";
 	
 	/**
 	 * The ID used by this {@code BoundingSphere3D} class.

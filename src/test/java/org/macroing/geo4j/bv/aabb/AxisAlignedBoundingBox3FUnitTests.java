@@ -51,7 +51,7 @@ public final class AxisAlignedBoundingBox3FUnitTests {
 	
 	@Test
 	public void testConstants() {
-		assertEquals("AxisAlignedBoundingBox", AxisAlignedBoundingBox3F.NAME);
+		assertEquals("Axis Aligned Bounding Box", AxisAlignedBoundingBox3F.NAME);
 		assertEquals(1, AxisAlignedBoundingBox3F.ID);
 	}
 	

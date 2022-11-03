@@ -50,6 +50,7 @@ public final class BoundingSphere3DUnitTests {
 	
 	@Test
 	public void testConstants() {
+		assertEquals("Bounding Sphere", BoundingSphere3D.NAME);
 		assertEquals(2, BoundingSphere3D.ID);
 	}
 	

@@ -44,7 +44,7 @@ public final class AxisAlignedBoundingBox3F implements BoundingVolume3F {
 	/**
 	 * The name used by this {@code AxisAlignedBoundingBox3F} class.
 	 */
-	public static final String NAME = "AxisAlignedBoundingBox";
+	public static final String NAME = "Axis Aligned Bounding Box";
 	
 	/**
 	 * The ID used by this {@code AxisAlignedBoundingBox3F} class.

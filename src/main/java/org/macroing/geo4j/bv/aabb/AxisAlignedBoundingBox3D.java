@@ -44,7 +44,7 @@ public final class AxisAlignedBoundingBox3D implements BoundingVolume3D {
 	/**
 	 * The name used by this {@code AxisAlignedBoundingBox3D} class.
 	 */
-	public static final String NAME = "AxisAlignedBoundingBox";
+	public static final String NAME = "Axis Aligned Bounding Box";
 	
 	/**
 	 * The ID used by this {@code AxisAlignedBoundingBox3D} class.
