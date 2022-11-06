@@ -865,6 +865,33 @@ public final class Vector3FUnitTests {
 	}
 	
 	@Test
+	public void testSampleHemisphereCosineDistribution() {
+		for(int i = 0; i < 10000; i++) {
+			final Vector3F v = Vector3F.sampleHemisphereCosineDistribution();
+			
+			assertTrue(v.x >= -1.0F && v.x <= +1.0F);
+			assertTrue(v.y >= -1.0F && v.y <= +1.0F);
+			assertTrue(v.z >= +0.0F && v.z <= +1.0F);
+		}
+	}
+	
+	@Test
+	public void testSampleHemisphereCosineDistributionPoint2F() {
+		final Vector3F a = Vector3F.sampleHemisphereCosineDistribution(new Point2F(0.0F, 0.0F));
+		final Vector3F b = Vector3F.sampleHemisphereCosineDistribution(new Point2F(1.0F, 0.5F));
+		
+		assertEquals(0.0F, a.x);
+		assertEquals(0.0F, a.y);
+		assertEquals(1.0F, a.z);
+		
+		assertEquals(1.0F, b.x);
+		assertEquals(0.0F, b.y);
+		assertEquals(0.0F, b.z);
+		
+		assertThrows(NullPointerException.class, () -> Vector3F.sampleHemisphereCosineDistribution(null));
+	}
+	
+	@Test
 	public void testSampleHemispherePowerCosineDistribution() {
 		for(int i = 0; i < 10000; i++) {
 			final Vector3F v = Vector3F.sampleHemispherePowerCosineDistribution();

@@ -1151,7 +1151,6 @@ public final class Vector3F {
 	 * 
 	 * @return a {@code Vector3F} instance with the sampled direction
 	 */
-//	TODO: Add unit tests!
 	public static Vector3F sampleHemisphereCosineDistribution() {
 		return sampleHemisphereCosineDistribution(Point2F.sampleRandom());
 	}
@@ -1167,7 +1166,6 @@ public final class Vector3F {
 	 * @return a {@code Vector3F} instance with the sampled direction
 	 * @throws NullPointerException thrown if, and only if, {@code p} is {@code null}
 	 */
-//	TODO: Add unit tests!
 	public static Vector3F sampleHemisphereCosineDistribution(final Point2F p) {
 		final Point2F q = Point2F.sampleDiskUniformDistributionByConcentricMapping(p);
 		
