@@ -1128,7 +1128,6 @@ public final class Vector3D {
 	 * @return a {@code Vector3D} instance with the sampled direction
 	 * @throws NullPointerException thrown if, and only if, {@code p} is {@code null}
 	 */
-//	TODO: Add unit tests!
 	public static Vector3D sampleConeUniformDistribution(final Point2D p, final double cosThetaMax) {
 		final double cosTheta = (1.0D - p.x) + p.x * cosThetaMax;
 		final double sinTheta = Doubles.sqrt(1.0D - cosTheta * cosTheta);

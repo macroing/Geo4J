@@ -865,6 +865,42 @@ public final class Vector3DUnitTests {
 	}
 	
 	@Test
+	public void testSampleConeUniformDistribution() {
+		final Vector3D a = Vector3D.sampleConeUniformDistribution(new Point2D(0.0D, 0.0D), 0.0D);
+		final Vector3D b = Vector3D.sampleConeUniformDistribution(new Point2D(0.0D, 0.0D), 1.0D);
+		final Vector3D c = Vector3D.sampleConeUniformDistribution(new Point2D(1.0D, 0.0D), 0.0D);
+		final Vector3D d = Vector3D.sampleConeUniformDistribution(new Point2D(1.0D, 0.0D), 1.0D);
+		final Vector3D e = Vector3D.sampleConeUniformDistribution(new Point2D(0.0D, 1.0D), 0.0D);
+		final Vector3D f = Vector3D.sampleConeUniformDistribution(new Point2D(0.0D, 1.0D), 1.0D);
+		
+		assertEquals(+0.0D, a.x);
+		assertEquals(+0.0D, a.y);
+		assertEquals(+1.0D, a.z);
+		
+		assertEquals(+0.0D, b.x);
+		assertEquals(+0.0D, b.y);
+		assertEquals(+1.0D, b.z);
+		
+		assertEquals(+1.0D, c.x);
+		assertEquals(+0.0D, c.y);
+		assertEquals(+0.0D, c.z);
+		
+		assertEquals(+0.0D, d.x);
+		assertEquals(+0.0D, d.y);
+		assertEquals(+1.0D, d.z);
+		
+		assertEquals(+0.0D, e.x);
+		assertEquals(-0.0D, e.y);
+		assertEquals(+1.0D, e.z);
+		
+		assertEquals(+0.0D, f.x);
+		assertEquals(-0.0D, f.y);
+		assertEquals(+1.0D, f.z);
+		
+		assertThrows(NullPointerException.class, () -> Vector3D.sampleConeUniformDistribution(null, 1.0D));
+	}
+	
+	@Test
 	public void testSampleHemisphereCosineDistribution() {
 		for(int i = 0; i < 10000; i++) {
 			final Vector3D v = Vector3D.sampleHemisphereCosineDistribution();
