@@ -769,13 +769,24 @@ public final class Vector3FUnitTests {
 	
 	@Test
 	public void testOrthogonalVector3FVector3F() {
-		final Vector3F a = new Vector3F(1.0F, 0.0F, 0.0F);
-		final Vector3F b = new Vector3F(0.0F, 1.0F, 0.0F);
-		final Vector3F c = new Vector3F(1.0F, 1.0F, 1.0F);
+		final Vector3F a = new Vector3F(+1.0F, +0.0F, +0.0F);
+		final Vector3F b = new Vector3F(+0.0F, +1.0F, +0.0F);
+		final Vector3F c = new Vector3F(+0.0F, +0.0F, +1.0F);
+		final Vector3F d = new Vector3F(+1.0F, +1.0F, +1.0F);
+		final Vector3F e = new Vector3F(-1.0F, -1.0F, -1.0F);
 		
 		assertTrue(Vector3F.orthogonal(a, b));
+		assertTrue(Vector3F.orthogonal(a, c));
+		assertTrue(Vector3F.orthogonal(b, a));
+		assertTrue(Vector3F.orthogonal(b, c));
+		assertTrue(Vector3F.orthogonal(c, a));
+		assertTrue(Vector3F.orthogonal(c, b));
 		
-		assertFalse(Vector3F.orthogonal(a, c));
+		assertFalse(Vector3F.orthogonal(a, d));
+		assertFalse(Vector3F.orthogonal(b, d));
+		assertFalse(Vector3F.orthogonal(c, d));
+		assertFalse(Vector3F.orthogonal(d, d));
+		assertFalse(Vector3F.orthogonal(e, d));
 		
 		assertThrows(NullPointerException.class, () -> Vector3F.orthogonal(a, null));
 		assertThrows(NullPointerException.class, () -> Vector3F.orthogonal(null, b));
@@ -817,6 +828,40 @@ public final class Vector3FUnitTests {
 		assertEquals(0.125F, b.z);
 		
 		assertThrows(NullPointerException.class, () -> Vector3F.reciprocal(null));
+	}
+	
+	@Test
+	public void testReflectionVector3FVector3F() {
+		for(int i = 0; i < 10000; i++) {
+			final Vector3F a = Vector3F.normalize(new Vector3F((float)(Math.random()), (float)(Math.random()), (float)(Math.random())));
+			final Vector3F b = Vector3F.normalize(new Vector3F((float)(Math.random()), (float)(Math.random()), (float)(Math.random())));
+			final Vector3F c = Vector3F.reflection(a, b);
+			final Vector3F d = Vector3F.reflection(c, b);
+			
+			assertTrue(Math.abs(a.x - d.x) <= 0.00001F);
+			assertTrue(Math.abs(a.y - d.y) <= 0.00001F);
+			assertTrue(Math.abs(a.z - d.z) <= 0.00001F);
+		}
+		
+		assertThrows(NullPointerException.class, () -> Vector3F.reflection(new Vector3F(), null));
+		assertThrows(NullPointerException.class, () -> Vector3F.reflection(null, new Vector3F()));
+	}
+	
+	@Test
+	public void testReflectionVector3FVector3FBoolean() {
+		for(int i = 0; i < 10000; i++) {
+			final Vector3F a = Vector3F.normalize(new Vector3F((float)(Math.random()), (float)(Math.random()), (float)(Math.random())));
+			final Vector3F b = Vector3F.normalize(new Vector3F((float)(Math.random()), (float)(Math.random()), (float)(Math.random())));
+			final Vector3F c = Vector3F.reflection(a, b, i % 2 == 0);
+			final Vector3F d = Vector3F.reflection(c, b, i % 2 == 0);
+			
+			assertTrue(Math.abs(a.x - d.x) <= 0.00001F);
+			assertTrue(Math.abs(a.y - d.y) <= 0.00001F);
+			assertTrue(Math.abs(a.z - d.z) <= 0.00001F);
+		}
+		
+		assertThrows(NullPointerException.class, () -> Vector3F.reflection(new Vector3F(), null, false));
+		assertThrows(NullPointerException.class, () -> Vector3F.reflection(null, new Vector3F(), false));
 	}
 	
 	@Test

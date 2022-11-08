@@ -22,7 +22,6 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.lang.reflect.Field;//TODO: Add unit tests!
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -1093,7 +1092,6 @@ public final class Vector3D {
 	 * @return a {@code Vector3D} instance that represents the reflection of {@code direction} with regards to {@code normal}
 	 * @throws NullPointerException thrown if, and only if, either {@code direction} or {@code normal} are {@code null}
 	 */
-//	TODO: Add unit tests!
 	public static Vector3D reflection(final Vector3D direction, final Vector3D normal) {
 		return reflection(direction, normal, false);
 	}
@@ -1111,7 +1109,6 @@ public final class Vector3D {
 	 * @return a {@code Vector3D} instance that represents the reflection of {@code direction} with regards to {@code normal}
 	 * @throws NullPointerException thrown if, and only if, either {@code direction} or {@code normal} are {@code null}
 	 */
-//	TODO: Add unit tests!
 	public static Vector3D reflection(final Vector3D direction, final Vector3D normal, final boolean isFacingSurface) {
 		return isFacingSurface ? subtract(direction, multiply(normal, dotProduct(direction, normal) * 2.0D)) : subtract(multiply(normal, dotProduct(direction, normal) * 2.0D), direction);
 	}
