@@ -34,7 +34,7 @@ Supported Features
 
 Documentation
 -------------
-The documentation for this library can be found in the Javadocs that are generated when building it.
+The documentation for this library can be found in the Javadocs that are generated when building it using Apache Ant.
 
 Library
 -------
