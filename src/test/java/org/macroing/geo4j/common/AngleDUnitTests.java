@@ -27,6 +27,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutput;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.io.UncheckedIOException;
 
 import org.junit.jupiter.api.Test;
@@ -40,6 +41,28 @@ public final class AngleDUnitTests {
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	@Test
+	public void testAdd() {
+		final AngleD a = AngleD.add(AngleD.degrees(180.0D, 0.0D, 360.0D), AngleD.degrees(180.0D,   0.0D, 360.0D));
+		final AngleD b = AngleD.add(AngleD.degrees(180.0D, 0.0D, 180.0D), AngleD.degrees(180.0D, 180.0D, 360.0D));
+		final AngleD c = AngleD.add(AngleD.degrees(180.0D, 0.0D, 180.0D), AngleD.degrees(360.0D, 180.0D, 360.0D));
+		
+		assertEquals(360.0D, a.getDegrees());
+		assertEquals(360.0D, a.getDegreesMaximum());
+		assertEquals(  0.0D, a.getDegreesMinimum());
+		
+		assertEquals(360.0D, b.getDegrees());
+		assertEquals(360.0D, b.getDegreesMaximum());
+		assertEquals(  0.0D, b.getDegreesMinimum());
+		
+		assertEquals(180.0D, c.getDegrees());
+		assertEquals(360.0D, c.getDegreesMaximum());
+		assertEquals(  0.0D, c.getDegreesMinimum());
+		
+		assertThrows(NullPointerException.class, () -> AngleD.add(AngleD.degrees(0.0D), null));
+		assertThrows(NullPointerException.class, () -> AngleD.add(null, AngleD.degrees(0.0D)));
+	}
 	
 	@Test
 	public void testCos() {
@@ -182,10 +205,101 @@ public final class AngleDUnitTests {
 	}
 	
 	@Test
+	public void testRadiansDouble() {
+		final AngleD a = AngleD.radians(Math.PI * 2.0D);
+		final AngleD b = AngleD.radians(0.0D);
+		
+		assertEquals(Math.PI * 2.0D, a.getRadians());
+		assertEquals(Math.PI * 2.0D, a.getRadiansMaximum());
+		assertEquals(          0.0D, a.getRadiansMinimum());
+		
+		assertEquals(Math.toDegrees(Math.PI * 2.0D), a.getDegrees());
+		assertEquals(Math.toDegrees(Math.PI * 2.0D), a.getDegreesMaximum());
+		assertEquals(Math.toDegrees(          0.0D), a.getDegreesMinimum());
+		
+		assertEquals(          0.0D, b.getRadians());
+		assertEquals(Math.PI * 2.0D, b.getRadiansMaximum());
+		assertEquals(          0.0D, b.getRadiansMinimum());
+		
+		assertEquals(Math.toDegrees(          0.0D), b.getDegrees());
+		assertEquals(Math.toDegrees(Math.PI * 2.0D), b.getDegreesMaximum());
+		assertEquals(Math.toDegrees(          0.0D), b.getDegreesMinimum());
+	}
+	
+	@Test
+	public void testRadiansDoubleDoubleDouble() {
+		final AngleD a = AngleD.radians(Math.PI * 2.0D, Math.PI * 1.0D, Math.PI * 4.0D);
+		final AngleD b = AngleD.radians(Math.PI - 1.0D, Math.PI * 4.0D, Math.PI * 1.0D);
+		
+		assertEquals(Math.PI * 2.0D, a.getRadians());
+		assertEquals(Math.PI * 4.0D, a.getRadiansMaximum());
+		assertEquals(Math.PI * 1.0D, a.getRadiansMinimum());
+		
+		assertEquals(Math.toDegrees(Math.PI * 2.0D), a.getDegrees());
+		assertEquals(Math.toDegrees(Math.PI * 4.0D), a.getDegreesMaximum());
+		assertEquals(Math.toDegrees(Math.PI * 1.0D), a.getDegreesMinimum());
+		
+		assertEquals(Math.PI * 4.0D - 1.0D, b.getRadians());
+		assertEquals(Math.PI * 4.0D,        b.getRadiansMaximum());
+		assertEquals(Math.PI * 1.0D,        b.getRadiansMinimum());
+		
+		assertEquals(Math.toDegrees(Math.PI * 4.0D - 1.0D), b.getDegrees());
+		assertEquals(Math.toDegrees(Math.PI * 4.0D),        b.getDegreesMaximum());
+		assertEquals(Math.toDegrees(Math.PI * 1.0D),        b.getDegreesMinimum());
+	}
+	
+	@Test
+	public void testRead() throws IOException {
+		final AngleD a = AngleD.degrees(180.0D);
+		
+		final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+		
+		final
+		DataOutput dataOutput = new DataOutputStream(byteArrayOutputStream);
+		dataOutput.writeDouble(a.getDegrees());
+		dataOutput.writeDouble(a.getDegreesMinimum());
+		dataOutput.writeDouble(a.getDegreesMaximum());
+		dataOutput.writeDouble(a.getRadians());
+		dataOutput.writeDouble(a.getRadiansMinimum());
+		dataOutput.writeDouble(a.getRadiansMaximum());
+		
+		final byte[] bytes = byteArrayOutputStream.toByteArray();
+		
+		final AngleD b = AngleD.read(new DataInputStream(new ByteArrayInputStream(bytes)));
+		
+		assertEquals(a, b);
+		
+		assertThrows(NullPointerException.class, () -> AngleD.read(null));
+		assertThrows(UncheckedIOException.class, () -> AngleD.read(new DataInputStream(new ByteArrayInputStream(new byte[] {}))));
+	}
+	
+	@Test
 	public void testSin() {
 		final AngleD angle = AngleD.degrees(123.0D);
 		
 		assertEquals(Math.sin(Math.toRadians(123.0D)), angle.sin());
+	}
+	
+	@Test
+	public void testSubtract() {
+		final AngleD a = AngleD.subtract(AngleD.degrees(360.0D,   0.0D, 360.0D), AngleD.degrees(180.0D,   0.0D, 360.0D));
+		final AngleD b = AngleD.subtract(AngleD.degrees(360.0D, 180.0D, 360.0D), AngleD.degrees(180.0D,   0.0D, 180.0D));
+		final AngleD c = AngleD.subtract(AngleD.degrees(180.0D,   0.0D, 180.0D), AngleD.degrees(360.0D, 180.0D, 360.0D));
+		
+		assertEquals(180.0D, a.getDegrees());
+		assertEquals(360.0D, a.getDegreesMaximum());
+		assertEquals(  0.0D, a.getDegreesMinimum());
+		
+		assertEquals(180.0D, b.getDegrees());
+		assertEquals(360.0D, b.getDegreesMaximum());
+		assertEquals(  0.0D, b.getDegreesMinimum());
+		
+		assertEquals(180.0D, c.getDegrees());
+		assertEquals(360.0D, c.getDegreesMaximum());
+		assertEquals(  0.0D, c.getDegreesMinimum());
+		
+		assertThrows(NullPointerException.class, () -> AngleD.subtract(AngleD.degrees(0.0D), null));
+		assertThrows(NullPointerException.class, () -> AngleD.subtract(null, AngleD.degrees(0.0D)));
 	}
 	
 	@Test

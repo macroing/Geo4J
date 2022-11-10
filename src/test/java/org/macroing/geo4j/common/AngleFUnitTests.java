@@ -27,6 +27,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutput;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.io.UncheckedIOException;
 
 import org.junit.jupiter.api.Test;
@@ -40,6 +41,28 @@ public final class AngleFUnitTests {
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	@Test
+	public void testAdd() {
+		final AngleF a = AngleF.add(AngleF.degrees(180.0F, 0.0F, 360.0F), AngleF.degrees(180.0F,   0.0F, 360.0F));
+		final AngleF b = AngleF.add(AngleF.degrees(180.0F, 0.0F, 180.0F), AngleF.degrees(180.0F, 180.0F, 360.0F));
+		final AngleF c = AngleF.add(AngleF.degrees(180.0F, 0.0F, 180.0F), AngleF.degrees(360.0F, 180.0F, 360.0F));
+		
+		assertEquals(360.0F, a.getDegrees());
+		assertEquals(360.0F, a.getDegreesMaximum());
+		assertEquals(  0.0F, a.getDegreesMinimum());
+		
+		assertEquals(360.0F, b.getDegrees());
+		assertEquals(360.0F, b.getDegreesMaximum());
+		assertEquals(  0.0F, b.getDegreesMinimum());
+		
+		assertEquals(180.0F, c.getDegrees());
+		assertEquals(360.0F, c.getDegreesMaximum());
+		assertEquals(  0.0F, c.getDegreesMinimum());
+		
+		assertThrows(NullPointerException.class, () -> AngleF.add(AngleF.degrees(0.0F), null));
+		assertThrows(NullPointerException.class, () -> AngleF.add(null, AngleF.degrees(0.0F)));
+	}
 	
 	@Test
 	public void testCos() {
@@ -182,10 +205,101 @@ public final class AngleFUnitTests {
 	}
 	
 	@Test
+	public void testRadiansFloat() {
+		final AngleF a = AngleF.radians((float)(Math.PI) * 2.0F);
+		final AngleF b = AngleF.radians(0.0F);
+		
+		assertEquals((float)(Math.PI) * 2.0F, a.getRadians());
+		assertEquals((float)(Math.PI) * 2.0F, a.getRadiansMaximum());
+		assertEquals(                   0.0F, a.getRadiansMinimum());
+		
+		assertEquals((float)(Math.toDegrees((float)(Math.PI) * 2.0F)), a.getDegrees());
+		assertEquals((float)(Math.toDegrees((float)(Math.PI) * 2.0F)), a.getDegreesMaximum());
+		assertEquals((float)(Math.toDegrees(                   0.0F)), a.getDegreesMinimum());
+		
+		assertEquals(                   0.0F, b.getRadians());
+		assertEquals((float)(Math.PI) * 2.0F, b.getRadiansMaximum());
+		assertEquals(                   0.0F, b.getRadiansMinimum());
+		
+		assertEquals((float)(Math.toDegrees(                   0.0F)), b.getDegrees());
+		assertEquals((float)(Math.toDegrees((float)(Math.PI) * 2.0F)), b.getDegreesMaximum());
+		assertEquals((float)(Math.toDegrees(                   0.0F)), b.getDegreesMinimum());
+	}
+	
+	@Test
+	public void testRadiansFloatFloatFloat() {
+		final AngleF a = AngleF.radians((float)(Math.PI) * 2.0F, (float)(Math.PI) * 1.0F, (float)(Math.PI) * 4.0F);
+		final AngleF b = AngleF.radians((float)(Math.PI) - 1.0F, (float)(Math.PI) * 4.0F, (float)(Math.PI) * 1.0F);
+		
+		assertEquals((float)(Math.PI) * 2.0F, a.getRadians());
+		assertEquals((float)(Math.PI) * 4.0F, a.getRadiansMaximum());
+		assertEquals((float)(Math.PI) * 1.0F, a.getRadiansMinimum());
+		
+		assertEquals((float)(Math.toDegrees((float)(Math.PI) * 2.0F)), a.getDegrees());
+		assertEquals((float)(Math.toDegrees((float)(Math.PI) * 4.0F)), a.getDegreesMaximum());
+		assertEquals((float)(Math.toDegrees((float)(Math.PI) * 1.0F)), a.getDegreesMinimum());
+		
+		assertEquals((float)(Math.PI) * 4.0F - 1.0F, b.getRadians());
+		assertEquals((float)(Math.PI) * 4.0F,        b.getRadiansMaximum());
+		assertEquals((float)(Math.PI) * 1.0F,        b.getRadiansMinimum());
+		
+		assertEquals((float)(Math.toDegrees((float)(Math.PI) * 4.0F - 1.0F)), b.getDegrees());
+		assertEquals((float)(Math.toDegrees((float)(Math.PI) * 4.0F)),        b.getDegreesMaximum());
+		assertEquals((float)(Math.toDegrees((float)(Math.PI) * 1.0F)),        b.getDegreesMinimum());
+	}
+	
+	@Test
+	public void testRead() throws IOException {
+		final AngleF a = AngleF.degrees(180.0F);
+		
+		final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+		
+		final
+		DataOutput dataOutput = new DataOutputStream(byteArrayOutputStream);
+		dataOutput.writeFloat(a.getDegrees());
+		dataOutput.writeFloat(a.getDegreesMinimum());
+		dataOutput.writeFloat(a.getDegreesMaximum());
+		dataOutput.writeFloat(a.getRadians());
+		dataOutput.writeFloat(a.getRadiansMinimum());
+		dataOutput.writeFloat(a.getRadiansMaximum());
+		
+		final byte[] bytes = byteArrayOutputStream.toByteArray();
+		
+		final AngleF b = AngleF.read(new DataInputStream(new ByteArrayInputStream(bytes)));
+		
+		assertEquals(a, b);
+		
+		assertThrows(NullPointerException.class, () -> AngleF.read(null));
+		assertThrows(UncheckedIOException.class, () -> AngleF.read(new DataInputStream(new ByteArrayInputStream(new byte[] {}))));
+	}
+	
+	@Test
 	public void testSin() {
 		final AngleF angle = AngleF.degrees(123.0F);
 		
 		assertEquals((float)(Math.sin((float)(Math.toRadians(123.0F)))), angle.sin());
+	}
+	
+	@Test
+	public void testSubtract() {
+		final AngleF a = AngleF.subtract(AngleF.degrees(360.0F,   0.0F, 360.0F), AngleF.degrees(180.0F,   0.0F, 360.0F));
+		final AngleF b = AngleF.subtract(AngleF.degrees(360.0F, 180.0F, 360.0F), AngleF.degrees(180.0F,   0.0F, 180.0F));
+		final AngleF c = AngleF.subtract(AngleF.degrees(180.0F,   0.0F, 180.0F), AngleF.degrees(360.0F, 180.0F, 360.0F));
+		
+		assertEquals(180.0F, a.getDegrees());
+		assertEquals(360.0F, a.getDegreesMaximum());
+		assertEquals(  0.0F, a.getDegreesMinimum());
+		
+		assertEquals(180.0F, b.getDegrees());
+		assertEquals(360.0F, b.getDegreesMaximum());
+		assertEquals(  0.0F, b.getDegreesMinimum());
+		
+		assertEquals(180.0F, c.getDegrees());
+		assertEquals(360.0F, c.getDegreesMaximum());
+		assertEquals(  0.0F, c.getDegreesMinimum());
+		
+		assertThrows(NullPointerException.class, () -> AngleF.subtract(AngleF.degrees(0.0F), null));
+		assertThrows(NullPointerException.class, () -> AngleF.subtract(null, AngleF.degrees(0.0F)));
 	}
 	
 	@Test

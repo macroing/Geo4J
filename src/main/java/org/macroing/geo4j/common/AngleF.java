@@ -212,16 +212,15 @@ public final class AngleF {
 	/**
 	 * Adds {@code angleRHS} to {@code angleLHS}.
 	 * <p>
-	 * Returns a new {@code AngleF} instance with the result of the addition.
+	 * Returns an {@code AngleF} instance with the result of the addition.
 	 * <p>
 	 * If either {@code angleLHS} or {@code angleRHS} are {@code null}, a {@code NullPointerException} will be thrown.
 	 * 
 	 * @param angleLHS an {@code AngleF} instance
 	 * @param angleRHS an {@code AngleF} instance
-	 * @return a new {@code AngleF} instance with the result of the addition
+	 * @return an {@code AngleF} instance with the result of the addition
 	 * @throws NullPointerException thrown if, and only if, either {@code angleLHS} or {@code angleRHS} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static AngleF add(final AngleF angleLHS, final AngleF angleRHS) {
 		final float degreesMinimum = Floats.min(angleLHS.degreesMinimum, angleRHS.degreesMinimum);
 		final float degreesMaximum = Floats.max(angleLHS.degreesMaximum, angleRHS.degreesMaximum);
@@ -231,7 +230,7 @@ public final class AngleF {
 	}
 	
 	/**
-	 * Returns a new {@code AngleF} instance based on an angle in degrees.
+	 * Returns an {@code AngleF} instance based on an angle in degrees.
 	 * <p>
 	 * Calling this method is equivalent to the following:
 	 * <pre>
@@ -241,19 +240,19 @@ public final class AngleF {
 	 * </pre>
 	 * 
 	 * @param degrees the angle in degrees
-	 * @return a new {@code AngleF} instance based on an angle in degrees
+	 * @return an {@code AngleF} instance based on an angle in degrees
 	 */
 	public static AngleF degrees(final float degrees) {
 		return degrees(degrees, DEGREES_MINIMUM, DEGREES_MAXIMUM);
 	}
 	
 	/**
-	 * Returns a new {@code AngleF} instance based on an angle in degrees and an interval of valid degrees.
+	 * Returns an {@code AngleF} instance based on an angle in degrees and an interval of valid degrees.
 	 * 
 	 * @param degrees the angle in degrees
 	 * @param degreesIntervalEndA the degrees that represents one of the ends of the interval of valid degrees
 	 * @param degreesIntervalEndB the degrees that represents one of the ends of the interval of valid degrees
-	 * @return a new {@code AngleF} instance based on an angle in degrees and an interval of valid degrees
+	 * @return an {@code AngleF} instance based on an angle in degrees and an interval of valid degrees
 	 */
 	public static AngleF degrees(final float degrees, final float degreesIntervalEndA, final float degreesIntervalEndB) {
 		final float newDegreesMinimum = Floats.min(degreesIntervalEndA, degreesIntervalEndB);
@@ -314,12 +313,12 @@ public final class AngleF {
 	}
 	
 	/**
-	 * Returns a new {@code AngleF} instance that represents half of {@code angle}.
+	 * Returns an {@code AngleF} instance that represents half of {@code angle}.
 	 * <p>
 	 * If {@code angle} is {@code null}, a {@code NullPointerException} will be thrown.
 	 * 
 	 * @param angle an {@code AngleF} instance
-	 * @return a new {@code AngleF} instance that represents half of {@code angle}
+	 * @return an {@code AngleF} instance that represents half of {@code angle}
 	 * @throws NullPointerException thrown if, and only if, {@code angle} is {@code null}
 	 */
 //	TODO: Add Unit Tests!
@@ -342,21 +341,17 @@ public final class AngleF {
 	 */
 //	TODO: Add Unit Tests!
 	public static AngleF negate(final AngleF angle) {
-		final float degreesMinimum = -angle.degreesMinimum;
-		final float degreesMaximum = -angle.degreesMaximum;
-		final float degrees = doWrapAround(-angle.degrees, degreesMinimum, degreesMaximum);
-		
-		return degrees(degrees, degreesMinimum, degreesMaximum);
+		return degrees(-angle.degrees, -angle.degreesMaximum, -angle.degreesMinimum);
 	}
 	
 	/**
-	 * Returns a new pitch {@code AngleF} instance based on {@code eye} and {@code lookAt}.
+	 * Returns a pitch {@code AngleF} instance based on {@code eye} and {@code lookAt}.
 	 * <p>
 	 * If either {@code eye} or {@code lookAt} are {@code null}, a {@code NullPointerException} will be thrown.
 	 * 
 	 * @param eye the {@link Point3F} on which the "eye" is positioned
 	 * @param lookAt the {@code Point3F} to which the "eye" is looking
-	 * @return a new pitch {@code AngleF} instance based on {@code eye} and {@code lookAt}
+	 * @return a pitch {@code AngleF} instance based on {@code eye} and {@code lookAt}
 	 * @throws NullPointerException thrown if, and only if, either {@code eye} or {@code lookAt} are {@code null}
 	 */
 //	TODO: Add Unit Tests!
@@ -365,12 +360,12 @@ public final class AngleF {
 	}
 	
 	/**
-	 * Returns a new pitch {@code AngleF} instance based on {@code direction}.
+	 * Returns a pitch {@code AngleF} instance based on {@code direction}.
 	 * <p>
 	 * If {@code direction} is {@code null}, a {@code NullPointerException} will be thrown.
 	 * 
 	 * @param direction a normalized direction {@link Vector3F}
-	 * @return a new pitch {@code AngleF} instance based on {@code direction}
+	 * @return a pitch {@code AngleF} instance based on {@code direction}
 	 * @throws NullPointerException thrown if, and only if, {@code direction} is {@code null}
 	 */
 //	TODO: Add Unit Tests!
@@ -379,7 +374,7 @@ public final class AngleF {
 	}
 	
 	/**
-	 * Returns a new {@code AngleF} instance based on an angle in radians.
+	 * Returns an {@code AngleF} instance based on an angle in radians.
 	 * <p>
 	 * Calling this method is equivalent to the following:
 	 * <pre>
@@ -389,22 +384,20 @@ public final class AngleF {
 	 * </pre>
 	 * 
 	 * @param radians the angle in radians
-	 * @return a new {@code AngleF} instance based on an angle in radians
+	 * @return an {@code AngleF} instance based on an angle in radians
 	 */
-//	TODO: Add Unit Tests!
 	public static AngleF radians(final float radians) {
 		return radians(radians, RADIANS_MINIMUM, RADIANS_MAXIMUM);
 	}
 	
 	/**
-	 * Returns a new {@code AngleF} instance based on an angle in radians and an interval of valid radians.
+	 * Returns an {@code AngleF} instance based on an angle in radians and an interval of valid radians.
 	 * 
 	 * @param radians the angle in radians
 	 * @param radiansIntervalEndA the radians that represents one of the ends of the interval of valid radians
 	 * @param radiansIntervalEndB the radians that represents one of the ends of the interval of valid radians
-	 * @return a new {@code AngleF} instance based on an angle in radians and an interval of valid radians
+	 * @return an {@code AngleF} instance based on an angle in radians and an interval of valid radians
 	 */
-//	TODO: Add Unit Tests!
 	public static AngleF radians(final float radians, final float radiansIntervalEndA, final float radiansIntervalEndB) {
 		final float newRadiansMinimum = Floats.min(radiansIntervalEndA, radiansIntervalEndB);
 		final float newRadiansMaximum = Floats.max(radiansIntervalEndA, radiansIntervalEndB);
@@ -418,18 +411,17 @@ public final class AngleF {
 	}
 	
 	/**
-	 * Returns a new {@code AngleF} instance by reading it from {@code dataInput}.
+	 * Returns an {@code AngleF} instance by reading it from {@code dataInput}.
 	 * <p>
 	 * If {@code dataInput} is {@code null}, a {@code NullPointerException} will be thrown.
 	 * <p>
 	 * If an I/O error occurs, an {@code UncheckedIOException} will be thrown.
 	 * 
 	 * @param dataInput the {@code DataInput} instance to read from
-	 * @return a new {@code AngleF} instance by reading it from {@code dataInput}
+	 * @return an {@code AngleF} instance by reading it from {@code dataInput}
 	 * @throws NullPointerException thrown if, and only if, {@code dataInput} is {@code null}
 	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
 	 */
-//	TODO: Add Unit Tests!
 	public static AngleF read(final DataInput dataInput) {
 		try {
 			final float degrees = dataInput.readFloat();
@@ -448,16 +440,15 @@ public final class AngleF {
 	/**
 	 * Subtracts {@code angleRHS} from {@code angleLHS}.
 	 * <p>
-	 * Returns a new {@code AngleF} instance with the result of the subtraction.
+	 * Returns an {@code AngleF} instance with the result of the subtraction.
 	 * <p>
 	 * If either {@code angleLHS} or {@code angleRHS} are {@code null}, a {@code NullPointerException} will be thrown.
 	 * 
 	 * @param angleLHS an {@code AngleF} instance
 	 * @param angleRHS an {@code AngleF} instance
-	 * @return a new {@code AngleF} instance with the result of the subtraction
+	 * @return an {@code AngleF} instance with the result of the subtraction
 	 * @throws NullPointerException thrown if, and only if, either {@code angleLHS} or {@code angleRHS} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static AngleF subtract(final AngleF angleLHS, final AngleF angleRHS) {
 		final float degreesMinimum = Floats.min(angleLHS.degreesMinimum, angleRHS.degreesMinimum);
 		final float degreesMaximum = Floats.max(angleLHS.degreesMaximum, angleRHS.degreesMaximum);
@@ -467,13 +458,13 @@ public final class AngleF {
 	}
 	
 	/**
-	 * Returns a new yaw {@code AngleF} instance based on {@code eye} and {@code lookAt}.
+	 * Returns a yaw {@code AngleF} instance based on {@code eye} and {@code lookAt}.
 	 * <p>
 	 * If either {@code eye} or {@code lookAt} are {@code null}, a {@code NullPointerException} will be thrown.
 	 * 
 	 * @param eye the {@link Point3F} on which the "eye" is positioned
 	 * @param lookAt the {@code Point3F} to which the "eye" is looking
-	 * @return a new yaw {@code AngleF} instance based on {@code eye} and {@code lookAt}
+	 * @return a yaw {@code AngleF} instance based on {@code eye} and {@code lookAt}
 	 * @throws NullPointerException thrown if, and only if, either {@code eye} or {@code lookAt} are {@code null}
 	 */
 //	TODO: Add Unit Tests!
@@ -482,12 +473,12 @@ public final class AngleF {
 	}
 	
 	/**
-	 * Returns a new yaw {@code AngleF} instance based on {@code direction}.
+	 * Returns a yaw {@code AngleF} instance based on {@code direction}.
 	 * <p>
 	 * If {@code direction} is {@code null}, a {@code NullPointerException} will be thrown.
 	 * 
 	 * @param direction a normalized direction {@link Vector3F}
-	 * @return a new yaw {@code AngleF} instance based on {@code direction}
+	 * @return a yaw {@code AngleF} instance based on {@code direction}
 	 * @throws NullPointerException thrown if, and only if, {@code direction} is {@code null}
 	 */
 //	TODO: Add Unit Tests!
