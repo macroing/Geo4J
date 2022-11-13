@@ -1,6 +1,6 @@
 Geo4J
 =====
-Geo4J is a geometry library for Java.
+Geo4J is a geometry library for Java. It is suitable for 2D- and 3D-graphics.
 
 This project will supersede the old [Math4J](https://github.com/macroing/Math4J) project and the Geometry APIs in the [Dayflower](https://github.com/macroing/Dayflower) project.
 
