@@ -22,6 +22,7 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.lang.reflect.Field;//TODO: Add Unit Tests!
 import java.util.Objects;
 
 import org.macroing.geo4j.common.Point3F;
@@ -362,6 +363,47 @@ public final class Matrix44F {
 		final float x = this.element11 * v.x + this.element12 * v.y + this.element13 * v.z;
 		final float y = this.element21 * v.x + this.element22 * v.y + this.element23 * v.z;
 		final float z = this.element31 * v.x + this.element32 * v.y + this.element33 * v.z;
+		
+		return new Vector3F(x, y, z);
+	}
+	
+	/**
+	 * Transforms the error of the {@link Point3F} {@code p} with this {@code Matrix44F} instance.
+	 * <p>
+	 * Returns a {@code Vector3F} instance with the result of the transformation.
+	 * <p>
+	 * If {@code p} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param p a {@code Point3F} instance
+	 * @return a {@code Vector3F} instance with the result of the transformation
+	 * @throws NullPointerException thrown if, and only if, {@code p} is {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public Vector3F transformError(final Point3F p) {
+		final float x = Floats.gamma(3) * (Floats.abs(this.element11 * p.x) + Floats.abs(this.element12 * p.y) + Floats.abs(this.element13 * p.z) + Floats.abs(this.element14));
+		final float y = Floats.gamma(3) * (Floats.abs(this.element21 * p.x) + Floats.abs(this.element22 * p.y) + Floats.abs(this.element23 * p.z) + Floats.abs(this.element24));
+		final float z = Floats.gamma(3) * (Floats.abs(this.element31 * p.x) + Floats.abs(this.element32 * p.y) + Floats.abs(this.element33 * p.z) + Floats.abs(this.element34));
+		
+		return new Vector3F(x, y, z);
+	}
+	
+	/**
+	 * Transforms the error of the {@link Point3F} {@code p} and the {@link Vector3F} {@code v} with this {@code Matrix44F} instance.
+	 * <p>
+	 * Returns a {@code Vector3F} instance with the result of the transformation.
+	 * <p>
+	 * If either {@code p} or {@code v} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param p a {@code Point3F} instance
+	 * @param v a {@code Vector3F} instance
+	 * @return a {@code Vector3F} instance with the result of the transformation
+	 * @throws NullPointerException thrown if, and only if, either {@code p} or {@code v} are {@code null}
+	 */
+//	TODO: Add Unit Tests!
+	public Vector3F transformError(final Point3F p, final Vector3F v) {
+		final float x = (Floats.gamma(3) + 1.0F) * (Floats.abs(this.element11) * v.x + Floats.abs(this.element12) * v.y + Floats.abs(this.element13) * v.z) + Floats.gamma(3) * (Floats.abs(this.element11 * p.x) + Floats.abs(this.element12 * p.y) + Floats.abs(this.element13 * p.z) + Floats.abs(this.element14));
+		final float y = (Floats.gamma(3) + 1.0F) * (Floats.abs(this.element21) * v.x + Floats.abs(this.element22) * v.y + Floats.abs(this.element23) * v.z) + Floats.gamma(3) * (Floats.abs(this.element21 * p.x) + Floats.abs(this.element22 * p.y) + Floats.abs(this.element23 * p.z) + Floats.abs(this.element24));
+		final float z = (Floats.gamma(3) + 1.0F) * (Floats.abs(this.element31) * v.x + Floats.abs(this.element32) * v.y + Floats.abs(this.element33) * v.z) + Floats.gamma(3) * (Floats.abs(this.element31 * p.x) + Floats.abs(this.element32 * p.y) + Floats.abs(this.element33 * p.z) + Floats.abs(this.element34));
 		
 		return new Vector3F(x, y, z);
 	}
