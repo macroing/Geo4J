@@ -5,9 +5,7 @@ Add unit tests to AngleF.
 Add unit tests to BoundingVolume3D.
 Add unit tests to BoundingVolume3F.
 Add unit tests to LineSegment3D.
-Add unit tests to LineSegment3DReader.
 Add unit tests to LineSegment3F.
-Add unit tests to LineSegment3FReader.
 Add unit tests to Matrix44D.
 Add unit tests to Matrix44F.
 Add unit tests to MortonCodes.

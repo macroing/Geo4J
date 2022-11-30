@@ -22,6 +22,8 @@ import java.io.DataOutput;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.lang.reflect.Field;//TODO: Add Unit Tests!
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -33,6 +35,8 @@ import org.macroing.geo4j.ray.Ray3D;
 import org.macroing.geo4j.shape.Shape3D;
 import org.macroing.geo4j.shape.SurfaceIntersection3D;
 import org.macroing.java.lang.Doubles;
+import org.macroing.java.lang.Ints;
+import org.macroing.java.util.Arrays;
 
 /**
  * A {@code LineSegment3D} is an implementation of {@link Shape3D} that represents a line segment.
@@ -46,13 +50,11 @@ public final class LineSegment3D implements Shape3D {
 	/**
 	 * The name of this {@code LineSegment3D} class.
 	 */
-//	TODO: Add Unit Tests!
 	public static final String NAME = "Line Segment";
 	
 	/**
 	 * The ID of this {@code LineSegment3D} class.
 	 */
-//	TODO: Add Unit Tests!
 	public static final int ID = 2;
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -76,7 +78,6 @@ public final class LineSegment3D implements Shape3D {
 	 * @param b a {@code Point3D} instance
 	 * @throws NullPointerException thrown if, and only if, either {@code a} or {@code b} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public LineSegment3D(final Point3D a, final Point3D b) {
 		this.a = Objects.requireNonNull(a, "a == null");
 		this.b = Objects.requireNonNull(b, "b == null");
@@ -89,7 +90,6 @@ public final class LineSegment3D implements Shape3D {
 	 * 
 	 * @return a {@code BoundingVolume3D} instance that contains this {@code LineSegment3D} instance
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public BoundingVolume3D getBoundingVolume() {
 		return new AxisAlignedBoundingBox3D(this.a, this.b);
@@ -122,7 +122,6 @@ public final class LineSegment3D implements Shape3D {
 	 * 
 	 * @return the {@code Point3D} instance denoted by {@code A}
 	 */
-//	TODO: Add Unit Tests!
 	public Point3D getA() {
 		return this.a;
 	}
@@ -132,7 +131,6 @@ public final class LineSegment3D implements Shape3D {
 	 * 
 	 * @return the {@code Point3D} instance denoted by {@code B}
 	 */
-//	TODO: Add Unit Tests!
 	public Point3D getB() {
 		return this.b;
 	}
@@ -142,7 +140,6 @@ public final class LineSegment3D implements Shape3D {
 	 * 
 	 * @return a {@code String} with the name of this {@code LineSegment3D} instance
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public String getName() {
 		return NAME;
@@ -153,7 +150,6 @@ public final class LineSegment3D implements Shape3D {
 	 * 
 	 * @return a {@code String} representation of this {@code LineSegment3D} instance
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public String toString() {
 		return String.format("new LineSegment3D(%s, %s)", this.a, this.b);
@@ -168,7 +164,6 @@ public final class LineSegment3D implements Shape3D {
 	 * @return {@code true} if, and only if, {@code point} is contained in this {@code LineSegment3D} instance, {@code false} otherwise
 	 * @throws NullPointerException thrown if, and only if, {@code point} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public boolean contains(final Point3D point) {
 		final Point3D p = Objects.requireNonNull(point, "point == null");
@@ -183,10 +178,10 @@ public final class LineSegment3D implements Shape3D {
 		final Vector3D vA = new Vector3D(a);
 		final Vector3D vB = new Vector3D(b);
 		
-		final Vector3D vBP = Vector3D.direction(b, p);
-		final Vector3D vBA = Vector3D.direction(b, a);
+		final Vector3D vAP = Vector3D.direction(a, p);
+		final Vector3D vAB = Vector3D.direction(a, b);
 		
-		final double t = Vector3D.dotProduct(vBP, vBA) / Point3D.distanceSquared(a, b);
+		final double t = Vector3D.dotProduct(vAP, vAB) / Point3D.distanceSquared(a, b);
 		
 		final Vector3D projection = Vector3D.lerp(vB, vA, t);
 		
@@ -203,7 +198,6 @@ public final class LineSegment3D implements Shape3D {
 	 * @param object the {@code Object} to compare to this {@code LineSegment3D} instance for equality
 	 * @return {@code true} if, and only if, {@code object} is an instance of {@code LineSegment3D}, and their respective values are equal, {@code false} otherwise
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public boolean equals(final Object object) {
 		if(object == this) {
@@ -226,7 +220,6 @@ public final class LineSegment3D implements Shape3D {
 	 * 
 	 * @return the surface area of this {@code LineSegment3D} instance
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public double getSurfaceArea() {
 		return 0.0D;
@@ -259,7 +252,6 @@ public final class LineSegment3D implements Shape3D {
 	 * 
 	 * @return an {@code int} with the ID of this {@code LineSegment3D} instance
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public int getID() {
 		return ID;
@@ -270,7 +262,6 @@ public final class LineSegment3D implements Shape3D {
 	 * 
 	 * @return a hash code for this {@code LineSegment3D} instance
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public int hashCode() {
 		return Objects.hash(this.a, this.b);
@@ -287,7 +278,6 @@ public final class LineSegment3D implements Shape3D {
 	 * @throws NullPointerException thrown if, and only if, {@code dataOutput} is {@code null}
 	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public void write(final DataOutput dataOutput) {
 		try {
@@ -298,5 +288,38 @@ public final class LineSegment3D implements Shape3D {
 		} catch(final IOException e) {
 			throw new UncheckedIOException(e);
 		}
+	}
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	/**
+	 * Returns a {@code List} of {@code LineSegment3D} instances that are connecting the {@link Point3D} instances in {@code points}.
+	 * <p>
+	 * If either {@code points} or an element in {@code points} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If {@code points.length} is less than {@code 2}, an {@code IllegalArgumentException} will be thrown.
+	 * 
+	 * @param points a {@code Point3D[]} instance
+	 * @return a {@code List} of {@code LineSegment3D} instances that are connecting the {@code Point3D} instances in {@code points}
+	 * @throws IllegalArgumentException thrown if, and only if, {@code points.length} is less than {@code 2}
+	 * @throws NullPointerException thrown if, and only if, either {@code points} or an element in {@code points} are {@code null}
+	 */
+	public static List<LineSegment3D> fromPoints(final Point3D... points) {
+		Arrays.requireNonNull(points, "points");
+		
+		Ints.requireRange(points.length, 2, Integer.MAX_VALUE, "points.length");
+		
+		final List<LineSegment3D> lineSegments = new ArrayList<>(points.length);
+		
+		for(int i = 0, j = 1; i < points.length; i++, j = (j + 1) % points.length) {
+			final Point3D pointI = points[i];
+			final Point3D pointJ = points[j];
+			
+			final LineSegment3D lineSegment = new LineSegment3D(pointI, pointJ);
+			
+			lineSegments.add(lineSegment);
+		}
+		
+		return lineSegments;
 	}
 }
