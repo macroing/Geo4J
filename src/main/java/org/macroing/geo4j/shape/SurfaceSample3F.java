@@ -132,7 +132,7 @@ public final class SurfaceSample3F {
 			return false;
 		} else if(!Objects.equals(this.pointError, SurfaceSample3F.class.cast(object).pointError)) {
 			return false;
-		} else if(!(Objects.equals(this.surfaceNormal, SurfaceSample3F.class.cast(object).surfaceNormal))) {
+		} else if(!Objects.equals(this.surfaceNormal, SurfaceSample3F.class.cast(object).surfaceNormal)) {
 			return false;
 		} else if(!Floats.equals(this.probabilityDensityFunctionValue, SurfaceSample3F.class.cast(object).probabilityDensityFunctionValue)) {
 			return false;
