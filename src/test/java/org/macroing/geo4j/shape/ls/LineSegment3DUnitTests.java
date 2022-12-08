@@ -38,7 +38,9 @@ import org.junit.jupiter.api.Test;
 import org.macroing.geo4j.bv.BoundingVolume3D;
 import org.macroing.geo4j.bv.aabb.AxisAlignedBoundingBox3D;
 import org.macroing.geo4j.common.Point3D;
+import org.macroing.geo4j.common.Vector3D;
 import org.macroing.geo4j.mock.DataOutputMock;
+import org.macroing.geo4j.ray.Ray3D;
 
 @SuppressWarnings("static-method")
 public final class LineSegment3DUnitTests {
@@ -177,6 +179,23 @@ public final class LineSegment3DUnitTests {
 		
 		assertEquals(a.hashCode(), a.hashCode());
 		assertEquals(a.hashCode(), b.hashCode());
+	}
+	
+	@Test
+	public void testIntersectionT() {
+		assertEquals(2.0D, new LineSegment3D(new Point3D(0.0D, 5.0D, 7.0D), new Point3D(9.0D, 5.0D, 7.0D)).intersectionT(new Ray3D(new Point3D(5.0D, 5.0D, 5.0D), new Vector3D(0.0D, 0.0D, 1.0D)), 0.0D, 1000.0D));
+		assertEquals(2.0D, new LineSegment3D(new Point3D(0.0D, 5.0D, 7.0D), new Point3D(5.0D, 5.0D, 7.0D)).intersectionT(new Ray3D(new Point3D(5.0D, 5.0D, 5.0D), new Vector3D(0.0D, 0.0D, 1.0D)), 0.0D, 1000.0D));
+		assertEquals(2.0D, new LineSegment3D(new Point3D(5.0D, 5.0D, 7.0D), new Point3D(9.0D, 5.0D, 7.0D)).intersectionT(new Ray3D(new Point3D(5.0D, 5.0D, 5.0D), new Vector3D(0.0D, 0.0D, 1.0D)), 0.0D, 1000.0D));
+		
+		assertEquals(0.0000000001000000082740371D, new LineSegment3D(new Point3D(5.0D, 5.0D, 5.0000000001D), new Point3D(9.0D, 5.0D, 5.0000000001D)).intersectionT(new Ray3D(new Point3D(5.0D, 5.0D, 5.0D), new Vector3D(0.0D, 0.0D, 1.0D)), 0.0D, 1000.0D));
+		
+		assertEquals(Double.NaN, new LineSegment3D(new Point3D(0.0D, 5.0D, 7.0D), new Point3D(4.0D, 5.0D, 7.0D)).intersectionT(new Ray3D(new Point3D(5.0D, 5.0D, 5.0D), new Vector3D(0.0D, 0.0D, 1.0D)), 0.0D, 1000.0D));
+		assertEquals(Double.NaN, new LineSegment3D(new Point3D(6.0D, 5.0D, 7.0D), new Point3D(9.0D, 5.0D, 7.0D)).intersectionT(new Ray3D(new Point3D(5.0D, 5.0D, 5.0D), new Vector3D(0.0D, 0.0D, 1.0D)), 0.0D, 1000.0D));
+		
+		assertEquals(Double.NaN, new LineSegment3D(new Point3D(0.0D, 5.0D, 7.0D), new Point3D(9.0D, 5.0D, 7.0D)).intersectionT(new Ray3D(new Point3D(5.0D, 5.0D, 5.0D), new Vector3D(0.0D, 0.0D, 1.0D)), 0.0D, 1.0D));
+		assertEquals(Double.NaN, new LineSegment3D(new Point3D(0.0D, 5.0D, 7.0D), new Point3D(9.0D, 5.0D, 7.0D)).intersectionT(new Ray3D(new Point3D(5.0D, 5.0D, 5.0D), new Vector3D(0.0D, 0.0D, 1.0D)), 3.0D, 1000.0D));
+		
+		assertThrows(NullPointerException.class, () -> new LineSegment3D(new Point3D(0.0D, 5.0D, 7.0D), new Point3D(9.0D, 5.0D, 7.0D)).intersectionT(null, 0.0D, 1000.0D));
 	}
 	
 	@Test

@@ -243,8 +243,79 @@ public final class LineSegment3F implements Shape3F {
 	public float intersectionT(final Ray3F ray, final float tMinimum, final float tMaximum) {
 		Objects.requireNonNull(ray, "ray == null");
 		
-//		TODO: Implement!
-		return Float.NaN;
+		final Vector3F u = ray.getDirection();
+		final Vector3F v = Vector3F.direction(this.a, this.b);
+		final Vector3F w = Vector3F.direction(this.a, ray.getOrigin());
+		
+		final float a = Vector3F.dotProduct(u, u);
+		final float b = Vector3F.dotProduct(u, v);
+		final float c = Vector3F.dotProduct(v, v);
+		final float d = Vector3F.dotProduct(u, w);
+		final float e = Vector3F.dotProduct(v, w);
+		
+		final float determinant = a * c - b * b;
+		
+		float sN;
+		float sD = determinant;
+		
+		float tN;
+		float tD = determinant;
+		
+		if(determinant < Floats.MACHINE_EPSILON) {
+			sN = 0.0F;
+			sD = 1.0F;
+			
+			tN = e;
+			tD = c;
+		} else {
+			sN = b * e - c * d;
+			
+			tN = a * e - b * d;
+			
+			if(sN < 0.0F) {
+				sN = 0.0F;
+				
+				tN = e;
+				tD = c;
+			}
+		}
+		
+		if(tN < 0.0F) {
+			tN = 0.0F;
+			
+			if(-d < 0.0F) {
+				sN = 0.0F;
+			} else {
+				sN = -d;
+				sD = +a;
+			}
+		} else if(tN > tD) {
+			tN = tD;
+			
+			if(-d + b < 0.0F) {
+				sN = 0.0F;
+			} else {
+				sN = -d + b;
+				sD = a;
+			}
+		}
+		
+		final float sC = Floats.abs(sN) < Floats.MACHINE_EPSILON ? 0.0F : sN / sD;
+		final float tC = Floats.abs(tN) < Floats.MACHINE_EPSILON ? 0.0F : tN / tD;
+		
+		final Vector3F directionToClosestPoint = Vector3F.subtract(Vector3F.add(w, Vector3F.multiply(u, sC)), Vector3F.multiply(v, tC));
+		
+		if(Floats.isZero(directionToClosestPoint.length())) {
+			final float t = sC;
+			
+			if(t <= tMinimum || t >= tMaximum) {
+				return Floats.NaN;
+			}
+			
+			return t;
+		}
+		
+		return Floats.NaN;
 	}
 	
 	/**

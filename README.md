@@ -54,7 +54,7 @@ The following table describes the different APIs and their current status in the
 | Ray API                                       | 100.0%  | 100.0%    | org.macroing.geo4j.ray             |
 | Shape API                                     | 100.0%  |   9.9%    | org.macroing.geo4j.shape           |
 | Shape Circle API                              | 100.0%  | 100.0%    | org.macroing.geo4j.shape.circle    |
-| Shape Line Segment API                        | 100.0%  |  98.7%    | org.macroing.geo4j.shape.ls        |
+| Shape Line Segment API                        | 100.0%  |  97.4%    | org.macroing.geo4j.shape.ls        |
 | Shape Polygon API                             | 100.0%  | 100.0%    | org.macroing.geo4j.shape.polygon   |
 | Shape Rectangle API                           | 100.0%  | 100.0%    | org.macroing.geo4j.shape.rectangle |
 | Shape Triangle API                            | 100.0%  | 100.0%    | org.macroing.geo4j.shape.triangle  |

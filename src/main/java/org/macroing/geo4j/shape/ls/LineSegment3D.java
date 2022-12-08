@@ -243,8 +243,79 @@ public final class LineSegment3D implements Shape3D {
 	public double intersectionT(final Ray3D ray, final double tMinimum, final double tMaximum) {
 		Objects.requireNonNull(ray, "ray == null");
 		
-//		TODO: Implement!
-		return Double.NaN;
+		final Vector3D u = ray.getDirection();
+		final Vector3D v = Vector3D.direction(this.a, this.b);
+		final Vector3D w = Vector3D.direction(this.a, ray.getOrigin());
+		
+		final double a = Vector3D.dotProduct(u, u);
+		final double b = Vector3D.dotProduct(u, v);
+		final double c = Vector3D.dotProduct(v, v);
+		final double d = Vector3D.dotProduct(u, w);
+		final double e = Vector3D.dotProduct(v, w);
+		
+		final double determinant = a * c - b * b;
+		
+		double sN;
+		double sD = determinant;
+		
+		double tN;
+		double tD = determinant;
+		
+		if(determinant < Doubles.MACHINE_EPSILON) {
+			sN = 0.0D;
+			sD = 1.0D;
+			
+			tN = e;
+			tD = c;
+		} else {
+			sN = b * e - c * d;
+			
+			tN = a * e - b * d;
+			
+			if(sN < 0.0D) {
+				sN = 0.0D;
+				
+				tN = e;
+				tD = c;
+			}
+		}
+		
+		if(tN < 0.0D) {
+			tN = 0.0D;
+			
+			if(-d < 0.0D) {
+				sN = 0.0D;
+			} else {
+				sN = -d;
+				sD = +a;
+			}
+		} else if(tN > tD) {
+			tN = tD;
+			
+			if(-d + b < 0.0D) {
+				sN = 0.0D;
+			} else {
+				sN = -d + b;
+				sD = a;
+			}
+		}
+		
+		final double sC = Doubles.abs(sN) < Doubles.MACHINE_EPSILON ? 0.0D : sN / sD;
+		final double tC = Doubles.abs(tN) < Doubles.MACHINE_EPSILON ? 0.0D : tN / tD;
+		
+		final Vector3D directionToClosestPoint = Vector3D.subtract(Vector3D.add(w, Vector3D.multiply(u, sC)), Vector3D.multiply(v, tC));
+		
+		if(Doubles.isZero(directionToClosestPoint.length())) {
+			final double t = sC;
+			
+			if(t <= tMinimum || t >= tMaximum) {
+				return Doubles.NaN;
+			}
+			
+			return t;
+		}
+		
+		return Doubles.NaN;
 	}
 	
 	/**
