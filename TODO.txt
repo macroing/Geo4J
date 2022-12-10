@@ -7,8 +7,6 @@ Add unit tests to LineSegment3F.
 Add unit tests to MortonCodes.
 Add unit tests to Quaternion4D.
 Add unit tests to Quaternion4F.
-Add unit tests to Shape2D.
-Add unit tests to Shape2F.
 Add unit tests to Shape3D.
 Add unit tests to Shape3F.
 Add unit tests to SurfaceIntersection3D.
@@ -67,15 +65,6 @@ Add the LeafBVHNode3D class.
 Add the LeafBVHNode3F class.
 Add the TreeBVHNode3D class.
 Add the TreeBVHNode3F class.
-
-
-
-Shape - Circle API:
-
-Add the Circle2D class.
-Add the Circle2DReader class.
-Add the Circle2F class.
-Add the Circle2FReader class.
 
 
 
@@ -194,10 +183,6 @@ Add the ProceduralTerrain3FReader class.
 
 Shape - Rectangle API:
 
-Add the Rectangle2D class.
-Add the Rectangle2DReader class.
-Add the Rectangle2F class.
-Add the Rectangle2FReader class.
 Add the Rectangle3D class.
 Add the Rectangle3DReader class.
 Add the Rectangle3F class.
