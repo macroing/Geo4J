@@ -469,47 +469,6 @@ public final class Point3FUnitTests {
 	}
 	
 	@Test
-	public void testOffset() {
-		final Point3F a = Point3F.offset(new Point3F(0.0F, 0.0F, 0.0F), new Vector3F(1.0F, 0.0F, 0.0F), new Vector3F(+1.0F, +0.0F, +0.0F), new Vector3F(1.0F, 0.0F, 0.0F));
-		final Point3F b = Point3F.offset(new Point3F(0.0F, 0.0F, 0.0F), new Vector3F(1.0F, 0.0F, 0.0F), new Vector3F(-1.0F, +0.0F, +0.0F), new Vector3F(1.0F, 0.0F, 0.0F));
-		
-		final Point3F c = Point3F.offset(new Point3F(0.0F, 0.0F, 0.0F), new Vector3F(0.0F, 1.0F, 0.0F), new Vector3F(+0.0F, +1.0F, +0.0F), new Vector3F(0.0F, 1.0F, 0.0F));
-		final Point3F d = Point3F.offset(new Point3F(0.0F, 0.0F, 0.0F), new Vector3F(0.0F, 1.0F, 0.0F), new Vector3F(+0.0F, -1.0F, +0.0F), new Vector3F(0.0F, 1.0F, 0.0F));
-		
-		final Point3F e = Point3F.offset(new Point3F(0.0F, 0.0F, 0.0F), new Vector3F(0.0F, 0.0F, 1.0F), new Vector3F(+0.0F, +0.0F, +1.0F), new Vector3F(0.0F, 0.0F, 1.0F));
-		final Point3F f = Point3F.offset(new Point3F(0.0F, 0.0F, 0.0F), new Vector3F(0.0F, 0.0F, 1.0F), new Vector3F(+0.0F, +0.0F, -1.0F), new Vector3F(0.0F, 0.0F, 1.0F));
-		
-		assertEquals(Math.nextUp  (1.0F), a.x);
-		assertEquals(Math.nextDown(0.0F), a.y);
-		assertEquals(Math.nextDown(0.0F), a.z);
-		
-		assertEquals(Math.nextDown(1.0F), b.x);
-		assertEquals(Math.nextDown(0.0F), b.y);
-		assertEquals(Math.nextDown(0.0F), b.z);
-		
-		assertEquals(Math.nextDown(0.0F), c.x);
-		assertEquals(Math.nextUp  (1.0F), c.y);
-		assertEquals(Math.nextDown(0.0F), c.z);
-		
-		assertEquals(Math.nextDown(0.0F), d.x);
-		assertEquals(Math.nextDown(1.0F), d.y);
-		assertEquals(Math.nextDown(0.0F), d.z);
-		
-		assertEquals(Math.nextDown(0.0F), e.x);
-		assertEquals(Math.nextDown(0.0F), e.y);
-		assertEquals(Math.nextUp  (1.0F), e.z);
-		
-		assertEquals(Math.nextDown(0.0F), f.x);
-		assertEquals(Math.nextDown(0.0F), f.y);
-		assertEquals(Math.nextDown(1.0F), f.z);
-		
-		assertThrows(NullPointerException.class, () -> Point3F.offset(new Point3F(0.0F, 0.0F, 0.0F), new Vector3F(1.0F, 0.0F, 0.0F), new Vector3F(1.0F, 0.0F, 0.0F), null));
-		assertThrows(NullPointerException.class, () -> Point3F.offset(new Point3F(0.0F, 0.0F, 0.0F), new Vector3F(1.0F, 0.0F, 0.0F), null, new Vector3F(1.0F, 0.0F, 0.0F)));
-		assertThrows(NullPointerException.class, () -> Point3F.offset(new Point3F(0.0F, 0.0F, 0.0F), null, new Vector3F(1.0F, 0.0F, 0.0F), new Vector3F(1.0F, 0.0F, 0.0F)));
-		assertThrows(NullPointerException.class, () -> Point3F.offset(null, new Vector3F(1.0F, 0.0F, 0.0F), new Vector3F(1.0F, 0.0F, 0.0F), new Vector3F(1.0F, 0.0F, 0.0F)));
-	}
-	
-	@Test
 	public void testRead() throws IOException {
 		final Point3F a = new Point3F(1.0F, 2.0F, 3.0F);
 		

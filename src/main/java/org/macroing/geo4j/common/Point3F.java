@@ -532,33 +532,6 @@ public final class Point3F {
 	}
 	
 	/**
-	 * Returns a {@code Point3F} offset from {@code point} based on {@code direction}, {@code normal} and {@code pointError}.
-	 * <p>
-	 * If either {@code point}, {@code direction}, {@code normal} or {@code pointError} are {@code null}, a {@code NullPointerException} will be thrown.
-	 * 
-	 * @param point the {@code Point3F} instance to offset
-	 * @param direction a {@link Vector3F} instance denoting a ray direction
-	 * @param normal a {@code Vector3F} instance denoting a normal
-	 * @param pointError a {@code Vector3F} instance that contains the precision error
-	 * @return a {@code Point3F} offset from {@code point} based on {@code direction}, {@code normal} and {@code pointError}
-	 * @throws NullPointerException thrown if, and only if, either {@code point}, {@code direction}, {@code normal} or {@code pointError} are {@code null}
-	 */
-	public static Point3F offset(final Point3F point, final Vector3F direction, final Vector3F normal, final Vector3F pointError) {
-		final float dotProduct = Vector3F.dotProduct(Vector3F.abs(normal), pointError);
-		
-		final Vector3F offset = Vector3F.multiply(normal, dotProduct);
-		final Vector3F offsetCorrectlyOriented = Vector3F.dotProduct(direction, normal) < 0.0F ? Vector3F.negate(offset) : offset;
-		
-		final Point3F pointOffset = add(point, offsetCorrectlyOriented);
-		
-		final float x = offset.x > 0.0F ? Floats.nextUp(pointOffset.x) : Floats.nextDown(pointOffset.x);
-		final float y = offset.y > 0.0F ? Floats.nextUp(pointOffset.y) : Floats.nextDown(pointOffset.y);
-		final float z = offset.z > 0.0F ? Floats.nextUp(pointOffset.z) : Floats.nextDown(pointOffset.z);
-		
-		return new Point3F(x, y, z);
-	}
-	
-	/**
 	 * Returns a new {@code Point3F} instance by reading it from {@code dataInput}.
 	 * <p>
 	 * If {@code dataInput} is {@code null}, a {@code NullPointerException} will be thrown.

@@ -532,33 +532,6 @@ public final class Point3D {
 	}
 	
 	/**
-	 * Returns a {@code Point3D} offset from {@code point} based on {@code direction}, {@code normal} and {@code pointError}.
-	 * <p>
-	 * If either {@code point}, {@code direction}, {@code normal} or {@code pointError} are {@code null}, a {@code NullPointerException} will be thrown.
-	 * 
-	 * @param point the {@code Point3D} instance to offset
-	 * @param direction a {@link Vector3D} instance denoting a ray direction
-	 * @param normal a {@code Vector3D} instance denoting a normal
-	 * @param pointError a {@code Vector3D} instance that contains the precision error
-	 * @return a {@code Point3D} offset from {@code point} based on {@code direction}, {@code normal} and {@code pointError}
-	 * @throws NullPointerException thrown if, and only if, either {@code point}, {@code direction}, {@code normal} or {@code pointError} are {@code null}
-	 */
-	public static Point3D offset(final Point3D point, final Vector3D direction, final Vector3D normal, final Vector3D pointError) {
-		final double dotProduct = Vector3D.dotProduct(Vector3D.abs(normal), pointError);
-		
-		final Vector3D offset = Vector3D.multiply(normal, dotProduct);
-		final Vector3D offsetCorrectlyOriented = Vector3D.dotProduct(direction, normal) < 0.0D ? Vector3D.negate(offset) : offset;
-		
-		final Point3D pointOffset = add(point, offsetCorrectlyOriented);
-		
-		final double x = offset.x > 0.0D ? Doubles.nextUp(pointOffset.x) : Doubles.nextDown(pointOffset.x);
-		final double y = offset.y > 0.0D ? Doubles.nextUp(pointOffset.y) : Doubles.nextDown(pointOffset.y);
-		final double z = offset.z > 0.0D ? Doubles.nextUp(pointOffset.z) : Doubles.nextDown(pointOffset.z);
-		
-		return new Point3D(x, y, z);
-	}
-	
-	/**
 	 * Returns a new {@code Point3D} instance by reading it from {@code dataInput}.
 	 * <p>
 	 * If {@code dataInput} is {@code null}, a {@code NullPointerException} will be thrown.
