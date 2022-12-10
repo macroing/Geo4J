@@ -26,6 +26,7 @@ import java.util.Objects;
 
 import org.macroing.java.lang.Doubles;
 import org.macroing.java.lang.Floats;
+import org.macroing.java.util.visitor.Node;
 
 /**
  * A {@code Point2I} represents a point with two {@code int}-based components.
@@ -35,7 +36,7 @@ import org.macroing.java.lang.Floats;
  * @since 1.0.0
  * @author J&#246;rgen Lundgren
  */
-public final class Point2I {
+public final class Point2I implements Node {
 	/**
 	 * A {@code Point2I} instance with the largest component values.
 	 */

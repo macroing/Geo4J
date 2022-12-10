@@ -42,8 +42,13 @@ import org.junit.jupiter.api.Test;
 
 import org.macroing.geo4j.common.Point2I;
 import org.macroing.geo4j.mock.DataOutputMock;
+import org.macroing.geo4j.mock.NodeHierarchicalVisitorMock;
+import org.macroing.geo4j.mock.NodeVisitorMock;
 import org.macroing.geo4j.shape.ls.LineSegment2I;
 import org.macroing.geo4j.shape.rectangle.Rectangle2I;
+import org.macroing.java.util.visitor.NodeHierarchicalVisitor;
+import org.macroing.java.util.visitor.NodeTraversalException;
+import org.macroing.java.util.visitor.NodeVisitor;
 
 @SuppressWarnings("static-method")
 public final class Triangle2IUnitTests {
@@ -52,6 +57,44 @@ public final class Triangle2IUnitTests {
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	@Test
+	public void testAcceptNodeHierarchicalVisitor() {
+		final Point2I a = new Point2I(10, 10);
+		final Point2I b = new Point2I(20, 10);
+		final Point2I c = new Point2I(20, 20);
+		
+		final Triangle2I triangle = new Triangle2I(a, b, c);
+		
+		final List<LineSegment2I> lineSegments = triangle.getLineSegments();
+		
+		final LineSegment2I lineSegment0 = lineSegments.get(0);
+		final LineSegment2I lineSegment1 = lineSegments.get(1);
+		final LineSegment2I lineSegment2 = lineSegments.get(2);
+		
+		final Rectangle2I rectangle = triangle.getRectangle();
+		
+		assertTrue(triangle.accept(new NodeHierarchicalVisitorMock(node -> false,                                                                                                                                                                                        node -> node.equals(triangle))));
+		assertTrue(triangle.accept(new NodeHierarchicalVisitorMock(node -> node.equals(triangle),                                                                                                                                                                        node -> node.equals(triangle))));
+		assertTrue(triangle.accept(new NodeHierarchicalVisitorMock(node -> node.equals(triangle) || node.equals(lineSegment0),                                                                                                                                           node -> node.equals(triangle) || node.equals(lineSegment0))));
+		assertTrue(triangle.accept(new NodeHierarchicalVisitorMock(node -> node.equals(triangle) || node.equals(lineSegment0) || node.equals(lineSegment1),                                                                                                              node -> node.equals(triangle) || node.equals(lineSegment0) || node.equals(lineSegment1))));
+		assertTrue(triangle.accept(new NodeHierarchicalVisitorMock(node -> node.equals(triangle) || node.equals(lineSegment0) || node.equals(lineSegment1) || node.equals(lineSegment2),                                                                                 node -> node.equals(triangle) || node.equals(lineSegment0) || node.equals(lineSegment1) || node.equals(lineSegment2))));
+		assertTrue(triangle.accept(new NodeHierarchicalVisitorMock(node -> node.equals(triangle) || node.equals(lineSegment0) || node.equals(lineSegment1) || node.equals(lineSegment2) || node.equals(a),                                                               node -> node.equals(triangle) || node.equals(lineSegment0) || node.equals(lineSegment1) || node.equals(lineSegment2) || node.equals(a))));
+		assertTrue(triangle.accept(new NodeHierarchicalVisitorMock(node -> node.equals(triangle) || node.equals(lineSegment0) || node.equals(lineSegment1) || node.equals(lineSegment2) || node.equals(a) || node.equals(b),                                             node -> node.equals(triangle) || node.equals(lineSegment0) || node.equals(lineSegment1) || node.equals(lineSegment2) || node.equals(a) || node.equals(b))));
+		assertTrue(triangle.accept(new NodeHierarchicalVisitorMock(node -> node.equals(triangle) || node.equals(lineSegment0) || node.equals(lineSegment1) || node.equals(lineSegment2) || node.equals(a) || node.equals(b) || node.equals(c),                           node -> node.equals(triangle) || node.equals(lineSegment0) || node.equals(lineSegment1) || node.equals(lineSegment2) || node.equals(a) || node.equals(b) || node.equals(c))));
+		assertTrue(triangle.accept(new NodeHierarchicalVisitorMock(node -> node.equals(triangle) || node.equals(lineSegment0) || node.equals(lineSegment1) || node.equals(lineSegment2) || node.equals(a) || node.equals(b) || node.equals(c) || node.equals(rectangle), node -> node.equals(triangle) || node.equals(lineSegment0) || node.equals(lineSegment1) || node.equals(lineSegment2) || node.equals(a) || node.equals(b) || node.equals(c) || node.equals(rectangle))));
+		
+		assertThrows(NodeTraversalException.class, () -> triangle.accept(new NodeHierarchicalVisitorMock(null, null)));
+		assertThrows(NullPointerException.class, () -> triangle.accept((NodeHierarchicalVisitor)(null)));
+	}
+	
+	@Test
+	public void testAcceptNodeVisitor() {
+		final Triangle2I triangle = new Triangle2I(new Point2I(10, 10), new Point2I(20, 10), new Point2I(20, 20));
+		
+		assertThrows(NodeTraversalException.class, () -> triangle.accept(new NodeVisitorMock(true)));
+		assertThrows(NullPointerException.class, () -> triangle.accept((NodeVisitor)(null)));
+	}
 	
 	@Test
 	public void testConstructorPoint2IPoint2IPoint2I() {

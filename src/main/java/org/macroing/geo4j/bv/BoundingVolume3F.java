@@ -18,8 +18,6 @@
  */
 package org.macroing.geo4j.bv;
 
-import java.lang.reflect.Field;//TODO: Add unit tests!
-
 import org.macroing.geo4j.common.Point3F;
 import org.macroing.geo4j.matrix.Matrix44F;
 import org.macroing.geo4j.ray.Ray3F;
@@ -134,7 +132,6 @@ public interface BoundingVolume3F extends BoundingVolume {
 	 * @return {@code true} if, and only if, {@code boundingVolume} intersects this {@code BoundingVolume3F} instance, {@code false} otherwise
 	 * @throws NullPointerException thrown if, and only if, {@code boundingVolume} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	default boolean intersects(final BoundingVolume3F boundingVolume) {
 		return contains(boundingVolume.getClosestPointTo(midpoint()));
 	}
@@ -152,7 +149,6 @@ public interface BoundingVolume3F extends BoundingVolume {
 	 * @return {@code true} if, and only if, {@code ray} intersects this {@code BoundingVolume3F} instance, {@code false} otherwise
 	 * @throws NullPointerException thrown if, and only if, {@code ray} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	default boolean intersects(final Ray3F ray, final float tMinimum, final float tMaximum) {
 		return !Floats.isNaN(intersection(ray, tMinimum, tMaximum));
 	}

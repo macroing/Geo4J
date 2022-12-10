@@ -26,6 +26,8 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.Objects;
 
+import org.macroing.java.util.visitor.Node;
+
 /**
  * A {@code BoundingVolume} represents a bounding volume.
  * <p>
@@ -34,7 +36,7 @@ import java.util.Objects;
  * @since 1.0.0
  * @author J&#246;rgen Lundgren
  */
-public interface BoundingVolume {
+public interface BoundingVolume extends Node {
 	/**
 	 * Returns a {@code String} with the name of this {@code BoundingVolume} instance.
 	 * 

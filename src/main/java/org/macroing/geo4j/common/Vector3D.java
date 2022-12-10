@@ -29,6 +29,7 @@ import java.util.Optional;
 
 import org.macroing.java.lang.Doubles;
 import org.macroing.java.lang.Strings;
+import org.macroing.java.util.visitor.Node;
 
 /**
  * A {@code Vector3D} represents a vector with three {@code double}-based components.
@@ -38,7 +39,7 @@ import org.macroing.java.lang.Strings;
  * @since 1.0.0
  * @author J&#246;rgen Lundgren
  */
-public final class Vector3D {
+public final class Vector3D implements Node {
 	/**
 	 * A {@code Vector3D} instance given the component values {@code Doubles.NaN}, {@code Doubles.NaN} and {@code Doubles.NaN}.
 	 */

@@ -37,6 +37,11 @@ import org.junit.jupiter.api.Test;
 import org.macroing.geo4j.common.Vector3F;
 import org.macroing.geo4j.matrix.Matrix44F;
 import org.macroing.geo4j.mock.DataOutputMock;
+import org.macroing.geo4j.mock.NodeHierarchicalVisitorMock;
+import org.macroing.geo4j.mock.NodeVisitorMock;
+import org.macroing.java.util.visitor.NodeHierarchicalVisitor;
+import org.macroing.java.util.visitor.NodeTraversalException;
+import org.macroing.java.util.visitor.NodeVisitor;
 
 @SuppressWarnings("static-method")
 public final class OrthonormalBasis33FUnitTests {
@@ -45,6 +50,36 @@ public final class OrthonormalBasis33FUnitTests {
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	@Test
+	public void testAcceptNodeHierarchicalVisitor() {
+		final Vector3F u = new Vector3F(1.0F, 0.0F, 0.0F);
+		final Vector3F v = new Vector3F(0.0F, 1.0F, 0.0F);
+		final Vector3F w = new Vector3F(0.0F, 0.0F, 1.0F);
+		
+		final OrthonormalBasis33F orthonormalBasis = new OrthonormalBasis33F(w, v, u);
+		
+		assertTrue(orthonormalBasis.accept(new NodeHierarchicalVisitorMock(node -> false,                                                                               node -> node.equals(orthonormalBasis))));
+		assertTrue(orthonormalBasis.accept(new NodeHierarchicalVisitorMock(node -> node.equals(orthonormalBasis),                                                       node -> node.equals(orthonormalBasis))));
+		assertTrue(orthonormalBasis.accept(new NodeHierarchicalVisitorMock(node -> node.equals(orthonormalBasis) || node.equals(u),                                     node -> node.equals(orthonormalBasis) || node.equals(u))));
+		assertTrue(orthonormalBasis.accept(new NodeHierarchicalVisitorMock(node -> node.equals(orthonormalBasis) || node.equals(u) || node.equals(v),                   node -> node.equals(orthonormalBasis) || node.equals(u) || node.equals(v))));
+		assertTrue(orthonormalBasis.accept(new NodeHierarchicalVisitorMock(node -> node.equals(orthonormalBasis) || node.equals(u) || node.equals(v) || node.equals(w), node -> node.equals(orthonormalBasis) || node.equals(u) || node.equals(v) || node.equals(w))));
+		
+		assertThrows(NodeTraversalException.class, () -> orthonormalBasis.accept(new NodeHierarchicalVisitorMock(null, null)));
+		assertThrows(NullPointerException.class, () -> orthonormalBasis.accept((NodeHierarchicalVisitor)(null)));
+	}
+	
+	@Test
+	public void testAcceptNodeVisitor() {
+		final Vector3F u = new Vector3F(1.0F, 0.0F, 0.0F);
+		final Vector3F v = new Vector3F(0.0F, 1.0F, 0.0F);
+		final Vector3F w = new Vector3F(0.0F, 0.0F, 1.0F);
+		
+		final OrthonormalBasis33F orthonormalBasis = new OrthonormalBasis33F(w, v, u);
+		
+		assertThrows(NodeTraversalException.class, () -> orthonormalBasis.accept(new NodeVisitorMock(true)));
+		assertThrows(NullPointerException.class, () -> orthonormalBasis.accept((NodeVisitor)(null)));
+	}
 	
 	@Test
 	public void testClearCacheAndGetCacheSizeAndGetCached() {

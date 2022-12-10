@@ -28,6 +28,7 @@ import java.util.Objects;
 
 import org.macroing.java.lang.Doubles;
 import org.macroing.java.lang.Strings;
+import org.macroing.java.util.visitor.Node;
 
 /**
  * A {@code Vector2D} represents a vector with two {@code double}-based components.
@@ -37,7 +38,7 @@ import org.macroing.java.lang.Strings;
  * @since 1.0.0
  * @author J&#246;rgen Lundgren
  */
-public final class Vector2D {
+public final class Vector2D implements Node {
 	/**
 	 * A {@code Vector2D} instance given the component values {@code Doubles.NaN} and {@code Doubles.NaN}.
 	 */

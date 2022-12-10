@@ -27,6 +27,7 @@ import java.util.Objects;
 
 import org.macroing.java.lang.Doubles;
 import org.macroing.java.lang.Strings;
+import org.macroing.java.util.visitor.Node;
 
 /**
  * An {@code AngleD} represents an angle and contains {@code double}-based values for both degrees and radians.
@@ -36,7 +37,7 @@ import org.macroing.java.lang.Strings;
  * @since 1.0.0
  * @author J&#246;rgen Lundgren
  */
-public final class AngleD {
+public final class AngleD implements Node {
 	private static final double DEGREES_MAXIMUM = 360.0D;
 	private static final double DEGREES_MAXIMUM_PITCH = 90.0D;
 	private static final double DEGREES_MINIMUM = 0.0D;

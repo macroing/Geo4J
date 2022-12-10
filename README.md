@@ -42,7 +42,7 @@ The following table describes the different APIs and their current status in the
 
 | Name                                          | Javadoc | Unit Test | Package                            |
 | --------------------------------------------- | ------- | --------- | ---------------------------------- |
-| Geo4J                                         | 100.0%  |  89.8%    | org.macroing.geo4j                 |
+| Geo4J                                         | 100.0%  |  90.1%    | org.macroing.geo4j                 |
 | Bounding Volume API                           | 100.0%  | 100.0%    | org.macroing.geo4j.bv              |
 | Bounding Volume Axis Aligned Bounding Box API | 100.0%  | 100.0%    | org.macroing.geo4j.bv.aabb         |
 | Bounding Volume Bounding Sphere API           | 100.0%  | 100.0%    | org.macroing.geo4j.bv.bs           |
@@ -54,7 +54,7 @@ The following table describes the different APIs and their current status in the
 | Ray API                                       | 100.0%  | 100.0%    | org.macroing.geo4j.ray             |
 | Shape API                                     | 100.0%  |  22.4%    | org.macroing.geo4j.shape           |
 | Shape Circle API                              | 100.0%  | 100.0%    | org.macroing.geo4j.shape.circle    |
-| Shape Line Segment API                        | 100.0%  |  97.4%    | org.macroing.geo4j.shape.ls        |
+| Shape Line Segment API                        | 100.0%  |  97.6%    | org.macroing.geo4j.shape.ls        |
 | Shape Polygon API                             | 100.0%  | 100.0%    | org.macroing.geo4j.shape.polygon   |
 | Shape Rectangle API                           | 100.0%  | 100.0%    | org.macroing.geo4j.shape.rectangle |
 | Shape Triangle API                            | 100.0%  | 100.0%    | org.macroing.geo4j.shape.triangle  |

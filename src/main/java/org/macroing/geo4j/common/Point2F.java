@@ -30,6 +30,7 @@ import org.macroing.java.lang.Floats;
 import org.macroing.java.lang.Strings;
 import org.macroing.java.util.Arrays;
 import org.macroing.java.util.Randoms;
+import org.macroing.java.util.visitor.Node;
 
 /**
  * A {@code Point2F} represents a point with two {@code float}-based components.
@@ -39,7 +40,7 @@ import org.macroing.java.util.Randoms;
  * @since 1.0.0
  * @author J&#246;rgen Lundgren
  */
-public final class Point2F {
+public final class Point2F implements Node {
 	/**
 	 * A {@code Point2F} instance with the largest component values.
 	 */

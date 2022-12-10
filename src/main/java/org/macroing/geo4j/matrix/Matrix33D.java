@@ -30,6 +30,7 @@ import org.macroing.geo4j.ray.Ray2D;
 import org.macroing.java.lang.Doubles;
 import org.macroing.java.lang.Ints;
 import org.macroing.java.lang.Strings;
+import org.macroing.java.util.visitor.Node;
 
 /**
  * A {@code Matrix33D} represents a 3 x 3 matrix with 9 {@code double}-based elements.
@@ -41,7 +42,7 @@ import org.macroing.java.lang.Strings;
  * @since 1.0.0
  * @author J&#246;rgen Lundgren
  */
-public final class Matrix33D {
+public final class Matrix33D implements Node {
 	/**
 	 * The offset for the element at index 0 or row 1 and column 1 in the {@code double[]}.
 	 */

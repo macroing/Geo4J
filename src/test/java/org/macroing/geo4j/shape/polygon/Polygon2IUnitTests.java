@@ -42,8 +42,13 @@ import org.junit.jupiter.api.Test;
 
 import org.macroing.geo4j.common.Point2I;
 import org.macroing.geo4j.mock.DataOutputMock;
+import org.macroing.geo4j.mock.NodeHierarchicalVisitorMock;
+import org.macroing.geo4j.mock.NodeVisitorMock;
 import org.macroing.geo4j.shape.ls.LineSegment2I;
 import org.macroing.geo4j.shape.rectangle.Rectangle2I;
+import org.macroing.java.util.visitor.NodeHierarchicalVisitor;
+import org.macroing.java.util.visitor.NodeTraversalException;
+import org.macroing.java.util.visitor.NodeVisitor;
 
 @SuppressWarnings("static-method")
 public final class Polygon2IUnitTests {
@@ -52,6 +57,48 @@ public final class Polygon2IUnitTests {
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	@Test
+	public void testAcceptNodeHierarchicalVisitor() {
+		final Point2I a = new Point2I(10, 10);
+		final Point2I b = new Point2I(20, 10);
+		final Point2I c = new Point2I(20, 20);
+		final Point2I d = new Point2I(10, 20);
+		
+		final Polygon2I polygon = new Polygon2I(a, b, c, d);
+		
+		final List<LineSegment2I> lineSegments = polygon.getLineSegments();
+		
+		final LineSegment2I lineSegment0 = lineSegments.get(0);
+		final LineSegment2I lineSegment1 = lineSegments.get(1);
+		final LineSegment2I lineSegment2 = lineSegments.get(2);
+		final LineSegment2I lineSegment3 = lineSegments.get(3);
+		
+		final Rectangle2I rectangle = polygon.getRectangle();
+		
+		assertTrue(polygon.accept(new NodeHierarchicalVisitorMock(node -> false,                                                                                                                                                                                                                                      node -> node.equals(polygon))));
+		assertTrue(polygon.accept(new NodeHierarchicalVisitorMock(node -> node.equals(polygon),                                                                                                                                                                                                                       node -> node.equals(polygon))));
+		assertTrue(polygon.accept(new NodeHierarchicalVisitorMock(node -> node.equals(polygon) || node.equals(lineSegment0),                                                                                                                                                                                          node -> node.equals(polygon) || node.equals(lineSegment0))));
+		assertTrue(polygon.accept(new NodeHierarchicalVisitorMock(node -> node.equals(polygon) || node.equals(lineSegment0) || node.equals(lineSegment1),                                                                                                                                                             node -> node.equals(polygon) || node.equals(lineSegment0) || node.equals(lineSegment1))));
+		assertTrue(polygon.accept(new NodeHierarchicalVisitorMock(node -> node.equals(polygon) || node.equals(lineSegment0) || node.equals(lineSegment1) || node.equals(lineSegment2),                                                                                                                                node -> node.equals(polygon) || node.equals(lineSegment0) || node.equals(lineSegment1) || node.equals(lineSegment2))));
+		assertTrue(polygon.accept(new NodeHierarchicalVisitorMock(node -> node.equals(polygon) || node.equals(lineSegment0) || node.equals(lineSegment1) || node.equals(lineSegment2) || node.equals(lineSegment3),                                                                                                   node -> node.equals(polygon) || node.equals(lineSegment0) || node.equals(lineSegment1) || node.equals(lineSegment2) || node.equals(lineSegment3))));
+		assertTrue(polygon.accept(new NodeHierarchicalVisitorMock(node -> node.equals(polygon) || node.equals(lineSegment0) || node.equals(lineSegment1) || node.equals(lineSegment2) || node.equals(lineSegment3) || node.equals(a),                                                                                 node -> node.equals(polygon) || node.equals(lineSegment0) || node.equals(lineSegment1) || node.equals(lineSegment2) || node.equals(lineSegment3) || node.equals(a))));
+		assertTrue(polygon.accept(new NodeHierarchicalVisitorMock(node -> node.equals(polygon) || node.equals(lineSegment0) || node.equals(lineSegment1) || node.equals(lineSegment2) || node.equals(lineSegment3) || node.equals(a) || node.equals(b),                                                               node -> node.equals(polygon) || node.equals(lineSegment0) || node.equals(lineSegment1) || node.equals(lineSegment2) || node.equals(lineSegment3) || node.equals(a) || node.equals(b))));
+		assertTrue(polygon.accept(new NodeHierarchicalVisitorMock(node -> node.equals(polygon) || node.equals(lineSegment0) || node.equals(lineSegment1) || node.equals(lineSegment2) || node.equals(lineSegment3) || node.equals(a) || node.equals(b) || node.equals(c),                                             node -> node.equals(polygon) || node.equals(lineSegment0) || node.equals(lineSegment1) || node.equals(lineSegment2) || node.equals(lineSegment3) || node.equals(a) || node.equals(b) || node.equals(c))));
+		assertTrue(polygon.accept(new NodeHierarchicalVisitorMock(node -> node.equals(polygon) || node.equals(lineSegment0) || node.equals(lineSegment1) || node.equals(lineSegment2) || node.equals(lineSegment3) || node.equals(a) || node.equals(b) || node.equals(c) || node.equals(d),                           node -> node.equals(polygon) || node.equals(lineSegment0) || node.equals(lineSegment1) || node.equals(lineSegment2) || node.equals(lineSegment3) || node.equals(a) || node.equals(b) || node.equals(c) || node.equals(d))));
+		assertTrue(polygon.accept(new NodeHierarchicalVisitorMock(node -> node.equals(polygon) || node.equals(lineSegment0) || node.equals(lineSegment1) || node.equals(lineSegment2) || node.equals(lineSegment3) || node.equals(a) || node.equals(b) || node.equals(c) || node.equals(d) || node.equals(rectangle), node -> node.equals(polygon) || node.equals(lineSegment0) || node.equals(lineSegment1) || node.equals(lineSegment2) || node.equals(lineSegment3) || node.equals(a) || node.equals(b) || node.equals(c) || node.equals(d) || node.equals(rectangle))));
+		
+		assertThrows(NodeTraversalException.class, () -> polygon.accept(new NodeHierarchicalVisitorMock(null, null)));
+		assertThrows(NullPointerException.class, () -> polygon.accept((NodeHierarchicalVisitor)(null)));
+	}
+	
+	@Test
+	public void testAcceptNodeVisitor() {
+		final Polygon2I polygon = new Polygon2I(new Point2I(10, 10), new Point2I(20, 10), new Point2I(20, 20), new Point2I(10, 20));
+		
+		assertThrows(NodeTraversalException.class, () -> polygon.accept(new NodeVisitorMock(true)));
+		assertThrows(NullPointerException.class, () -> polygon.accept((NodeVisitor)(null)));
+	}
 	
 	@Test
 	public void testConstructorPoint2Is() {

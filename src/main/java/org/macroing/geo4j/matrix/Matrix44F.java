@@ -30,6 +30,7 @@ import org.macroing.geo4j.ray.Ray3F;
 import org.macroing.java.lang.Floats;
 import org.macroing.java.lang.Ints;
 import org.macroing.java.lang.Strings;
+import org.macroing.java.util.visitor.Node;
 
 /**
  * A {@code Matrix44F} represents a 4 x 4 matrix with 16 {@code float}-based elements.
@@ -53,7 +54,7 @@ import org.macroing.java.lang.Strings;
  * @since 1.0.0
  * @author J&#246;rgen Lundgren
  */
-public final class Matrix44F {
+public final class Matrix44F implements Node {
 	/**
 	 * The offset for the element at index 0 or row 1 and column 1 in the {@code float[]}.
 	 */

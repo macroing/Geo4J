@@ -37,6 +37,11 @@ import org.junit.jupiter.api.Test;
 import org.macroing.geo4j.common.Point3D;
 import org.macroing.geo4j.common.Vector3D;
 import org.macroing.geo4j.mock.DataOutputMock;
+import org.macroing.geo4j.mock.NodeHierarchicalVisitorMock;
+import org.macroing.geo4j.mock.NodeVisitorMock;
+import org.macroing.java.util.visitor.NodeHierarchicalVisitor;
+import org.macroing.java.util.visitor.NodeTraversalException;
+import org.macroing.java.util.visitor.NodeVisitor;
 
 @SuppressWarnings("static-method")
 public final class Ray3DUnitTests {
@@ -45,6 +50,35 @@ public final class Ray3DUnitTests {
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	@Test
+	public void testAcceptNodeHierarchicalVisitor() {
+		final Point3D origin = new Point3D(0.0D, 1.0D, 2.0D);
+		
+		final Vector3D direction = new Vector3D(1.0D, 0.0D, 0.0D);
+		
+		final Ray3D ray = new Ray3D(origin, direction);
+		
+		assertTrue(ray.accept(new NodeHierarchicalVisitorMock(node -> false,                                                             node -> node.equals(ray))));
+		assertTrue(ray.accept(new NodeHierarchicalVisitorMock(node -> node.equals(ray),                                                  node -> node.equals(ray))));
+		assertTrue(ray.accept(new NodeHierarchicalVisitorMock(node -> node.equals(ray) || node.equals(origin),                           node -> node.equals(ray) || node.equals(origin))));
+		assertTrue(ray.accept(new NodeHierarchicalVisitorMock(node -> node.equals(ray) || node.equals(origin) || node.equals(direction), node -> node.equals(ray) || node.equals(origin) || node.equals(direction))));
+		
+		assertThrows(NodeTraversalException.class, () -> ray.accept(new NodeHierarchicalVisitorMock(null, null)));
+		assertThrows(NullPointerException.class, () -> ray.accept((NodeHierarchicalVisitor)(null)));
+	}
+	
+	@Test
+	public void testAcceptNodeVisitor() {
+		final Point3D origin = new Point3D(0.0D, 1.0D, 2.0D);
+		
+		final Vector3D direction = new Vector3D(1.0D, 0.0D, 0.0D);
+		
+		final Ray3D ray = new Ray3D(origin, direction);
+		
+		assertThrows(NodeTraversalException.class, () -> ray.accept(new NodeVisitorMock(true)));
+		assertThrows(NullPointerException.class, () -> ray.accept((NodeVisitor)(null)));
+	}
 	
 	@Test
 	public void testConstructor() {

@@ -26,6 +26,8 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.Objects;
 
+import org.macroing.java.util.visitor.Node;
+
 /**
  * A {@code Shape} represents a shape.
  * <p>
@@ -34,7 +36,7 @@ import java.util.Objects;
  * @since 1.0.0
  * @author J&#246;rgen Lundgren
  */
-public interface Shape {
+public interface Shape extends Node {
 	/**
 	 * Returns a {@code String} with the name of this {@code Shape} instance.
 	 * 

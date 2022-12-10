@@ -30,6 +30,7 @@ import org.macroing.java.lang.Floats;
 import org.macroing.java.lang.Ints;
 import org.macroing.java.lang.Strings;
 import org.macroing.java.util.Arrays;
+import org.macroing.java.util.visitor.Node;
 
 /**
  * A {@code Point3F} represents a point with three {@code float}-based components.
@@ -39,7 +40,7 @@ import org.macroing.java.util.Arrays;
  * @since 1.0.0
  * @author J&#246;rgen Lundgren
  */
-public final class Point3F {
+public final class Point3F implements Node {
 	/**
 	 * A {@code Point3F} instance with the largest component values.
 	 */

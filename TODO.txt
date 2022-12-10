@@ -2,12 +2,8 @@ Unit Tests:
 
 Add unit tests to AngleD.
 Add unit tests to AngleF.
-Add unit tests to BoundingVolume3D.
-Add unit tests to BoundingVolume3F.
 Add unit tests to LineSegment3D.
 Add unit tests to LineSegment3F.
-Add unit tests to Matrix44D.
-Add unit tests to Matrix44F.
 Add unit tests to MortonCodes.
 Add unit tests to Quaternion4D.
 Add unit tests to Quaternion4F.
@@ -19,12 +15,6 @@ Add unit tests to SurfaceIntersection3D.
 Add unit tests to SurfaceIntersection3F.
 Add unit tests to SurfaceIntersector3D.
 Add unit tests to SurfaceIntersector3F.
-Add unit tests to SurfaceSample3D.
-Add unit tests to SurfaceSample3F.
-
-
-
-Add support for the Visitor API from Macroing Java.
 
 
 

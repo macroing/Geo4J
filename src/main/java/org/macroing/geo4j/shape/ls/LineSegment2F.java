@@ -30,6 +30,8 @@ import org.macroing.geo4j.shape.Shape2F;
 import org.macroing.java.lang.Floats;
 import org.macroing.java.lang.Ints;
 import org.macroing.java.util.Arrays;
+import org.macroing.java.util.visitor.NodeHierarchicalVisitor;
+import org.macroing.java.util.visitor.NodeTraversalException;
 
 /**
  * A {@code LineSegment2F} is an implementation of {@link Shape2F} that represents a line segment.
@@ -109,6 +111,48 @@ public final class LineSegment2F implements Shape2F {
 	@Override
 	public String toString() {
 		return String.format("new LineSegment2F(%s, %s)", this.a, this.b);
+	}
+	
+	/**
+	 * Accepts a {@link NodeHierarchicalVisitor}.
+	 * <p>
+	 * Returns the result of {@code nodeHierarchicalVisitor.visitLeave(this)}.
+	 * <p>
+	 * If {@code nodeHierarchicalVisitor} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * If a {@code RuntimeException} is thrown by the current {@code NodeHierarchicalVisitor}, a {@code NodeTraversalException} will be thrown with the {@code RuntimeException} wrapped.
+	 * <p>
+	 * This implementation will:
+	 * <ul>
+	 * <li>throw a {@code NullPointerException} if {@code nodeHierarchicalVisitor} is {@code null}.</li>
+	 * <li>throw a {@code NodeTraversalException} if {@code nodeHierarchicalVisitor} throws a {@code RuntimeException}.</li>
+	 * <li>traverse its child {@code Node} instances.</li>
+	 * </ul>
+	 * 
+	 * @param nodeHierarchicalVisitor the {@code NodeHierarchicalVisitor} to accept
+	 * @return the result of {@code nodeHierarchicalVisitor.visitLeave(this)}
+	 * @throws NodeTraversalException thrown if, and only if, a {@code RuntimeException} is thrown by the current {@code NodeHierarchicalVisitor}
+	 * @throws NullPointerException thrown if, and only if, {@code nodeHierarchicalVisitor} is {@code null}
+	 */
+	@Override
+	public boolean accept(final NodeHierarchicalVisitor nodeHierarchicalVisitor) {
+		Objects.requireNonNull(nodeHierarchicalVisitor, "nodeHierarchicalVisitor == null");
+		
+		try {
+			if(nodeHierarchicalVisitor.visitEnter(this)) {
+				if(!this.a.accept(nodeHierarchicalVisitor)) {
+					return nodeHierarchicalVisitor.visitLeave(this);
+				}
+				
+				if(!this.b.accept(nodeHierarchicalVisitor)) {
+					return nodeHierarchicalVisitor.visitLeave(this);
+				}
+			}
+			
+			return nodeHierarchicalVisitor.visitLeave(this);
+		} catch(final RuntimeException e) {
+			throw new NodeTraversalException(e);
+		}
 	}
 	
 	/**

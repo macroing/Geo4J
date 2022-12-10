@@ -28,6 +28,7 @@ import java.util.Objects;
 
 import org.macroing.java.lang.Floats;
 import org.macroing.java.lang.Strings;
+import org.macroing.java.util.visitor.Node;
 
 /**
  * A {@code Vector2F} represents a vector with two {@code float}-based components.
@@ -37,7 +38,7 @@ import org.macroing.java.lang.Strings;
  * @since 1.0.0
  * @author J&#246;rgen Lundgren
  */
-public final class Vector2F {
+public final class Vector2F implements Node {
 	/**
 	 * A {@code Vector2F} instance given the component values {@code Floats.NaN} and {@code Floats.NaN}.
 	 */

@@ -29,6 +29,7 @@ import org.macroing.geo4j.common.Vector3F;
 import org.macroing.geo4j.matrix.Matrix44F;
 import org.macroing.java.lang.Floats;
 import org.macroing.java.lang.Strings;
+import org.macroing.java.util.visitor.Node;
 
 /**
  * A {@code Quaternion4F} represents a quaternion with four {@code float}-based components.
@@ -38,7 +39,7 @@ import org.macroing.java.lang.Strings;
  * @since 1.0.0
  * @author J&#246;rgen Lundgren
  */
-public final class Quaternion4F {
+public final class Quaternion4F implements Node {
 	/**
 	 * The W-component of this {@code Quaternion4F} instance.
 	 */

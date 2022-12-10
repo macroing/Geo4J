@@ -42,7 +42,12 @@ import org.junit.jupiter.api.Test;
 
 import org.macroing.geo4j.common.Point2I;
 import org.macroing.geo4j.mock.DataOutputMock;
+import org.macroing.geo4j.mock.NodeHierarchicalVisitorMock;
+import org.macroing.geo4j.mock.NodeVisitorMock;
 import org.macroing.geo4j.shape.Shape2I;
+import org.macroing.java.util.visitor.NodeHierarchicalVisitor;
+import org.macroing.java.util.visitor.NodeTraversalException;
+import org.macroing.java.util.visitor.NodeVisitor;
 
 @SuppressWarnings("static-method")
 public final class Circle2IUnitTests {
@@ -51,6 +56,28 @@ public final class Circle2IUnitTests {
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	@Test
+	public void testAcceptNodeHierarchicalVisitor() {
+		final Point2I center = new Point2I(10, 10);
+		
+		final Circle2I circle = new Circle2I(center, 20);
+		
+		assertTrue(circle.accept(new NodeHierarchicalVisitorMock(node -> false,                                      node -> node.equals(circle))));
+		assertTrue(circle.accept(new NodeHierarchicalVisitorMock(node -> node.equals(circle),                        node -> node.equals(circle))));
+		assertTrue(circle.accept(new NodeHierarchicalVisitorMock(node -> node.equals(circle) || node.equals(center), node -> node.equals(circle) || node.equals(center))));
+		
+		assertThrows(NodeTraversalException.class, () -> circle.accept(new NodeHierarchicalVisitorMock(null, null)));
+		assertThrows(NullPointerException.class, () -> circle.accept((NodeHierarchicalVisitor)(null)));
+	}
+	
+	@Test
+	public void testAcceptNodeVisitor() {
+		final Circle2I circle = new Circle2I();
+		
+		assertThrows(NodeTraversalException.class, () -> circle.accept(new NodeVisitorMock(true)));
+		assertThrows(NullPointerException.class, () -> circle.accept((NodeVisitor)(null)));
+	}
 	
 	@Test
 	public void testConstructor() {

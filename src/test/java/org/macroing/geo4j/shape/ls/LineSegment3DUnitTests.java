@@ -40,7 +40,12 @@ import org.macroing.geo4j.bv.aabb.AxisAlignedBoundingBox3D;
 import org.macroing.geo4j.common.Point3D;
 import org.macroing.geo4j.common.Vector3D;
 import org.macroing.geo4j.mock.DataOutputMock;
+import org.macroing.geo4j.mock.NodeHierarchicalVisitorMock;
+import org.macroing.geo4j.mock.NodeVisitorMock;
 import org.macroing.geo4j.ray.Ray3D;
+import org.macroing.java.util.visitor.NodeHierarchicalVisitor;
+import org.macroing.java.util.visitor.NodeTraversalException;
+import org.macroing.java.util.visitor.NodeVisitor;
 
 @SuppressWarnings("static-method")
 public final class LineSegment3DUnitTests {
@@ -49,6 +54,30 @@ public final class LineSegment3DUnitTests {
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	@Test
+	public void testAcceptNodeHierarchicalVisitor() {
+		final Point3D a = new Point3D(10.0D, 10.0D, 10.0D);
+		final Point3D b = new Point3D(20.0D, 10.0D, 10.0D);
+		
+		final LineSegment3D lineSegment = new LineSegment3D(a, b);
+		
+		assertTrue(lineSegment.accept(new NodeHierarchicalVisitorMock(node -> false,                                                        node -> node.equals(lineSegment))));
+		assertTrue(lineSegment.accept(new NodeHierarchicalVisitorMock(node -> node.equals(lineSegment),                                     node -> node.equals(lineSegment))));
+		assertTrue(lineSegment.accept(new NodeHierarchicalVisitorMock(node -> node.equals(lineSegment) || node.equals(a),                   node -> node.equals(lineSegment) || node.equals(a))));
+		assertTrue(lineSegment.accept(new NodeHierarchicalVisitorMock(node -> node.equals(lineSegment) || node.equals(a) || node.equals(b), node -> node.equals(lineSegment) || node.equals(a) || node.equals(b))));
+		
+		assertThrows(NodeTraversalException.class, () -> lineSegment.accept(new NodeHierarchicalVisitorMock(null, null)));
+		assertThrows(NullPointerException.class, () -> lineSegment.accept((NodeHierarchicalVisitor)(null)));
+	}
+	
+	@Test
+	public void testAcceptNodeVisitor() {
+		final LineSegment3D lineSegment = new LineSegment3D(new Point3D(10.0D, 10.0D, 10.0D), new Point3D(20.0D, 10.0D, 10.0D));
+		
+		assertThrows(NodeTraversalException.class, () -> lineSegment.accept(new NodeVisitorMock(true)));
+		assertThrows(NullPointerException.class, () -> lineSegment.accept((NodeVisitor)(null)));
+	}
 	
 	@Test
 	public void testConstants() {

@@ -38,7 +38,12 @@ import org.macroing.geo4j.common.Point3D;
 import org.macroing.geo4j.common.Vector3D;
 import org.macroing.geo4j.matrix.Matrix44D;
 import org.macroing.geo4j.mock.DataOutputMock;
+import org.macroing.geo4j.mock.NodeHierarchicalVisitorMock;
+import org.macroing.geo4j.mock.NodeVisitorMock;
 import org.macroing.geo4j.ray.Ray3D;
+import org.macroing.java.util.visitor.NodeHierarchicalVisitor;
+import org.macroing.java.util.visitor.NodeTraversalException;
+import org.macroing.java.util.visitor.NodeVisitor;
 
 @SuppressWarnings("static-method")
 public final class BoundingSphere3DUnitTests {
@@ -47,6 +52,28 @@ public final class BoundingSphere3DUnitTests {
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	@Test
+	public void testAcceptNodeHierarchicalVisitor() {
+		final Point3D center = new Point3D(0.0D, 1.0D, 2.0D);
+		
+		final BoundingSphere3D boundingSphere = new BoundingSphere3D(1.0D, center);
+		
+		assertTrue(boundingSphere.accept(new NodeHierarchicalVisitorMock(node -> false,                                              node -> node.equals(boundingSphere))));
+		assertTrue(boundingSphere.accept(new NodeHierarchicalVisitorMock(node -> node.equals(boundingSphere),                        node -> node.equals(boundingSphere))));
+		assertTrue(boundingSphere.accept(new NodeHierarchicalVisitorMock(node -> node.equals(boundingSphere) || node.equals(center), node -> node.equals(boundingSphere) || node.equals(center))));
+		
+		assertThrows(NodeTraversalException.class, () -> boundingSphere.accept(new NodeHierarchicalVisitorMock(null, null)));
+		assertThrows(NullPointerException.class, () -> boundingSphere.accept((NodeHierarchicalVisitor)(null)));
+	}
+	
+	@Test
+	public void testAcceptNodeVisitor() {
+		final BoundingSphere3D boundingSphere = new BoundingSphere3D();
+		
+		assertThrows(NodeTraversalException.class, () -> boundingSphere.accept(new NodeVisitorMock(true)));
+		assertThrows(NullPointerException.class, () -> boundingSphere.accept((NodeVisitor)(null)));
+	}
 	
 	@Test
 	public void testConstants() {

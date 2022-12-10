@@ -29,6 +29,7 @@ import org.macroing.geo4j.common.Vector3D;
 import org.macroing.geo4j.matrix.Matrix44D;
 import org.macroing.java.lang.Doubles;
 import org.macroing.java.lang.Strings;
+import org.macroing.java.util.visitor.Node;
 
 /**
  * A {@code Quaternion4D} represents a quaternion with four {@code double}-based components.
@@ -38,7 +39,7 @@ import org.macroing.java.lang.Strings;
  * @since 1.0.0
  * @author J&#246;rgen Lundgren
  */
-public final class Quaternion4D {
+public final class Quaternion4D implements Node {
 	/**
 	 * The W-component of this {@code Quaternion4D} instance.
 	 */

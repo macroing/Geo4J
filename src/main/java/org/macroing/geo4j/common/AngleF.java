@@ -27,6 +27,7 @@ import java.util.Objects;
 
 import org.macroing.java.lang.Floats;
 import org.macroing.java.lang.Strings;
+import org.macroing.java.util.visitor.Node;
 
 /**
  * An {@code AngleF} represents an angle and contains {@code float}-based values for both degrees and radians.
@@ -36,7 +37,7 @@ import org.macroing.java.lang.Strings;
  * @since 1.0.0
  * @author J&#246;rgen Lundgren
  */
-public final class AngleF {
+public final class AngleF implements Node {
 	private static final float DEGREES_MAXIMUM = 360.0F;
 	private static final float DEGREES_MAXIMUM_PITCH = 90.0F;
 	private static final float DEGREES_MINIMUM = 0.0F;

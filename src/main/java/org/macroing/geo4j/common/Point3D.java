@@ -30,6 +30,7 @@ import org.macroing.java.lang.Doubles;
 import org.macroing.java.lang.Ints;
 import org.macroing.java.lang.Strings;
 import org.macroing.java.util.Arrays;
+import org.macroing.java.util.visitor.Node;
 
 /**
  * A {@code Point3D} represents a point with three {@code double}-based components.
@@ -39,7 +40,7 @@ import org.macroing.java.util.Arrays;
  * @since 1.0.0
  * @author J&#246;rgen Lundgren
  */
-public final class Point3D {
+public final class Point3D implements Node {
 	/**
 	 * A {@code Point3D} instance with the largest component values.
 	 */

@@ -39,7 +39,12 @@ import org.macroing.geo4j.common.Point3F;
 import org.macroing.geo4j.common.Vector3F;
 import org.macroing.geo4j.matrix.Matrix44F;
 import org.macroing.geo4j.mock.DataOutputMock;
+import org.macroing.geo4j.mock.NodeHierarchicalVisitorMock;
+import org.macroing.geo4j.mock.NodeVisitorMock;
 import org.macroing.geo4j.ray.Ray3F;
+import org.macroing.java.util.visitor.NodeHierarchicalVisitor;
+import org.macroing.java.util.visitor.NodeTraversalException;
+import org.macroing.java.util.visitor.NodeVisitor;
 
 @SuppressWarnings("static-method")
 public final class AxisAlignedBoundingBox3FUnitTests {
@@ -48,6 +53,30 @@ public final class AxisAlignedBoundingBox3FUnitTests {
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	@Test
+	public void testAcceptNodeHierarchicalVisitor() {
+		final Point3F maximum = new Point3F(+1.0F, +1.0F, +1.0F);
+		final Point3F minimum = new Point3F(-1.0F, -1.0F, -1.0F);
+		
+		final AxisAlignedBoundingBox3F axisAlignedBoundingBox = new AxisAlignedBoundingBox3F(maximum, minimum);
+		
+		assertTrue(axisAlignedBoundingBox.accept(new NodeHierarchicalVisitorMock(node -> false,                                                                               node -> node.equals(axisAlignedBoundingBox))));
+		assertTrue(axisAlignedBoundingBox.accept(new NodeHierarchicalVisitorMock(node -> node.equals(axisAlignedBoundingBox),                                                 node -> node.equals(axisAlignedBoundingBox))));
+		assertTrue(axisAlignedBoundingBox.accept(new NodeHierarchicalVisitorMock(node -> node.equals(axisAlignedBoundingBox) || node.equals(maximum),                         node -> node.equals(axisAlignedBoundingBox) || node.equals(maximum))));
+		assertTrue(axisAlignedBoundingBox.accept(new NodeHierarchicalVisitorMock(node -> node.equals(axisAlignedBoundingBox) || node.equals(maximum) || node.equals(minimum), node -> node.equals(axisAlignedBoundingBox) || node.equals(maximum) || node.equals(minimum))));
+		
+		assertThrows(NodeTraversalException.class, () -> axisAlignedBoundingBox.accept(new NodeHierarchicalVisitorMock(null, null)));
+		assertThrows(NullPointerException.class, () -> axisAlignedBoundingBox.accept((NodeHierarchicalVisitor)(null)));
+	}
+	
+	@Test
+	public void testAcceptNodeVisitor() {
+		final AxisAlignedBoundingBox3F axisAlignedBoundingBox = new AxisAlignedBoundingBox3F();
+		
+		assertThrows(NodeTraversalException.class, () -> axisAlignedBoundingBox.accept(new NodeVisitorMock(true)));
+		assertThrows(NullPointerException.class, () -> axisAlignedBoundingBox.accept((NodeVisitor)(null)));
+	}
 	
 	@Test
 	public void testConstants() {
