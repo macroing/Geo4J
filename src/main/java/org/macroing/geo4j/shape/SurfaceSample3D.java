@@ -44,7 +44,6 @@ public final class SurfaceSample3D {
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	private final Point3D point;
-	private final Vector3D pointError;
 	private final Vector3D surfaceNormal;
 	private final double probabilityDensityFunctionValue;
 	
@@ -53,17 +52,15 @@ public final class SurfaceSample3D {
 	/**
 	 * Constructs a new {@code SurfaceSample3D} instance.
 	 * <p>
-	 * If either {@code point}, {@code pointError} or {@code surfaceNormal} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * If either {@code point} or {@code surfaceNormal} are {@code null}, a {@code NullPointerException} will be thrown.
 	 * 
 	 * @param point the sampled point
-	 * @param pointError the {@link Vector3D} instance that contains the floating-point precision error of {@code point}
 	 * @param surfaceNormal the sampled surface normal
 	 * @param probabilityDensityFunctionValue the sampled probability density function (PDF) value
-	 * @throws NullPointerException thrown if, and only if, either {@code point}, {@code pointError} or {@code surfaceNormal} are {@code null}
+	 * @throws NullPointerException thrown if, and only if, either {@code point} or {@code surfaceNormal} are {@code null}
 	 */
-	public SurfaceSample3D(final Point3D point, final Vector3D pointError, final Vector3D surfaceNormal, final double probabilityDensityFunctionValue) {
+	public SurfaceSample3D(final Point3D point, final Vector3D surfaceNormal, final double probabilityDensityFunctionValue) {
 		this.point = Objects.requireNonNull(point, "point == null");
-		this.pointError = Objects.requireNonNull(pointError, "pointError == null");
 		this.surfaceNormal = Vector3D.normalize(Objects.requireNonNull(surfaceNormal, "surfaceNormal == null"));
 		this.probabilityDensityFunctionValue = probabilityDensityFunctionValue;
 	}
@@ -86,16 +83,7 @@ public final class SurfaceSample3D {
 	 */
 	@Override
 	public String toString() {
-		return String.format("new SurfaceSample3D(%s, %s, %s, %s)", this.point, this.pointError, this.surfaceNormal, Strings.toNonScientificNotationJava(this.probabilityDensityFunctionValue));
-	}
-	
-	/**
-	 * Returns the {@link Vector3D} instance that contains the floating-point precision error of the point.
-	 * 
-	 * @return the {@code Vector3D} instance that contains the floating-point precision error of the point
-	 */
-	public Vector3D getPointError() {
-		return this.pointError;
+		return String.format("new SurfaceSample3D(%s, %s, %s)", this.point, this.surfaceNormal, Strings.toNonScientificNotationJava(this.probabilityDensityFunctionValue));
 	}
 	
 	/**
@@ -123,8 +111,6 @@ public final class SurfaceSample3D {
 			return false;
 		} else if(!(Objects.equals(this.point, SurfaceSample3D.class.cast(object).point))) {
 			return false;
-		} else if(!Objects.equals(this.pointError, SurfaceSample3D.class.cast(object).pointError)) {
-			return false;
 		} else if(!Objects.equals(this.surfaceNormal, SurfaceSample3D.class.cast(object).surfaceNormal)) {
 			return false;
 		} else if(!Doubles.equals(this.probabilityDensityFunctionValue, SurfaceSample3D.class.cast(object).probabilityDensityFunctionValue)) {
@@ -150,7 +136,7 @@ public final class SurfaceSample3D {
 	 */
 	@Override
 	public int hashCode() {
-		return Objects.hash(this.point, this.pointError, this.surfaceNormal, Double.valueOf(this.probabilityDensityFunctionValue));
+		return Objects.hash(this.point, this.surfaceNormal, Double.valueOf(this.probabilityDensityFunctionValue));
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -198,14 +184,11 @@ public final class SurfaceSample3D {
 		final Point3D pointOldSpace = surfaceSample.point;
 		final Point3D pointNewSpace = matrix.transformAndDivide(pointOldSpace);
 		
-		final Vector3D pointErrorOldSpace = surfaceSample.pointError;
-		final Vector3D pointErrorNewSpace = matrix.transformError(pointOldSpace, pointErrorOldSpace);
-		
 		final Vector3D surfaceNormalOldSpace = surfaceSample.surfaceNormal;
 		final Vector3D surfaceNormalNewSpace = Vector3D.normalize(matrixInverse.transformTranspose(surfaceNormalOldSpace));
 		
 		final double probabilityDensityFunctionValue = surfaceSample.probabilityDensityFunctionValue;
 		
-		return new SurfaceSample3D(pointNewSpace, pointErrorNewSpace, surfaceNormalNewSpace, probabilityDensityFunctionValue);
+		return new SurfaceSample3D(pointNewSpace, surfaceNormalNewSpace, probabilityDensityFunctionValue);
 	}
 }

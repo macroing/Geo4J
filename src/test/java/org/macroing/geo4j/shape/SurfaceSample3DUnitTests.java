@@ -48,27 +48,24 @@ public final class SurfaceSample3DUnitTests {
 	
 	@Test
 	public void testConstructor() {
-		final SurfaceSample3D surfaceSample = new SurfaceSample3D(new Point3D(1.0D, 2.0D, 3.0D), new Vector3D(1.0D, 2.0D, 3.0D), new Vector3D(1.0D, 0.0D, 0.0D), 1.0D);
+		final SurfaceSample3D surfaceSample = new SurfaceSample3D(new Point3D(1.0D, 2.0D, 3.0D), new Vector3D(1.0D, 0.0D, 0.0D), 1.0D);
 		
 		assertEquals(new Point3D(1.0D, 2.0D, 3.0D), surfaceSample.getPoint());
-		assertEquals(new Vector3D(1.0D, 2.0D, 3.0D), surfaceSample.getPointError());
 		assertEquals(new Vector3D(1.0D, 0.0D, 0.0D), surfaceSample.getSurfaceNormal());
 		assertEquals(1.0D, surfaceSample.getProbabilityDensityFunctionValue());
 		
-		assertThrows(NullPointerException.class, () -> new SurfaceSample3D(new Point3D(1.0D, 2.0D, 3.0D), new Vector3D(1.0D, 2.0D, 3.0D), null, 1.0D));
-		assertThrows(NullPointerException.class, () -> new SurfaceSample3D(new Point3D(1.0D, 2.0D, 3.0D), null, new Vector3D(1.0D, 0.0D, 0.0D), 1.0D));
-		assertThrows(NullPointerException.class, () -> new SurfaceSample3D(null, new Vector3D(1.0D, 2.0D, 3.0D), new Vector3D(1.0D, 0.0D, 0.0D), 1.0D));
+		assertThrows(NullPointerException.class, () -> new SurfaceSample3D(new Point3D(1.0D, 2.0D, 3.0D), null, 1.0D));
+		assertThrows(NullPointerException.class, () -> new SurfaceSample3D(null, new Vector3D(1.0D, 0.0D, 0.0D), 1.0D));
 	}
 	
 	@Test
 	public void testEquals() {
-		final SurfaceSample3D a = new SurfaceSample3D(new Point3D(1.0D, 2.0D, 3.0D), new Vector3D(1.0D, 2.0D, 3.0D), new Vector3D(1.0D, 0.0D, 0.0D), 1.0D);
-		final SurfaceSample3D b = new SurfaceSample3D(new Point3D(1.0D, 2.0D, 3.0D), new Vector3D(1.0D, 2.0D, 3.0D), new Vector3D(1.0D, 0.0D, 0.0D), 1.0D);
-		final SurfaceSample3D c = new SurfaceSample3D(new Point3D(1.0D, 2.0D, 3.0D), new Vector3D(1.0D, 2.0D, 3.0D), new Vector3D(1.0D, 0.0D, 0.0D), 2.0D);
-		final SurfaceSample3D d = new SurfaceSample3D(new Point3D(1.0D, 2.0D, 3.0D), new Vector3D(1.0D, 2.0D, 3.0D), new Vector3D(0.0D, 1.0D, 0.0D), 1.0D);
-		final SurfaceSample3D e = new SurfaceSample3D(new Point3D(1.0D, 2.0D, 3.0D), new Vector3D(2.0D, 3.0D, 4.0D), new Vector3D(1.0D, 0.0D, 0.0D), 1.0D);
-		final SurfaceSample3D f = new SurfaceSample3D(new Point3D(2.0D, 3.0D, 4.0D), new Vector3D(1.0D, 2.0D, 3.0D), new Vector3D(1.0D, 0.0D, 0.0D), 1.0D);
-		final SurfaceSample3D g = null;
+		final SurfaceSample3D a = new SurfaceSample3D(new Point3D(1.0D, 2.0D, 3.0D), new Vector3D(1.0D, 0.0D, 0.0D), 1.0D);
+		final SurfaceSample3D b = new SurfaceSample3D(new Point3D(1.0D, 2.0D, 3.0D), new Vector3D(1.0D, 0.0D, 0.0D), 1.0D);
+		final SurfaceSample3D c = new SurfaceSample3D(new Point3D(1.0D, 2.0D, 3.0D), new Vector3D(1.0D, 0.0D, 0.0D), 2.0D);
+		final SurfaceSample3D d = new SurfaceSample3D(new Point3D(1.0D, 2.0D, 3.0D), new Vector3D(0.0D, 1.0D, 0.0D), 1.0D);
+		final SurfaceSample3D e = new SurfaceSample3D(new Point3D(2.0D, 3.0D, 4.0D), new Vector3D(1.0D, 0.0D, 0.0D), 1.0D);
+		final SurfaceSample3D f = null;
 		
 		assertEquals(a, a);
 		assertEquals(a, b);
@@ -82,35 +79,26 @@ public final class SurfaceSample3DUnitTests {
 		assertNotEquals(e, a);
 		assertNotEquals(a, f);
 		assertNotEquals(f, a);
-		assertNotEquals(a, g);
-		assertNotEquals(g, a);
 	}
 	
 	@Test
 	public void testGetPoint() {
-		final SurfaceSample3D surfaceSample = new SurfaceSample3D(new Point3D(1.0D, 2.0D, 3.0D), new Vector3D(1.0D, 2.0D, 3.0D), new Vector3D(1.0D, 0.0D, 0.0D), 1.0D);
+		final SurfaceSample3D surfaceSample = new SurfaceSample3D(new Point3D(1.0D, 2.0D, 3.0D), new Vector3D(1.0D, 0.0D, 0.0D), 1.0D);
 		
 		assertEquals(new Point3D(1.0D, 2.0D, 3.0D), surfaceSample.getPoint());
 	}
 	
 	@Test
-	public void testGetPointError() {
-		final SurfaceSample3D surfaceSample = new SurfaceSample3D(new Point3D(1.0D, 2.0D, 3.0D), new Vector3D(1.0D, 2.0D, 3.0D), new Vector3D(1.0D, 0.0D, 0.0D), 1.0D);
-		
-		assertEquals(new Vector3D(1.0D, 2.0D, 3.0D), surfaceSample.getPointError());
-	}
-	
-	@Test
 	public void testGetProbabilityDensityFunctionValue() {
-		final SurfaceSample3D surfaceSample = new SurfaceSample3D(new Point3D(1.0D, 2.0D, 3.0D), new Vector3D(1.0D, 2.0D, 3.0D), new Vector3D(1.0D, 0.0D, 0.0D), 1.0D);
+		final SurfaceSample3D surfaceSample = new SurfaceSample3D(new Point3D(1.0D, 2.0D, 3.0D), new Vector3D(1.0D, 0.0D, 0.0D), 1.0D);
 		
 		assertEquals(1.0D, surfaceSample.getProbabilityDensityFunctionValue());
 	}
 	
 	@Test
 	public void testGetSurfaceNormal() {
-		final SurfaceSample3D a = new SurfaceSample3D(new Point3D(1.0D, 2.0D, 3.0D), new Vector3D(1.0D, 2.0D, 3.0D), new Vector3D(1.0D, 0.0D, 0.0D), 1.0D);
-		final SurfaceSample3D b = new SurfaceSample3D(new Point3D(1.0D, 2.0D, 3.0D), new Vector3D(1.0D, 2.0D, 3.0D), new Vector3D(2.0D, 0.0D, 0.0D), 1.0D);
+		final SurfaceSample3D a = new SurfaceSample3D(new Point3D(1.0D, 2.0D, 3.0D), new Vector3D(1.0D, 0.0D, 0.0D), 1.0D);
+		final SurfaceSample3D b = new SurfaceSample3D(new Point3D(1.0D, 2.0D, 3.0D), new Vector3D(2.0D, 0.0D, 0.0D), 1.0D);
 		
 		assertEquals(new Vector3D(1.0D, 0.0D, 0.0D), a.getSurfaceNormal());
 		assertEquals(new Vector3D(1.0D, 0.0D, 0.0D), b.getSurfaceNormal());
@@ -118,8 +106,8 @@ public final class SurfaceSample3DUnitTests {
 	
 	@Test
 	public void testHashCode() {
-		final SurfaceSample3D a = new SurfaceSample3D(new Point3D(1.0D, 2.0D, 3.0D), new Vector3D(1.0D, 2.0D, 3.0D), new Vector3D(1.0D, 0.0D, 0.0D), 1.0D);
-		final SurfaceSample3D b = new SurfaceSample3D(new Point3D(1.0D, 2.0D, 3.0D), new Vector3D(1.0D, 2.0D, 3.0D), new Vector3D(1.0D, 0.0D, 0.0D), 1.0D);
+		final SurfaceSample3D a = new SurfaceSample3D(new Point3D(1.0D, 2.0D, 3.0D), new Vector3D(1.0D, 0.0D, 0.0D), 1.0D);
+		final SurfaceSample3D b = new SurfaceSample3D(new Point3D(1.0D, 2.0D, 3.0D), new Vector3D(1.0D, 0.0D, 0.0D), 1.0D);
 		
 		assertEquals(a.hashCode(), a.hashCode());
 		assertEquals(a.hashCode(), b.hashCode());
@@ -127,24 +115,22 @@ public final class SurfaceSample3DUnitTests {
 	
 	@Test
 	public void testToString() {
-		final SurfaceSample3D surfaceSample = new SurfaceSample3D(new Point3D(1.0D, 2.0D, 3.0D), new Vector3D(1.0D, 2.0D, 3.0D), new Vector3D(1.0D, 0.0D, 0.0D), 1.0D);
+		final SurfaceSample3D surfaceSample = new SurfaceSample3D(new Point3D(1.0D, 2.0D, 3.0D), new Vector3D(1.0D, 0.0D, 0.0D), 1.0D);
 		
-		assertEquals("new SurfaceSample3D(new Point3D(1.0D, 2.0D, 3.0D), new Vector3D(1.0D, 2.0D, 3.0D), new Vector3D(1.0D, 0.0D, 0.0D), 1.0D)", surfaceSample.toString());
+		assertEquals("new SurfaceSample3D(new Point3D(1.0D, 2.0D, 3.0D), new Vector3D(1.0D, 0.0D, 0.0D), 1.0D)", surfaceSample.toString());
 	}
 	
 	@Test
 	public void testTransformSurfaceSample3DMatrix44D() {
-		final SurfaceSample3D a = new SurfaceSample3D(new Point3D(0.0D, 0.0D, 0.0D), new Vector3D(0.0D, 0.0D, 0.0D), new Vector3D(1.0D, 0.0D, 0.0D), 1.0D);
+		final SurfaceSample3D a = new SurfaceSample3D(new Point3D(0.0D, 0.0D, 0.0D), new Vector3D(1.0D, 0.0D, 0.0D), 1.0D);
 		final SurfaceSample3D b = SurfaceSample3D.transform(a, Matrix44D.identity());
 		final SurfaceSample3D c = SurfaceSample3D.transform(a, Matrix44D.rotateY(180.0D));
 		
 		assertEquals(new Point3D(0.0D, 0.0D, 0.0D), b.getPoint());
-		assertEquals(new Vector3D(0.0D, 0.0D, 0.0D), b.getPointError());
 		assertEquals(new Vector3D(1.0D, 0.0D, 0.0D), b.getSurfaceNormal());
 		assertEquals(1.0D, b.getProbabilityDensityFunctionValue());
 		
 		assertEquals(new Point3D(0.0D, 0.0D, 0.0D), c.getPoint());
-		assertEquals(new Vector3D(0.0D, 0.0D, 0.0D), c.getPointError());
 		assertEquals(new Vector3D(-1.0D, 0.0D, -0.00000000000000012246467991473532D), c.getSurfaceNormal());
 		assertEquals(1.0D, c.getProbabilityDensityFunctionValue());
 		
@@ -154,17 +140,15 @@ public final class SurfaceSample3DUnitTests {
 	
 	@Test
 	public void testTransformSurfaceSample3DMatrix44DMatrix44D() {
-		final SurfaceSample3D a = new SurfaceSample3D(new Point3D(0.0D, 0.0D, 0.0D), new Vector3D(0.0D, 0.0D, 0.0D), new Vector3D(1.0D, 0.0D, 0.0D), 1.0D);
+		final SurfaceSample3D a = new SurfaceSample3D(new Point3D(0.0D, 0.0D, 0.0D), new Vector3D(1.0D, 0.0D, 0.0D), 1.0D);
 		final SurfaceSample3D b = SurfaceSample3D.transform(a, Matrix44D.identity(), Matrix44D.identity());
 		final SurfaceSample3D c = SurfaceSample3D.transform(a, Matrix44D.rotateY(180.0D), Matrix44D.inverse(Matrix44D.rotateY(180.0D)));
 		
 		assertEquals(new Point3D(0.0D, 0.0D, 0.0D), b.getPoint());
-		assertEquals(new Vector3D(0.0D, 0.0D, 0.0D), b.getPointError());
 		assertEquals(new Vector3D(1.0D, 0.0D, 0.0D), b.getSurfaceNormal());
 		assertEquals(1.0D, b.getProbabilityDensityFunctionValue());
 		
 		assertEquals(new Point3D(0.0D, 0.0D, 0.0D), c.getPoint());
-		assertEquals(new Vector3D(0.0D, 0.0D, 0.0D), c.getPointError());
 		assertEquals(new Vector3D(-1.0D, 0.0D, -0.00000000000000012246467991473532D), c.getSurfaceNormal());
 		assertEquals(1.0D, c.getProbabilityDensityFunctionValue());
 		

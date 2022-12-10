@@ -22,7 +22,6 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.lang.reflect.Field;//TODO: Add Unit Tests!
 import java.util.Objects;
 
 import org.macroing.geo4j.common.Point3D;
@@ -363,47 +362,6 @@ public final class Matrix44D {
 		final double x = this.element11 * v.x + this.element12 * v.y + this.element13 * v.z;
 		final double y = this.element21 * v.x + this.element22 * v.y + this.element23 * v.z;
 		final double z = this.element31 * v.x + this.element32 * v.y + this.element33 * v.z;
-		
-		return new Vector3D(x, y, z);
-	}
-	
-	/**
-	 * Transforms the error of the {@link Point3D} {@code p} with this {@code Matrix44D} instance.
-	 * <p>
-	 * Returns a {@code Vector3D} instance with the result of the transformation.
-	 * <p>
-	 * If {@code p} is {@code null}, a {@code NullPointerException} will be thrown.
-	 * 
-	 * @param p a {@code Point3D} instance
-	 * @return a {@code Vector3D} instance with the result of the transformation
-	 * @throws NullPointerException thrown if, and only if, {@code p} is {@code null}
-	 */
-//	TODO: Add Unit Tests!
-	public Vector3D transformError(final Point3D p) {
-		final double x = Doubles.gamma(3) * (Doubles.abs(this.element11 * p.x) + Doubles.abs(this.element12 * p.y) + Doubles.abs(this.element13 * p.z) + Doubles.abs(this.element14));
-		final double y = Doubles.gamma(3) * (Doubles.abs(this.element21 * p.x) + Doubles.abs(this.element22 * p.y) + Doubles.abs(this.element23 * p.z) + Doubles.abs(this.element24));
-		final double z = Doubles.gamma(3) * (Doubles.abs(this.element31 * p.x) + Doubles.abs(this.element32 * p.y) + Doubles.abs(this.element33 * p.z) + Doubles.abs(this.element34));
-		
-		return new Vector3D(x, y, z);
-	}
-	
-	/**
-	 * Transforms the error of the {@link Point3D} {@code p} and the {@link Vector3D} {@code v} with this {@code Matrix44D} instance.
-	 * <p>
-	 * Returns a {@code Vector3D} instance with the result of the transformation.
-	 * <p>
-	 * If either {@code p} or {@code v} are {@code null}, a {@code NullPointerException} will be thrown.
-	 * 
-	 * @param p a {@code Point3D} instance
-	 * @param v a {@code Vector3D} instance
-	 * @return a {@code Vector3D} instance with the result of the transformation
-	 * @throws NullPointerException thrown if, and only if, either {@code p} or {@code v} are {@code null}
-	 */
-//	TODO: Add Unit Tests!
-	public Vector3D transformError(final Point3D p, final Vector3D v) {
-		final double x = (Doubles.gamma(3) + 1.0D) * (Doubles.abs(this.element11) * v.x + Doubles.abs(this.element12) * v.y + Doubles.abs(this.element13) * v.z) + Doubles.gamma(3) * (Doubles.abs(this.element11 * p.x) + Doubles.abs(this.element12 * p.y) + Doubles.abs(this.element13 * p.z) + Doubles.abs(this.element14));
-		final double y = (Doubles.gamma(3) + 1.0D) * (Doubles.abs(this.element21) * v.x + Doubles.abs(this.element22) * v.y + Doubles.abs(this.element23) * v.z) + Doubles.gamma(3) * (Doubles.abs(this.element21 * p.x) + Doubles.abs(this.element22 * p.y) + Doubles.abs(this.element23 * p.z) + Doubles.abs(this.element24));
-		final double z = (Doubles.gamma(3) + 1.0D) * (Doubles.abs(this.element31) * v.x + Doubles.abs(this.element32) * v.y + Doubles.abs(this.element33) * v.z) + Doubles.gamma(3) * (Doubles.abs(this.element31 * p.x) + Doubles.abs(this.element32 * p.y) + Doubles.abs(this.element33 * p.z) + Doubles.abs(this.element34));
 		
 		return new Vector3D(x, y, z);
 	}
