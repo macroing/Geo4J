@@ -18,7 +18,6 @@
  */
 package org.macroing.geo4j.shape;
 
-import java.lang.reflect.Field;//TODO: Add Unit Tests!
 import java.util.Objects;
 import java.util.Optional;
 
@@ -26,6 +25,7 @@ import org.macroing.geo4j.common.Point3D;
 import org.macroing.geo4j.common.Vector3D;
 import org.macroing.geo4j.matrix.Matrix44D;
 import org.macroing.java.lang.Doubles;
+import org.macroing.java.lang.Strings;
 
 /**
  * A {@code SurfaceSample3D} contains information about the surface of a {@link Shape3D} instance where it is being sampled.
@@ -39,7 +39,6 @@ public final class SurfaceSample3D {
 	/**
 	 * An empty {@code Optional} instance.
 	 */
-//	TODO: Add Unit Tests!
 	public static final Optional<SurfaceSample3D> EMPTY = Optional.empty();
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -62,11 +61,10 @@ public final class SurfaceSample3D {
 	 * @param probabilityDensityFunctionValue the sampled probability density function (PDF) value
 	 * @throws NullPointerException thrown if, and only if, either {@code point}, {@code pointError} or {@code surfaceNormal} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public SurfaceSample3D(final Point3D point, final Vector3D pointError, final Vector3D surfaceNormal, final double probabilityDensityFunctionValue) {
 		this.point = Objects.requireNonNull(point, "point == null");
 		this.pointError = Objects.requireNonNull(pointError, "pointError == null");
-		this.surfaceNormal = Objects.requireNonNull(surfaceNormal, "surfaceNormal == null");
+		this.surfaceNormal = Vector3D.normalize(Objects.requireNonNull(surfaceNormal, "surfaceNormal == null"));
 		this.probabilityDensityFunctionValue = probabilityDensityFunctionValue;
 	}
 	
@@ -77,7 +75,6 @@ public final class SurfaceSample3D {
 	 * 
 	 * @return the sampled point
 	 */
-//	TODO: Add Unit Tests!
 	public Point3D getPoint() {
 		return this.point;
 	}
@@ -87,10 +84,9 @@ public final class SurfaceSample3D {
 	 * 
 	 * @return a {@code String} representation of this {@code SurfaceSample3D} instance
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public String toString() {
-		return String.format("new SurfaceSample3D(%s, %s, %s, %+.10f)", this.point, this.pointError, this.surfaceNormal, Double.valueOf(this.probabilityDensityFunctionValue));
+		return String.format("new SurfaceSample3D(%s, %s, %s, %s)", this.point, this.pointError, this.surfaceNormal, Strings.toNonScientificNotationJava(this.probabilityDensityFunctionValue));
 	}
 	
 	/**
@@ -98,7 +94,6 @@ public final class SurfaceSample3D {
 	 * 
 	 * @return the {@code Vector3D} instance that contains the floating-point precision error of the point
 	 */
-//	TODO: Add Unit Tests!
 	public Vector3D getPointError() {
 		return this.pointError;
 	}
@@ -108,7 +103,6 @@ public final class SurfaceSample3D {
 	 * 
 	 * @return the sampled surface normal
 	 */
-//	TODO: Add Unit Tests!
 	public Vector3D getSurfaceNormal() {
 		return this.surfaceNormal;
 	}
@@ -121,7 +115,6 @@ public final class SurfaceSample3D {
 	 * @param object the {@code Object} to compare to this {@code SurfaceSample3D} instance for equality
 	 * @return {@code true} if, and only if, {@code object} is an instance of {@code SurfaceSample3D}, and their respective values are equal, {@code false} otherwise
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public boolean equals(final Object object) {
 		if(object == this) {
@@ -146,7 +139,6 @@ public final class SurfaceSample3D {
 	 * 
 	 * @return the sampled probability density function (PDF) value
 	 */
-//	TODO: Add Unit Tests!
 	public double getProbabilityDensityFunctionValue() {
 		return this.probabilityDensityFunctionValue;
 	}
@@ -156,7 +148,6 @@ public final class SurfaceSample3D {
 	 * 
 	 * @return a hash code for this {@code SurfaceSample3D} instance
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public int hashCode() {
 		return Objects.hash(this.point, this.pointError, this.surfaceNormal, Double.valueOf(this.probabilityDensityFunctionValue));
@@ -186,7 +177,6 @@ public final class SurfaceSample3D {
 	 * @throws IllegalArgumentException thrown if, and only if, {@code matrix} cannot be inverted
 	 * @throws NullPointerException thrown if, and only if, either {@code surfaceSample} or {@code matrix} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static SurfaceSample3D transform(final SurfaceSample3D surfaceSample, final Matrix44D matrix) {
 		return transform(surfaceSample, matrix, Matrix44D.inverse(matrix));
 	}
@@ -204,7 +194,6 @@ public final class SurfaceSample3D {
 	 * @return a {@code SurfaceSample3D} instance with the result of the transformation
 	 * @throws NullPointerException thrown if, and only if, either {@code surfaceSample}, {@code matrix} or {@code matrixInverse} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static SurfaceSample3D transform(final SurfaceSample3D surfaceSample, final Matrix44D matrix, final Matrix44D matrixInverse) {
 		final Point3D pointOldSpace = surfaceSample.point;
 		final Point3D pointNewSpace = matrix.transformAndDivide(pointOldSpace);
@@ -213,7 +202,7 @@ public final class SurfaceSample3D {
 		final Vector3D pointErrorNewSpace = matrix.transformError(pointOldSpace, pointErrorOldSpace);
 		
 		final Vector3D surfaceNormalOldSpace = surfaceSample.surfaceNormal;
-		final Vector3D surfaceNormalNewSpace = matrixInverse.transformTranspose(surfaceNormalOldSpace);
+		final Vector3D surfaceNormalNewSpace = Vector3D.normalize(matrixInverse.transformTranspose(surfaceNormalOldSpace));
 		
 		final double probabilityDensityFunctionValue = surfaceSample.probabilityDensityFunctionValue;
 		
