@@ -37,19 +37,19 @@ Add the Ray2I class.
 
 
 
-Bounding Volume - Default API:
-
-Add the DefaultBoundingVolume3DReader class.
-Add the DefaultBoundingVolume3FReader class.
-
-
-
 Bounding Volume - Infinite Bounding Volume API:
 
 Add the InfiniteBoundingVolume3D class.
 Add the InfiniteBoundingVolume3DReader class.
 Add the InfiniteBoundingVolume3F class.
 Add the InfiniteBoundingVolume3FReader class.
+
+
+
+Bounding Volume - Reader API:
+
+Add the DefaultBoundingVolume3DReader class.
+Add the DefaultBoundingVolume3FReader class.
 
 
 
@@ -113,16 +113,6 @@ Add the Cylinder3FReader class.
 
 
 
-Shape - Default API:
-
-Add the DefaultShape2DReader class.
-Add the DefaultShape2FReader class.
-Add the DefaultShape2IReader class.
-Add the DefaultShape3DReader class.
-Add the DefaultShape3FReader class.
-
-
-
 Shape - Disk API:
 
 Add the Disk3D class.
@@ -161,10 +151,6 @@ Add the Plane3FReader class.
 
 Shape - Polygon API:
 
-Add the Polygon2D class.
-Add the Polygon2DReader class.
-Add the Polygon2F class.
-Add the Polygon2FReader class.
 Add the Polygon3D class.
 Add the Polygon3DReader class.
 Add the Polygon3F class.
@@ -178,6 +164,16 @@ Add the ProceduralTerrain3D class.
 Add the ProceduralTerrain3DReader class.
 Add the ProceduralTerrain3F class.
 Add the ProceduralTerrain3FReader class.
+
+
+
+Shape - Reader API:
+
+Add the DefaultShape2DReader class.
+Add the DefaultShape2FReader class.
+Add the DefaultShape2IReader class.
+Add the DefaultShape3DReader class.
+Add the DefaultShape3FReader class.
 
 
 
@@ -219,10 +215,6 @@ Add the Torus3FReader class.
 
 Shape - Triangle API:
 
-Add the Triangle2D class.
-Add the Triangle2DReader class.
-Add the Triangle2F class.
-Add the Triangle2FReader class.
 Add the Triangle3D class.
 Add the Triangle3DReader class.
 Add the Triangle3F class.
