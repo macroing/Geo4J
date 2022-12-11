@@ -19,6 +19,8 @@ Supported Features
  - `org.macroing.geo4j.bv` provides the Bounding Volume API.
  - `org.macroing.geo4j.bv.aabb` provides the Bounding Volume Axis Aligned Bounding Box API.
  - `org.macroing.geo4j.bv.bs` provides the Bounding Volume Bounding Sphere API.
+ - `org.macroing.geo4j.bv.ibv` provides the Bounding Volume Infinite Bounding Volume API.
+ - `org.macroing.geo4j.bv.reader` provides the Bounding Volume Reader API.
  - `org.macroing.geo4j.common` provides the Common API.
  - `org.macroing.geo4j.quaternion` provides the Quaternion API.
  - `org.macroing.geo4j.matrix` provides the Matrix API.
@@ -29,6 +31,7 @@ Supported Features
  - `org.macroing.geo4j.shape.circle` provides the Shape Circle API.
  - `org.macroing.geo4j.shape.ls` provides the Shape Line Segment API.
  - `org.macroing.geo4j.shape.polygon` provides the Shape Polygon API.
+ - `org.macroing.geo4j.shape.reader` provides the Shape Reader API.
  - `org.macroing.geo4j.shape.rectangle` provides the Shape Rectangle API.
  - `org.macroing.geo4j.shape.triangle` provides the Shape Triangle API.
 
@@ -42,10 +45,12 @@ The following table describes the different APIs and their current status in the
 
 | Name                                          | Javadoc | Unit Test | Package                            |
 | --------------------------------------------- | ------- | --------- | ---------------------------------- |
-| Geo4J                                         | 100.0%  |  91.6%    | org.macroing.geo4j                 |
+| Geo4J                                         | 100.0%  |  90.5%    | org.macroing.geo4j                 |
 | Bounding Volume API                           | 100.0%  | 100.0%    | org.macroing.geo4j.bv              |
 | Bounding Volume Axis Aligned Bounding Box API | 100.0%  | 100.0%    | org.macroing.geo4j.bv.aabb         |
 | Bounding Volume Bounding Sphere API           | 100.0%  | 100.0%    | org.macroing.geo4j.bv.bs           |
+| Bounding Volume Infinite Bounding Volume API  | 100.0%  | 100.0%    | org.macroing.geo4j.bv.ibv          |
+| Bounding Volume Reader API                    | 100.0%  |   0.0%    | org.macroing.geo4j.bv.reader       |
 | Common API                                    | 100.0%  |  98.0%    | org.macroing.geo4j.common          |
 | Matrix API                                    | 100.0%  | 100.0%    | org.macroing.geo4j.matrix          |
 | Morton Code API                               | 100.0%  |   0.0%    | org.macroing.geo4j.mc              |
@@ -56,6 +61,7 @@ The following table describes the different APIs and their current status in the
 | Shape Circle API                              | 100.0%  | 100.0%    | org.macroing.geo4j.shape.circle    |
 | Shape Line Segment API                        | 100.0%  |  97.6%    | org.macroing.geo4j.shape.ls        |
 | Shape Polygon API                             | 100.0%  | 100.0%    | org.macroing.geo4j.shape.polygon   |
+| Shape Reader API                              | 100.0%  |   0.0%    | org.macroing.geo4j.shape.reader    |
 | Shape Rectangle API                           | 100.0%  | 100.0%    | org.macroing.geo4j.shape.rectangle |
 | Shape Triangle API                            | 100.0%  | 100.0%    | org.macroing.geo4j.shape.triangle  |
 

@@ -2,6 +2,11 @@ Unit Tests:
 
 Add unit tests to AngleD.
 Add unit tests to AngleF.
+Add unit tests to DefaultBoundingVolume3DReader.
+Add unit tests to DefaultBoundingVolume3FReader.
+Add unit tests to DefaultShape2DReader.
+Add unit tests to DefaultShape2FReader.
+Add unit tests to DefaultShape2IReader.
 Add unit tests to LineSegment3D.
 Add unit tests to LineSegment3F.
 Add unit tests to MortonCodes.
@@ -34,22 +39,6 @@ Add the Matrix33I class.
 Ray API:
 
 Add the Ray2I class.
-
-
-
-Bounding Volume - Infinite Bounding Volume API:
-
-Add the InfiniteBoundingVolume3D class.
-Add the InfiniteBoundingVolume3DReader class.
-Add the InfiniteBoundingVolume3F class.
-Add the InfiniteBoundingVolume3FReader class.
-
-
-
-Bounding Volume - Reader API:
-
-Add the DefaultBoundingVolume3DReader class.
-Add the DefaultBoundingVolume3FReader class.
 
 
 
@@ -169,9 +158,6 @@ Add the ProceduralTerrain3FReader class.
 
 Shape - Reader API:
 
-Add the DefaultShape2DReader class.
-Add the DefaultShape2FReader class.
-Add the DefaultShape2IReader class.
 Add the DefaultShape3DReader class.
 Add the DefaultShape3FReader class.
 
