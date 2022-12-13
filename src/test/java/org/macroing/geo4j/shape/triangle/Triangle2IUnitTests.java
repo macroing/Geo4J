@@ -97,6 +97,12 @@ public final class Triangle2IUnitTests {
 	}
 	
 	@Test
+	public void testConstants() {
+		assertEquals(18, Triangle2I.ID);
+		assertEquals("Triangle", Triangle2I.NAME);
+	}
+	
+	@Test
 	public void testConstructorPoint2IPoint2IPoint2I() {
 		final Triangle2I triangle = new Triangle2I(new Point2I(10, 10), new Point2I(20, 10), new Point2I(20, 20));
 		
@@ -278,7 +284,7 @@ public final class Triangle2IUnitTests {
 	public void testGetID() {
 		final Triangle2I triangle = new Triangle2I(new Point2I(10, 10), new Point2I(20, 10), new Point2I(20, 20));
 		
-		assertEquals(5, triangle.getID());
+		assertEquals(Triangle2I.ID, triangle.getID());
 	}
 	
 	@Test
@@ -392,7 +398,7 @@ public final class Triangle2IUnitTests {
 		
 		final int id = dataInput.readInt();
 		
-		assertEquals(5, id);
+		assertEquals(Triangle2I.ID, id);
 		
 		final Triangle2I b = new Triangle2I(Point2I.read(dataInput), Point2I.read(dataInput), Point2I.read(dataInput));
 		
@@ -422,7 +428,7 @@ public final class Triangle2IUnitTests {
 			
 			final int id = dataInput.readInt();
 			
-			assertEquals(5, id);
+			assertEquals(Triangle2I.ID, id);
 			
 			final Triangle2I b = new Triangle2I(Point2I.read(dataInput), Point2I.read(dataInput), Point2I.read(dataInput));
 			
@@ -457,7 +463,7 @@ public final class Triangle2IUnitTests {
 			
 			final int id = dataInput.readInt();
 			
-			assertEquals(5, id);
+			assertEquals(Triangle2I.ID, id);
 			
 			final Triangle2I b = new Triangle2I(Point2I.read(dataInput), Point2I.read(dataInput), Point2I.read(dataInput));
 			

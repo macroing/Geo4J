@@ -50,7 +50,7 @@ public final class LineSegment2I implements Shape2I {
 	/**
 	 * The ID used by this {@code LineSegment2I} class.
 	 */
-	public static final int ID = 2;
+	public static final int ID = 9;
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	

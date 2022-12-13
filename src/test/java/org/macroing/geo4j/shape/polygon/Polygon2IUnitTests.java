@@ -101,6 +101,12 @@ public final class Polygon2IUnitTests {
 	}
 	
 	@Test
+	public void testConstants() {
+		assertEquals(12, Polygon2I.ID);
+		assertEquals("Polygon", Polygon2I.NAME);
+	}
+	
+	@Test
 	public void testConstructorPoint2Is() {
 		final Polygon2I polygon = new Polygon2I(new Point2I(10, 10), new Point2I(10, 30), new Point2I(30, 30), new Point2I(30, 10));
 		
@@ -301,7 +307,7 @@ public final class Polygon2IUnitTests {
 	public void testGetID() {
 		final Polygon2I polygon = new Polygon2I(new Point2I(10, 10), new Point2I(20, 10), new Point2I(20, 20), new Point2I(10, 20));
 		
-		assertEquals(3, polygon.getID());
+		assertEquals(Polygon2I.ID, polygon.getID());
 	}
 	
 	@Test
@@ -436,7 +442,7 @@ public final class Polygon2IUnitTests {
 		final int id = dataInput.readInt();
 		final int length = dataInput.readInt();
 		
-		assertEquals(3, id);
+		assertEquals(Polygon2I.ID, id);
 		assertEquals(4, length);
 		
 		final Polygon2I b = new Polygon2I(Point2I.read(dataInput), Point2I.read(dataInput), Point2I.read(dataInput), Point2I.read(dataInput));
@@ -468,7 +474,7 @@ public final class Polygon2IUnitTests {
 			final int id = dataInput.readInt();
 			final int length = dataInput.readInt();
 			
-			assertEquals(3, id);
+			assertEquals(Polygon2I.ID, id);
 			assertEquals(4, length);
 			
 			final Polygon2I b = new Polygon2I(Point2I.read(dataInput), Point2I.read(dataInput), Point2I.read(dataInput), Point2I.read(dataInput));
@@ -505,7 +511,7 @@ public final class Polygon2IUnitTests {
 			final int id = dataInput.readInt();
 			final int length = dataInput.readInt();
 			
-			assertEquals(3, id);
+			assertEquals(Polygon2I.ID, id);
 			assertEquals(4, length);
 			
 			final Polygon2I b = new Polygon2I(Point2I.read(dataInput), Point2I.read(dataInput), Point2I.read(dataInput), Point2I.read(dataInput));

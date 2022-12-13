@@ -81,6 +81,12 @@ public final class LineSegment2IUnitTests {
 	}
 	
 	@Test
+	public void testConstants() {
+		assertEquals(9, LineSegment2I.ID);
+		assertEquals("Line Segment", LineSegment2I.NAME);
+	}
+	
+	@Test
 	public void testConstructor() {
 		final LineSegment2I lineSegment = new LineSegment2I(new Point2I(10, 10), new Point2I(20, 10));
 		
@@ -276,7 +282,7 @@ public final class LineSegment2IUnitTests {
 	public void testGetID() {
 		final LineSegment2I lineSegment = new LineSegment2I(new Point2I(10, 10), new Point2I(20, 10));
 		
-		assertEquals(2, lineSegment.getID());
+		assertEquals(LineSegment2I.ID, lineSegment.getID());
 	}
 	
 	@Test
@@ -470,7 +476,7 @@ public final class LineSegment2IUnitTests {
 		
 		final int id = dataInput.readInt();
 		
-		assertEquals(2, id);
+		assertEquals(LineSegment2I.ID, id);
 		
 		final LineSegment2I b = new LineSegment2I(Point2I.read(dataInput), Point2I.read(dataInput));
 		
@@ -500,7 +506,7 @@ public final class LineSegment2IUnitTests {
 			
 			final int id = dataInput.readInt();
 			
-			assertEquals(2, id);
+			assertEquals(LineSegment2I.ID, id);
 			
 			final LineSegment2I b = new LineSegment2I(Point2I.read(dataInput), Point2I.read(dataInput));
 			
@@ -535,7 +541,7 @@ public final class LineSegment2IUnitTests {
 			
 			final int id = dataInput.readInt();
 			
-			assertEquals(2, id);
+			assertEquals(LineSegment2I.ID, id);
 			
 			final LineSegment2I b = new LineSegment2I(Point2I.read(dataInput), Point2I.read(dataInput));
 			

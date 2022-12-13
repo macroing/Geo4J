@@ -2,6 +2,10 @@ Unit Tests:
 
 Add unit tests to AngleD.
 Add unit tests to AngleF.
+Add unit tests to CompoundShape3D.
+Add unit tests to CompoundShape3DReader.
+Add unit tests to CompoundShape3F.
+Add unit tests to CompoundShape3FReader.
 Add unit tests to DefaultBoundingVolume3DReader.
 Add unit tests to DefaultBoundingVolume3FReader.
 Add unit tests to DefaultShape2DReader.
@@ -54,15 +58,6 @@ Add the LeafBVHNode3D class.
 Add the LeafBVHNode3F class.
 Add the TreeBVHNode3D class.
 Add the TreeBVHNode3F class.
-
-
-
-Shape - Compound Shape API:
-
-Add the CompoundShape3D class.
-Add the CompoundShape3DReader class.
-Add the CompoundShape3F class.
-Add the CompoundShape3FReader class.
 
 
 

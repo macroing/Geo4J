@@ -77,7 +77,7 @@ public final class Triangle2DUnitTests {
 	
 	@Test
 	public void testConstants() {
-		assertEquals(5, Triangle2D.ID);
+		assertEquals(18, Triangle2D.ID);
 		assertEquals("Triangle", Triangle2D.NAME);
 	}
 	

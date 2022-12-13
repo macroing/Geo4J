@@ -52,7 +52,7 @@ public final class Rectangle2I implements Shape2I {
 	/**
 	 * The ID used by this {@code Rectangle2I} class.
 	 */
-	public static final int ID = 4;
+	public static final int ID = 15;
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	

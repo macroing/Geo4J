@@ -51,7 +51,7 @@ public final class Polygon2I implements Shape2I {
 	/**
 	 * The ID used by this {@code Polygon2I} class.
 	 */
-	public static final int ID = 3;
+	public static final int ID = 12;
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	

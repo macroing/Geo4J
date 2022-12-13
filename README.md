@@ -29,6 +29,7 @@ Supported Features
  - `org.macroing.geo4j.ray` provides the Ray API.
  - `org.macroing.geo4j.shape` provides the Shape API.
  - `org.macroing.geo4j.shape.circle` provides the Shape Circle API.
+ - `org.macroing.geo4j.shape.cs` provides the Shape Compound Shape API.
  - `org.macroing.geo4j.shape.ls` provides the Shape Line Segment API.
  - `org.macroing.geo4j.shape.polygon` provides the Shape Polygon API.
  - `org.macroing.geo4j.shape.reader` provides the Shape Reader API.
@@ -45,7 +46,7 @@ The following table describes the different APIs and their current status in the
 
 | Name                                          | Javadoc | Unit Test | Package                            |
 | --------------------------------------------- | ------- | --------- | ---------------------------------- |
-| Geo4J                                         | 100.0%  |  90.5%    | org.macroing.geo4j                 |
+| Geo4J                                         | 100.0%  |  88.7%    | org.macroing.geo4j                 |
 | Bounding Volume API                           | 100.0%  | 100.0%    | org.macroing.geo4j.bv              |
 | Bounding Volume Axis Aligned Bounding Box API | 100.0%  | 100.0%    | org.macroing.geo4j.bv.aabb         |
 | Bounding Volume Bounding Sphere API           | 100.0%  | 100.0%    | org.macroing.geo4j.bv.bs           |
@@ -59,6 +60,7 @@ The following table describes the different APIs and their current status in the
 | Ray API                                       | 100.0%  | 100.0%    | org.macroing.geo4j.ray             |
 | Shape API                                     | 100.0%  |  29.6%    | org.macroing.geo4j.shape           |
 | Shape Circle API                              | 100.0%  | 100.0%    | org.macroing.geo4j.shape.circle    |
+| Shape Compound Shape API                      | 100.0%  |   0.0%    | org.macroing.geo4j.shape.cs        |
 | Shape Line Segment API                        | 100.0%  |  97.6%    | org.macroing.geo4j.shape.ls        |
 | Shape Polygon API                             | 100.0%  | 100.0%    | org.macroing.geo4j.shape.polygon   |
 | Shape Reader API                              | 100.0%  |   0.0%    | org.macroing.geo4j.shape.reader    |

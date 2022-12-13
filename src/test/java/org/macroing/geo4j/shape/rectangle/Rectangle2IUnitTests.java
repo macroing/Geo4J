@@ -98,6 +98,12 @@ public final class Rectangle2IUnitTests {
 	}
 	
 	@Test
+	public void testConstants() {
+		assertEquals(15, Rectangle2I.ID);
+		assertEquals("Rectangle", Rectangle2I.NAME);
+	}
+	
+	@Test
 	public void testConstructorCircle2I() {
 		final Rectangle2I rectangle = new Rectangle2I(new Circle2I(new Point2I(20, 20), 10));
 		
@@ -438,7 +444,7 @@ public final class Rectangle2IUnitTests {
 	public void testGetID() {
 		final Rectangle2I rectangle = new Rectangle2I(new Point2I(10, 10), new Point2I(10, 30), new Point2I(30, 30), new Point2I(30, 10));
 		
-		assertEquals(4, rectangle.getID());
+		assertEquals(Rectangle2I.ID, rectangle.getID());
 	}
 	
 	@Test
@@ -1154,7 +1160,7 @@ public final class Rectangle2IUnitTests {
 		
 		final int id = dataInput.readInt();
 		
-		assertEquals(4, id);
+		assertEquals(Rectangle2I.ID, id);
 		
 		final Rectangle2I b = new Rectangle2I(Point2I.read(dataInput), Point2I.read(dataInput), Point2I.read(dataInput), Point2I.read(dataInput));
 		
@@ -1184,7 +1190,7 @@ public final class Rectangle2IUnitTests {
 			
 			final int id = dataInput.readInt();
 			
-			assertEquals(4, id);
+			assertEquals(Rectangle2I.ID, id);
 			
 			final Rectangle2I b = new Rectangle2I(Point2I.read(dataInput), Point2I.read(dataInput), Point2I.read(dataInput), Point2I.read(dataInput));
 			
@@ -1219,7 +1225,7 @@ public final class Rectangle2IUnitTests {
 			
 			final int id = dataInput.readInt();
 			
-			assertEquals(4, id);
+			assertEquals(Rectangle2I.ID, id);
 			
 			final Rectangle2I b = new Rectangle2I(Point2I.read(dataInput), Point2I.read(dataInput), Point2I.read(dataInput), Point2I.read(dataInput));
 			

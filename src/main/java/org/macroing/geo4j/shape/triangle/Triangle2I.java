@@ -49,7 +49,7 @@ public final class Triangle2I implements Shape2I {
 	/**
 	 * The ID used by this {@code Triangle2I} class.
 	 */
-	public static final int ID = 5;
+	public static final int ID = 18;
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	

@@ -344,7 +344,7 @@ public final class Circle2IUnitTests {
 	public void testGetID() {
 		final Circle2I circle = new Circle2I(new Point2I(10, 10));
 		
-		assertEquals(1, circle.getID());
+		assertEquals(Circle2I.ID, circle.getID());
 	}
 	
 	@Test
@@ -427,7 +427,7 @@ public final class Circle2IUnitTests {
 		
 		final int id = dataInput.readInt();
 		
-		assertEquals(1, id);
+		assertEquals(Circle2I.ID, id);
 		
 		final Circle2I b = new Circle2I(Point2I.read(dataInput), dataInput.readInt());
 		
@@ -457,7 +457,7 @@ public final class Circle2IUnitTests {
 			
 			final int id = dataInput.readInt();
 			
-			assertEquals(1, id);
+			assertEquals(Circle2I.ID, id);
 			
 			final Circle2I b = new Circle2I(Point2I.read(dataInput), dataInput.readInt());
 			
@@ -492,7 +492,7 @@ public final class Circle2IUnitTests {
 			
 			final int id = dataInput.readInt();
 			
-			assertEquals(1, id);
+			assertEquals(Circle2I.ID, id);
 			
 			final Circle2I b = new Circle2I(Point2I.read(dataInput), dataInput.readInt());
 			

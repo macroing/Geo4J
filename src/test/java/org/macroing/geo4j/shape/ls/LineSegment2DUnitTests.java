@@ -77,7 +77,7 @@ public final class LineSegment2DUnitTests {
 	
 	@Test
 	public void testConstants() {
-		assertEquals(2, LineSegment2D.ID);
+		assertEquals(9, LineSegment2D.ID);
 		assertEquals("Line Segment", LineSegment2D.NAME);
 	}
 	

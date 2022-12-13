@@ -96,7 +96,7 @@ public final class Rectangle2DUnitTests {
 	
 	@Test
 	public void testConstants() {
-		assertEquals(4, Rectangle2D.ID);
+		assertEquals(15, Rectangle2D.ID);
 		assertEquals("Rectangle", Rectangle2D.NAME);
 	}
 	

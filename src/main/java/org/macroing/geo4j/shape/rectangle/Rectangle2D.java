@@ -54,7 +54,7 @@ public final class Rectangle2D implements Shape2D {
 	/**
 	 * The ID of this {@code Rectangle2D} class.
 	 */
-	public static final int ID = 4;
+	public static final int ID = 15;
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	

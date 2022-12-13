@@ -51,7 +51,7 @@ public final class Polygon2F implements Shape2F {
 	/**
 	 * The ID of this {@code Polygon2F} class.
 	 */
-	public static final int ID = 3;
+	public static final int ID = 12;
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	

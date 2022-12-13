@@ -57,7 +57,7 @@ public final class LineSegment3D implements Shape3D {
 	/**
 	 * The ID of this {@code LineSegment3D} class.
 	 */
-	public static final int ID = 2;
+	public static final int ID = 9;
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	

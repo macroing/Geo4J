@@ -97,7 +97,7 @@ public final class Polygon2DUnitTests {
 	
 	@Test
 	public void testConstants() {
-		assertEquals(3, Polygon2D.ID);
+		assertEquals(12, Polygon2D.ID);
 		assertEquals("Polygon", Polygon2D.NAME);
 	}
 	

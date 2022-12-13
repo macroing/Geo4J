@@ -51,7 +51,7 @@ public final class Polygon2D implements Shape2D {
 	/**
 	 * The ID of this {@code Polygon2D} class.
 	 */
-	public static final int ID = 3;
+	public static final int ID = 12;
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	

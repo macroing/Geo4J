@@ -50,7 +50,7 @@ public final class LineSegment2F implements Shape2F {
 	/**
 	 * The ID of this {@code LineSegment2F} class.
 	 */
-	public static final int ID = 2;
+	public static final int ID = 9;
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	

@@ -81,7 +81,7 @@ public final class LineSegment3DUnitTests {
 	
 	@Test
 	public void testConstants() {
-		assertEquals(2, LineSegment3D.ID);
+		assertEquals(9, LineSegment3D.ID);
 		assertEquals("Line Segment", LineSegment3D.NAME);
 	}
 	
