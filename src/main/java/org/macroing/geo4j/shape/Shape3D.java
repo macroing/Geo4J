@@ -149,7 +149,7 @@ public interface Shape3D extends Shape {
 			
 			final double probabilityDensityFunctionValue = Point3D.distanceSquared(point, surfaceIntersectionPoint) / Vector3D.dotProductAbs(surfaceNormal, Vector3D.negate(incomingNormalized));
 			
-			if(Doubles.isInfinite(probabilityDensityFunctionValue)) {
+			if(Doubles.isInfinite(probabilityDensityFunctionValue) || Doubles.isNaN(probabilityDensityFunctionValue)) {
 				return Optional.empty();
 			}
 			
@@ -220,7 +220,7 @@ public interface Shape3D extends Shape {
 			
 			final double probabilityDensityFunctionValue = Point3D.distanceSquared(surfaceIntersectionPointShape, surfaceIntersectionPoint) / (Doubles.abs(Vector3D.dotProduct(surfaceIntersectionShape.getSurfaceNormalS(), Vector3D.negate(incoming)) * getSurfaceArea()));
 			
-			if(Doubles.isInfinite(probabilityDensityFunctionValue)) {
+			if(Doubles.isInfinite(probabilityDensityFunctionValue) || Doubles.isNaN(probabilityDensityFunctionValue)) {
 				return 0.0D;
 			}
 			

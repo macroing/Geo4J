@@ -124,15 +124,6 @@ Add the Paraboloid3FReader class.
 
 
 
-Shape - Plane API:
-
-Add the Plane3D class.
-Add the Plane3DReader class.
-Add the Plane3F class.
-Add the Plane3FReader class.
-
-
-
 Shape - Polygon API:
 
 Add the Polygon3D class.

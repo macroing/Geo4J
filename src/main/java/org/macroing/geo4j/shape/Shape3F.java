@@ -149,7 +149,7 @@ public interface Shape3F extends Shape {
 			
 			final float probabilityDensityFunctionValue = Point3F.distanceSquared(point, surfaceIntersectionPoint) / Vector3F.dotProductAbs(surfaceNormal, Vector3F.negate(incomingNormalized));
 			
-			if(Floats.isInfinite(probabilityDensityFunctionValue)) {
+			if(Floats.isInfinite(probabilityDensityFunctionValue) || Floats.isNaN(probabilityDensityFunctionValue)) {
 				return Optional.empty();
 			}
 			
@@ -220,7 +220,7 @@ public interface Shape3F extends Shape {
 			
 			final float probabilityDensityFunctionValue = Point3F.distanceSquared(surfaceIntersectionPointShape, surfaceIntersectionPoint) / (Floats.abs(Vector3F.dotProduct(surfaceIntersectionShape.getSurfaceNormalS(), Vector3F.negate(incoming)) * getSurfaceArea()));
 			
-			if(Floats.isInfinite(probabilityDensityFunctionValue)) {
+			if(Floats.isInfinite(probabilityDensityFunctionValue) || Floats.isNaN(probabilityDensityFunctionValue)) {
 				return 0.0F;
 			}
 			
