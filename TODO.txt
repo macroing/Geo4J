@@ -25,21 +25,6 @@ Add unit tests to SurfaceIntersector3F.
 
 
 
-Common API:
-
-Add the Point4D class.
-Add the Point4F class.
-Add the Vector4D class.
-Add the Vector4F class.
-
-
-
-Matrix API:
-
-Add the Matrix33I class.
-
-
-
 Ray API:
 
 Add the Ray2I class.

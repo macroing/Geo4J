@@ -25,6 +25,7 @@ import java.io.UncheckedIOException;
 import java.util.Objects;
 
 import org.macroing.geo4j.common.Point3F;
+import org.macroing.geo4j.common.Point4F;
 import org.macroing.geo4j.common.Vector3F;
 import org.macroing.geo4j.ray.Ray3F;
 import org.macroing.java.lang.Floats;
@@ -316,6 +317,46 @@ public final class Matrix44F implements Node {
 		final float w = this.element41 * p.x + this.element42 * p.y + this.element43 * p.z + this.element44;
 		
 		return Floats.equals(w, 1.0F) || Floats.isZero(w) ? new Point3F(x, y, z) : new Point3F(x / w, y / w, z / w);
+	}
+	
+	/**
+	 * Transforms {@code p} with this {@code Matrix44F} instance.
+	 * <p>
+	 * Returns a {@link Point4F} instance with the result of the transformation.
+	 * <p>
+	 * If {@code p} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param p a {@code Point4F} instance
+	 * @return a {@code Point4F} instance with the result of the transformation
+	 * @throws NullPointerException thrown if, and only if, {@code p} is {@code null}
+	 */
+	public Point4F transform(final Point4F p) {
+		final float x = this.element11 * p.x + this.element12 * p.y + this.element13 * p.z + this.element14 * p.w;
+		final float y = this.element21 * p.x + this.element22 * p.y + this.element23 * p.z + this.element24 * p.w;
+		final float z = this.element31 * p.x + this.element32 * p.y + this.element33 * p.z + this.element34 * p.w;
+		final float w = this.element41 * p.x + this.element42 * p.y + this.element43 * p.z + this.element44 * p.w;
+		
+		return new Point4F(x, y, z, w);
+	}
+	
+	/**
+	 * Transforms {@code p} with this {@code Matrix44F} instance and divides the result.
+	 * <p>
+	 * Returns a {@link Point4F} instance with the result of the transformation.
+	 * <p>
+	 * If {@code p} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param p a {@code Point4F} instance
+	 * @return a {@code Point4F} instance with the result of the transformation
+	 * @throws NullPointerException thrown if, and only if, {@code p} is {@code null}
+	 */
+	public Point4F transformAndDivide(final Point4F p) {
+		final float x = this.element11 * p.x + this.element12 * p.y + this.element13 * p.z + this.element14 * p.w;
+		final float y = this.element21 * p.x + this.element22 * p.y + this.element23 * p.z + this.element24 * p.w;
+		final float z = this.element31 * p.x + this.element32 * p.y + this.element33 * p.z + this.element34 * p.w;
+		final float w = this.element41 * p.x + this.element42 * p.y + this.element43 * p.z + this.element44 * p.w;
+		
+		return Floats.equals(w, 1.0F) || Floats.isZero(w) ? new Point4F(x, y, z, w) : new Point4F(x / w, y / w, z / w, w);
 	}
 	
 	/**

@@ -36,6 +36,7 @@ import java.io.UncheckedIOException;
 import org.junit.jupiter.api.Test;
 
 import org.macroing.geo4j.common.Point3F;
+import org.macroing.geo4j.common.Point4F;
 import org.macroing.geo4j.common.Vector3F;
 import org.macroing.geo4j.mock.DataOutputMock;
 import org.macroing.geo4j.ray.Ray3F;
@@ -873,7 +874,40 @@ public final class Matrix44FUnitTests {
 		assertEquals(2.0F, e.y);
 		assertEquals(3.0F, e.z);
 		
-		assertThrows(NullPointerException.class, () -> Matrix44F.translate(1.0F, 2.0F, 3.0F).transformAndDivide(null));
+		assertThrows(NullPointerException.class, () -> Matrix44F.translate(1.0F, 2.0F, 3.0F).transformAndDivide((Point3F)(null)));
+	}
+	
+	@Test
+	public void testTransformAndDividePoint4F() {
+		final Point4F a = new Point4F(1.0F, 2.0F, 3.0F, 1.0F);
+		final Point4F b = Matrix44F.scale(1.0F, 2.0F, 3.0F).transformAndDivide(a);
+		final Point4F c = Matrix44F.translate(1.0F, 2.0F, 3.0F).transformAndDivide(a);
+		final Point4F d = new Point4F(1.0F, 2.0F, 3.0F, 2.0F);
+		final Point4F e = Matrix44F.translate(1.0F, 2.0F, 3.0F).transformAndDivide(d);
+		final Point4F f = new Point4F(1.0F, 2.0F, 3.0F, 0.0F);
+		final Point4F g = Matrix44F.scale(1.0F, 2.0F, 3.0F).transformAndDivide(f);
+		
+		assertEquals(1.0F, b.x);
+		assertEquals(4.0F, b.y);
+		assertEquals(9.0F, b.z);
+		assertEquals(1.0F, b.w);
+		
+		assertEquals(2.0F, c.x);
+		assertEquals(4.0F, c.y);
+		assertEquals(6.0F, c.z);
+		assertEquals(1.0F, c.w);
+		
+		assertEquals(1.5F, e.x);
+		assertEquals(3.0F, e.y);
+		assertEquals(4.5F, e.z);
+		assertEquals(2.0F, e.w);
+		
+		assertEquals(1.0F, g.x);
+		assertEquals(4.0F, g.y);
+		assertEquals(9.0F, g.z);
+		assertEquals(0.0F, g.w);
+		
+		assertThrows(NullPointerException.class, () -> Matrix44F.translate(1.0F, 2.0F, 3.0F).transformAndDivide((Point4F)(null)));
 	}
 	
 	@Test
@@ -891,6 +925,25 @@ public final class Matrix44FUnitTests {
 		assertEquals(6.0F, c.z);
 		
 		assertThrows(NullPointerException.class, () -> Matrix44F.translate(1.0F, 2.0F, 3.0F).transform((Point3F)(null)));
+	}
+	
+	@Test
+	public void testTransformPoint4F() {
+		final Point4F a = new Point4F(1.0F, 2.0F, 3.0F, 1.0F);
+		final Point4F b = Matrix44F.scale(1.0F, 2.0F, 3.0F).transform(a);
+		final Point4F c = Matrix44F.translate(1.0F, 2.0F, 3.0F).transform(a);
+		
+		assertEquals(1.0F, b.x);
+		assertEquals(4.0F, b.y);
+		assertEquals(9.0F, b.z);
+		assertEquals(1.0F, b.w);
+		
+		assertEquals(2.0F, c.x);
+		assertEquals(4.0F, c.y);
+		assertEquals(6.0F, c.z);
+		assertEquals(1.0F, c.w);
+		
+		assertThrows(NullPointerException.class, () -> Matrix44F.translate(1.0F, 2.0F, 3.0F).transform((Point4F)(null)));
 	}
 	
 	@Test

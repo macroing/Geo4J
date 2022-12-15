@@ -47,19 +47,19 @@ The following table describes the different APIs and their current status in the
 
 | Name                                          | Javadoc | Unit Test | Package                            |
 | --------------------------------------------- | ------- | --------- | ---------------------------------- |
-| Geo4J                                         | 100.0%  |  89.7%    | org.macroing.geo4j                 |
+| Geo4J                                         | 100.0%  |  90.2%    | org.macroing.geo4j                 |
 | Bounding Volume API                           | 100.0%  | 100.0%    | org.macroing.geo4j.bv              |
 | Bounding Volume Axis Aligned Bounding Box API | 100.0%  | 100.0%    | org.macroing.geo4j.bv.aabb         |
 | Bounding Volume Bounding Sphere API           | 100.0%  | 100.0%    | org.macroing.geo4j.bv.bs           |
 | Bounding Volume Infinite Bounding Volume API  | 100.0%  | 100.0%    | org.macroing.geo4j.bv.ibv          |
 | Bounding Volume Reader API                    | 100.0%  |   0.0%    | org.macroing.geo4j.bv.reader       |
-| Common API                                    | 100.0%  |  98.0%    | org.macroing.geo4j.common          |
+| Common API                                    | 100.0%  |  98.3%    | org.macroing.geo4j.common          |
 | Matrix API                                    | 100.0%  | 100.0%    | org.macroing.geo4j.matrix          |
 | Morton Code API                               | 100.0%  |   0.0%    | org.macroing.geo4j.mc              |
 | Orthonormal Basis API                         | 100.0%  | 100.0%    | org.macroing.geo4j.onb             |
 | Quaternion API                                | 100.0%  |  69.5%    | org.macroing.geo4j.quaternion      |
 | Ray API                                       | 100.0%  | 100.0%    | org.macroing.geo4j.ray             |
-| Shape API                                     | 100.0%  |  41.9%    | org.macroing.geo4j.shape           |
+| Shape API                                     | 100.0%  |  41.7%    | org.macroing.geo4j.shape           |
 | Shape Circle API                              | 100.0%  | 100.0%    | org.macroing.geo4j.shape.circle    |
 | Shape Compound Shape API                      | 100.0%  |   0.0%    | org.macroing.geo4j.shape.cs        |
 | Shape Line Segment API                        | 100.0%  |  97.6%    | org.macroing.geo4j.shape.ls        |

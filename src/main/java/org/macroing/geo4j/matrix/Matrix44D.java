@@ -25,6 +25,7 @@ import java.io.UncheckedIOException;
 import java.util.Objects;
 
 import org.macroing.geo4j.common.Point3D;
+import org.macroing.geo4j.common.Point4D;
 import org.macroing.geo4j.common.Vector3D;
 import org.macroing.geo4j.ray.Ray3D;
 import org.macroing.java.lang.Doubles;
@@ -316,6 +317,46 @@ public final class Matrix44D implements Node {
 		final double w = this.element41 * p.x + this.element42 * p.y + this.element43 * p.z + this.element44;
 		
 		return Doubles.equals(w, 1.0D) || Doubles.isZero(w) ? new Point3D(x, y, z) : new Point3D(x / w, y / w, z / w);
+	}
+	
+	/**
+	 * Transforms {@code p} with this {@code Matrix44D} instance.
+	 * <p>
+	 * Returns a {@link Point4D} instance with the result of the transformation.
+	 * <p>
+	 * If {@code p} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param p a {@code Point4D} instance
+	 * @return a {@code Point4D} instance with the result of the transformation
+	 * @throws NullPointerException thrown if, and only if, {@code p} is {@code null}
+	 */
+	public Point4D transform(final Point4D p) {
+		final double x = this.element11 * p.x + this.element12 * p.y + this.element13 * p.z + this.element14 * p.w;
+		final double y = this.element21 * p.x + this.element22 * p.y + this.element23 * p.z + this.element24 * p.w;
+		final double z = this.element31 * p.x + this.element32 * p.y + this.element33 * p.z + this.element34 * p.w;
+		final double w = this.element41 * p.x + this.element42 * p.y + this.element43 * p.z + this.element44 * p.w;
+		
+		return new Point4D(x, y, z, w);
+	}
+	
+	/**
+	 * Transforms {@code p} with this {@code Matrix44D} instance and divides the result.
+	 * <p>
+	 * Returns a {@link Point4D} instance with the result of the transformation.
+	 * <p>
+	 * If {@code p} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param p a {@code Point4D} instance
+	 * @return a {@code Point4D} instance with the result of the transformation
+	 * @throws NullPointerException thrown if, and only if, {@code p} is {@code null}
+	 */
+	public Point4D transformAndDivide(final Point4D p) {
+		final double x = this.element11 * p.x + this.element12 * p.y + this.element13 * p.z + this.element14 * p.w;
+		final double y = this.element21 * p.x + this.element22 * p.y + this.element23 * p.z + this.element24 * p.w;
+		final double z = this.element31 * p.x + this.element32 * p.y + this.element33 * p.z + this.element34 * p.w;
+		final double w = this.element41 * p.x + this.element42 * p.y + this.element43 * p.z + this.element44 * p.w;
+		
+		return Doubles.equals(w, 1.0D) || Doubles.isZero(w) ? new Point4D(x, y, z, w) : new Point4D(x / w, y / w, z / w, w);
 	}
 	
 	/**
