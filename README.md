@@ -35,6 +35,7 @@ Supported Features
  - `org.macroing.geo4j.shape.polygon` provides the Shape Polygon API.
  - `org.macroing.geo4j.shape.reader` provides the Shape Reader API.
  - `org.macroing.geo4j.shape.rectangle` provides the Shape Rectangle API.
+ - `org.macroing.geo4j.shape.sphere` provides the Shape Sphere API.
  - `org.macroing.geo4j.shape.triangle` provides the Shape Triangle API.
 
 Documentation
@@ -47,7 +48,7 @@ The following table describes the different APIs and their current status in the
 
 | Name                                          | Javadoc | Unit Test | Package                            |
 | --------------------------------------------- | ------- | --------- | ---------------------------------- |
-| Geo4J                                         | 100.0%  |  90.2%    | org.macroing.geo4j                 |
+| Geo4J                                         | 100.0%  |  88.8%    | org.macroing.geo4j                 |
 | Bounding Volume API                           | 100.0%  | 100.0%    | org.macroing.geo4j.bv              |
 | Bounding Volume Axis Aligned Bounding Box API | 100.0%  | 100.0%    | org.macroing.geo4j.bv.aabb         |
 | Bounding Volume Bounding Sphere API           | 100.0%  | 100.0%    | org.macroing.geo4j.bv.bs           |
@@ -67,6 +68,7 @@ The following table describes the different APIs and their current status in the
 | Shape Polygon API                             | 100.0%  | 100.0%    | org.macroing.geo4j.shape.polygon   |
 | Shape Reader API                              | 100.0%  |   0.0%    | org.macroing.geo4j.shape.reader    |
 | Shape Rectangle API                           | 100.0%  | 100.0%    | org.macroing.geo4j.shape.rectangle |
+| Shape Sphere API                              | 100.0%  |  41.8%    | org.macroing.geo4j.shape.sphere    |
 | Shape Triangle API                            | 100.0%  | 100.0%    | org.macroing.geo4j.shape.triangle  |
 
 Dependencies
