@@ -29,7 +29,10 @@ Supported Features
  - `org.macroing.geo4j.ray` provides the Ray API.
  - `org.macroing.geo4j.shape` provides the Shape API.
  - `org.macroing.geo4j.shape.circle` provides the Shape Circle API.
+ - `org.macroing.geo4j.shape.cone` provides the Shape Cone API.
  - `org.macroing.geo4j.shape.cs` provides the Shape Compound Shape API.
+ - `org.macroing.geo4j.shape.cylinder` provides the Shape Cylinder API.
+ - `org.macroing.geo4j.shape.disk` provides the Shape Disk API.
  - `org.macroing.geo4j.shape.ls` provides the Shape Line Segment API.
  - `org.macroing.geo4j.shape.plane` provides the Shape Plane API.
  - `org.macroing.geo4j.shape.polygon` provides the Shape Polygon API.
@@ -48,7 +51,7 @@ The following table describes the different APIs and their current status in the
 
 | Name                                          | Javadoc | Unit Test | Package                            |
 | --------------------------------------------- | ------- | --------- | ---------------------------------- |
-| Geo4J                                         | 100.0%  |  88.8%    | org.macroing.geo4j                 |
+| Geo4J                                         | 100.0%  |  82.0%    | org.macroing.geo4j                 |
 | Bounding Volume API                           | 100.0%  | 100.0%    | org.macroing.geo4j.bv              |
 | Bounding Volume Axis Aligned Bounding Box API | 100.0%  | 100.0%    | org.macroing.geo4j.bv.aabb         |
 | Bounding Volume Bounding Sphere API           | 100.0%  | 100.0%    | org.macroing.geo4j.bv.bs           |
@@ -62,7 +65,10 @@ The following table describes the different APIs and their current status in the
 | Ray API                                       | 100.0%  | 100.0%    | org.macroing.geo4j.ray             |
 | Shape API                                     | 100.0%  |  41.7%    | org.macroing.geo4j.shape           |
 | Shape Circle API                              | 100.0%  | 100.0%    | org.macroing.geo4j.shape.circle    |
+| Shape Cone API                                | 100.0%  |   0.0%    | org.macroing.geo4j.shape.cone      |
 | Shape Compound Shape API                      | 100.0%  |   0.0%    | org.macroing.geo4j.shape.cs        |
+| Shape Cylinder API                            | 100.0%  |   0.0%    | org.macroing.geo4j.shape.cylinder  |
+| Shape Disk API                                | 100.0%  |   0.0%    | org.macroing.geo4j.shape.disk      |
 | Shape Line Segment API                        | 100.0%  |  97.6%    | org.macroing.geo4j.shape.ls        |
 | Shape Plane API                               | 100.0%  | 100.0%    | org.macroing.geo4j.shape.plane     |
 | Shape Polygon API                             | 100.0%  | 100.0%    | org.macroing.geo4j.shape.polygon   |

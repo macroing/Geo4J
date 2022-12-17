@@ -6,6 +6,14 @@ Add unit tests to CompoundShape3D.
 Add unit tests to CompoundShape3DReader.
 Add unit tests to CompoundShape3F.
 Add unit tests to CompoundShape3FReader.
+Add unit tests to Cone3D.
+Add unit tests to Cone3DReader.
+Add unit tests to Cone3F.
+Add unit tests to Cone3FReader.
+Add unit tests to Cylinder3D.
+Add unit tests to Cylinder3DReader.
+Add unit tests to Cylinder3F.
+Add unit tests to Cylinder3FReader.
 Add unit tests to DefaultBoundingVolume3DReader.
 Add unit tests to DefaultBoundingVolume3FReader.
 Add unit tests to DefaultShape2DReader.
@@ -50,15 +58,6 @@ Add the TreeBVHNode3F class.
 
 
 
-Shape - Cone API:
-
-Add the Cone3D class.
-Add the Cone3DReader class.
-Add the Cone3F class.
-Add the Cone3FReader class.
-
-
-
 Shape - Constructive Solid Geometry API:
 
 Add the ConstructiveSolidGeometry3D class.
@@ -74,15 +73,6 @@ Add the Curve3D class.
 Add the Curve3DReader class.
 Add the Curve3F class.
 Add the Curve3FReader class.
-
-
-
-Shape - Cylinder API:
-
-Add the Cylinder3D class.
-Add the Cylinder3DReader class.
-Add the Cylinder3F class.
-Add the Cylinder3FReader class.
 
 
 
