@@ -37,6 +37,7 @@ import org.macroing.geo4j.ray.Ray3D;
 import org.macroing.geo4j.shape.Shape3D;
 import org.macroing.geo4j.shape.SurfaceIntersection3D;
 import org.macroing.java.lang.Doubles;
+import org.macroing.java.lang.Strings;
 
 /**
  * A {@code Disk3D} is an implementation of {@link Shape3D} that represents a disk.
@@ -234,7 +235,7 @@ public final class Disk3D implements Shape3D {
 //	TODO: Add Unit Tests!
 	@Override
 	public String toString() {
-		return String.format("new Disk3D(%s, %+.10f, %+.10f, %+.10f)", this.phiMax, Double.valueOf(this.radiusInner), Double.valueOf(this.radiusOuter), Double.valueOf(this.zMax));
+		return String.format("new Disk3D(%s, %s, %s, %s)", this.phiMax, Strings.toNonScientificNotationJava(this.radiusInner), Strings.toNonScientificNotationJava(this.radiusOuter), Strings.toNonScientificNotationJava(this.zMax));
 	}
 	
 	/**

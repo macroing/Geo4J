@@ -37,6 +37,7 @@ import org.macroing.geo4j.ray.Ray3F;
 import org.macroing.geo4j.shape.Shape3F;
 import org.macroing.geo4j.shape.SurfaceIntersection3F;
 import org.macroing.java.lang.Floats;
+import org.macroing.java.lang.Strings;
 
 /**
  * A {@code Disk3F} is an implementation of {@link Shape3F} that represents a disk.
@@ -234,7 +235,7 @@ public final class Disk3F implements Shape3F {
 //	TODO: Add Unit Tests!
 	@Override
 	public String toString() {
-		return String.format("new Disk3F(%s, %+.10f, %+.10f, %+.10f)", this.phiMax, Float.valueOf(this.radiusInner), Float.valueOf(this.radiusOuter), Float.valueOf(this.zMax));
+		return String.format("new Disk3F(%s, %s, %s, %s)", this.phiMax, Strings.toNonScientificNotationJava(this.radiusInner), Strings.toNonScientificNotationJava(this.radiusOuter), Strings.toNonScientificNotationJava(this.zMax));
 	}
 	
 	/**

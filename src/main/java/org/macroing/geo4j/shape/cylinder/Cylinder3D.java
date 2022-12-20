@@ -37,6 +37,7 @@ import org.macroing.geo4j.ray.Ray3D;
 import org.macroing.geo4j.shape.Shape3D;
 import org.macroing.geo4j.shape.SurfaceIntersection3D;
 import org.macroing.java.lang.Doubles;
+import org.macroing.java.lang.Strings;
 
 /**
  * A {@code Cylinder3D} is an implementation of {@link Shape3D} that represents a cylinder.
@@ -234,7 +235,7 @@ public final class Cylinder3D implements Shape3D {
 //	TODO: Add Unit Tests!
 	@Override
 	public String toString() {
-		return String.format("new Cylinder3D(%s, %+.10f, %+.10f, %+.10f)", this.phiMax, Double.valueOf(this.radius), Double.valueOf(this.zMax), Double.valueOf(this.zMin));
+		return String.format("new Cylinder3D(%s, %s, %s, %s)", this.phiMax, Strings.toNonScientificNotationJava(this.radius), Strings.toNonScientificNotationJava(this.zMax), Strings.toNonScientificNotationJava(this.zMin));
 	}
 	
 	/**

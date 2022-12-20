@@ -7,9 +7,7 @@ Add unit tests to CompoundShape3DReader.
 Add unit tests to CompoundShape3F.
 Add unit tests to CompoundShape3FReader.
 Add unit tests to Cone3D.
-Add unit tests to Cone3DReader.
 Add unit tests to Cone3F.
-Add unit tests to Cone3FReader.
 Add unit tests to Cylinder3D.
 Add unit tests to Cylinder3DReader.
 Add unit tests to Cylinder3F.
@@ -27,9 +25,7 @@ Add unit tests to Quaternion4F.
 Add unit tests to Shape3D.
 Add unit tests to Shape3F.
 Add unit tests to Sphere3D.
-Add unit tests to Sphere3DReader.
 Add unit tests to Sphere3F.
-Add unit tests to Sphere3FReader.
 Add unit tests to SurfaceIntersection3D.
 Add unit tests to SurfaceIntersection3F.
 Add unit tests to SurfaceIntersector3D.

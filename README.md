@@ -51,7 +51,7 @@ The following table describes the different APIs and their current status in the
 
 | Name                                          | Javadoc | Unit Test | Package                            |
 | --------------------------------------------- | ------- | --------- | ---------------------------------- |
-| Geo4J                                         | 100.0%  |  82.0%    | org.macroing.geo4j                 |
+| Geo4J                                         | 100.0%  |  82.9%    | org.macroing.geo4j                 |
 | Bounding Volume API                           | 100.0%  | 100.0%    | org.macroing.geo4j.bv              |
 | Bounding Volume Axis Aligned Bounding Box API | 100.0%  | 100.0%    | org.macroing.geo4j.bv.aabb         |
 | Bounding Volume Bounding Sphere API           | 100.0%  | 100.0%    | org.macroing.geo4j.bv.bs           |
@@ -65,7 +65,7 @@ The following table describes the different APIs and their current status in the
 | Ray API                                       | 100.0%  | 100.0%    | org.macroing.geo4j.ray             |
 | Shape API                                     | 100.0%  |  41.7%    | org.macroing.geo4j.shape           |
 | Shape Circle API                              | 100.0%  | 100.0%    | org.macroing.geo4j.shape.circle    |
-| Shape Cone API                                | 100.0%  |   0.0%    | org.macroing.geo4j.shape.cone      |
+| Shape Cone API                                | 100.0%  |  31.6%    | org.macroing.geo4j.shape.cone      |
 | Shape Compound Shape API                      | 100.0%  |   0.0%    | org.macroing.geo4j.shape.cs        |
 | Shape Cylinder API                            | 100.0%  |   0.0%    | org.macroing.geo4j.shape.cylinder  |
 | Shape Disk API                                | 100.0%  |   0.0%    | org.macroing.geo4j.shape.disk      |
@@ -74,7 +74,7 @@ The following table describes the different APIs and their current status in the
 | Shape Polygon API                             | 100.0%  | 100.0%    | org.macroing.geo4j.shape.polygon   |
 | Shape Reader API                              | 100.0%  |   0.0%    | org.macroing.geo4j.shape.reader    |
 | Shape Rectangle API                           | 100.0%  | 100.0%    | org.macroing.geo4j.shape.rectangle |
-| Shape Sphere API                              | 100.0%  |  41.8%    | org.macroing.geo4j.shape.sphere    |
+| Shape Sphere API                              | 100.0%  |  44.0%    | org.macroing.geo4j.shape.sphere    |
 | Shape Triangle API                            | 100.0%  | 100.0%    | org.macroing.geo4j.shape.triangle  |
 
 Dependencies

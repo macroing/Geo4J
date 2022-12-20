@@ -34,6 +34,7 @@ import java.io.UncheckedIOException;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
+
 import org.macroing.geo4j.bv.bs.BoundingSphere3D;
 import org.macroing.geo4j.common.Point2D;
 import org.macroing.geo4j.common.Point3D;

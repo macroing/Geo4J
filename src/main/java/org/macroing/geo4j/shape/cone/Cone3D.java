@@ -36,6 +36,7 @@ import org.macroing.geo4j.ray.Ray3D;
 import org.macroing.geo4j.shape.Shape3D;
 import org.macroing.geo4j.shape.SurfaceIntersection3D;
 import org.macroing.java.lang.Doubles;
+import org.macroing.java.lang.Strings;
 
 /**
  * A {@code Cone3D} is an implementation of {@link Shape3D} that represents a cone.
@@ -51,13 +52,11 @@ public final class Cone3D implements Shape3D {
 	/**
 	 * The name of this {@code Cone3D} class.
 	 */
-//	TODO: Add Unit Tests!
 	public static final String NAME = "Cone";
 	
 	/**
 	 * The ID of this {@code Cone3D} class.
 	 */
-//	TODO: Add Unit Tests!
 	public static final int ID = 2;
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -78,7 +77,6 @@ public final class Cone3D implements Shape3D {
 	 * }
 	 * </pre>
 	 */
-//	TODO: Add Unit Tests!
 	public Cone3D() {
 		this(AngleD.degrees(360.0D));
 	}
@@ -98,7 +96,6 @@ public final class Cone3D implements Shape3D {
 	 * @param phiMax the maximum phi
 	 * @throws NullPointerException thrown if, and only if, {@code phiMax} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Cone3D(final AngleD phiMax) {
 		this(phiMax, 1.0D);
 	}
@@ -119,7 +116,6 @@ public final class Cone3D implements Shape3D {
 	 * @param radius the radius
 	 * @throws NullPointerException thrown if, and only if, {@code phiMax} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Cone3D(final AngleD phiMax, final double radius) {
 		this(phiMax, radius, 1.0D);
 	}
@@ -134,7 +130,6 @@ public final class Cone3D implements Shape3D {
 	 * @param zMax the maximum Z
 	 * @throws NullPointerException thrown if, and only if, {@code phiMax} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Cone3D(final AngleD phiMax, final double radius, final double zMax) {
 		this.phiMax = Objects.requireNonNull(phiMax, "phiMax == null");
 		this.radius = radius;
@@ -148,7 +143,6 @@ public final class Cone3D implements Shape3D {
 	 * 
 	 * @return the maximum phi of this {@code Cone3D} instance
 	 */
-//	TODO: Add Unit Tests!
 	public AngleD getPhiMax() {
 		return this.phiMax;
 	}
@@ -194,7 +188,6 @@ public final class Cone3D implements Shape3D {
 	 * 
 	 * @return a {@code String} with the name of this {@code Cone3D} instance
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public String getName() {
 		return NAME;
@@ -205,10 +198,9 @@ public final class Cone3D implements Shape3D {
 	 * 
 	 * @return a {@code String} representation of this {@code Cone3D} instance
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public String toString() {
-		return String.format("new Cone3D(%s, %+.10f, %+.10f)", this.phiMax, Double.valueOf(this.radius), Double.valueOf(this.zMax));
+		return String.format("new Cone3D(%s, %s, %s)", this.phiMax, Strings.toNonScientificNotationJava(this.radius), Strings.toNonScientificNotationJava(this.zMax));
 	}
 	
 	/**
@@ -257,7 +249,6 @@ public final class Cone3D implements Shape3D {
 	 * 
 	 * @return the radius of this {@code Cone3D} instance
 	 */
-//	TODO: Add Unit Tests!
 	public double getRadius() {
 		return this.radius;
 	}
@@ -278,7 +269,6 @@ public final class Cone3D implements Shape3D {
 	 * 
 	 * @return the maximum Z of this {@code Cone3D} instance
 	 */
-//	TODO: Add Unit Tests!
 	public double getZMax() {
 		return this.zMax;
 	}
@@ -334,7 +324,6 @@ public final class Cone3D implements Shape3D {
 	 * 
 	 * @return an {@code int} with the ID of this {@code Cone3D} instance
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public int getID() {
 		return ID;
@@ -362,7 +351,6 @@ public final class Cone3D implements Shape3D {
 	 * @throws NullPointerException thrown if, and only if, {@code dataOutput} is {@code null}
 	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public void write(final DataOutput dataOutput) {
 		try {
