@@ -230,6 +230,33 @@ public final class AngleFUnitTests {
 	}
 	
 	@Test
+	public void testPitchPoint3FPoint3F() {
+		final AngleF a = AngleF.pitch(new Point3F(0.0F, 0.0F, 0.0F), new Point3F(1.0F, 0.0F, 0.0F));
+		final AngleF b = AngleF.pitch(new Point3F(0.0F, 0.0F, 0.0F), new Point3F(0.0F, 1.0F, 0.0F));
+		final AngleF c = AngleF.pitch(new Point3F(0.0F, 0.0F, 0.0F), new Point3F(0.0F, 0.0F, 1.0F));
+		
+		assertEquals(AngleF.degrees( 0.0F, -90.0F, 90.0F), a);
+		assertEquals(AngleF.degrees(90.0F, -90.0F, 90.0F), b);
+		assertEquals(AngleF.degrees( 0.0F, -90.0F, 90.0F), c);
+		
+		assertThrows(NullPointerException.class, () -> AngleF.pitch(new Point3F(), null));
+		assertThrows(NullPointerException.class, () -> AngleF.pitch(null, new Point3F()));
+	}
+	
+	@Test
+	public void testPitchVector3F() {
+		final AngleF a = AngleF.pitch(Vector3F.x());
+		final AngleF b = AngleF.pitch(Vector3F.y());
+		final AngleF c = AngleF.pitch(Vector3F.z());
+		
+		assertEquals(AngleF.degrees( 0.0F, -90.0F, 90.0F), a);
+		assertEquals(AngleF.degrees(90.0F, -90.0F, 90.0F), b);
+		assertEquals(AngleF.degrees( 0.0F, -90.0F, 90.0F), c);
+		
+		assertThrows(NullPointerException.class, () -> AngleF.pitch(null));
+	}
+	
+	@Test
 	public void testRadiansFloat() {
 		final AngleF a = AngleF.radians((float)(Math.PI) * 2.0F);
 		final AngleF b = AngleF.radians(0.0F);
@@ -359,5 +386,32 @@ public final class AngleFUnitTests {
 		
 		assertThrows(NullPointerException.class, () -> a.write(null));
 		assertThrows(UncheckedIOException.class, () -> a.write(new DataOutputMock()));
+	}
+	
+	@Test
+	public void testYawPoint3FPoint3F() {
+		final AngleF a = AngleF.yaw(new Point3F(0.0F, 0.0F, 0.0F), new Point3F(1.0F, 0.0F, 0.0F));
+		final AngleF b = AngleF.yaw(new Point3F(0.0F, 0.0F, 0.0F), new Point3F(0.0F, 1.0F, 0.0F));
+		final AngleF c = AngleF.yaw(new Point3F(0.0F, 0.0F, 0.0F), new Point3F(0.0F, 0.0F, 1.0F));
+		
+		assertEquals(AngleF.degrees(90.0F), a);
+		assertEquals(AngleF.degrees( 0.0F), b);
+		assertEquals(AngleF.degrees( 0.0F), c);
+		
+		assertThrows(NullPointerException.class, () -> AngleF.yaw(new Point3F(), null));
+		assertThrows(NullPointerException.class, () -> AngleF.yaw(null, new Point3F()));
+	}
+	
+	@Test
+	public void testYawVector3F() {
+		final AngleF a = AngleF.yaw(Vector3F.x());
+		final AngleF b = AngleF.yaw(Vector3F.y());
+		final AngleF c = AngleF.yaw(Vector3F.z());
+		
+		assertEquals(AngleF.degrees(90.0F), a);
+		assertEquals(AngleF.degrees( 0.0F), b);
+		assertEquals(AngleF.degrees( 0.0F), c);
+		
+		assertThrows(NullPointerException.class, () -> AngleF.yaw(null));
 	}
 }

@@ -230,6 +230,33 @@ public final class AngleDUnitTests {
 	}
 	
 	@Test
+	public void testPitchPoint3DPoint3D() {
+		final AngleD a = AngleD.pitch(new Point3D(0.0D, 0.0D, 0.0D), new Point3D(1.0D, 0.0D, 0.0D));
+		final AngleD b = AngleD.pitch(new Point3D(0.0D, 0.0D, 0.0D), new Point3D(0.0D, 1.0D, 0.0D));
+		final AngleD c = AngleD.pitch(new Point3D(0.0D, 0.0D, 0.0D), new Point3D(0.0D, 0.0D, 1.0D));
+		
+		assertEquals(AngleD.degrees( 0.0D, -90.0D, 90.0D), a);
+		assertEquals(AngleD.degrees(90.0D, -90.0D, 90.0D), b);
+		assertEquals(AngleD.degrees( 0.0D, -90.0D, 90.0D), c);
+		
+		assertThrows(NullPointerException.class, () -> AngleD.pitch(new Point3D(), null));
+		assertThrows(NullPointerException.class, () -> AngleD.pitch(null, new Point3D()));
+	}
+	
+	@Test
+	public void testPitchVector3D() {
+		final AngleD a = AngleD.pitch(Vector3D.x());
+		final AngleD b = AngleD.pitch(Vector3D.y());
+		final AngleD c = AngleD.pitch(Vector3D.z());
+		
+		assertEquals(AngleD.degrees( 0.0D, -90.0D, 90.0D), a);
+		assertEquals(AngleD.degrees(90.0D, -90.0D, 90.0D), b);
+		assertEquals(AngleD.degrees( 0.0D, -90.0D, 90.0D), c);
+		
+		assertThrows(NullPointerException.class, () -> AngleD.pitch(null));
+	}
+	
+	@Test
 	public void testRadiansDouble() {
 		final AngleD a = AngleD.radians(Math.PI * 2.0D);
 		final AngleD b = AngleD.radians(0.0D);
@@ -359,5 +386,32 @@ public final class AngleDUnitTests {
 		
 		assertThrows(NullPointerException.class, () -> a.write(null));
 		assertThrows(UncheckedIOException.class, () -> a.write(new DataOutputMock()));
+	}
+	
+	@Test
+	public void testYawPoint3DPoint3D() {
+		final AngleD a = AngleD.yaw(new Point3D(0.0D, 0.0D, 0.0D), new Point3D(1.0D, 0.0D, 0.0D));
+		final AngleD b = AngleD.yaw(new Point3D(0.0D, 0.0D, 0.0D), new Point3D(0.0D, 1.0D, 0.0D));
+		final AngleD c = AngleD.yaw(new Point3D(0.0D, 0.0D, 0.0D), new Point3D(0.0D, 0.0D, 1.0D));
+		
+		assertEquals(AngleD.degrees(90.0D), a);
+		assertEquals(AngleD.degrees( 0.0D), b);
+		assertEquals(AngleD.degrees( 0.0D), c);
+		
+		assertThrows(NullPointerException.class, () -> AngleD.yaw(new Point3D(), null));
+		assertThrows(NullPointerException.class, () -> AngleD.yaw(null, new Point3D()));
+	}
+	
+	@Test
+	public void testYawVector3D() {
+		final AngleD a = AngleD.yaw(Vector3D.x());
+		final AngleD b = AngleD.yaw(Vector3D.y());
+		final AngleD c = AngleD.yaw(Vector3D.z());
+		
+		assertEquals(AngleD.degrees(90.0D), a);
+		assertEquals(AngleD.degrees( 0.0D), b);
+		assertEquals(AngleD.degrees( 0.0D), c);
+		
+		assertThrows(NullPointerException.class, () -> AngleD.yaw(null));
 	}
 }

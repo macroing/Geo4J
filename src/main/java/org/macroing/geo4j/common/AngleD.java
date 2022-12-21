@@ -22,7 +22,6 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.lang.reflect.Field;//TODO: Add Unit Tests!
 import java.util.Objects;
 
 import org.macroing.java.lang.Doubles;
@@ -313,38 +312,6 @@ public final class AngleD implements Node {
 	}
 	
 	/**
-	 * Returns an {@code AngleD} instance that represents half of {@code angle}.
-	 * <p>
-	 * If {@code angle} is {@code null}, a {@code NullPointerException} will be thrown.
-	 * 
-	 * @param angle an {@code AngleD} instance
-	 * @return an {@code AngleD} instance that represents half of {@code angle}
-	 * @throws NullPointerException thrown if, and only if, {@code angle} is {@code null}
-	 */
-//	TODO: Add Unit Tests!
-	public static AngleD half(final AngleD angle) {
-		final double degreesMinimum = angle.degreesMinimum;
-		final double degreesMaximum = angle.degreesMaximum;
-		final double degrees = doWrapAround(angle.degrees * 0.5D, degreesMinimum, degreesMaximum);
-		
-		return degrees(degrees, degreesMinimum, degreesMaximum);
-	}
-	
-	/**
-	 * Returns an {@code AngleD} instance that is a negated version of {@code angle}.
-	 * <p>
-	 * If {@code angle} is {@code null}, a {@code NullPointerException} will be thrown.
-	 * 
-	 * @param angle an {@code AngleD} instance
-	 * @return an {@code AngleD} instance that is a negated version of {@code angle}
-	 * @throws NullPointerException thrown if, and only if, {@code angle} is {@code null}
-	 */
-//	TODO: Add Unit Tests!
-	public static AngleD negate(final AngleD angle) {
-		return degrees(-angle.degrees, -angle.degreesMaximum, -angle.degreesMinimum);
-	}
-	
-	/**
 	 * Returns a pitch {@code AngleD} instance based on {@code eye} and {@code lookAt}.
 	 * <p>
 	 * If either {@code eye} or {@code lookAt} are {@code null}, a {@code NullPointerException} will be thrown.
@@ -354,7 +321,6 @@ public final class AngleD implements Node {
 	 * @return a pitch {@code AngleD} instance based on {@code eye} and {@code lookAt}
 	 * @throws NullPointerException thrown if, and only if, either {@code eye} or {@code lookAt} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static AngleD pitch(final Point3D eye, final Point3D lookAt) {
 		return pitch(Vector3D.directionNormalized(eye, lookAt));
 	}
@@ -368,7 +334,6 @@ public final class AngleD implements Node {
 	 * @return a pitch {@code AngleD} instance based on {@code direction}
 	 * @throws NullPointerException thrown if, and only if, {@code direction} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static AngleD pitch(final Vector3D direction) {
 		return radians(Doubles.asin(direction.y), RADIANS_MINIMUM_PITCH, RADIANS_MAXIMUM_PITCH);
 	}
@@ -467,7 +432,6 @@ public final class AngleD implements Node {
 	 * @return a yaw {@code AngleD} instance based on {@code eye} and {@code lookAt}
 	 * @throws NullPointerException thrown if, and only if, either {@code eye} or {@code lookAt} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static AngleD yaw(final Point3D eye, final Point3D lookAt) {
 		return yaw(Vector3D.directionNormalized(eye, lookAt));
 	}
@@ -481,7 +445,6 @@ public final class AngleD implements Node {
 	 * @return a yaw {@code AngleD} instance based on {@code direction}
 	 * @throws NullPointerException thrown if, and only if, {@code direction} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static AngleD yaw(final Vector3D direction) {
 		return radians(Doubles.atan2(direction.x, direction.z));
 	}

@@ -22,7 +22,6 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.lang.reflect.Field;//TODO: Add Unit Tests!
 import java.util.Objects;
 
 import org.macroing.java.lang.Floats;
@@ -313,38 +312,6 @@ public final class AngleF implements Node {
 	}
 	
 	/**
-	 * Returns an {@code AngleF} instance that represents half of {@code angle}.
-	 * <p>
-	 * If {@code angle} is {@code null}, a {@code NullPointerException} will be thrown.
-	 * 
-	 * @param angle an {@code AngleF} instance
-	 * @return an {@code AngleF} instance that represents half of {@code angle}
-	 * @throws NullPointerException thrown if, and only if, {@code angle} is {@code null}
-	 */
-//	TODO: Add Unit Tests!
-	public static AngleF half(final AngleF angle) {
-		final float degreesMinimum = angle.degreesMinimum;
-		final float degreesMaximum = angle.degreesMaximum;
-		final float degrees = doWrapAround(angle.degrees * 0.5F, degreesMinimum, degreesMaximum);
-		
-		return degrees(degrees, degreesMinimum, degreesMaximum);
-	}
-	
-	/**
-	 * Returns an {@code AngleF} instance that is a negated version of {@code angle}.
-	 * <p>
-	 * If {@code angle} is {@code null}, a {@code NullPointerException} will be thrown.
-	 * 
-	 * @param angle an {@code AngleF} instance
-	 * @return an {@code AngleF} instance that is a negated version of {@code angle}
-	 * @throws NullPointerException thrown if, and only if, {@code angle} is {@code null}
-	 */
-//	TODO: Add Unit Tests!
-	public static AngleF negate(final AngleF angle) {
-		return degrees(-angle.degrees, -angle.degreesMaximum, -angle.degreesMinimum);
-	}
-	
-	/**
 	 * Returns a pitch {@code AngleF} instance based on {@code eye} and {@code lookAt}.
 	 * <p>
 	 * If either {@code eye} or {@code lookAt} are {@code null}, a {@code NullPointerException} will be thrown.
@@ -354,7 +321,6 @@ public final class AngleF implements Node {
 	 * @return a pitch {@code AngleF} instance based on {@code eye} and {@code lookAt}
 	 * @throws NullPointerException thrown if, and only if, either {@code eye} or {@code lookAt} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static AngleF pitch(final Point3F eye, final Point3F lookAt) {
 		return pitch(Vector3F.directionNormalized(eye, lookAt));
 	}
@@ -368,7 +334,6 @@ public final class AngleF implements Node {
 	 * @return a pitch {@code AngleF} instance based on {@code direction}
 	 * @throws NullPointerException thrown if, and only if, {@code direction} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static AngleF pitch(final Vector3F direction) {
 		return radians(Floats.asin(direction.y), RADIANS_MINIMUM_PITCH, RADIANS_MAXIMUM_PITCH);
 	}
@@ -467,7 +432,6 @@ public final class AngleF implements Node {
 	 * @return a yaw {@code AngleF} instance based on {@code eye} and {@code lookAt}
 	 * @throws NullPointerException thrown if, and only if, either {@code eye} or {@code lookAt} are {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static AngleF yaw(final Point3F eye, final Point3F lookAt) {
 		return yaw(Vector3F.directionNormalized(eye, lookAt));
 	}
@@ -481,7 +445,6 @@ public final class AngleF implements Node {
 	 * @return a yaw {@code AngleF} instance based on {@code direction}
 	 * @throws NullPointerException thrown if, and only if, {@code direction} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static AngleF yaw(final Vector3F direction) {
 		return radians(Floats.atan2(direction.x, direction.z));
 	}
