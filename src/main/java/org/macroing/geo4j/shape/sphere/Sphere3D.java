@@ -92,21 +92,17 @@ public final class Sphere3D implements Shape3D {
 	 * @return an optional {@code SurfaceSample3D} with the surface sample
 	 * @throws NullPointerException thrown if, and only if, {@code sample} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public Optional<SurfaceSample3D> sample(final Point2D sample) {
 		Objects.requireNonNull(sample, "sample == null");
 		
-		final Vector3D direction = Vector3D.sampleSphereUniformDistribution(sample);
+		final Vector3D surfaceNormal = Vector3D.normalize(Vector3D.sampleSphereUniformDistribution(sample));
 		
-		final Point3D point0 = Point3D.add(new Point3D(), direction, 1.0D);
-		final Point3D point1 = Point3D.add(point0, new Vector3D(1.0D), 1.0D / Point3D.distance(new Point3D(), point0));
-		
-		final Vector3D surfaceNormal = Vector3D.directionNormalized(new Point3D(), point0);
+		final Point3D point = new Point3D(surfaceNormal);
 		
 		final double probabilityDensityFunctionValue = 1.0D / getSurfaceArea();
 		
-		final SurfaceSample3D surfaceSample = new SurfaceSample3D(point1, surfaceNormal, probabilityDensityFunctionValue);
+		final SurfaceSample3D surfaceSample = new SurfaceSample3D(point, surfaceNormal, probabilityDensityFunctionValue);
 		
 		return Optional.of(surfaceSample);
 	}
@@ -155,7 +151,7 @@ public final class Sphere3D implements Shape3D {
 				
 				final double probabilityDensityFunctionValue = Point3D.distanceSquared(point, surfaceIntersectionPoint) / Vector3D.dotProductAbs(surfaceSample.getSurfaceNormal(), incomingNormalizedNegated);
 				
-				if(Doubles.isInfinite(probabilityDensityFunctionValue)) {
+				if(Doubles.isInfinite(probabilityDensityFunctionValue) || Doubles.isNaN(probabilityDensityFunctionValue)) {
 					return SurfaceSample3D.EMPTY;
 				}
 				
@@ -335,9 +331,16 @@ public final class Sphere3D implements Shape3D {
 		if(optionalSurfaceIntersectionShape.isPresent()) {
 			final SurfaceIntersection3D surfaceIntersectionShape = optionalSurfaceIntersectionShape.get();
 			
-			final double probabilityDensityFunctionValue = Point3D.distanceSquared(surfaceIntersectionShape.getSurfaceIntersectionPoint(), surfaceIntersection.getSurfaceIntersectionPoint()) / Vector3D.dotProductAbs(surfaceIntersectionShape.getSurfaceNormalS(), Vector3D.negate(incoming)) * getSurfaceArea();
+			final Point3D surfaceIntersectionPoint = surfaceIntersection.getSurfaceIntersectionPoint();
+			final Point3D surfaceIntersectionPointShape = surfaceIntersectionShape.getSurfaceIntersectionPoint();
 			
-			if(!Doubles.isInfinite(probabilityDensityFunctionValue)) {
+			final double distanceSquared = Point3D.distanceSquared(surfaceIntersectionPointShape, surfaceIntersectionPoint);
+			
+			final double dotProductAbs = Vector3D.dotProductAbs(surfaceIntersectionShape.getSurfaceNormalS(), Vector3D.negate(incoming));
+			
+			final double probabilityDensityFunctionValue = distanceSquared / dotProductAbs * getSurfaceArea();
+			
+			if(!Doubles.isInfinite(probabilityDensityFunctionValue) && !Doubles.isNaN(probabilityDensityFunctionValue)) {
 				return probabilityDensityFunctionValue;
 			}
 		}

@@ -92,21 +92,17 @@ public final class Sphere3F implements Shape3F {
 	 * @return an optional {@code SurfaceSample3F} with the surface sample
 	 * @throws NullPointerException thrown if, and only if, {@code sample} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public Optional<SurfaceSample3F> sample(final Point2F sample) {
 		Objects.requireNonNull(sample, "sample == null");
 		
-		final Vector3F direction = Vector3F.sampleSphereUniformDistribution(sample);
+		final Vector3F surfaceNormal = Vector3F.normalize(Vector3F.sampleSphereUniformDistribution(sample));
 		
-		final Point3F point0 = Point3F.add(new Point3F(), direction, 1.0F);
-		final Point3F point1 = Point3F.add(point0, new Vector3F(1.0F), 1.0F / Point3F.distance(new Point3F(), point0));
-		
-		final Vector3F surfaceNormal = Vector3F.directionNormalized(new Point3F(), point0);
+		final Point3F point = new Point3F(surfaceNormal);
 		
 		final float probabilityDensityFunctionValue = 1.0F / getSurfaceArea();
 		
-		final SurfaceSample3F surfaceSample = new SurfaceSample3F(point1, surfaceNormal, probabilityDensityFunctionValue);
+		final SurfaceSample3F surfaceSample = new SurfaceSample3F(point, surfaceNormal, probabilityDensityFunctionValue);
 		
 		return Optional.of(surfaceSample);
 	}
@@ -155,7 +151,7 @@ public final class Sphere3F implements Shape3F {
 				
 				final float probabilityDensityFunctionValue = Point3F.distanceSquared(point, surfaceIntersectionPoint) / Vector3F.dotProductAbs(surfaceSample.getSurfaceNormal(), incomingNormalizedNegated);
 				
-				if(Floats.isInfinite(probabilityDensityFunctionValue)) {
+				if(Floats.isInfinite(probabilityDensityFunctionValue) || Floats.isNaN(probabilityDensityFunctionValue)) {
 					return SurfaceSample3F.EMPTY;
 				}
 				
@@ -335,9 +331,16 @@ public final class Sphere3F implements Shape3F {
 		if(optionalSurfaceIntersectionShape.isPresent()) {
 			final SurfaceIntersection3F surfaceIntersectionShape = optionalSurfaceIntersectionShape.get();
 			
-			final float probabilityDensityFunctionValue = Point3F.distanceSquared(surfaceIntersectionShape.getSurfaceIntersectionPoint(), surfaceIntersection.getSurfaceIntersectionPoint()) / Vector3F.dotProductAbs(surfaceIntersectionShape.getSurfaceNormalS(), Vector3F.negate(incoming)) * getSurfaceArea();
+			final Point3F surfaceIntersectionPoint = surfaceIntersection.getSurfaceIntersectionPoint();
+			final Point3F surfaceIntersectionPointShape = surfaceIntersectionShape.getSurfaceIntersectionPoint();
 			
-			if(!Floats.isInfinite(probabilityDensityFunctionValue)) {
+			final float distanceSquared = Point3F.distanceSquared(surfaceIntersectionPointShape, surfaceIntersectionPoint);
+			
+			final float dotProductAbs = Vector3F.dotProductAbs(surfaceIntersectionShape.getSurfaceNormalS(), Vector3F.negate(incoming));
+			
+			final float probabilityDensityFunctionValue = distanceSquared / dotProductAbs * getSurfaceArea();
+			
+			if(!Floats.isInfinite(probabilityDensityFunctionValue) && !Floats.isNaN(probabilityDensityFunctionValue)) {
 				return probabilityDensityFunctionValue;
 			}
 		}

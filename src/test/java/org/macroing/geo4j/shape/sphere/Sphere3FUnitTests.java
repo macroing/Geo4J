@@ -45,6 +45,7 @@ import org.macroing.geo4j.mock.NodeVisitorMock;
 import org.macroing.geo4j.onb.OrthonormalBasis33F;
 import org.macroing.geo4j.ray.Ray3F;
 import org.macroing.geo4j.shape.SurfaceIntersection3F;
+import org.macroing.geo4j.shape.SurfaceSample3F;
 import org.macroing.java.util.visitor.NodeHierarchicalVisitor;
 import org.macroing.java.util.visitor.NodeTraversalException;
 import org.macroing.java.util.visitor.NodeVisitor;
@@ -241,10 +242,36 @@ public final class Sphere3FUnitTests {
 //		
 //	}
 	
-//	@Test
-//	public void testSamplePoint2F() {
-//		
-//	}
+	@Test
+	public void testSamplePoint2F() {
+		final Sphere3F sphere = new Sphere3F();
+		
+		for(int i = 0; i < 1000; i++) {
+			final Point2F sample = Point2F.sampleRandom();
+			
+			final Optional<SurfaceSample3F> optionalSurfaceSample = sphere.sample(sample);
+			
+			assertTrue(optionalSurfaceSample.isPresent());
+			
+			final SurfaceSample3F surfaceSample = optionalSurfaceSample.get();
+			
+			final Point3F point = surfaceSample.getPoint();
+			
+			final Vector3F surfaceNormal = surfaceSample.getSurfaceNormal();
+			
+			final float probabilityDensityFunctionValue = surfaceSample.getProbabilityDensityFunctionValue();
+			
+			assertNotNull(point);
+			assertNotNull(surfaceNormal);
+			
+			assertTrue(Point3F.distanceSquared(new Point3F(), point) <= 1.0000002F);
+			assertTrue(surfaceNormal.isUnitVector());
+			
+			assertEquals(1.0F / ((float)(Math.PI) * 4.0F), probabilityDensityFunctionValue);
+		}
+		
+		assertThrows(NullPointerException.class, () -> sphere.sample(null));
+	}
 	
 	@Test
 	public void testToString() {
