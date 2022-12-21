@@ -138,6 +138,31 @@ public final class AngleDUnitTests {
 	}
 	
 	@Test
+	public void testFieldOfView() {
+		final AngleD angle = AngleD.fieldOfView(400.0D, 800.0D);
+		
+		assertEquals(90.0D, angle.getDegrees());
+	}
+	
+	@Test
+	public void testFieldOfViewX() {
+		final AngleD angle = AngleD.fieldOfViewX(AngleD.degrees(90.0D), 800.0D, 800.0D);
+		
+		assertEquals(90.0D, angle.getDegrees());
+		
+		assertThrows(NullPointerException.class, () -> AngleD.fieldOfViewX(null, 800.0D, 800.0D));
+	}
+	
+	@Test
+	public void testFieldOfViewY() {
+		final AngleD angle = AngleD.fieldOfViewY(AngleD.degrees(90.0D), 800.0D, 800.0D);
+		
+		assertEquals(90.0D, angle.getDegrees());
+		
+		assertThrows(NullPointerException.class, () -> AngleD.fieldOfViewY(null, 800.0D, 800.0D));
+	}
+	
+	@Test
 	public void testGetDegrees() {
 		final AngleD a = AngleD.degrees(250.0D, 200.0D, 300.0D);
 		final AngleD b = AngleD.degrees(301.0D, 200.0D, 300.0D);

@@ -43,7 +43,9 @@ public final class AngleF implements Node {
 	private static final float DEGREES_MINIMUM = 0.0F;
 	private static final float DEGREES_MINIMUM_PITCH = -90.0F;
 	private static final float RADIANS_MAXIMUM = Floats.PI_MULTIPLIED_BY_2;
+	private static final float RADIANS_MAXIMUM_PITCH = Floats.toRadians(DEGREES_MAXIMUM_PITCH);
 	private static final float RADIANS_MINIMUM = 0.0F;
+	private static final float RADIANS_MINIMUM_PITCH = Floats.toRadians(DEGREES_MINIMUM_PITCH);
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
@@ -276,7 +278,6 @@ public final class AngleF implements Node {
 	 * @param resolution the resolution in X- or Y-direction (width or height)
 	 * @return a field of view (FOV) {@code AngleF} based on {@code focalDistance} and {@code resolution}
 	 */
-//	TODO: Add Unit Tests!
 	public static AngleF fieldOfView(final float focalDistance, final float resolution) {
 		return radians(2.0F * Floats.atan(resolution * 0.5F / focalDistance));
 	}
@@ -292,7 +293,6 @@ public final class AngleF implements Node {
 	 * @return a horizontal field of view (FOV) {@code AngleF} based on {@code fieldOfViewY}, {@code resolutionX} and {@code resolutionY}
 	 * @throws NullPointerException thrown if, and only if, {@code fieldOfViewY} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static AngleF fieldOfViewX(final AngleF fieldOfViewY, final float resolutionX, final float resolutionY) {
 		return radians(2.0F * Floats.atan(Floats.tan(fieldOfViewY.radians * 0.5F) * (resolutionX / resolutionY)));
 	}
@@ -308,7 +308,6 @@ public final class AngleF implements Node {
 	 * @return a vertical field of view (FOV) {@code AngleF} based on {@code fieldOfViewX}, {@code resolutionX} and {@code resolutionY}
 	 * @throws NullPointerException thrown if, and only if, {@code fieldOfViewX} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static AngleF fieldOfViewY(final AngleF fieldOfViewX, final float resolutionX, final float resolutionY) {
 		return radians(2.0F * Floats.atan(Floats.tan(fieldOfViewX.radians * 0.5F) * (resolutionY / resolutionX)));
 	}
@@ -371,7 +370,7 @@ public final class AngleF implements Node {
 	 */
 //	TODO: Add Unit Tests!
 	public static AngleF pitch(final Vector3F direction) {
-		return degrees(Floats.toDegrees(Floats.asin(direction.y)), DEGREES_MINIMUM_PITCH, DEGREES_MAXIMUM_PITCH);
+		return radians(Floats.asin(direction.y), RADIANS_MINIMUM_PITCH, RADIANS_MAXIMUM_PITCH);
 	}
 	
 	/**
@@ -484,7 +483,7 @@ public final class AngleF implements Node {
 	 */
 //	TODO: Add Unit Tests!
 	public static AngleF yaw(final Vector3F direction) {
-		return degrees(Floats.toDegrees(Floats.atan2(direction.x, direction.z)));
+		return radians(Floats.atan2(direction.x, direction.z));
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////

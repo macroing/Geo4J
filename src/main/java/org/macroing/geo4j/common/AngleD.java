@@ -43,7 +43,9 @@ public final class AngleD implements Node {
 	private static final double DEGREES_MINIMUM = 0.0D;
 	private static final double DEGREES_MINIMUM_PITCH = -90.0D;
 	private static final double RADIANS_MAXIMUM = Doubles.PI_MULTIPLIED_BY_2;
+	private static final double RADIANS_MAXIMUM_PITCH = Doubles.toRadians(DEGREES_MAXIMUM_PITCH);
 	private static final double RADIANS_MINIMUM = 0.0D;
+	private static final double RADIANS_MINIMUM_PITCH = Doubles.toRadians(DEGREES_MINIMUM_PITCH);
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
@@ -276,7 +278,6 @@ public final class AngleD implements Node {
 	 * @param resolution the resolution in X- or Y-direction (width or height)
 	 * @return a field of view (FOV) {@code AngleD} based on {@code focalDistance} and {@code resolution}
 	 */
-//	TODO: Add Unit Tests!
 	public static AngleD fieldOfView(final double focalDistance, final double resolution) {
 		return radians(2.0D * Doubles.atan(resolution * 0.5D / focalDistance));
 	}
@@ -292,7 +293,6 @@ public final class AngleD implements Node {
 	 * @return a horizontal field of view (FOV) {@code AngleD} based on {@code fieldOfViewY}, {@code resolutionX} and {@code resolutionY}
 	 * @throws NullPointerException thrown if, and only if, {@code fieldOfViewY} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static AngleD fieldOfViewX(final AngleD fieldOfViewY, final double resolutionX, final double resolutionY) {
 		return radians(2.0D * Doubles.atan(Doubles.tan(fieldOfViewY.radians * 0.5D) * (resolutionX / resolutionY)));
 	}
@@ -308,7 +308,6 @@ public final class AngleD implements Node {
 	 * @return a vertical field of view (FOV) {@code AngleD} based on {@code fieldOfViewX}, {@code resolutionX} and {@code resolutionY}
 	 * @throws NullPointerException thrown if, and only if, {@code fieldOfViewX} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public static AngleD fieldOfViewY(final AngleD fieldOfViewX, final double resolutionX, final double resolutionY) {
 		return radians(2.0D * Doubles.atan(Doubles.tan(fieldOfViewX.radians * 0.5D) * (resolutionY / resolutionX)));
 	}
@@ -371,7 +370,7 @@ public final class AngleD implements Node {
 	 */
 //	TODO: Add Unit Tests!
 	public static AngleD pitch(final Vector3D direction) {
-		return degrees(Doubles.toDegrees(Doubles.asin(direction.y)), DEGREES_MINIMUM_PITCH, DEGREES_MAXIMUM_PITCH);
+		return radians(Doubles.asin(direction.y), RADIANS_MINIMUM_PITCH, RADIANS_MAXIMUM_PITCH);
 	}
 	
 	/**
@@ -484,7 +483,7 @@ public final class AngleD implements Node {
 	 */
 //	TODO: Add Unit Tests!
 	public static AngleD yaw(final Vector3D direction) {
-		return degrees(Doubles.toDegrees(Doubles.atan2(direction.x, direction.z)));
+		return radians(Doubles.atan2(direction.x, direction.z));
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////

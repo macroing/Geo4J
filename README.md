@@ -51,13 +51,13 @@ The following table describes the different APIs and their current status in the
 
 | Name                                          | Javadoc | Unit Test | Package                            |
 | --------------------------------------------- | ------- | --------- | ---------------------------------- |
-| Geo4J                                         | 100.0%  |  82.9%    | org.macroing.geo4j                 |
+| Geo4J                                         | 100.0%  |  83.1%    | org.macroing.geo4j                 |
 | Bounding Volume API                           | 100.0%  | 100.0%    | org.macroing.geo4j.bv              |
 | Bounding Volume Axis Aligned Bounding Box API | 100.0%  | 100.0%    | org.macroing.geo4j.bv.aabb         |
 | Bounding Volume Bounding Sphere API           | 100.0%  | 100.0%    | org.macroing.geo4j.bv.bs           |
 | Bounding Volume Infinite Bounding Volume API  | 100.0%  | 100.0%    | org.macroing.geo4j.bv.ibv          |
 | Bounding Volume Reader API                    | 100.0%  |   0.0%    | org.macroing.geo4j.bv.reader       |
-| Common API                                    | 100.0%  |  98.3%    | org.macroing.geo4j.common          |
+| Common API                                    | 100.0%  |  99.0%    | org.macroing.geo4j.common          |
 | Matrix API                                    | 100.0%  | 100.0%    | org.macroing.geo4j.matrix          |
 | Morton Code API                               | 100.0%  |   0.0%    | org.macroing.geo4j.mc              |
 | Orthonormal Basis API                         | 100.0%  | 100.0%    | org.macroing.geo4j.onb             |
