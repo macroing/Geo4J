@@ -93,7 +93,7 @@ public final class Polygon2IReader implements Shape2IReader {
 	public Polygon2I read(final DataInput dataInput, final int id) {
 		Objects.requireNonNull(dataInput, "dataInput == null");
 		
-		Ints.requireRange(id, Polygon2I.ID, Polygon2I.ID, "id");
+		Ints.requireExact(id, Polygon2I.ID, "id");
 		
 		try {
 			final int pointCount = dataInput.readInt();

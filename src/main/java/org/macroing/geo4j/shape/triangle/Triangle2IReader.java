@@ -93,7 +93,7 @@ public final class Triangle2IReader implements Shape2IReader {
 	public Triangle2I read(final DataInput dataInput, final int id) {
 		Objects.requireNonNull(dataInput, "dataInput == null");
 		
-		Ints.requireRange(id, Triangle2I.ID, Triangle2I.ID, "id");
+		Ints.requireExact(id, Triangle2I.ID, "id");
 		
 		return new Triangle2I(Point2I.read(dataInput), Point2I.read(dataInput), Point2I.read(dataInput));
 	}

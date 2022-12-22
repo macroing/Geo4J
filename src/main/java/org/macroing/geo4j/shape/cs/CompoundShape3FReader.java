@@ -108,7 +108,7 @@ public final class CompoundShape3FReader implements Shape3FReader {
 	public CompoundShape3F read(final DataInput dataInput, final int id) {
 		Objects.requireNonNull(dataInput, "dataInput == null");
 		
-		Ints.requireRange(id, CompoundShape3F.ID, CompoundShape3F.ID, "id");
+		Ints.requireExact(id, CompoundShape3F.ID, "id");
 		
 		try {
 			final int size = dataInput.readInt();

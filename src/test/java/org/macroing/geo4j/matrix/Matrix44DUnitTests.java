@@ -34,7 +34,7 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 
 import org.junit.jupiter.api.Test;
-
+import org.macroing.geo4j.common.AngleD;
 import org.macroing.geo4j.common.Point3D;
 import org.macroing.geo4j.common.Point4D;
 import org.macroing.geo4j.common.Vector3D;
@@ -459,6 +459,41 @@ public final class Matrix44DUnitTests {
 	}
 	
 	@Test
+	public void testRotateAngleDDoubleDoubleDouble() {
+		final Matrix44D a = Matrix44D.rotate(AngleD.degrees( 90.0D), 1.0D, 0.0D, 0.0D);
+		final Matrix44D b = Matrix44D.rotate(AngleD.degrees(180.0D), 0.0D, 1.0D, 0.0D);
+		final Matrix44D c = Matrix44D.rotate(AngleD.degrees(270.0D), 0.0D, 0.0D, 1.0D);
+		
+		final Matrix44D d = Matrix44D.rotateX(AngleD.degrees( 90.0D));
+		final Matrix44D e = Matrix44D.rotateY(AngleD.degrees(180.0D));
+		final Matrix44D f = Matrix44D.rotateZ(AngleD.degrees(270.0D));
+		
+		assertEquals(d, a);
+		assertEquals(e, b);
+		assertEquals(f, c);
+		
+		assertThrows(NullPointerException.class, () -> Matrix44D.rotate(null, 1.0D, 0.0D, 0.0D));
+	}
+	
+	@Test
+	public void testRotateAngleDVector3D() {
+		final Matrix44D a = Matrix44D.rotate(AngleD.degrees( 90.0D), Vector3D.x());
+		final Matrix44D b = Matrix44D.rotate(AngleD.degrees(180.0D), Vector3D.y());
+		final Matrix44D c = Matrix44D.rotate(AngleD.degrees(270.0D), Vector3D.z());
+		
+		final Matrix44D d = Matrix44D.rotateX(AngleD.degrees( 90.0D));
+		final Matrix44D e = Matrix44D.rotateY(AngleD.degrees(180.0D));
+		final Matrix44D f = Matrix44D.rotateZ(AngleD.degrees(270.0D));
+		
+		assertEquals(d, a);
+		assertEquals(e, b);
+		assertEquals(f, c);
+		
+		assertThrows(NullPointerException.class, () -> Matrix44D.rotate(AngleD.degrees(0.0D), null));
+		assertThrows(NullPointerException.class, () -> Matrix44D.rotate((AngleD)(null), Vector3D.x()));
+	}
+	
+	@Test
 	public void testRotateVector3DVector3D() {
 		final Matrix44D m = Matrix44D.rotate(new Vector3D(0.0D, 0.0D, 1.0D), new Vector3D(0.0D, 1.0D, 0.0D));
 		
@@ -507,6 +542,35 @@ public final class Matrix44DUnitTests {
 		assertThrows(NullPointerException.class, () -> Matrix44D.rotate(new Vector3D(0.0D, 0.0D, 1.0D), new Vector3D(0.0D, 1.0D, 0.0D), null));
 		assertThrows(NullPointerException.class, () -> Matrix44D.rotate(new Vector3D(0.0D, 0.0D, 1.0D), null, new Vector3D(1.0D, 0.0D, 0.0D)));
 		assertThrows(NullPointerException.class, () -> Matrix44D.rotate(null, new Vector3D(0.0D, 1.0D, 0.0D), new Vector3D(1.0D, 0.0D, 0.0D)));
+	}
+	
+	@Test
+	public void testRotateXAngleD() {
+		final double angleDegrees = 90.0D;
+		final double angleRadians = Math.toRadians(angleDegrees);
+		final double angleRadiansCos = Math.cos(angleRadians);
+		final double angleRadiansSin = Math.sin(angleRadians);
+		
+		final Matrix44D matrix = Matrix44D.rotateX(AngleD.degrees(angleDegrees));
+		
+		assertEquals(1.0D,             matrix.element11);
+		assertEquals(0.0D,             matrix.element12);
+		assertEquals(0.0D,             matrix.element13);
+		assertEquals(0.0D,             matrix.element14);
+		assertEquals(0.0D,             matrix.element21);
+		assertEquals(+angleRadiansCos, matrix.element22);
+		assertEquals(-angleRadiansSin, matrix.element23);
+		assertEquals(0.0D,             matrix.element24);
+		assertEquals(0.0D,             matrix.element31);
+		assertEquals(+angleRadiansSin, matrix.element32);
+		assertEquals(+angleRadiansCos, matrix.element33);
+		assertEquals(0.0D,             matrix.element34);
+		assertEquals(0.0D,             matrix.element41);
+		assertEquals(0.0D,             matrix.element42);
+		assertEquals(0.0D,             matrix.element43);
+		assertEquals(1.0D,             matrix.element44);
+		
+		assertThrows(NullPointerException.class, () -> Matrix44D.rotateX(null));
 	}
 	
 	@Test
@@ -582,6 +646,35 @@ public final class Matrix44DUnitTests {
 	}
 	
 	@Test
+	public void testRotateYAngleD() {
+		final double angleDegrees = 90.0D;
+		final double angleRadians = Math.toRadians(angleDegrees);
+		final double angleRadiansCos = Math.cos(angleRadians);
+		final double angleRadiansSin = Math.sin(angleRadians);
+		
+		final Matrix44D matrix = Matrix44D.rotateY(AngleD.degrees(angleDegrees));
+		
+		assertEquals(+angleRadiansCos, matrix.element11);
+		assertEquals(0.0D,             matrix.element12);
+		assertEquals(+angleRadiansSin, matrix.element13);
+		assertEquals(0.0D,             matrix.element14);
+		assertEquals(0.0D,             matrix.element21);
+		assertEquals(1.0D,             matrix.element22);
+		assertEquals(0.0D,             matrix.element23);
+		assertEquals(0.0D,             matrix.element24);
+		assertEquals(-angleRadiansSin, matrix.element31);
+		assertEquals(0.0D,             matrix.element32);
+		assertEquals(+angleRadiansCos, matrix.element33);
+		assertEquals(0.0D,             matrix.element34);
+		assertEquals(0.0D,             matrix.element41);
+		assertEquals(0.0D,             matrix.element42);
+		assertEquals(0.0D,             matrix.element43);
+		assertEquals(1.0D,             matrix.element44);
+		
+		assertThrows(NullPointerException.class, () -> Matrix44D.rotateY(null));
+	}
+	
+	@Test
 	public void testRotateYDouble() {
 		final double angleDegrees = 90.0D;
 		final double angleRadians = Doubles.toRadians(angleDegrees);
@@ -651,6 +744,35 @@ public final class Matrix44DUnitTests {
 		assertEquals(0.0D,             b.element42);
 		assertEquals(0.0D,             b.element43);
 		assertEquals(1.0D,             b.element44);
+	}
+	
+	@Test
+	public void testRotateZAngleD() {
+		final double angleDegrees = 90.0D;
+		final double angleRadians = Math.toRadians(angleDegrees);
+		final double angleRadiansCos = Math.cos(angleRadians);
+		final double angleRadiansSin = Math.sin(angleRadians);
+		
+		final Matrix44D matrix = Matrix44D.rotateZ(AngleD.degrees(angleDegrees));
+		
+		assertEquals(+angleRadiansCos, matrix.element11);
+		assertEquals(-angleRadiansSin, matrix.element12);
+		assertEquals(0.0D,             matrix.element13);
+		assertEquals(0.0D,             matrix.element14);
+		assertEquals(+angleRadiansSin, matrix.element21);
+		assertEquals(+angleRadiansCos, matrix.element22);
+		assertEquals(0.0D,             matrix.element23);
+		assertEquals(0.0D,             matrix.element24);
+		assertEquals(0.0D,             matrix.element31);
+		assertEquals(0.0D,             matrix.element32);
+		assertEquals(1.0D,             matrix.element33);
+		assertEquals(0.0D,             matrix.element34);
+		assertEquals(0.0D,             matrix.element41);
+		assertEquals(0.0D,             matrix.element42);
+		assertEquals(0.0D,             matrix.element43);
+		assertEquals(1.0D,             matrix.element44);
+		
+		assertThrows(NullPointerException.class, () -> Matrix44D.rotateZ(null));
 	}
 	
 	@Test

@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.Objects;
 
+import org.macroing.geo4j.common.AngleD;
 import org.macroing.geo4j.common.Point3D;
 import org.macroing.geo4j.common.Point4D;
 import org.macroing.geo4j.common.Vector3D;
@@ -875,6 +876,66 @@ public final class Matrix44D implements Node {
 	}
 	
 	/**
+	 * Returns a {@code Matrix44D} instance that rotates along the axis represented by {@code v}.
+	 * <p>
+	 * If either {@code a} or {@code v} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param a an {@link AngleD} instance
+	 * @param v a {@link Vector3D} instance that represents an axis
+	 * @return a {@code Matrix44D} instance that rotates along the axis represented by {@code v}
+	 * @throws NullPointerException thrown if, and only if, either {@code a} or {@code v} are {@code null}
+	 */
+	public static Matrix44D rotate(final AngleD a, final Vector3D v) {
+		final Vector3D w = Vector3D.normalize(v);
+		
+		final double cos = a.cos();
+		final double sin = a.sin();
+		final double oneMinusCos = 1.0D - cos;
+		
+		final double element11 = oneMinusCos * w.x * w.x + cos;
+		final double element12 = oneMinusCos * w.x * w.y - sin * w.z;
+		final double element13 = oneMinusCos * w.x * w.z + sin * w.y;
+		final double element14 = 0.0D;
+		final double element21 = oneMinusCos * w.x * w.y + sin * w.z;
+		final double element22 = oneMinusCos * w.y * w.y + cos;
+		final double element23 = oneMinusCos * w.y * w.z - sin * w.x;
+		final double element24 = 0.0D;
+		final double element31 = oneMinusCos * w.x * w.z - sin * w.y;
+		final double element32 = oneMinusCos * w.y * w.z + sin * w.x;
+		final double element33 = oneMinusCos * w.z * w.z + cos;
+		final double element34 = 0.0D;
+		final double element41 = 0.0D;
+		final double element42 = 0.0D;
+		final double element43 = 0.0D;
+		final double element44 = 1.0D;
+		
+		return new Matrix44D(element11, element12, element13, element14, element21, element22, element23, element24, element31, element32, element33, element34, element41, element42, element43, element44);
+	}
+	
+	/**
+	 * Returns a {@code Matrix44D} instance that rotates along the axis represented by {@code x}, {@code y} and {@code z}.
+	 * <p>
+	 * If {@code a} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Matrix44D.rotate(a, new Vector3D(x, y, z));
+	 * }
+	 * </pre>
+	 * 
+	 * @param a an {@link AngleD} instance
+	 * @param x the component value along the X-axis
+	 * @param y the component value along the Y-axis
+	 * @param z the component value along the Z-axis
+	 * @return a {@code Matrix44D} instance that rotates along the axis represented by {@code x}, {@code y} and {@code z}
+	 * @throws NullPointerException thrown if, and only if, {@code a} is {@code null}
+	 */
+	public static Matrix44D rotate(final AngleD a, final double x, final double y, final double z) {
+		return rotate(a, new Vector3D(x, y, z));
+	}
+	
+	/**
 	 * Returns a {@code Matrix44D} instance that rotates using {@code w} and {@code v}.
 	 * <p>
 	 * If either {@code w} or {@code v} are {@code null}, a {@code NullPointerException} will be thrown.
@@ -915,6 +976,32 @@ public final class Matrix44D implements Node {
 	 */
 	public static Matrix44D rotate(final Vector3D w, final Vector3D v, final Vector3D u) {
 		return new Matrix44D(u.x, v.x, w.x, 0.0D, u.y, v.y, w.y, 0.0D, u.z, v.z, w.z, 0.0D, 0.0D, 0.0D, 0.0D, 1.0D);
+	}
+	
+	/**
+	 * Returns a {@code Matrix44D} instance that rotates along the X-axis.
+	 * <p>
+	 * If {@code a} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * The layout looks like this:
+	 * <pre>
+	 * {@code
+	 * 1,   0,    0, 0
+	 * 0, cos, -sin, 0
+	 * 0, sin,  cos, 0
+	 * 0,   0,    0, 1
+	 * }
+	 * </pre>
+	 * 
+	 * @param a an {@link AngleD} instance
+	 * @return a {@code Matrix44D} instance that rotates along the X-axis
+	 * @throws NullPointerException thrown if, and only if, {@code a} is {@code null}
+	 */
+	public static Matrix44D rotateX(final AngleD a) {
+		final double cos = a.cos();
+		final double sin = a.sin();
+		
+		return new Matrix44D(1.0D, 0.0D, 0.0D, 0.0D, 0.0D, cos, -sin, 0.0D, 0.0D, sin, cos, 0.0D, 0.0D, 0.0D, 0.0D, 1.0D);
 	}
 	
 	/**
@@ -972,6 +1059,32 @@ public final class Matrix44D implements Node {
 	/**
 	 * Returns a {@code Matrix44D} instance that rotates along the Y-axis.
 	 * <p>
+	 * If {@code a} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * The layout looks like this:
+	 * <pre>
+	 * {@code
+	 *  cos, 0, sin, 0
+	 *    0, 1,   0, 0
+	 * -sin, 0, cos, 0
+	 *    0, 0,   0, 1
+	 * }
+	 * </pre>
+	 * 
+	 * @param a an {@link AngleD} instance
+	 * @return a {@code Matrix44D} instance that rotates along the Y-axis
+	 * @throws NullPointerException thrown if, and only if, {@code a} is {@code null}
+	 */
+	public static Matrix44D rotateY(final AngleD a) {
+		final double cos = a.cos();
+		final double sin = a.sin();
+		
+		return new Matrix44D(cos, 0.0D, sin, 0.0D, 0.0D, 1.0D, 0.0D, 0.0D, -sin, 0.0D, cos, 0.0D, 0.0D, 0.0D, 0.0D, 1.0D);
+	}
+	
+	/**
+	 * Returns a {@code Matrix44D} instance that rotates along the Y-axis.
+	 * <p>
 	 * The layout looks like this:
 	 * <pre>
 	 * {@code
@@ -1019,6 +1132,32 @@ public final class Matrix44D implements Node {
 		final double sin = Doubles.sin(angleRadians);
 		
 		return new Matrix44D(cos, 0.0D, sin, 0.0D, 0.0D, 1.0D, 0.0D, 0.0D, -sin, 0.0D, cos, 0.0D, 0.0D, 0.0D, 0.0D, 1.0D);
+	}
+	
+	/**
+	 * Returns a {@code Matrix44D} instance that rotates along the Z-axis.
+	 * <p>
+	 * If {@code a} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * The layout looks like this:
+	 * <pre>
+	 * {@code
+	 * cos, -sin, 0, 0
+	 * sin,  cos, 0, 0
+	 *   0,    0, 1, 0
+	 *   0,    0, 0, 1
+	 * }
+	 * </pre>
+	 * 
+	 * @param a an {@link AngleD} instance
+	 * @return a {@code Matrix44D} instance that rotates along the Z-axis
+	 * @throws NullPointerException thrown if, and only if, {@code a} is {@code null}
+	 */
+	public static Matrix44D rotateZ(final AngleD a) {
+		final double cos = a.cos();
+		final double sin = a.sin();
+		
+		return new Matrix44D(cos, -sin, 0.0D, 0.0D, sin, cos, 0.0D, 0.0D, 0.0D, 0.0D, 1.0D, 0.0D, 0.0D, 0.0D, 0.0D, 1.0D);
 	}
 	
 	/**

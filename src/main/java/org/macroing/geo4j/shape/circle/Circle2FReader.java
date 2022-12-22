@@ -93,7 +93,7 @@ public final class Circle2FReader implements Shape2FReader {
 	public Circle2F read(final DataInput dataInput, final int id) {
 		Objects.requireNonNull(dataInput, "dataInput == null");
 		
-		Ints.requireRange(id, Circle2F.ID, Circle2F.ID, "id");
+		Ints.requireExact(id, Circle2F.ID, "id");
 		
 		try {
 			return new Circle2F(Point2F.read(dataInput), dataInput.readFloat());

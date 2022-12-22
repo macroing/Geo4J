@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.Objects;
 
+import org.macroing.geo4j.common.AngleF;
 import org.macroing.geo4j.common.Point3F;
 import org.macroing.geo4j.common.Point4F;
 import org.macroing.geo4j.common.Vector3F;
@@ -875,6 +876,66 @@ public final class Matrix44F implements Node {
 	}
 	
 	/**
+	 * Returns a {@code Matrix44F} instance that rotates along the axis represented by {@code v}.
+	 * <p>
+	 * If either {@code a} or {@code v} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param a an {@link AngleF} instance
+	 * @param v a {@link Vector3F} instance that represents an axis
+	 * @return a {@code Matrix44F} instance that rotates along the axis represented by {@code v}
+	 * @throws NullPointerException thrown if, and only if, either {@code a} or {@code v} are {@code null}
+	 */
+	public static Matrix44F rotate(final AngleF a, final Vector3F v) {
+		final Vector3F w = Vector3F.normalize(v);
+		
+		final float cos = a.cos();
+		final float sin = a.sin();
+		final float oneMinusCos = 1.0F - cos;
+		
+		final float element11 = oneMinusCos * w.x * w.x + cos;
+		final float element12 = oneMinusCos * w.x * w.y - sin * w.z;
+		final float element13 = oneMinusCos * w.x * w.z + sin * w.y;
+		final float element14 = 0.0F;
+		final float element21 = oneMinusCos * w.x * w.y + sin * w.z;
+		final float element22 = oneMinusCos * w.y * w.y + cos;
+		final float element23 = oneMinusCos * w.y * w.z - sin * w.x;
+		final float element24 = 0.0F;
+		final float element31 = oneMinusCos * w.x * w.z - sin * w.y;
+		final float element32 = oneMinusCos * w.y * w.z + sin * w.x;
+		final float element33 = oneMinusCos * w.z * w.z + cos;
+		final float element34 = 0.0F;
+		final float element41 = 0.0F;
+		final float element42 = 0.0F;
+		final float element43 = 0.0F;
+		final float element44 = 1.0F;
+		
+		return new Matrix44F(element11, element12, element13, element14, element21, element22, element23, element24, element31, element32, element33, element34, element41, element42, element43, element44);
+	}
+	
+	/**
+	 * Returns a {@code Matrix44F} instance that rotates along the axis represented by {@code x}, {@code y} and {@code z}.
+	 * <p>
+	 * If {@code a} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this method is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * Matrix44F.rotate(a, new Vector3F(x, y, z));
+	 * }
+	 * </pre>
+	 * 
+	 * @param a an {@link AngleF} instance
+	 * @param x the component value along the X-axis
+	 * @param y the component value along the Y-axis
+	 * @param z the component value along the Z-axis
+	 * @return a {@code Matrix44F} instance that rotates along the axis represented by {@code x}, {@code y} and {@code z}
+	 * @throws NullPointerException thrown if, and only if, {@code a} is {@code null}
+	 */
+	public static Matrix44F rotate(final AngleF a, final float x, final float y, final float z) {
+		return rotate(a, new Vector3F(x, y, z));
+	}
+	
+	/**
 	 * Returns a {@code Matrix44F} instance that rotates using {@code w} and {@code v}.
 	 * <p>
 	 * If either {@code w} or {@code v} are {@code null}, a {@code NullPointerException} will be thrown.
@@ -915,6 +976,32 @@ public final class Matrix44F implements Node {
 	 */
 	public static Matrix44F rotate(final Vector3F w, final Vector3F v, final Vector3F u) {
 		return new Matrix44F(u.x, v.x, w.x, 0.0F, u.y, v.y, w.y, 0.0F, u.z, v.z, w.z, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F);
+	}
+	
+	/**
+	 * Returns a {@code Matrix44F} instance that rotates along the X-axis.
+	 * <p>
+	 * If {@code a} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * The layout looks like this:
+	 * <pre>
+	 * {@code
+	 * 1,   0,    0, 0
+	 * 0, cos, -sin, 0
+	 * 0, sin,  cos, 0
+	 * 0,   0,    0, 1
+	 * }
+	 * </pre>
+	 * 
+	 * @param a an {@link AngleF} instance
+	 * @return a {@code Matrix44F} instance that rotates along the X-axis
+	 * @throws NullPointerException thrown if, and only if, {@code a} is {@code null}
+	 */
+	public static Matrix44F rotateX(final AngleF a) {
+		final float cos = a.cos();
+		final float sin = a.sin();
+		
+		return new Matrix44F(1.0F, 0.0F, 0.0F, 0.0F, 0.0F, cos, -sin, 0.0F, 0.0F, sin, cos, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F);
 	}
 	
 	/**
@@ -972,6 +1059,32 @@ public final class Matrix44F implements Node {
 	/**
 	 * Returns a {@code Matrix44F} instance that rotates along the Y-axis.
 	 * <p>
+	 * If {@code a} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * The layout looks like this:
+	 * <pre>
+	 * {@code
+	 *  cos, 0, sin, 0
+	 *    0, 1,   0, 0
+	 * -sin, 0, cos, 0
+	 *    0, 0,   0, 1
+	 * }
+	 * </pre>
+	 * 
+	 * @param a an {@link AngleF} instance
+	 * @return a {@code Matrix44F} instance that rotates along the Y-axis
+	 * @throws NullPointerException thrown if, and only if, {@code a} is {@code null}
+	 */
+	public static Matrix44F rotateY(final AngleF a) {
+		final float cos = a.cos();
+		final float sin = a.sin();
+		
+		return new Matrix44F(cos, 0.0F, sin, 0.0F, 0.0F, 1.0F, 0.0F, 0.0F, -sin, 0.0F, cos, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F);
+	}
+	
+	/**
+	 * Returns a {@code Matrix44F} instance that rotates along the Y-axis.
+	 * <p>
 	 * The layout looks like this:
 	 * <pre>
 	 * {@code
@@ -1019,6 +1132,32 @@ public final class Matrix44F implements Node {
 		final float sin = Floats.sin(angleRadians);
 		
 		return new Matrix44F(cos, 0.0F, sin, 0.0F, 0.0F, 1.0F, 0.0F, 0.0F, -sin, 0.0F, cos, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F);
+	}
+	
+	/**
+	 * Returns a {@code Matrix44F} instance that rotates along the Z-axis.
+	 * <p>
+	 * If {@code a} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * The layout looks like this:
+	 * <pre>
+	 * {@code
+	 * cos, -sin, 0, 0
+	 * sin,  cos, 0, 0
+	 *   0,    0, 1, 0
+	 *   0,    0, 0, 1
+	 * }
+	 * </pre>
+	 * 
+	 * @param a an {@link AngleF} instance
+	 * @return a {@code Matrix44F} instance that rotates along the Z-axis
+	 * @throws NullPointerException thrown if, and only if, {@code a} is {@code null}
+	 */
+	public static Matrix44F rotateZ(final AngleF a) {
+		final float cos = a.cos();
+		final float sin = a.sin();
+		
+		return new Matrix44F(cos, -sin, 0.0F, 0.0F, sin, cos, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 1.0F);
 	}
 	
 	/**

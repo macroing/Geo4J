@@ -92,7 +92,7 @@ public final class Sphere3FReader implements Shape3FReader {
 	public Sphere3F read(final DataInput dataInput, final int id) {
 		Objects.requireNonNull(dataInput, "dataInput == null");
 		
-		Ints.requireRange(id, Sphere3F.ID, Sphere3F.ID, "id");
+		Ints.requireExact(id, Sphere3F.ID, "id");
 		
 		return new Sphere3F();
 	}

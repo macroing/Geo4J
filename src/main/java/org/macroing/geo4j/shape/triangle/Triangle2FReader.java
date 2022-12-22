@@ -93,7 +93,7 @@ public final class Triangle2FReader implements Shape2FReader {
 	public Triangle2F read(final DataInput dataInput, final int id) {
 		Objects.requireNonNull(dataInput, "dataInput == null");
 		
-		Ints.requireRange(id, Triangle2F.ID, Triangle2F.ID, "id");
+		Ints.requireExact(id, Triangle2F.ID, "id");
 		
 		return new Triangle2F(Point2F.read(dataInput), Point2F.read(dataInput), Point2F.read(dataInput));
 	}

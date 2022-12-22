@@ -96,7 +96,7 @@ public final class Cylinder3DReader implements Shape3DReader {
 	public Cylinder3D read(final DataInput dataInput, final int id) {
 		Objects.requireNonNull(dataInput, "dataInput == null");
 		
-		Ints.requireRange(id, Cylinder3D.ID, Cylinder3D.ID, "id");
+		Ints.requireExact(id, Cylinder3D.ID, "id");
 		
 		try {
 			return new Cylinder3D(AngleD.read(dataInput), dataInput.readDouble(), dataInput.readDouble(), dataInput.readDouble());

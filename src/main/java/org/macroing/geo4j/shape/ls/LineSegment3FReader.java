@@ -93,7 +93,7 @@ public final class LineSegment3FReader implements Shape3FReader {
 	public LineSegment3F read(final DataInput dataInput, final int id) {
 		Objects.requireNonNull(dataInput, "dataInput == null");
 		
-		Ints.requireRange(id, LineSegment3F.ID, LineSegment3F.ID, "id");
+		Ints.requireExact(id, LineSegment3F.ID, "id");
 		
 		return new LineSegment3F(Point3F.read(dataInput), Point3F.read(dataInput));
 	}

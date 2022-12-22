@@ -93,7 +93,7 @@ public final class Rectangle2DReader implements Shape2DReader {
 	public Rectangle2D read(final DataInput dataInput, final int id) {
 		Objects.requireNonNull(dataInput, "dataInput == null");
 		
-		Ints.requireRange(id, Rectangle2D.ID, Rectangle2D.ID, "id");
+		Ints.requireExact(id, Rectangle2D.ID, "id");
 		
 		return new Rectangle2D(Point2D.read(dataInput), Point2D.read(dataInput), Point2D.read(dataInput), Point2D.read(dataInput));
 	}

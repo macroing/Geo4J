@@ -93,7 +93,7 @@ public final class Cone3FReader implements Shape3FReader {
 	public Cone3F read(final DataInput dataInput, final int id) {
 		Objects.requireNonNull(dataInput, "dataInput == null");
 		
-		Ints.requireRange(id, Cone3F.ID, Cone3F.ID, "id");
+		Ints.requireExact(id, Cone3F.ID, "id");
 		
 		try {
 			return new Cone3F(AngleF.read(dataInput), dataInput.readFloat(), dataInput.readFloat());

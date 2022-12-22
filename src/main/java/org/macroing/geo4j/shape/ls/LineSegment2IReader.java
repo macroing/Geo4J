@@ -93,7 +93,7 @@ public final class LineSegment2IReader implements Shape2IReader {
 	public LineSegment2I read(final DataInput dataInput, final int id) {
 		Objects.requireNonNull(dataInput, "dataInput == null");
 		
-		Ints.requireRange(id, LineSegment2I.ID, LineSegment2I.ID, "id");
+		Ints.requireExact(id, LineSegment2I.ID, "id");
 		
 		return new LineSegment2I(Point2I.read(dataInput), Point2I.read(dataInput));
 	}

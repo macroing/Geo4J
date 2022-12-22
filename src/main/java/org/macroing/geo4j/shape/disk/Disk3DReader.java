@@ -96,7 +96,7 @@ public final class Disk3DReader implements Shape3DReader {
 	public Disk3D read(final DataInput dataInput, final int id) {
 		Objects.requireNonNull(dataInput, "dataInput == null");
 		
-		Ints.requireRange(id, Disk3D.ID, Disk3D.ID, "id");
+		Ints.requireExact(id, Disk3D.ID, "id");
 		
 		try {
 			return new Disk3D(AngleD.read(dataInput), dataInput.readDouble(), dataInput.readDouble(), dataInput.readDouble());

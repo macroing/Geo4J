@@ -92,7 +92,7 @@ public final class Sphere3DReader implements Shape3DReader {
 	public Sphere3D read(final DataInput dataInput, final int id) {
 		Objects.requireNonNull(dataInput, "dataInput == null");
 		
-		Ints.requireRange(id, Sphere3D.ID, Sphere3D.ID, "id");
+		Ints.requireExact(id, Sphere3D.ID, "id");
 		
 		return new Sphere3D();
 	}

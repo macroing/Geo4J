@@ -96,7 +96,7 @@ public final class Disk3FReader implements Shape3FReader {
 	public Disk3F read(final DataInput dataInput, final int id) {
 		Objects.requireNonNull(dataInput, "dataInput == null");
 		
-		Ints.requireRange(id, Disk3F.ID, Disk3F.ID, "id");
+		Ints.requireExact(id, Disk3F.ID, "id");
 		
 		try {
 			return new Disk3F(AngleF.read(dataInput), dataInput.readFloat(), dataInput.readFloat(), dataInput.readFloat());

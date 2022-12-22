@@ -93,7 +93,7 @@ public final class Polygon2FReader implements Shape2FReader {
 	public Polygon2F read(final DataInput dataInput, final int id) {
 		Objects.requireNonNull(dataInput, "dataInput == null");
 		
-		Ints.requireRange(id, Polygon2F.ID, Polygon2F.ID, "id");
+		Ints.requireExact(id, Polygon2F.ID, "id");
 		
 		try {
 			final int pointCount = dataInput.readInt();

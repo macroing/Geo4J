@@ -96,7 +96,7 @@ public final class Cylinder3FReader implements Shape3FReader {
 	public Cylinder3F read(final DataInput dataInput, final int id) {
 		Objects.requireNonNull(dataInput, "dataInput == null");
 		
-		Ints.requireRange(id, Cylinder3F.ID, Cylinder3F.ID, "id");
+		Ints.requireExact(id, Cylinder3F.ID, "id");
 		
 		try {
 			return new Cylinder3F(AngleF.read(dataInput), dataInput.readFloat(), dataInput.readFloat(), dataInput.readFloat());

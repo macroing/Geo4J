@@ -92,7 +92,7 @@ public final class Plane3DReader implements Shape3DReader {
 	public Plane3D read(final DataInput dataInput, final int id) {
 		Objects.requireNonNull(dataInput, "dataInput == null");
 		
-		Ints.requireRange(id, Plane3D.ID, Plane3D.ID, "id");
+		Ints.requireExact(id, Plane3D.ID, "id");
 		
 		return new Plane3D();
 	}

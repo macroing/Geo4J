@@ -93,7 +93,7 @@ public final class LineSegment3DReader implements Shape3DReader {
 	public LineSegment3D read(final DataInput dataInput, final int id) {
 		Objects.requireNonNull(dataInput, "dataInput == null");
 		
-		Ints.requireRange(id, LineSegment3D.ID, LineSegment3D.ID, "id");
+		Ints.requireExact(id, LineSegment3D.ID, "id");
 		
 		return new LineSegment3D(Point3D.read(dataInput), Point3D.read(dataInput));
 	}

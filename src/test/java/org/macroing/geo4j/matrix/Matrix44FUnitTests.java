@@ -34,7 +34,7 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 
 import org.junit.jupiter.api.Test;
-
+import org.macroing.geo4j.common.AngleF;
 import org.macroing.geo4j.common.Point3F;
 import org.macroing.geo4j.common.Point4F;
 import org.macroing.geo4j.common.Vector3F;
@@ -459,6 +459,41 @@ public final class Matrix44FUnitTests {
 	}
 	
 	@Test
+	public void testRotateAngleFFloatFloatFloat() {
+		final Matrix44F a = Matrix44F.rotate(AngleF.degrees( 45.0F), 1.0F, 0.0F, 0.0F);
+		final Matrix44F b = Matrix44F.rotate(AngleF.degrees(180.0F), 0.0F, 1.0F, 0.0F);
+		final Matrix44F c = Matrix44F.rotate(AngleF.degrees(270.0F), 0.0F, 0.0F, 1.0F);
+		
+		final Matrix44F d = Matrix44F.rotateX(AngleF.degrees( 45.0F));
+		final Matrix44F e = Matrix44F.rotateY(AngleF.degrees(180.0F));
+		final Matrix44F f = Matrix44F.rotateZ(AngleF.degrees(270.0F));
+		
+		assertEquals(d, a);
+		assertEquals(e, b);
+		assertEquals(f, c);
+		
+		assertThrows(NullPointerException.class, () -> Matrix44F.rotate(null, 1.0F, 0.0F, 0.0F));
+	}
+	
+	@Test
+	public void testRotateAngleFVector3F() {
+		final Matrix44F a = Matrix44F.rotate(AngleF.degrees( 45.0F), Vector3F.x());
+		final Matrix44F b = Matrix44F.rotate(AngleF.degrees(180.0F), Vector3F.y());
+		final Matrix44F c = Matrix44F.rotate(AngleF.degrees(270.0F), Vector3F.z());
+		
+		final Matrix44F d = Matrix44F.rotateX(AngleF.degrees( 45.0F));
+		final Matrix44F e = Matrix44F.rotateY(AngleF.degrees(180.0F));
+		final Matrix44F f = Matrix44F.rotateZ(AngleF.degrees(270.0F));
+		
+		assertEquals(d, a);
+		assertEquals(e, b);
+		assertEquals(f, c);
+		
+		assertThrows(NullPointerException.class, () -> Matrix44F.rotate(AngleF.degrees(0.0F), null));
+		assertThrows(NullPointerException.class, () -> Matrix44F.rotate((AngleF)(null), Vector3F.x()));
+	}
+	
+	@Test
 	public void testRotateVector3FVector3F() {
 		final Matrix44F m = Matrix44F.rotate(new Vector3F(0.0F, 0.0F, 1.0F), new Vector3F(0.0F, 1.0F, 0.0F));
 		
@@ -507,6 +542,35 @@ public final class Matrix44FUnitTests {
 		assertThrows(NullPointerException.class, () -> Matrix44F.rotate(new Vector3F(0.0F, 0.0F, 1.0F), new Vector3F(0.0F, 1.0F, 0.0F), null));
 		assertThrows(NullPointerException.class, () -> Matrix44F.rotate(new Vector3F(0.0F, 0.0F, 1.0F), null, new Vector3F(1.0F, 0.0F, 0.0F)));
 		assertThrows(NullPointerException.class, () -> Matrix44F.rotate(null, new Vector3F(0.0F, 1.0F, 0.0F), new Vector3F(1.0F, 0.0F, 0.0F)));
+	}
+	
+	@Test
+	public void testRotateXAngleF() {
+		final float angleDegrees = 90.0F;
+		final float angleRadians = (float)(Math.toRadians(angleDegrees));
+		final float angleRadiansCos = (float)(Math.cos(angleRadians));
+		final float angleRadiansSin = (float)(Math.sin(angleRadians));
+		
+		final Matrix44F matrix = Matrix44F.rotateX(AngleF.degrees(angleDegrees));
+		
+		assertEquals(1.0F,             matrix.element11);
+		assertEquals(0.0F,             matrix.element12);
+		assertEquals(0.0F,             matrix.element13);
+		assertEquals(0.0F,             matrix.element14);
+		assertEquals(0.0F,             matrix.element21);
+		assertEquals(+angleRadiansCos, matrix.element22);
+		assertEquals(-angleRadiansSin, matrix.element23);
+		assertEquals(0.0F,             matrix.element24);
+		assertEquals(0.0F,             matrix.element31);
+		assertEquals(+angleRadiansSin, matrix.element32);
+		assertEquals(+angleRadiansCos, matrix.element33);
+		assertEquals(0.0F,             matrix.element34);
+		assertEquals(0.0F,             matrix.element41);
+		assertEquals(0.0F,             matrix.element42);
+		assertEquals(0.0F,             matrix.element43);
+		assertEquals(1.0F,             matrix.element44);
+		
+		assertThrows(NullPointerException.class, () -> Matrix44F.rotateX(null));
 	}
 	
 	@Test
@@ -582,6 +646,35 @@ public final class Matrix44FUnitTests {
 	}
 	
 	@Test
+	public void testRotateYAngleF() {
+		final float angleDegrees = 90.0F;
+		final float angleRadians = (float)(Math.toRadians(angleDegrees));
+		final float angleRadiansCos = (float)(Math.cos(angleRadians));
+		final float angleRadiansSin = (float)(Math.sin(angleRadians));
+		
+		final Matrix44F matrix = Matrix44F.rotateY(AngleF.degrees(angleDegrees));
+		
+		assertEquals(+angleRadiansCos, matrix.element11);
+		assertEquals(0.0F,             matrix.element12);
+		assertEquals(+angleRadiansSin, matrix.element13);
+		assertEquals(0.0F,             matrix.element14);
+		assertEquals(0.0F,             matrix.element21);
+		assertEquals(1.0F,             matrix.element22);
+		assertEquals(0.0F,             matrix.element23);
+		assertEquals(0.0F,             matrix.element24);
+		assertEquals(-angleRadiansSin, matrix.element31);
+		assertEquals(0.0F,             matrix.element32);
+		assertEquals(+angleRadiansCos, matrix.element33);
+		assertEquals(0.0F,             matrix.element34);
+		assertEquals(0.0F,             matrix.element41);
+		assertEquals(0.0F,             matrix.element42);
+		assertEquals(0.0F,             matrix.element43);
+		assertEquals(1.0F,             matrix.element44);
+		
+		assertThrows(NullPointerException.class, () -> Matrix44F.rotateY(null));
+	}
+	
+	@Test
 	public void testRotateYFloat() {
 		final float angleDegrees = 90.0F;
 		final float angleRadians = Floats.toRadians(angleDegrees);
@@ -651,6 +744,35 @@ public final class Matrix44FUnitTests {
 		assertEquals(0.0F,             b.element42);
 		assertEquals(0.0F,             b.element43);
 		assertEquals(1.0F,             b.element44);
+	}
+	
+	@Test
+	public void testRotateZAngleF() {
+		final float angleDegrees = 90.0F;
+		final float angleRadians = (float)(Math.toRadians(angleDegrees));
+		final float angleRadiansCos = (float)(Math.cos(angleRadians));
+		final float angleRadiansSin = (float)(Math.sin(angleRadians));
+		
+		final Matrix44F matrix = Matrix44F.rotateZ(AngleF.degrees(angleDegrees));
+		
+		assertEquals(+angleRadiansCos, matrix.element11);
+		assertEquals(-angleRadiansSin, matrix.element12);
+		assertEquals(0.0F,             matrix.element13);
+		assertEquals(0.0F,             matrix.element14);
+		assertEquals(+angleRadiansSin, matrix.element21);
+		assertEquals(+angleRadiansCos, matrix.element22);
+		assertEquals(0.0F,             matrix.element23);
+		assertEquals(0.0F,             matrix.element24);
+		assertEquals(0.0F,             matrix.element31);
+		assertEquals(0.0F,             matrix.element32);
+		assertEquals(1.0F,             matrix.element33);
+		assertEquals(0.0F,             matrix.element34);
+		assertEquals(0.0F,             matrix.element41);
+		assertEquals(0.0F,             matrix.element42);
+		assertEquals(0.0F,             matrix.element43);
+		assertEquals(1.0F,             matrix.element44);
+		
+		assertThrows(NullPointerException.class, () -> Matrix44F.rotateZ(null));
 	}
 	
 	@Test

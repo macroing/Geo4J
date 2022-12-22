@@ -93,7 +93,7 @@ public final class Circle2IReader implements Shape2IReader {
 	public Circle2I read(final DataInput dataInput, final int id) {
 		Objects.requireNonNull(dataInput, "dataInput == null");
 		
-		Ints.requireRange(id, Circle2I.ID, Circle2I.ID, "id");
+		Ints.requireExact(id, Circle2I.ID, "id");
 		
 		try {
 			return new Circle2I(Point2I.read(dataInput), dataInput.readInt());
