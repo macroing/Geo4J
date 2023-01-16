@@ -59,7 +59,7 @@ public final class Algorithms {
 			
 			final double degreesOnEarthProjectedA = Math.sqrt(earthDimensionalRateNormalized) * Math.sin(Math.toRadians(degreesSaturated));
 			final double degreesOnEarthProjectedB = Math.pow(((1.0D - degreesOnEarthProjectedA) / (1.0D + degreesOnEarthProjectedA)), 0.5D * Math.sqrt(earthDimensionalRateNormalized));
-			final double degreesOnEarthProjectedNormalized = Math.tan(0.5 * ((Math.PI * 0.5) - Math.toRadians(degreesSaturated))) / degreesOnEarthProjectedB;
+			final double degreesOnEarthProjectedNormalized = Math.tan(0.5D * ((Math.PI * 0.5D) - Math.toRadians(degreesSaturated))) / degreesOnEarthProjectedB;
 			
 			return -RADIUS_MAJOR * Math.log(degreesOnEarthProjectedNormalized);
 		}
