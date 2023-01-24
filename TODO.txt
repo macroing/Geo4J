@@ -44,6 +44,10 @@ Add unit tests to SurfaceIntersection3D.
 Add unit tests to SurfaceIntersection3F.
 Add unit tests to SurfaceIntersector3D.
 Add unit tests to SurfaceIntersector3F.
+Add unit tests to Torus3D.
+Add unit tests to Torus3DReader.
+Add unit tests to Torus3F.
+Add unit tests to Torus3FReader.
 
 
 
@@ -117,15 +121,6 @@ Add the RectangularCuboid3D class.
 Add the RectangularCuboid3DReader class.
 Add the RectangularCuboid3F class.
 Add the RectangularCuboid3FReader class.
-
-
-
-Shape - Torus API:
-
-Add the Torus3D class.
-Add the Torus3DReader class.
-Add the Torus3F class.
-Add the Torus3FReader class.
 
 
 

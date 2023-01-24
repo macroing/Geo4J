@@ -54,14 +54,16 @@ public final class Algorithms {
 		@Override
 		public double projectY(final double degrees) {
 			final double degreesSaturated = Math.min(Math.max(degrees, -89.5D), 89.5D);
+			final double degreesSaturatedToRadians = Math.toRadians(degreesSaturated);
 			
-			final double earthDimensionalRateNormalized = 1.0D - Math.pow(RADIUS_MINOR / RADIUS_MAJOR, 2.0D);
+			final double cosTheta = RADIUS_MINOR / RADIUS_MAJOR;
+			final double sinTheta = Math.sqrt(1.0D - cosTheta * cosTheta);
 			
-			final double degreesOnEarthProjectedA = Math.sqrt(earthDimensionalRateNormalized) * Math.sin(Math.toRadians(degreesSaturated));
-			final double degreesOnEarthProjectedB = Math.pow(((1.0D - degreesOnEarthProjectedA) / (1.0D + degreesOnEarthProjectedA)), 0.5D * Math.sqrt(earthDimensionalRateNormalized));
-			final double degreesOnEarthProjectedNormalized = Math.tan(0.5D * ((Math.PI * 0.5D) - Math.toRadians(degreesSaturated))) / degreesOnEarthProjectedB;
+			final double a = sinTheta * Math.sin(degreesSaturatedToRadians);
+			final double b = Math.pow(((1.0D - a) / (1.0D + a)), 0.5D * sinTheta);
+			final double c = Math.tan(0.5D * (Math.PI * 0.5D - degreesSaturatedToRadians)) / b;
 			
-			return -RADIUS_MAJOR * Math.log(degreesOnEarthProjectedNormalized);
+			return -RADIUS_MAJOR * Math.log(c);
 		}
 	}
 	
