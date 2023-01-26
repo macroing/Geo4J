@@ -34,8 +34,20 @@ Add unit tests to Paraboloid3D.
 Add unit tests to Paraboloid3DReader.
 Add unit tests to Paraboloid3F.
 Add unit tests to Paraboloid3FReader.
+Add unit tests to Polygon3D.
+Add unit tests to Polygon3DReader.
+Add unit tests to Polygon3F.
+Add unit tests to Polygon3FReader.
 Add unit tests to Quaternion4D.
 Add unit tests to Quaternion4F.
+Add unit tests to Rectangle3D.
+Add unit tests to Rectangle3DReader.
+Add unit tests to Rectangle3F.
+Add unit tests to Rectangle3FReader.
+Add unit tests to RectangularCuboid3D.
+Add unit tests to RectangularCuboid3DReader.
+Add unit tests to RectangularCuboid3F.
+Add unit tests to RectangularCuboid3FReader.
 Add unit tests to Shape3D.
 Add unit tests to Shape3F.
 Add unit tests to Sphere3D.
@@ -81,15 +93,6 @@ Add the ConstructiveSolidGeometry3FReader class.
 
 
 
-Shape - Polygon API:
-
-Add the Polygon3D class.
-Add the Polygon3DReader class.
-Add the Polygon3F class.
-Add the Polygon3FReader class.
-
-
-
 Shape - Procedural Terrain API:
 
 Add the ProceduralTerrain3D class.
@@ -103,24 +106,6 @@ Shape - Reader API:
 
 Add the DefaultShape3DReader class.
 Add the DefaultShape3FReader class.
-
-
-
-Shape - Rectangle API:
-
-Add the Rectangle3D class.
-Add the Rectangle3DReader class.
-Add the Rectangle3F class.
-Add the Rectangle3FReader class.
-
-
-
-Shape - Rectangular Cuboid API:
-
-Add the RectangularCuboid3D class.
-Add the RectangularCuboid3DReader class.
-Add the RectangularCuboid3F class.
-Add the RectangularCuboid3FReader class.
 
 
 

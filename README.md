@@ -39,6 +39,7 @@ Supported Features
  - `org.macroing.geo4j.shape.paraboloid` provides the Shape Paraboloid API.
  - `org.macroing.geo4j.shape.plane` provides the Shape Plane API.
  - `org.macroing.geo4j.shape.polygon` provides the Shape Polygon API.
+ - `org.macroing.geo4j.shape.rc` provides the Shape Rectangular Cuboid API.
  - `org.macroing.geo4j.shape.reader` provides the Shape Reader API.
  - `org.macroing.geo4j.shape.rectangle` provides the Shape Rectangle API.
  - `org.macroing.geo4j.shape.sphere` provides the Shape Sphere API.
@@ -55,7 +56,7 @@ The following table describes the different APIs and their current status in the
 
 | Name                                          | Javadoc | Unit Test | Package                              |
 | --------------------------------------------- | ------- | --------- | ------------------------------------ |
-| Geo4J                                         | 100.0%  |  64.2%    | org.macroing.geo4j                   |
+| Geo4J                                         | 100.0%  |  59.3%    | org.macroing.geo4j                   |
 | Bounding Volume API                           | 100.0%  | 100.0%    | org.macroing.geo4j.bv                |
 | Bounding Volume Axis Aligned Bounding Box API | 100.0%  | 100.0%    | org.macroing.geo4j.bv.aabb           |
 | Bounding Volume Bounding Sphere API           | 100.0%  | 100.0%    | org.macroing.geo4j.bv.bs             |
@@ -78,9 +79,10 @@ The following table describes the different APIs and their current status in the
 | Shape Line Segment API                        | 100.0%  |  97.6%    | org.macroing.geo4j.shape.ls          |
 | Shape Paraboloid API                          | 100.0%  |   0.0%    | org.macroing.geo4j.shape.paraboloid  |
 | Shape Plane API                               | 100.0%  | 100.0%    | org.macroing.geo4j.shape.plane       |
-| Shape Polygon API                             | 100.0%  | 100.0%    | org.macroing.geo4j.shape.polygon     |
+| Shape Polygon API                             | 100.0%  |  43.8%    | org.macroing.geo4j.shape.polygon     |
 | Shape Reader API                              | 100.0%  |   0.0%    | org.macroing.geo4j.shape.reader      |
-| Shape Rectangle API                           | 100.0%  | 100.0%    | org.macroing.geo4j.shape.rectangle   |
+| Shape Rectangular Cuboid API                  | 100.0%  |   0.0%    | org.macroing.geo4j.shape.rc          |
+| Shape Rectangle API                           | 100.0%  |  69.0%    | org.macroing.geo4j.shape.rectangle   |
 | Shape Sphere API                              | 100.0%  |  49.4%    | org.macroing.geo4j.shape.sphere      |
 | Shape Torus API                               | 100.0%  |   0.0%    | org.macroing.geo4j.shape.torus       |
 | Shape Triangle API                            | 100.0%  | 100.0%    | org.macroing.geo4j.shape.triangle    |
