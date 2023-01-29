@@ -36,6 +36,7 @@ import org.macroing.geo4j.ray.Ray3F;
 import org.macroing.geo4j.shape.Shape3F;
 import org.macroing.geo4j.shape.SurfaceIntersection3F;
 import org.macroing.java.lang.Floats;
+import org.macroing.java.lang.Strings;
 
 /**
  * A {@code Paraboloid3F} is an implementation of {@link Shape3F} that represents a paraboloid.
@@ -51,13 +52,11 @@ public final class Paraboloid3F implements Shape3F {
 	/**
 	 * The name of this {@code Paraboloid3F} class.
 	 */
-//	TODO: Add Unit Tests!
 	public static final String NAME = "Paraboloid";
 	
 	/**
 	 * The ID of this {@code Paraboloid3F} class.
 	 */
-//	TODO: Add Unit Tests!
 	public static final int ID = 10;
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -79,7 +78,6 @@ public final class Paraboloid3F implements Shape3F {
 	 * }
 	 * </pre>
 	 */
-//	TODO: Add Unit Tests!
 	public Paraboloid3F() {
 		this(AngleF.degrees(360.0F));
 	}
@@ -99,7 +97,6 @@ public final class Paraboloid3F implements Shape3F {
 	 * @param phiMax the maximum phi
 	 * @throws NullPointerException thrown if, and only if, {@code phiMax} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Paraboloid3F(final AngleF phiMax) {
 		this(phiMax, 1.0F);
 	}
@@ -120,7 +117,6 @@ public final class Paraboloid3F implements Shape3F {
 	 * @param radius the radius
 	 * @throws NullPointerException thrown if, and only if, {@code phiMax} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Paraboloid3F(final AngleF phiMax, final float radius) {
 		this(phiMax, radius, 1.0F);
 	}
@@ -142,7 +138,6 @@ public final class Paraboloid3F implements Shape3F {
 	 * @param zMax the maximum Z
 	 * @throws NullPointerException thrown if, and only if, {@code phiMax} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Paraboloid3F(final AngleF phiMax, final float radius, final float zMax) {
 		this(phiMax, radius, zMax, 0.0F);
 	}
@@ -158,7 +153,6 @@ public final class Paraboloid3F implements Shape3F {
 	 * @param zMin the minimum Z
 	 * @throws NullPointerException thrown if, and only if, {@code phiMax} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Paraboloid3F(final AngleF phiMax, final float radius, final float zMax, final float zMin) {
 		this.phiMax = Objects.requireNonNull(phiMax, "phiMax == null");
 		this.radius = radius;
@@ -173,7 +167,6 @@ public final class Paraboloid3F implements Shape3F {
 	 * 
 	 * @return the maximum phi of this {@code Paraboloid3F} instance
 	 */
-//	TODO: Add Unit Tests!
 	public AngleF getPhiMax() {
 		return this.phiMax;
 	}
@@ -219,7 +212,6 @@ public final class Paraboloid3F implements Shape3F {
 	 * 
 	 * @return a {@code String} with the name of this {@code Paraboloid3F} instance
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public String getName() {
 		return NAME;
@@ -230,10 +222,9 @@ public final class Paraboloid3F implements Shape3F {
 	 * 
 	 * @return a {@code String} representation of this {@code Paraboloid3F} instance
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public String toString() {
-		return String.format("new Paraboloid3F(%s, %+.10f, %+.10f, %+.10f)", this.phiMax, Float.valueOf(this.radius), Float.valueOf(this.zMax), Float.valueOf(this.zMin));
+		return String.format("new Paraboloid3F(%s, %s, %s, %s)", this.phiMax, Strings.toNonScientificNotationJava(this.radius), Strings.toNonScientificNotationJava(this.zMax), Strings.toNonScientificNotationJava(this.zMin));
 	}
 	
 	/**
@@ -284,7 +275,6 @@ public final class Paraboloid3F implements Shape3F {
 	 * 
 	 * @return the radius of this {@code Paraboloid3F} instance
 	 */
-//	TODO: Add Unit Tests!
 	public float getRadius() {
 		return this.radius;
 	}
@@ -314,7 +304,6 @@ public final class Paraboloid3F implements Shape3F {
 	 * 
 	 * @return the maximum Z of this {@code Paraboloid3F} instance
 	 */
-//	TODO: Add Unit Tests!
 	public float getZMax() {
 		return this.zMax;
 	}
@@ -324,7 +313,6 @@ public final class Paraboloid3F implements Shape3F {
 	 * 
 	 * @return the minimum Z of this {@code Paraboloid3F} instance
 	 */
-//	TODO: Add Unit Tests!
 	public float getZMin() {
 		return this.zMin;
 	}
@@ -381,7 +369,6 @@ public final class Paraboloid3F implements Shape3F {
 	 * 
 	 * @return an {@code int} with the ID of this {@code Paraboloid3F} instance
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public int getID() {
 		return ID;
@@ -409,7 +396,6 @@ public final class Paraboloid3F implements Shape3F {
 	 * @throws NullPointerException thrown if, and only if, {@code dataOutput} is {@code null}
 	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public void write(final DataOutput dataOutput) {
 		try {
