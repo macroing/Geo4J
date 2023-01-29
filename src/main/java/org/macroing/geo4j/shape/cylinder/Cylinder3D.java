@@ -53,13 +53,11 @@ public final class Cylinder3D implements Shape3D {
 	/**
 	 * The name of this {@code Cylinder3D} class.
 	 */
-//	TODO: Add Unit Tests!
 	public static final String NAME = "Cylinder";
 	
 	/**
 	 * The ID of this {@code Cylinder3D} class.
 	 */
-//	TODO: Add Unit Tests!
 	public static final int ID = 6;
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -81,7 +79,6 @@ public final class Cylinder3D implements Shape3D {
 	 * }
 	 * </pre>
 	 */
-//	TODO: Add Unit Tests!
 	public Cylinder3D() {
 		this(AngleD.degrees(360.0D));
 	}
@@ -101,7 +98,6 @@ public final class Cylinder3D implements Shape3D {
 	 * @param phiMax the maximum phi
 	 * @throws NullPointerException thrown if, and only if, {@code phiMax} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Cylinder3D(final AngleD phiMax) {
 		this(phiMax, 1.0D);
 	}
@@ -122,7 +118,6 @@ public final class Cylinder3D implements Shape3D {
 	 * @param radius the radius
 	 * @throws NullPointerException thrown if, and only if, {@code phiMax} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Cylinder3D(final AngleD phiMax, final double radius) {
 		this(phiMax, radius, 1.0D);
 	}
@@ -144,7 +139,6 @@ public final class Cylinder3D implements Shape3D {
 	 * @param zMax the maximum Z
 	 * @throws NullPointerException thrown if, and only if, {@code phiMax} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Cylinder3D(final AngleD phiMax, final double radius, final double zMax) {
 		this(phiMax, radius, zMax, -1.0D);
 	}
@@ -160,7 +154,6 @@ public final class Cylinder3D implements Shape3D {
 	 * @param zMin the minimum Z
 	 * @throws NullPointerException thrown if, and only if, {@code phiMax} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Cylinder3D(final AngleD phiMax, final double radius, final double zMax, final double zMin) {
 		this.phiMax = Objects.requireNonNull(phiMax, "phiMax == null");
 		this.radius = radius;
@@ -175,7 +168,6 @@ public final class Cylinder3D implements Shape3D {
 	 * 
 	 * @return the maximum phi of this {@code Cylinder3D} instance
 	 */
-//	TODO: Add Unit Tests!
 	public AngleD getPhiMax() {
 		return this.phiMax;
 	}
@@ -221,7 +213,6 @@ public final class Cylinder3D implements Shape3D {
 	 * 
 	 * @return a {@code String} with the name of this {@code Cylinder3D} instance
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public String getName() {
 		return NAME;
@@ -232,7 +223,6 @@ public final class Cylinder3D implements Shape3D {
 	 * 
 	 * @return a {@code String} representation of this {@code Cylinder3D} instance
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public String toString() {
 		return String.format("new Cylinder3D(%s, %s, %s, %s)", this.phiMax, Strings.toNonScientificNotationJava(this.radius), Strings.toNonScientificNotationJava(this.zMax), Strings.toNonScientificNotationJava(this.zMin));
@@ -286,7 +276,6 @@ public final class Cylinder3D implements Shape3D {
 	 * 
 	 * @return the radius of this {@code Cylinder3D} instance
 	 */
-//	TODO: Add Unit Tests!
 	public double getRadius() {
 		return this.radius;
 	}
@@ -296,7 +285,6 @@ public final class Cylinder3D implements Shape3D {
 	 * 
 	 * @return the surface area of this {@code Cylinder3D} instance
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public double getSurfaceArea() {
 		return (this.zMax - this.zMin) * this.radius * this.phiMax.getRadians();
@@ -307,7 +295,6 @@ public final class Cylinder3D implements Shape3D {
 	 * 
 	 * @return the maximum Z of this {@code Cylinder3D} instance
 	 */
-//	TODO: Add Unit Tests!
 	public double getZMax() {
 		return this.zMax;
 	}
@@ -317,7 +304,6 @@ public final class Cylinder3D implements Shape3D {
 	 * 
 	 * @return the minimum Z of this {@code Cylinder3D} instance
 	 */
-//	TODO: Add Unit Tests!
 	public double getZMin() {
 		return this.zMin;
 	}
@@ -372,7 +358,6 @@ public final class Cylinder3D implements Shape3D {
 	 * 
 	 * @return an {@code int} with the ID of this {@code Cylinder3D} instance
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public int getID() {
 		return ID;
@@ -400,7 +385,6 @@ public final class Cylinder3D implements Shape3D {
 	 * @throws NullPointerException thrown if, and only if, {@code dataOutput} is {@code null}
 	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public void write(final DataOutput dataOutput) {
 		try {

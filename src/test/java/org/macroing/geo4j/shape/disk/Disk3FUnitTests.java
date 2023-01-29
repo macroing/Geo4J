@@ -95,7 +95,7 @@ public final class Disk3FUnitTests {
 	}
 	
 	@Test
-	public void testConstructorAngleFDouble() {
+	public void testConstructorAngleFFloat() {
 		final Disk3F disk = new Disk3F(AngleF.degrees(180.0F), 2.0F);
 		
 		assertEquals(AngleF.degrees(180.0F), disk.getPhiMax());
@@ -107,7 +107,7 @@ public final class Disk3FUnitTests {
 	}
 	
 	@Test
-	public void testConstructorAngleFDoubleDouble() {
+	public void testConstructorAngleFFloatFloat() {
 		final Disk3F disk = new Disk3F(AngleF.degrees(180.0F), 2.0F, 2.0F);
 		
 		assertEquals(AngleF.degrees(180.0F), disk.getPhiMax());
@@ -119,7 +119,7 @@ public final class Disk3FUnitTests {
 	}
 	
 	@Test
-	public void testConstructorAngleFDoubleDoubleDouble() {
+	public void testConstructorAngleFFloatFloatFloat() {
 		final Disk3F disk = new Disk3F(AngleF.degrees(180.0F), 2.0F, 2.0F, 2.0F);
 		
 		assertEquals(AngleF.degrees(180.0F), disk.getPhiMax());
