@@ -218,6 +218,17 @@ public final class Point3FUnitTests {
 	}
 	
 	@Test
+	public void testConstructorPoint4F() {
+		final Point3F p = new Point3F(new Point4F(1.0F, 2.0F, 3.0F, 4.0F));
+		
+		assertEquals(1.0F, p.x);
+		assertEquals(2.0F, p.y);
+		assertEquals(3.0F, p.z);
+		
+		assertThrows(NullPointerException.class, () -> new Point3F((Point4F)(null)));
+	}
+	
+	@Test
 	public void testConstructorVector3F() {
 		final Point3F p = new Point3F(new Vector3F(1.0F, 2.0F, 3.0F));
 		

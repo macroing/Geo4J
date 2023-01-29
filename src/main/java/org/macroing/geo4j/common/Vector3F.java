@@ -664,6 +664,20 @@ public final class Vector3F implements Node {
 	}
 	
 	/**
+	 * Returns a {@code Vector3F} instance that is pointing in the direction of {@code eye} to {@code lookAt}.
+	 * <p>
+	 * If either {@code eye} or {@code lookAt} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * 
+	 * @param eye a {@link Point4F} instance denoting the eye to look from
+	 * @param lookAt a {@code Point4F} instance denoting the target to look at
+	 * @return a {@code Vector3F} instance that is pointing in the direction of {@code eye} to {@code lookAt}
+	 * @throws NullPointerException thrown if, and only if, either {@code eye} or {@code lookAt} are {@code null}
+	 */
+	public static Vector3F direction(final Point4F eye, final Point4F lookAt) {
+		return new Vector3F(lookAt.x - eye.x, lookAt.y - eye.y, lookAt.z - eye.z);
+	}
+	
+	/**
 	 * Returns a {@code Vector3F} instance that is pointing in the direction of {@code u}, {@code v} and {@code w} and is scaled by {@code s}.
 	 * <p>
 	 * If either {@code u}, {@code v}, {@code w} or {@code s} are {@code null}, a {@code NullPointerException} will be thrown.
@@ -939,6 +953,30 @@ public final class Vector3F implements Node {
 	}
 	
 	/**
+	 * Computes a normal vector from three other normal vectors via Barycentric interpolation.
+	 * <p>
+	 * Returns a new {@code Vector3F} instance with the interpolated normal.
+	 * <p>
+	 * If either {@code normalA}, {@code normalB}, {@code normalC} or {@code barycentricCoordinates} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * <strong>Note:</strong> This method does not normalize {@code normalA}, {@code normalB} or {@code normalC}.
+	 * 
+	 * @param normalA a {@code Vector3F} instance denoting the normal of vertex {@code A} of a triangle
+	 * @param normalB a {@code Vector3F} instance denoting the normal of vertex {@code B} of a triangle
+	 * @param normalC a {@code Vector3F} instance denoting the normal of vertex {@code C} of a triangle
+	 * @param barycentricCoordinates a {@link Point3F} instance denoting the Barycentric coordinates
+	 * @return a new {@code Vector3F} instance with the interpolated normal
+	 * @throws NullPointerException thrown if, and only if, either {@code normalA}, {@code normalB}, {@code normalC} or {@code barycentricCoordinates} are {@code null}
+	 */
+	public static Vector3F normal(final Vector3F normalA, final Vector3F normalB, final Vector3F normalC, final Point3F barycentricCoordinates) {
+		final float x = normalA.x * barycentricCoordinates.x + normalB.x * barycentricCoordinates.y + normalC.x * barycentricCoordinates.z;
+		final float y = normalA.y * barycentricCoordinates.x + normalB.y * barycentricCoordinates.y + normalC.y * barycentricCoordinates.z;
+		final float z = normalA.z * barycentricCoordinates.x + normalB.z * barycentricCoordinates.y + normalC.z * barycentricCoordinates.z;
+		
+		return new Vector3F(x, y, z);
+	}
+	
+	/**
 	 * Returns a {@code Vector3F} instance denoting the normalized normal of the plane defined by the {@link Point3F} instances {@code a}, {@code b} and {@code c}.
 	 * <p>
 	 * If either {@code a}, {@code b} or {@code c} are {@code null}, a {@code NullPointerException} will be thrown.
@@ -951,6 +989,26 @@ public final class Vector3F implements Node {
 	 */
 	public static Vector3F normalNormalized(final Point3F a, final Point3F b, final Point3F c) {
 		return normalize(normal(a, b, c));
+	}
+	
+	/**
+	 * Computes a normalized normal vector from three other normal vectors via Barycentric interpolation.
+	 * <p>
+	 * Returns a new {@code Vector3F} instance with the interpolated and normalized normal.
+	 * <p>
+	 * If either {@code normalA}, {@code normalB}, {@code normalC} or {@code barycentricCoordinates} are {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * <strong>Note:</strong> This method does not normalize {@code normalA}, {@code normalB} or {@code normalC}.
+	 * 
+	 * @param normalA a {@code Vector3F} instance denoting the normal of vertex {@code A} of a triangle
+	 * @param normalB a {@code Vector3F} instance denoting the normal of vertex {@code B} of a triangle
+	 * @param normalC a {@code Vector3F} instance denoting the normal of vertex {@code C} of a triangle
+	 * @param barycentricCoordinates a {@link Point3F} instance denoting the Barycentric coordinates
+	 * @return a new {@code Vector3F} instance with the interpolated and normalized normal
+	 * @throws NullPointerException thrown if, and only if, either {@code normalA}, {@code normalB}, {@code normalC} or {@code barycentricCoordinates} are {@code null}
+	 */
+	public static Vector3F normalNormalized(final Vector3F normalA, final Vector3F normalB, final Vector3F normalC, final Point3F barycentricCoordinates) {
+		return normalize(normal(normalA, normalB, normalC, barycentricCoordinates));
 	}
 	
 	/**

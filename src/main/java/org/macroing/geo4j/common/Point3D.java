@@ -89,6 +89,25 @@ public final class Point3D implements Node {
 	}
 	
 	/**
+	 * Constructs a new {@code Point3D} instance given the component values {@code p.x}, {@code p.y} and {@code p.z}.
+	 * <p>
+	 * If {@code p} is {@code null}, a {@code NullPointerException} will be thrown.
+	 * <p>
+	 * Calling this constructor is equivalent to the following:
+	 * <pre>
+	 * {@code
+	 * new Point3D(p.x, p.y, p.z);
+	 * }
+	 * </pre>
+	 * 
+	 * @param p a {@link Point4D} instance
+	 * @throws NullPointerException thrown if, and only if, {@code p} is {@code null}
+	 */
+	public Point3D(final Point4D p) {
+		this(p.x, p.y, p.z);
+	}
+	
+	/**
 	 * Constructs a new {@code Point3D} instance given the component values {@code v.x}, {@code v.y} and {@code v.z}.
 	 * <p>
 	 * If {@code v} is {@code null}, a {@code NullPointerException} will be thrown.

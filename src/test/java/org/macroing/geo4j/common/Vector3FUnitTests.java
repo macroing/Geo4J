@@ -248,6 +248,18 @@ public final class Vector3FUnitTests {
 	}
 	
 	@Test
+	public void testDirectionPoint4FPoint4F() {
+		final Vector3F v = Vector3F.direction(new Point4F(10.0F, 20.0F, 30.0F), new Point4F(20.0F, 40.0F, 60.0F));
+		
+		assertEquals(10.0F, v.x);
+		assertEquals(20.0F, v.y);
+		assertEquals(30.0F, v.z);
+		
+		assertThrows(NullPointerException.class, () -> Vector3F.direction(new Point4F(), null));
+		assertThrows(NullPointerException.class, () -> Vector3F.direction(null, new Point4F()));
+	}
+	
+	@Test
 	public void testDirectionSphericalFloatFloatFloat() {
 		final Vector3F v = Vector3F.directionSpherical(2.0F, 1.0F, (float)(Math.PI) / 2.0F);
 		
@@ -642,6 +654,20 @@ public final class Vector3FUnitTests {
 	}
 	
 	@Test
+	public void testNormalNormalizedVector3FVector3FVector3FPoint3F() {
+		final Vector3F vector = Vector3F.normalNormalized(new Vector3F(1.0F, 0.0F, 0.0F), new Vector3F(0.0F, 1.0F, 0.0F), new Vector3F(0.0F, 0.0F, 1.0F), new Point3F(1.0F, 0.0F, 0.0F));
+		
+		assertEquals(1.0F, vector.x);
+		assertEquals(0.0F, vector.y);
+		assertEquals(0.0F, vector.z);
+		
+		assertThrows(NullPointerException.class, () -> Vector3F.normalNormalized(new Vector3F(1.0F, 0.0F, 0.0F), new Vector3F(0.0F, 1.0F, 0.0F), new Vector3F(0.0F, 0.0F, 1.0F), null));
+		assertThrows(NullPointerException.class, () -> Vector3F.normalNormalized(new Vector3F(1.0F, 0.0F, 0.0F), new Vector3F(0.0F, 1.0F, 0.0F), null, new Point3F(1.0F, 1.0F, 1.0F)));
+		assertThrows(NullPointerException.class, () -> Vector3F.normalNormalized(new Vector3F(1.0F, 0.0F, 0.0F), null, new Vector3F(0.0F, 0.0F, 1.0F), new Point3F(1.0F, 1.0F, 1.0F)));
+		assertThrows(NullPointerException.class, () -> Vector3F.normalNormalized(null, new Vector3F(0.0F, 1.0F, 0.0F), new Vector3F(0.0F, 0.0F, 1.0F), new Point3F(1.0F, 1.0F, 1.0F)));
+	}
+	
+	@Test
 	public void testNormalPoint3FPoint3FPoint3F() {
 		final Point3F a = new Point3F(0.0F, 0.0F, 0.0F);
 		final Point3F b = new Point3F(1.0F, 0.0F, 0.0F);
@@ -656,6 +682,20 @@ public final class Vector3FUnitTests {
 		assertThrows(NullPointerException.class, () -> Vector3F.normal(a, b, null));
 		assertThrows(NullPointerException.class, () -> Vector3F.normal(a, null, c));
 		assertThrows(NullPointerException.class, () -> Vector3F.normal(null, b, c));
+	}
+	
+	@Test
+	public void testNormalVector3FVector3FVector3FPoint3F() {
+		final Vector3F vector = Vector3F.normal(new Vector3F(1.0F, 0.0F, 0.0F), new Vector3F(0.0F, 1.0F, 0.0F), new Vector3F(0.0F, 0.0F, 1.0F), new Point3F(1.0F, 1.0F, 1.0F));
+		
+		assertEquals(1.0F, vector.x);
+		assertEquals(1.0F, vector.y);
+		assertEquals(1.0F, vector.z);
+		
+		assertThrows(NullPointerException.class, () -> Vector3F.normal(new Vector3F(1.0F, 0.0F, 0.0F), new Vector3F(0.0F, 1.0F, 0.0F), new Vector3F(0.0F, 0.0F, 1.0F), null));
+		assertThrows(NullPointerException.class, () -> Vector3F.normal(new Vector3F(1.0F, 0.0F, 0.0F), new Vector3F(0.0F, 1.0F, 0.0F), null, new Point3F(1.0F, 1.0F, 1.0F)));
+		assertThrows(NullPointerException.class, () -> Vector3F.normal(new Vector3F(1.0F, 0.0F, 0.0F), null, new Vector3F(0.0F, 0.0F, 1.0F), new Point3F(1.0F, 1.0F, 1.0F)));
+		assertThrows(NullPointerException.class, () -> Vector3F.normal(null, new Vector3F(0.0F, 1.0F, 0.0F), new Vector3F(0.0F, 0.0F, 1.0F), new Point3F(1.0F, 1.0F, 1.0F)));
 	}
 	
 	@Test

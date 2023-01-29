@@ -248,6 +248,18 @@ public final class Vector3DUnitTests {
 	}
 	
 	@Test
+	public void testDirectionPoint4DPoint4D() {
+		final Vector3D v = Vector3D.direction(new Point4D(10.0D, 20.0D, 30.0D), new Point4D(20.0D, 40.0D, 60.0D));
+		
+		assertEquals(10.0D, v.x);
+		assertEquals(20.0D, v.y);
+		assertEquals(30.0D, v.z);
+		
+		assertThrows(NullPointerException.class, () -> Vector3D.direction(new Point4D(), null));
+		assertThrows(NullPointerException.class, () -> Vector3D.direction(null, new Point4D()));
+	}
+	
+	@Test
 	public void testDirectionSphericalDoubleDoubleDouble() {
 		final Vector3D v = Vector3D.directionSpherical(2.0D, 1.0D, Math.PI / 2.0D);
 		
@@ -642,6 +654,20 @@ public final class Vector3DUnitTests {
 	}
 	
 	@Test
+	public void testNormalNormalizedVector3DVector3DVector3DPoint3D() {
+		final Vector3D vector = Vector3D.normalNormalized(new Vector3D(1.0D, 0.0D, 0.0D), new Vector3D(0.0D, 1.0D, 0.0D), new Vector3D(0.0D, 0.0D, 1.0D), new Point3D(1.0D, 0.0D, 0.0D));
+		
+		assertEquals(1.0D, vector.x);
+		assertEquals(0.0D, vector.y);
+		assertEquals(0.0D, vector.z);
+		
+		assertThrows(NullPointerException.class, () -> Vector3D.normalNormalized(new Vector3D(1.0D, 0.0D, 0.0D), new Vector3D(0.0D, 1.0D, 0.0D), new Vector3D(0.0D, 0.0D, 1.0D), null));
+		assertThrows(NullPointerException.class, () -> Vector3D.normalNormalized(new Vector3D(1.0D, 0.0D, 0.0D), new Vector3D(0.0D, 1.0D, 0.0D), null, new Point3D(1.0D, 1.0D, 1.0D)));
+		assertThrows(NullPointerException.class, () -> Vector3D.normalNormalized(new Vector3D(1.0D, 0.0D, 0.0D), null, new Vector3D(0.0D, 0.0D, 1.0D), new Point3D(1.0D, 1.0D, 1.0D)));
+		assertThrows(NullPointerException.class, () -> Vector3D.normalNormalized(null, new Vector3D(0.0D, 1.0D, 0.0D), new Vector3D(0.0D, 0.0D, 1.0D), new Point3D(1.0D, 1.0D, 1.0D)));
+	}
+	
+	@Test
 	public void testNormalPoint3DPoint3DPoint3D() {
 		final Point3D a = new Point3D(0.0D, 0.0D, 0.0D);
 		final Point3D b = new Point3D(1.0D, 0.0D, 0.0D);
@@ -656,6 +682,20 @@ public final class Vector3DUnitTests {
 		assertThrows(NullPointerException.class, () -> Vector3D.normal(a, b, null));
 		assertThrows(NullPointerException.class, () -> Vector3D.normal(a, null, c));
 		assertThrows(NullPointerException.class, () -> Vector3D.normal(null, b, c));
+	}
+	
+	@Test
+	public void testNormalVector3DVector3DVector3DPoint3D() {
+		final Vector3D vector = Vector3D.normal(new Vector3D(1.0D, 0.0D, 0.0D), new Vector3D(0.0D, 1.0D, 0.0D), new Vector3D(0.0D, 0.0D, 1.0D), new Point3D(1.0D, 1.0D, 1.0D));
+		
+		assertEquals(1.0D, vector.x);
+		assertEquals(1.0D, vector.y);
+		assertEquals(1.0D, vector.z);
+		
+		assertThrows(NullPointerException.class, () -> Vector3D.normal(new Vector3D(1.0D, 0.0D, 0.0D), new Vector3D(0.0D, 1.0D, 0.0D), new Vector3D(0.0D, 0.0D, 1.0D), null));
+		assertThrows(NullPointerException.class, () -> Vector3D.normal(new Vector3D(1.0D, 0.0D, 0.0D), new Vector3D(0.0D, 1.0D, 0.0D), null, new Point3D(1.0D, 1.0D, 1.0D)));
+		assertThrows(NullPointerException.class, () -> Vector3D.normal(new Vector3D(1.0D, 0.0D, 0.0D), null, new Vector3D(0.0D, 0.0D, 1.0D), new Point3D(1.0D, 1.0D, 1.0D)));
+		assertThrows(NullPointerException.class, () -> Vector3D.normal(null, new Vector3D(0.0D, 1.0D, 0.0D), new Vector3D(0.0D, 0.0D, 1.0D), new Point3D(1.0D, 1.0D, 1.0D)));
 	}
 	
 	@Test

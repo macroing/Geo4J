@@ -60,6 +60,10 @@ Add unit tests to Torus3D.
 Add unit tests to Torus3DReader.
 Add unit tests to Torus3F.
 Add unit tests to Torus3FReader.
+Add unit tests to Triangle3D.
+Add unit tests to Triangle3DReader.
+Add unit tests to Triangle3F.
+Add unit tests to Triangle3FReader.
 
 
 
@@ -106,15 +110,6 @@ Shape - Reader API:
 
 Add the DefaultShape3DReader class.
 Add the DefaultShape3FReader class.
-
-
-
-Shape - Triangle API:
-
-Add the Triangle3D class.
-Add the Triangle3DReader class.
-Add the Triangle3F class.
-Add the Triangle3FReader class.
 
 
 
