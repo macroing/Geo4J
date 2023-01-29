@@ -53,13 +53,11 @@ public final class Disk3F implements Shape3F {
 	/**
 	 * The name of this {@code Disk3F} class.
 	 */
-//	TODO: Add Unit Tests!
 	public static final String NAME = "Disk";
 	
 	/**
 	 * The ID of this {@code Disk3F} class.
 	 */
-//	TODO: Add Unit Tests!
 	public static final int ID = 7;
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -81,7 +79,6 @@ public final class Disk3F implements Shape3F {
 	 * }
 	 * </pre>
 	 */
-//	TODO: Add Unit Tests!
 	public Disk3F() {
 		this(AngleF.degrees(360.0F));
 	}
@@ -101,7 +98,6 @@ public final class Disk3F implements Shape3F {
 	 * @param phiMax the maximum phi
 	 * @throws NullPointerException thrown if, and only if, {@code phiMax} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Disk3F(final AngleF phiMax) {
 		this(phiMax, 0.0F);
 	}
@@ -122,7 +118,6 @@ public final class Disk3F implements Shape3F {
 	 * @param radiusInner the inner radius
 	 * @throws NullPointerException thrown if, and only if, {@code phiMax} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Disk3F(final AngleF phiMax, final float radiusInner) {
 		this(phiMax, radiusInner, 1.0F);
 	}
@@ -144,7 +139,6 @@ public final class Disk3F implements Shape3F {
 	 * @param radiusOuter the outer radius
 	 * @throws NullPointerException thrown if, and only if, {@code phiMax} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Disk3F(final AngleF phiMax, final float radiusInner, final float radiusOuter) {
 		this(phiMax, radiusInner, radiusOuter, 0.0F);
 	}
@@ -160,7 +154,6 @@ public final class Disk3F implements Shape3F {
 	 * @param zMax the maximum Z
 	 * @throws NullPointerException thrown if, and only if, {@code phiMax} is {@code null}
 	 */
-//	TODO: Add Unit Tests!
 	public Disk3F(final AngleF phiMax, final float radiusInner, final float radiusOuter, final float zMax) {
 		this.phiMax = Objects.requireNonNull(phiMax, "phiMax == null");
 		this.radiusInner = radiusInner;
@@ -175,7 +168,6 @@ public final class Disk3F implements Shape3F {
 	 * 
 	 * @return the maximum phi of this {@code Disk3F} instance
 	 */
-//	TODO: Add Unit Tests!
 	public AngleF getPhiMax() {
 		return this.phiMax;
 	}
@@ -221,7 +213,6 @@ public final class Disk3F implements Shape3F {
 	 * 
 	 * @return a {@code String} with the name of this {@code Disk3F} instance
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public String getName() {
 		return NAME;
@@ -232,7 +223,6 @@ public final class Disk3F implements Shape3F {
 	 * 
 	 * @return a {@code String} representation of this {@code Disk3F} instance
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public String toString() {
 		return String.format("new Disk3F(%s, %s, %s, %s)", this.phiMax, Strings.toNonScientificNotationJava(this.radiusInner), Strings.toNonScientificNotationJava(this.radiusOuter), Strings.toNonScientificNotationJava(this.zMax));
@@ -288,7 +278,6 @@ public final class Disk3F implements Shape3F {
 	 * 
 	 * @return the inner radius of this {@code Disk3F} instance
 	 */
-//	TODO: Add Unit Tests!
 	public float getRadiusInner() {
 		return this.radiusInner;
 	}
@@ -298,7 +287,6 @@ public final class Disk3F implements Shape3F {
 	 * 
 	 * @return the outer radius of this {@code Disk3F} instance
 	 */
-//	TODO: Add Unit Tests!
 	public float getRadiusOuter() {
 		return this.radiusOuter;
 	}
@@ -319,7 +307,6 @@ public final class Disk3F implements Shape3F {
 	 * 
 	 * @return the maximum Z of this {@code Disk3F} instance
 	 */
-//	TODO: Add Unit Tests!
 	public float getZMax() {
 		return this.zMax;
 	}
@@ -370,7 +357,6 @@ public final class Disk3F implements Shape3F {
 	 * 
 	 * @return an {@code int} with the ID of this {@code Disk3F} instance
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public int getID() {
 		return ID;
@@ -398,7 +384,6 @@ public final class Disk3F implements Shape3F {
 	 * @throws NullPointerException thrown if, and only if, {@code dataOutput} is {@code null}
 	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public void write(final DataOutput dataOutput) {
 		try {

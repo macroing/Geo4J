@@ -56,7 +56,7 @@ The following table describes the different APIs and their current status in the
 
 | Name                                          | Javadoc | Unit Test | Package                              |
 | --------------------------------------------- | ------- | --------- | ------------------------------------ |
-| Geo4J                                         | 100.0%  |  56.1%    | org.macroing.geo4j                   |
+| Geo4J                                         | 100.0%  |  56.7%    | org.macroing.geo4j                   |
 | Bounding Volume API                           | 100.0%  | 100.0%    | org.macroing.geo4j.bv                |
 | Bounding Volume Axis Aligned Bounding Box API | 100.0%  | 100.0%    | org.macroing.geo4j.bv.aabb           |
 | Bounding Volume Bounding Sphere API           | 100.0%  | 100.0%    | org.macroing.geo4j.bv.bs             |
@@ -74,7 +74,7 @@ The following table describes the different APIs and their current status in the
 | Shape Compound Shape API                      | 100.0%  |   0.0%    | org.macroing.geo4j.shape.cs          |
 | Shape Curve API                               | 100.0%  |   0.0%    | org.macroing.geo4j.shape.curve       |
 | Shape Cylinder API                            | 100.0%  |   0.0%    | org.macroing.geo4j.shape.cylinder    |
-| Shape Disk API                                | 100.0%  |   0.0%    | org.macroing.geo4j.shape.disk        |
+| Shape Disk API                                | 100.0%  |  34.1%    | org.macroing.geo4j.shape.disk        |
 | Shape Hyperboloid API                         | 100.0%  |   0.0%    | org.macroing.geo4j.shape.hyperboloid |
 | Shape Line Segment API                        | 100.0%  |  97.6%    | org.macroing.geo4j.shape.ls          |
 | Shape Paraboloid API                          | 100.0%  |   0.0%    | org.macroing.geo4j.shape.paraboloid  |
