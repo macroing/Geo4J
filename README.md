@@ -19,6 +19,7 @@ Supported Features
  - `org.macroing.geo4j.bv` provides the Bounding Volume API.
  - `org.macroing.geo4j.bv.aabb` provides the Bounding Volume Axis Aligned Bounding Box API.
  - `org.macroing.geo4j.bv.bs` provides the Bounding Volume Bounding Sphere API.
+ - `org.macroing.geo4j.bv.hierarchy` provides the Bounding Volume Hierarchy API.
  - `org.macroing.geo4j.bv.ibv` provides the Bounding Volume Infinite Bounding Volume API.
  - `org.macroing.geo4j.bv.reader` provides the Bounding Volume Reader API.
  - `org.macroing.geo4j.common` provides the Common API.
@@ -56,10 +57,11 @@ The following table describes the different APIs and their current status in the
 
 | Name                                          | Javadoc | Unit Test | Package                              |
 | --------------------------------------------- | ------- | --------- | ------------------------------------ |
-| Geo4J                                         | 100.0%  |  57.8%    | org.macroing.geo4j                   |
+| Geo4J                                         | 100.0%  |  55.7%    | org.macroing.geo4j                   |
 | Bounding Volume API                           | 100.0%  | 100.0%    | org.macroing.geo4j.bv                |
 | Bounding Volume Axis Aligned Bounding Box API | 100.0%  | 100.0%    | org.macroing.geo4j.bv.aabb           |
 | Bounding Volume Bounding Sphere API           | 100.0%  | 100.0%    | org.macroing.geo4j.bv.bs             |
+| Bounding Volume Hierarchy API                 | 100.0%  |   0.0%    | org.macroing.geo4j.bv.hierarchy      |
 | Bounding Volume Infinite Bounding Volume API  | 100.0%  | 100.0%    | org.macroing.geo4j.bv.ibv            |
 | Bounding Volume Reader API                    | 100.0%  |   0.0%    | org.macroing.geo4j.bv.reader         |
 | Common API                                    | 100.0%  | 100.0%    | org.macroing.geo4j.common            |
