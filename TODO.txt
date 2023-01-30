@@ -1,5 +1,11 @@
 Unit Tests:
 
+Add unit tests to BVHItem3D.
+Add unit tests to BVHItem3F.
+Add unit tests to BVHNode3D.
+Add unit tests to BVHNode3Ds.
+Add unit tests to BVHNode3F.
+Add unit tests to BVHNode3Fs.
 Add unit tests to CompoundShape3D.
 Add unit tests to CompoundShape3DReader.
 Add unit tests to CompoundShape3F.
@@ -27,6 +33,8 @@ Add unit tests to Hyperboloid3D.
 Add unit tests to Hyperboloid3DReader.
 Add unit tests to Hyperboloid3F.
 Add unit tests to Hyperboloid3FReader.
+Add unit tests to LeafBVHNode3D.
+Add unit tests to LeafBVHNode3F.
 Add unit tests to LineSegment3D.
 Add unit tests to LineSegment3F.
 Add unit tests to MortonCodes.
@@ -60,6 +68,8 @@ Add unit tests to Torus3D.
 Add unit tests to Torus3DReader.
 Add unit tests to Torus3F.
 Add unit tests to Torus3FReader.
+Add unit tests to TreeBVHNode3D.
+Add unit tests to TreeBVHNode3F.
 Add unit tests to Triangle3D.
 Add unit tests to Triangle3DReader.
 Add unit tests to Triangle3F.
@@ -70,21 +80,6 @@ Add unit tests to Triangle3FReader.
 Ray API:
 
 Add the Ray2I class.
-
-
-
-Bounding Volume Hierarchy API:
-
-Add the BVHItem3D class.
-Add the BVHItem3F class.
-Add the BVHNode3D class.
-Add the BVHNode3Ds class.
-Add the BVHNode3F class.
-Add the BVHNode3Fs class.
-Add the LeafBVHNode3D class.
-Add the LeafBVHNode3F class.
-Add the TreeBVHNode3D class.
-Add the TreeBVHNode3F class.
 
 
 
