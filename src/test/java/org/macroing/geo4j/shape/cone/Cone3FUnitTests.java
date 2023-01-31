@@ -19,6 +19,7 @@
 package org.macroing.geo4j.shape.cone;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -115,6 +116,29 @@ public final class Cone3FUnitTests {
 	}
 	
 	@Test
+	public void testEquals() {
+		final Cone3F a = new Cone3F(AngleF.degrees(360.0F), 1.0F, 1.0F);
+		final Cone3F b = new Cone3F(AngleF.degrees(360.0F), 1.0F, 1.0F);
+		final Cone3F c = new Cone3F(AngleF.degrees(360.0F), 1.0F, 2.0F);
+		final Cone3F d = new Cone3F(AngleF.degrees(360.0F), 2.0F, 1.0F);
+		final Cone3F e = new Cone3F(AngleF.degrees(180.0F), 1.0F, 1.0F);
+		final Cone3F f = null;
+		
+		assertEquals(a, a);
+		assertEquals(a, b);
+		assertEquals(b, a);
+		
+		assertNotEquals(a, c);
+		assertNotEquals(c, a);
+		assertNotEquals(a, d);
+		assertNotEquals(d, a);
+		assertNotEquals(a, e);
+		assertNotEquals(e, a);
+		assertNotEquals(a, f);
+		assertNotEquals(f, a);
+	}
+	
+	@Test
 	public void testGetID() {
 		final Cone3F cone = new Cone3F();
 		
@@ -147,6 +171,15 @@ public final class Cone3FUnitTests {
 		final Cone3F cone = new Cone3F(AngleF.degrees(360.0F), 1.0F, 2.0F);
 		
 		assertEquals(2.0F, cone.getZMax());
+	}
+	
+	@Test
+	public void testHashCode() {
+		final Cone3F a = new Cone3F();
+		final Cone3F b = new Cone3F();
+		
+		assertEquals(a.hashCode(), a.hashCode());
+		assertEquals(a.hashCode(), b.hashCode());
 	}
 	
 	@Test

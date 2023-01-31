@@ -19,6 +19,7 @@
 package org.macroing.geo4j.shape.cylinder;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -132,6 +133,32 @@ public final class Cylinder3DUnitTests {
 	}
 	
 	@Test
+	public void testEquals() {
+		final Cylinder3D a = new Cylinder3D(AngleD.degrees(360.0D), 1.0D, 1.0D, -1.0D);
+		final Cylinder3D b = new Cylinder3D(AngleD.degrees(360.0D), 1.0D, 1.0D, -1.0D);
+		final Cylinder3D c = new Cylinder3D(AngleD.degrees(360.0D), 1.0D, 1.0D, -2.0D);
+		final Cylinder3D d = new Cylinder3D(AngleD.degrees(360.0D), 1.0D, 2.0D, -1.0D);
+		final Cylinder3D e = new Cylinder3D(AngleD.degrees(360.0D), 2.0D, 1.0D, -1.0D);
+		final Cylinder3D f = new Cylinder3D(AngleD.degrees(180.0D), 1.0D, 1.0D, -1.0D);
+		final Cylinder3D g = null;
+		
+		assertEquals(a, a);
+		assertEquals(a, b);
+		assertEquals(b, a);
+		
+		assertNotEquals(a, c);
+		assertNotEquals(c, a);
+		assertNotEquals(a, d);
+		assertNotEquals(d, a);
+		assertNotEquals(a, e);
+		assertNotEquals(e, a);
+		assertNotEquals(a, f);
+		assertNotEquals(f, a);
+		assertNotEquals(a, g);
+		assertNotEquals(g, a);
+	}
+	
+	@Test
 	public void testGetID() {
 		final Cylinder3D cylinder = new Cylinder3D();
 		
@@ -178,6 +205,15 @@ public final class Cylinder3DUnitTests {
 		final Cylinder3D cylinder = new Cylinder3D(AngleD.degrees(360.0D), 1.0D, 1.0D, 2.0D);
 		
 		assertEquals(2.0D, cylinder.getZMin());
+	}
+	
+	@Test
+	public void testHashCode() {
+		final Cylinder3D a = new Cylinder3D();
+		final Cylinder3D b = new Cylinder3D();
+		
+		assertEquals(a.hashCode(), a.hashCode());
+		assertEquals(a.hashCode(), b.hashCode());
 	}
 	
 	@Test

@@ -57,7 +57,7 @@ The following table describes the different APIs and their current status in the
 
 | Name                                          | Javadoc | Unit Test | Package                              |
 | --------------------------------------------- | ------- | --------- | ------------------------------------ |
-| Geo4J                                         | 100.0%  |  55.8%    | org.macroing.geo4j                   |
+| Geo4J                                         | 100.0%  |  56.1%    | org.macroing.geo4j                   |
 | Bounding Volume API                           | 100.0%  | 100.0%    | org.macroing.geo4j.bv                |
 | Bounding Volume Axis Aligned Bounding Box API | 100.0%  | 100.0%    | org.macroing.geo4j.bv.aabb           |
 | Bounding Volume Bounding Sphere API           | 100.0%  | 100.0%    | org.macroing.geo4j.bv.bs             |
@@ -72,11 +72,11 @@ The following table describes the different APIs and their current status in the
 | Ray API                                       | 100.0%  | 100.0%    | org.macroing.geo4j.ray               |
 | Shape API                                     | 100.0%  |  41.7%    | org.macroing.geo4j.shape             |
 | Shape Circle API                              | 100.0%  | 100.0%    | org.macroing.geo4j.shape.circle      |
-| Shape Cone API                                | 100.0%  |  31.5%    | org.macroing.geo4j.shape.cone        |
+| Shape Cone API                                | 100.0%  |  36.8%    | org.macroing.geo4j.shape.cone        |
 | Shape Compound Shape API                      | 100.0%  |   0.0%    | org.macroing.geo4j.shape.cs          |
 | Shape Curve API                               | 100.0%  |   0.0%    | org.macroing.geo4j.shape.curve       |
-| Shape Cylinder API                            | 100.0%  |  39.5%    | org.macroing.geo4j.shape.cylinder    |
-| Shape Disk API                                | 100.0%  |  37.5%    | org.macroing.geo4j.shape.disk        |
+| Shape Cylinder API                            | 100.0%  |  46.1%    | org.macroing.geo4j.shape.cylinder    |
+| Shape Disk API                                | 100.0%  |  44.2%    | org.macroing.geo4j.shape.disk        |
 | Shape Hyperboloid API                         | 100.0%  |   0.0%    | org.macroing.geo4j.shape.hyperboloid |
 | Shape Line Segment API                        | 100.0%  |  97.6%    | org.macroing.geo4j.shape.ls          |
 | Shape Paraboloid API                          | 100.0%  |  30.3%    | org.macroing.geo4j.shape.paraboloid  |

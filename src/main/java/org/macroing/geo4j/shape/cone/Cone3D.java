@@ -226,7 +226,6 @@ public final class Cone3D implements Shape3D {
 	 * @param object the {@code Object} to compare to this {@code Cone3D} instance for equality
 	 * @return {@code true} if, and only if, {@code object} is an instance of {@code Cone3D}, and their respective values are equal, {@code false} otherwise
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public boolean equals(final Object object) {
 		if(object == this) {
@@ -334,7 +333,6 @@ public final class Cone3D implements Shape3D {
 	 * 
 	 * @return a hash code for this {@code Cone3D} instance
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public int hashCode() {
 		return Objects.hash(this.phiMax, Double.valueOf(this.radius), Double.valueOf(this.zMax));

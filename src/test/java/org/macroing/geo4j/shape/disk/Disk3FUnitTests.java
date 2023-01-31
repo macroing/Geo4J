@@ -19,6 +19,7 @@
 package org.macroing.geo4j.shape.disk;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -131,6 +132,32 @@ public final class Disk3FUnitTests {
 	}
 	
 	@Test
+	public void testEquals() {
+		final Disk3F a = new Disk3F(AngleF.degrees(360.0F), 0.0F, 1.0F, 0.0F);
+		final Disk3F b = new Disk3F(AngleF.degrees(360.0F), 0.0F, 1.0F, 0.0F);
+		final Disk3F c = new Disk3F(AngleF.degrees(360.0F), 0.0F, 1.0F, 2.0F);
+		final Disk3F d = new Disk3F(AngleF.degrees(360.0F), 0.0F, 2.0F, 0.0F);
+		final Disk3F e = new Disk3F(AngleF.degrees(360.0F), 2.0F, 1.0F, 0.0F);
+		final Disk3F f = new Disk3F(AngleF.degrees(180.0F), 0.0F, 1.0F, 0.0F);
+		final Disk3F g = null;
+		
+		assertEquals(a, a);
+		assertEquals(a, b);
+		assertEquals(b, a);
+		
+		assertNotEquals(a, c);
+		assertNotEquals(c, a);
+		assertNotEquals(a, d);
+		assertNotEquals(d, a);
+		assertNotEquals(a, e);
+		assertNotEquals(e, a);
+		assertNotEquals(a, f);
+		assertNotEquals(f, a);
+		assertNotEquals(a, g);
+		assertNotEquals(g, a);
+	}
+	
+	@Test
 	public void testGetID() {
 		final Disk3F disk = new Disk3F();
 		
@@ -170,6 +197,15 @@ public final class Disk3FUnitTests {
 		final Disk3F disk = new Disk3F(AngleF.degrees(360.0F), 0.0F, 1.0F, 2.0F);
 		
 		assertEquals(2.0F, disk.getZMax());
+	}
+	
+	@Test
+	public void testHashCode() {
+		final Disk3F a = new Disk3F();
+		final Disk3F b = new Disk3F();
+		
+		assertEquals(a.hashCode(), a.hashCode());
+		assertEquals(a.hashCode(), b.hashCode());
 	}
 	
 	@Test
