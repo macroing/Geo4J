@@ -19,6 +19,7 @@
 package org.macroing.geo4j.shape.paraboloid;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -131,6 +132,32 @@ public final class Paraboloid3FUnitTests {
 	}
 	
 	@Test
+	public void testEquals() {
+		final Paraboloid3F a = new Paraboloid3F(AngleF.degrees(360.0F), 1.0F, 1.0F, 0.0F);
+		final Paraboloid3F b = new Paraboloid3F(AngleF.degrees(360.0F), 1.0F, 1.0F, 0.0F);
+		final Paraboloid3F c = new Paraboloid3F(AngleF.degrees(360.0F), 1.0F, 1.0F, 2.0F);
+		final Paraboloid3F d = new Paraboloid3F(AngleF.degrees(360.0F), 1.0F, 2.0F, 0.0F);
+		final Paraboloid3F e = new Paraboloid3F(AngleF.degrees(360.0F), 2.0F, 1.0F, 0.0F);
+		final Paraboloid3F f = new Paraboloid3F(AngleF.degrees(180.0F), 1.0F, 1.0F, 0.0F);
+		final Paraboloid3F g = null;
+		
+		assertEquals(a, a);
+		assertEquals(a, b);
+		assertEquals(b, a);
+		
+		assertNotEquals(a, c);
+		assertNotEquals(c, a);
+		assertNotEquals(a, d);
+		assertNotEquals(d, a);
+		assertNotEquals(a, e);
+		assertNotEquals(e, a);
+		assertNotEquals(a, f);
+		assertNotEquals(f, a);
+		assertNotEquals(a, g);
+		assertNotEquals(g, a);
+	}
+	
+	@Test
 	public void testGetID() {
 		final Paraboloid3F paraboloid = new Paraboloid3F();
 		
@@ -170,6 +197,15 @@ public final class Paraboloid3FUnitTests {
 		final Paraboloid3F paraboloid = new Paraboloid3F(AngleF.degrees(360.0F), 1.0F, 1.0F, 2.0F);
 		
 		assertEquals(2.0F, paraboloid.getZMin());
+	}
+	
+	@Test
+	public void testHashCode() {
+		final Paraboloid3F a = new Paraboloid3F();
+		final Paraboloid3F b = new Paraboloid3F();
+		
+		assertEquals(a.hashCode(), a.hashCode());
+		assertEquals(a.hashCode(), b.hashCode());
 	}
 	
 	@Test

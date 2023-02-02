@@ -250,7 +250,6 @@ public final class Paraboloid3F implements Shape3F {
 	 * @param object the {@code Object} to compare to this {@code Paraboloid3F} instance for equality
 	 * @return {@code true} if, and only if, {@code object} is an instance of {@code Paraboloid3F}, and their respective values are equal, {@code false} otherwise
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public boolean equals(final Object object) {
 		if(object == this) {
@@ -379,7 +378,6 @@ public final class Paraboloid3F implements Shape3F {
 	 * 
 	 * @return a hash code for this {@code Paraboloid3F} instance
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public int hashCode() {
 		return Objects.hash(this.phiMax, Float.valueOf(this.radius), Float.valueOf(this.zMax), Float.valueOf(this.zMin));

@@ -35,9 +35,7 @@ Add unit tests to LineSegment3D.
 Add unit tests to LineSegment3F.
 Add unit tests to MortonCodes.
 Add unit tests to Paraboloid3D.
-Add unit tests to Paraboloid3DReader.
 Add unit tests to Paraboloid3F.
-Add unit tests to Paraboloid3FReader.
 Add unit tests to Polygon3D.
 Add unit tests to Polygon3DReader.
 Add unit tests to Polygon3F.

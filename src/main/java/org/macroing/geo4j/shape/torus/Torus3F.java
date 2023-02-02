@@ -35,8 +35,7 @@ import org.macroing.geo4j.ray.Ray3F;
 import org.macroing.geo4j.shape.Shape3F;
 import org.macroing.geo4j.shape.SurfaceIntersection3F;
 import org.macroing.java.lang.Floats;
-import org.macroing.java.util.visitor.NodeHierarchicalVisitor;
-import org.macroing.java.util.visitor.NodeTraversalException;
+import org.macroing.java.lang.Strings;
 
 /**
  * A {@code Torus3F} is an implementation of {@link Shape3F} that represents a torus.
@@ -52,18 +51,15 @@ public final class Torus3F implements Shape3F {
 	/**
 	 * The name of this {@code Torus3F} class.
 	 */
-//	TODO: Add Unit Tests!
 	public static final String NAME = "Torus";
 	
 	/**
 	 * The ID of this {@code Torus3F} class.
 	 */
-//	TODO: Add Unit Tests!
 	public static final int ID = 17;
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	private final BoundingVolume3F boundingVolume;
 	private final float radiusInner;
 	private final float radiusInnerSquared;
 	private final float radiusOuter;
@@ -81,7 +77,6 @@ public final class Torus3F implements Shape3F {
 	 * }
 	 * </pre>
 	 */
-//	TODO: Add Unit Tests!
 	public Torus3F() {
 		this(0.25F, 1.0F);
 	}
@@ -92,9 +87,7 @@ public final class Torus3F implements Shape3F {
 	 * @param radiusInner the inner radius of this {@code Torus3F} instance
 	 * @param radiusOuter the outer radius of this {@code Torus3F} instance
 	 */
-//	TODO: Add Unit Tests!
 	public Torus3F(final float radiusInner, final float radiusOuter) {
-		this.boundingVolume = new BoundingSphere3F(radiusInner + radiusOuter, new Point3F());
 		this.radiusInner = radiusInner;
 		this.radiusInnerSquared = radiusInner * radiusInner;
 		this.radiusOuter = radiusOuter;
@@ -111,7 +104,7 @@ public final class Torus3F implements Shape3F {
 //	TODO: Add Unit Tests!
 	@Override
 	public BoundingVolume3F getBoundingVolume() {
-		return this.boundingVolume;
+		return new BoundingSphere3F(this.radiusInner + this.radiusOuter, new Point3F());
 	}
 	
 	/**
@@ -144,7 +137,6 @@ public final class Torus3F implements Shape3F {
 	 * 
 	 * @return a {@code String} with the name of this {@code Torus3F} instance
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public String getName() {
 		return NAME;
@@ -155,49 +147,9 @@ public final class Torus3F implements Shape3F {
 	 * 
 	 * @return a {@code String} representation of this {@code Torus3F} instance
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public String toString() {
-		return String.format("new Torus3F(%+.10f, %+.10f)", Float.valueOf(this.radiusInner), Float.valueOf(this.radiusOuter));
-	}
-	
-	/**
-	 * Accepts a {@link NodeHierarchicalVisitor}.
-	 * <p>
-	 * Returns the result of {@code nodeHierarchicalVisitor.visitLeave(this)}.
-	 * <p>
-	 * If {@code nodeHierarchicalVisitor} is {@code null}, a {@code NullPointerException} will be thrown.
-	 * <p>
-	 * If a {@code RuntimeException} is thrown by the current {@code NodeHierarchicalVisitor}, a {@code NodeTraversalException} will be thrown with the {@code RuntimeException} wrapped.
-	 * <p>
-	 * This implementation will:
-	 * <ul>
-	 * <li>throw a {@code NullPointerException} if {@code nodeHierarchicalVisitor} is {@code null}.</li>
-	 * <li>throw a {@code NodeTraversalException} if {@code nodeHierarchicalVisitor} throws a {@code RuntimeException}.</li>
-	 * <li>traverse its child {@code Node} instances.</li>
-	 * </ul>
-	 * 
-	 * @param nodeHierarchicalVisitor the {@code NodeHierarchicalVisitor} to accept
-	 * @return the result of {@code nodeHierarchicalVisitor.visitLeave(this)}
-	 * @throws NodeTraversalException thrown if, and only if, a {@code RuntimeException} is thrown by the current {@code NodeHierarchicalVisitor}
-	 * @throws NullPointerException thrown if, and only if, {@code nodeHierarchicalVisitor} is {@code null}
-	 */
-//	TODO: Add Unit Tests!
-	@Override
-	public boolean accept(final NodeHierarchicalVisitor nodeHierarchicalVisitor) {
-		Objects.requireNonNull(nodeHierarchicalVisitor, "nodeHierarchicalVisitor == null");
-		
-		try {
-			if(nodeHierarchicalVisitor.visitEnter(this)) {
-				if(!this.boundingVolume.accept(nodeHierarchicalVisitor)) {
-					return nodeHierarchicalVisitor.visitLeave(this);
-				}
-			}
-			
-			return nodeHierarchicalVisitor.visitLeave(this);
-		} catch(final RuntimeException e) {
-			throw new NodeTraversalException(e);
-		}
+		return String.format("new Torus3F(%s, %s)", Strings.toNonScientificNotationJava(this.radiusInner), Strings.toNonScientificNotationJava(this.radiusOuter));
 	}
 	
 	/**
@@ -227,22 +179,15 @@ public final class Torus3F implements Shape3F {
 	 * @param object the {@code Object} to compare to this {@code Torus3F} instance for equality
 	 * @return {@code true} if, and only if, {@code object} is an instance of {@code Torus3F}, and their respective values are equal, {@code false} otherwise
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public boolean equals(final Object object) {
 		if(object == this) {
 			return true;
 		} else if(!(object instanceof Torus3F)) {
 			return false;
-		} else if(!Objects.equals(this.boundingVolume, Torus3F.class.cast(object).boundingVolume)) {
-			return false;
 		} else if(!Floats.equals(this.radiusInner, Torus3F.class.cast(object).radiusInner)) {
 			return false;
-		} else if(!Floats.equals(this.radiusInnerSquared, Torus3F.class.cast(object).radiusInnerSquared)) {
-			return false;
 		} else if(!Floats.equals(this.radiusOuter, Torus3F.class.cast(object).radiusOuter)) {
-			return false;
-		} else if(!Floats.equals(this.radiusOuterSquared, Torus3F.class.cast(object).radiusOuterSquared)) {
 			return false;
 		} else {
 			return true;
@@ -254,7 +199,6 @@ public final class Torus3F implements Shape3F {
 	 * 
 	 * @return the inner radius of this {@code Torus3F} instance
 	 */
-//	TODO: Add Unit Tests!
 	public float getRadiusInner() {
 		return this.radiusInner;
 	}
@@ -274,7 +218,6 @@ public final class Torus3F implements Shape3F {
 	 * 
 	 * @return the outer radius of this {@code Torus3F} instance
 	 */
-//	TODO: Add Unit Tests!
 	public float getRadiusOuter() {
 		return this.radiusOuter;
 	}
@@ -369,7 +312,6 @@ public final class Torus3F implements Shape3F {
 	 * 
 	 * @return an {@code int} with the ID of this {@code Torus3F} instance
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public int getID() {
 		return ID;
@@ -380,10 +322,9 @@ public final class Torus3F implements Shape3F {
 	 * 
 	 * @return a hash code for this {@code Torus3F} instance
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public int hashCode() {
-		return Objects.hash(this.boundingVolume, Float.valueOf(this.radiusInner), Float.valueOf(this.radiusInnerSquared), Float.valueOf(this.radiusOuter), Float.valueOf(this.radiusOuterSquared));
+		return Objects.hash(Float.valueOf(this.radiusInner), Float.valueOf(this.radiusInnerSquared), Float.valueOf(this.radiusOuter), Float.valueOf(this.radiusOuterSquared));
 	}
 	
 	/**
@@ -397,7 +338,6 @@ public final class Torus3F implements Shape3F {
 	 * @throws NullPointerException thrown if, and only if, {@code dataOutput} is {@code null}
 	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public void write(final DataOutput dataOutput) {
 		try {
