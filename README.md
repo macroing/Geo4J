@@ -57,7 +57,7 @@ The following table describes the different APIs and their current status in the
 
 | Name                                          | Javadoc | Unit Test | Package                              |
 | --------------------------------------------- | ------- | --------- | ------------------------------------ |
-| Geo4J                                         | 100.0%  |  56.8%    | org.macroing.geo4j                   |
+| Geo4J                                         | 100.0%  |  56.9%    | org.macroing.geo4j                   |
 | Bounding Volume API                           | 100.0%  | 100.0%    | org.macroing.geo4j.bv                |
 | Bounding Volume Axis Aligned Bounding Box API | 100.0%  | 100.0%    | org.macroing.geo4j.bv.aabb           |
 | Bounding Volume Bounding Sphere API           | 100.0%  | 100.0%    | org.macroing.geo4j.bv.bs             |
@@ -86,7 +86,7 @@ The following table describes the different APIs and their current status in the
 | Shape Rectangular Cuboid API                  | 100.0%  |   0.0%    | org.macroing.geo4j.shape.rc          |
 | Shape Rectangle API                           | 100.0%  |  69.0%    | org.macroing.geo4j.shape.rectangle   |
 | Shape Sphere API                              | 100.0%  |  49.4%    | org.macroing.geo4j.shape.sphere      |
-| Shape Torus API                               | 100.0%  |  17.0%    | org.macroing.geo4j.shape.torus       |
+| Shape Torus API                               | 100.0%  |  19.1%    | org.macroing.geo4j.shape.torus       |
 | Shape Triangle API                            | 100.0%  |  25.0%    | org.macroing.geo4j.shape.triangle    |
 
 Dependencies

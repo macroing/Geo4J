@@ -21,7 +21,6 @@ package org.macroing.geo4j.shape.torus;
 import java.io.DataInput;
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.lang.reflect.Field;//TODO: Add Unit Tests!
 import java.util.Objects;
 
 import org.macroing.geo4j.shape.Shape3DReader;
@@ -60,7 +59,6 @@ public final class Torus3DReader implements Shape3DReader {
 	 * @throws NullPointerException thrown if, and only if, {@code dataInput} is {@code null}
 	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public Torus3D read(final DataInput dataInput) {
 		try {
@@ -90,7 +88,6 @@ public final class Torus3DReader implements Shape3DReader {
 	 * @throws NullPointerException thrown if, and only if, {@code dataInput} is {@code null}
 	 * @throws UncheckedIOException thrown if, and only if, an I/O error occurs
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public Torus3D read(final DataInput dataInput, final int id) {
 		Objects.requireNonNull(dataInput, "dataInput == null");
@@ -110,7 +107,6 @@ public final class Torus3DReader implements Shape3DReader {
 	 * @param id the ID to check
 	 * @return {@code true} if, and only if, {@code id == Torus3D.ID}, {@code false} otherwise
 	 */
-//	TODO: Add Unit Tests!
 	@Override
 	public boolean isSupported(final int id) {
 		return id == Torus3D.ID;

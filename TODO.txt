@@ -59,9 +59,7 @@ Add unit tests to SurfaceIntersection3F.
 Add unit tests to SurfaceIntersector3D.
 Add unit tests to SurfaceIntersector3F.
 Add unit tests to Torus3D.
-Add unit tests to Torus3DReader.
 Add unit tests to Torus3F.
-Add unit tests to Torus3FReader.
 Add unit tests to TreeBVHNode3D.
 Add unit tests to TreeBVHNode3F.
 Add unit tests to Triangle3D.
