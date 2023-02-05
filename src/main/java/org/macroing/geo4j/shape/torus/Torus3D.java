@@ -324,7 +324,7 @@ public final class Torus3D implements Shape3D {
 	 */
 	@Override
 	public int hashCode() {
-		return Objects.hash(Double.valueOf(this.radiusInner), Double.valueOf(this.radiusInnerSquared), Double.valueOf(this.radiusOuter), Double.valueOf(this.radiusOuterSquared));
+		return Objects.hash(Double.valueOf(this.radiusInner), Double.valueOf(this.radiusOuter));
 	}
 	
 	/**
