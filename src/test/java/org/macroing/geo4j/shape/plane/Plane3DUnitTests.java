@@ -151,7 +151,7 @@ public final class Plane3DUnitTests {
 	public void testIntersectionRay3DDoubleDouble() {
 		final Plane3D plane = new Plane3D();
 		
-		final Optional<SurfaceIntersection3D> optionalSurfaceIntersection = plane.intersection(new Ray3D(new Point3D(1.0D, 3.0D, 2.0D), new Vector3D(0.0D,  0.0D, -1.0D)), 0.0D, 3.0D);
+		final Optional<SurfaceIntersection3D> optionalSurfaceIntersection = plane.intersection(new Ray3D(new Point3D(1.0D, 3.0D, 2.0D), new Vector3D(0.0D, 0.0D, -1.0D)), 0.0D, 3.0D);
 		
 		assertNotNull(optionalSurfaceIntersection);
 		

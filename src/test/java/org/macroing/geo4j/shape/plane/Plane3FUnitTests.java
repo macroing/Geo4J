@@ -151,7 +151,7 @@ public final class Plane3FUnitTests {
 	public void testIntersectionRay3FFloatFloat() {
 		final Plane3F plane = new Plane3F();
 		
-		final Optional<SurfaceIntersection3F> optionalSurfaceIntersection = plane.intersection(new Ray3F(new Point3F(1.0F, 3.0F, 2.0F), new Vector3F(0.0F,  0.0F, -1.0F)), 0.0F, 3.0F);
+		final Optional<SurfaceIntersection3F> optionalSurfaceIntersection = plane.intersection(new Ray3F(new Point3F(1.0F, 3.0F, 2.0F), new Vector3F(0.0F, 0.0F, -1.0F)), 0.0F, 3.0F);
 		
 		assertNotNull(optionalSurfaceIntersection);
 		

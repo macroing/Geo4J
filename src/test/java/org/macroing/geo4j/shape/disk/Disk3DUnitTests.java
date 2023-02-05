@@ -19,7 +19,9 @@
 package org.macroing.geo4j.shape.disk;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -29,13 +31,20 @@ import java.io.DataInputStream;
 import java.io.DataOutput;
 import java.io.DataOutputStream;
 import java.io.UncheckedIOException;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
 import org.macroing.geo4j.common.AngleD;
+import org.macroing.geo4j.common.Point2D;
+import org.macroing.geo4j.common.Point3D;
+import org.macroing.geo4j.common.Vector3D;
 import org.macroing.geo4j.mock.DataOutputMock;
 import org.macroing.geo4j.mock.NodeHierarchicalVisitorMock;
 import org.macroing.geo4j.mock.NodeVisitorMock;
+import org.macroing.geo4j.onb.OrthonormalBasis33D;
+import org.macroing.geo4j.ray.Ray3D;
+import org.macroing.geo4j.shape.SurfaceIntersection3D;
 import org.macroing.java.util.visitor.NodeHierarchicalVisitor;
 import org.macroing.java.util.visitor.NodeTraversalException;
 import org.macroing.java.util.visitor.NodeVisitor;
@@ -206,6 +215,33 @@ public final class Disk3DUnitTests {
 		
 		assertEquals(a.hashCode(), a.hashCode());
 		assertEquals(a.hashCode(), b.hashCode());
+	}
+	
+	@Test
+	public void testIntersectionRay3DDoubleDouble() {
+		final Disk3D disk = new Disk3D();
+		
+		final Optional<SurfaceIntersection3D> optionalSurfaceIntersection = disk.intersection(new Ray3D(new Point3D(0.1D, 0.0D, -1.0D), Vector3D.z()), 0.0D, 3.0D);
+		
+		assertNotNull(optionalSurfaceIntersection);
+		
+		assertTrue(optionalSurfaceIntersection.isPresent());
+		
+		final SurfaceIntersection3D surfaceIntersection = optionalSurfaceIntersection.get();
+		
+		assertEquals(new OrthonormalBasis33D(Vector3D.z(), new Vector3D(-1.0D, -0.0D, 0.0D)), surfaceIntersection.getOrthonormalBasisG());
+		assertEquals(new OrthonormalBasis33D(Vector3D.z(), new Vector3D(-1.0D, -0.0D, 0.0D)), surfaceIntersection.getOrthonormalBasisS());
+		assertEquals(new Ray3D(new Point3D(0.1D, 0.0D, -1.0D), Vector3D.z()), surfaceIntersection.getRay());
+		assertEquals(disk, surfaceIntersection.getShape());
+		assertEquals(new Point3D(0.1D, 0.0D, 0.0D), surfaceIntersection.getSurfaceIntersectionPoint());
+		assertEquals(new Vector3D(0.0D, 0.0D, 1.0D), surfaceIntersection.getSurfaceNormalG());
+		assertEquals(new Vector3D(0.0D, 0.0D, 1.0D), surfaceIntersection.getSurfaceNormalS());
+		assertEquals(1.0D, surfaceIntersection.getT());
+		assertEquals(new Point2D(0.0D, 0.9D), surfaceIntersection.getTextureCoordinates());
+		
+		assertFalse(disk.intersection(new Ray3D(new Point3D(0.1D, 0.0D, -1.0D), Vector3D.z()), 0.0D, 1.0D).isPresent());
+		
+		assertThrows(NullPointerException.class, () -> disk.intersection(null, 0.0D, 0.0D));
 	}
 	
 	@Test
